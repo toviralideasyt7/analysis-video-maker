@@ -48,6 +48,12 @@ jobs:
       - name: Validate the input file
         run: npx tsx tools/check-input.ts "$INPUT_PATH"
 
+      # Artifact names cannot contain "/"; derive a safe id once and reuse it.
+      - name: Derive the artifact id
+        run: |
+          ID=$(basename "$INPUT_PATH" .json)
+          echo "ARTIFACT_ID=video-${ID}" >> "$GITHUB_ENV"
+
       # Flags/logos: entities without a flagCode get one resolved here
       # (Monid fetch first, AI as fallback). Purely additive metadata.
       - name: Resolve missing flags and logos
@@ -95,7 +101,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: video-${{ inputs.inputPath }}
+          name: ${{ env.ARTIFACT_ID }}
           path: |
             renders/*-final.mp4
             renders/*.jpg
