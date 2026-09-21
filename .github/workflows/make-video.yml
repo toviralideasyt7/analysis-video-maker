@@ -21,10 +21,10 @@ permissions:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 120
     env:
       INPUT_PATH: ${{ inputs.inputPath }}
-      RENDER_CONCURRENCY: "2"
+      RENDER_CONCURRENCY: "3"
       MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
       NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
       GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
