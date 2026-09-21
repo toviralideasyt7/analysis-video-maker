@@ -1,0 +1,24 @@
+{
+  "name": "@avm/uploader",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "serve": "tsx src/server.ts",
+    "make": "tsx src/make.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@avm/shared": "*",
+    "@hono/node-server": "^1.13.7",
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}

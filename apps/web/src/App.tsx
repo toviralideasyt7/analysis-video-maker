@@ -1,303 +1,178 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { api, type ProjectState, type ProjectSummary } from './api';
-import {
-  DataPlanView,
-  DatasetView,
-  Overview,
-  QualityView,
-  RacePreview,
-  SourcesView,
-  StoryView,
-  VideoSpecView,
-  statusColor,
-} from './views';
+import React, { useCallback, useState } from 'react';
 
-const TABS = ['Overview', 'Data Plan', 'Sources', 'Dataset', 'Preview', 'Story', 'Video Spec', 'Quality', 'Render'] as const;
-type Tab = (typeof TABS)[number];
+/**
+ * Upload a data file, get a data-race video.
+ *
+ * The browser posts the file to the uploader service; the service commits it to
+ * the GitHub repository and dispatches the render. The MP4 appears as a
+ * workflow artifact. No accounts, no research, no settings screen.
+ */
+
+const API_BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? 'http://localhost:8790';
+
+type Phase = 'idle' | 'uploading' | 'done' | 'error';
 
 export default function App(): React.ReactElement {
-  const [health, setHealth] = useState<{ ok: boolean; rustCore: boolean } | null>(null);
-  const [projects, setProjects] = useState<ProjectSummary[]>([]);
-  const [project, setProject] = useState<ProjectState | null>(null);
-  const [topic, setTopic] = useState('World Population by Country 1960-2024');
-  const [indicator, setIndicator] = useState('SP.POP.TOTL');
-  const [tab, setTab] = useState<Tab>('Overview');
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [instruction, setInstruction] = useState('Keep only the top 10 and drop unverified values.');
-  const [dispatchNote, setDispatchNote] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [title, setTitle] = useState('');
+  const [phase, setPhase] = useState<Phase>('idle');
+  const [message, setMessage] = useState<string>('');
+  const [details, setDetails] = useState<string[]>([]);
+  const [runUrl, setRunUrl] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
 
-  const refreshProjects = useCallback(async () => {
+  const submit = useCallback(async () => {
+    if (!file) return;
+    setPhase('uploading');
+    setMessage('Uploading and dispatching the render…');
+    setDetails([]);
     try {
-      const result = await api.listProjects();
-      setProjects(result.projects);
-    } catch (e) {
-      setError(String(e instanceof Error ? e.message : e));
-    }
-  }, []);
-
-  const loadProject = useCallback(async (id: string) => {
-    try {
-      const result = await api.getProject(id);
-      setProject(result.project);
-    } catch (e) {
-      setError(String(e instanceof Error ? e.message : e));
-    }
-  }, []);
-
-  useEffect(() => {
-    void (async () => {
-      try {
-        const h = await api.health();
-        setHealth(h);
-      } catch {
-        setHealth({ ok: false, rustCore: false });
+      const body = new FormData();
+      body.append('file', file);
+      if (title.trim()) body.append('title', title.trim());
+      const response = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body });
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        details?: string[];
+        warnings?: string[];
+        runUrl?: string;
+        message?: string;
+      };
+      if (!response.ok || !payload.ok) {
+        setPhase('error');
+        setMessage(payload.error ?? `upload failed (HTTP ${response.status})`);
+        setDetails([...(payload.details ?? []), ...(payload.warnings ?? [])]);
+        return;
       }
-      await refreshProjects();
-    })();
-  }, [refreshProjects]);
-
-  // Poll while research is in flight so the UI reflects real progress.
-  useEffect(() => {
-    if (!project) return;
-    if (!['PLANNING', 'RESEARCHING', 'EXTRACTING', 'VERIFYING', 'RENDERING'].includes(project.status)) return;
-    const timer = setInterval(() => void loadProject(project.projectId), 2500);
-    return () => clearInterval(timer);
-  }, [project, loadProject]);
-
-  async function run<T>(label: string, fn: () => Promise<T>): Promise<T | undefined> {
-    setBusy(label);
-    setError(null);
-    try {
-      return await fn();
-    } catch (e) {
-      setError(String(e instanceof Error ? e.message : e));
-      return undefined;
-    } finally {
-      setBusy(null);
+      setPhase('done');
+      setMessage(payload.message ?? 'rendering');
+      setDetails(payload.warnings ?? []);
+      setRunUrl(payload.runUrl ?? null);
+    } catch (error) {
+      setPhase('error');
+      setMessage(error instanceof Error ? error.message : String(error));
     }
-  }
+  }, [file, title]);
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-black/5 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center gap-4">
-          <div className="w-9 h-9 rounded-full bg-accent flex items-end justify-center gap-[3px] pb-[8px]">
+      <header className="border-b border-black/10 bg-white">
+        <div className="max-w-3xl mx-auto px-6 py-5 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#E1251B] flex items-end justify-center gap-[3px] pb-[9px]">
             <span className="w-[3px] h-3 bg-white rounded" />
             <span className="w-[3px] h-5 bg-white rounded" />
             <span className="w-[3px] h-4 bg-white rounded" />
           </div>
           <div>
-            <div className="font-extrabold text-ink leading-tight">analysis-video-maker</div>
-            <div className="text-xs text-muted">source-backed data-race research console</div>
-          </div>
-          <div className="ml-auto flex items-center gap-3 text-xs">
-            <span className={`px-2 py-1 rounded font-semibold ${health?.ok ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-accent'}`}>
-              backend {health?.ok ? 'online' : 'offline'}
-            </span>
-            <span className={`px-2 py-1 rounded font-semibold ${health?.rustCore ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
-              rust core {health?.rustCore ? 'ready' : 'missing'}
-            </span>
+            <div className="font-extrabold text-ink leading-tight">data-race videos</div>
+            <div className="text-xs text-muted">one data file in · one MP4 out</div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-[1400px] mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6">
-        <aside className="space-y-4">
-          <div className="panel p-4 space-y-3">
-            <div className="text-sm font-bold text-ink">New project</div>
-            <textarea
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              rows={3}
-              className="w-full text-sm border border-black/10 rounded-lg px-3 py-2 outline-none focus:border-accent"
-            />
-            <input
-              value={indicator}
-              onChange={(e) => setIndicator(e.target.value)}
-              placeholder="World Bank indicator (optional)"
-              className="w-full text-sm border border-black/10 rounded-lg px-3 py-2 outline-none focus:border-accent"
-            />
-            <button
-              disabled={busy !== null}
-              onClick={() =>
-                void run('create+research', async () => {
-                  const created = await api.createProject(topic);
-                  await api.research(created.project.projectId, { worldBankIndicator: indicator || undefined });
-                  setProject(created.project);
-                  await refreshProjects();
-                })
-              }
-              className="w-full bg-ink text-white text-sm font-bold rounded-lg py-2 disabled:opacity-50"
-            >
-              {busy === 'create+research' ? 'Starting research…' : 'Research'}
-            </button>
-            <div className="text-xs text-muted">
-              The backend plans a measurable metric, discovers sources, extracts observations with provenance, verifies
-              them and builds the VideoSpec. Rendering happens on GitHub Actions after you approve.
+      <main className="max-w-3xl mx-auto px-6 py-10 space-y-6">
+        <div
+          className={`panel p-8 text-center border-2 border-dashed transition ${dragging ? 'border-accent bg-red-50/40' : 'border-black/15'}`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragging(false);
+            const dropped = e.dataTransfer.files?.[0];
+            if (dropped) setFile(dropped);
+          }}
+        >
+          <input
+            id="file"
+            type="file"
+            accept=".json,.csv"
+            className="hidden"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          />
+          <label htmlFor="file" className="cursor-pointer block">
+            <div className="text-lg font-bold text-ink">{file ? file.name : 'Drop your data file here'}</div>
+            <div className="text-sm text-muted mt-1">
+              {file
+                ? `${(file.size / 1024).toFixed(0)} KB — click to choose a different file`
+                : 'or click to browse · .json or .csv · up to 20 MB'}
             </div>
-          </div>
+          </label>
+        </div>
 
-          <div className="panel p-4">
-            <div className="text-sm font-bold text-ink mb-2">Projects</div>
-            <div className="space-y-1 max-h-72 overflow-y-auto">
-              {projects.length === 0 ? <div className="text-xs text-muted">None yet.</div> : null}
-              {projects.map((p) => (
-                <button
-                  key={p.projectId}
-                  onClick={() => void loadProject(p.projectId)}
-                  className={`w-full text-left px-3 py-2 rounded-lg hover:bg-surface ${project?.projectId === p.projectId ? 'bg-surface' : ''}`}
-                >
-                  <div className="text-sm font-semibold text-ink truncate">{p.title}</div>
-                  <div className={`text-xs font-semibold ${statusColor(p.status)}`}>{p.status}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
+        <div className="panel p-4 space-y-3">
+          <label className="block text-sm font-bold text-ink" htmlFor="title">
+            Video title <span className="text-muted font-normal">(optional — the file can also carry it)</span>
+          </label>
+          <input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="World Population by Country | 1960 - 2024"
+            className="w-full text-sm border border-black/15 rounded-lg px-3 py-2 outline-none focus:border-accent"
+          />
+        </div>
 
-        <main className="space-y-4 min-w-0">
-          {error ? <div className="panel p-3 border-l-4 border-l-accent text-sm text-accent">{error}</div> : null}
+        <button
+          disabled={phase === 'uploading' || !file}
+          onClick={() => void submit()}
+          className="w-full bg-accent text-white font-bold rounded-lg py-3 disabled:opacity-50"
+        >
+          {phase === 'uploading' ? 'Working…' : 'Make the video'}
+        </button>
 
-          {!project ? (
-            <div className="panel p-10 text-center">
-              <div className="text-lg font-bold text-ink">No project selected</div>
-              <p className="text-sm text-muted mt-2">Enter a topic and press Research, or pick an existing project.</p>
-            </div>
-          ) : (
-            <>
-              <div className="panel p-4 flex flex-wrap items-center gap-3">
-                <div className="min-w-0">
-                  <div className="text-lg font-extrabold text-ink truncate">{project.title}</div>
-                  <div className="text-xs text-muted">
-                    {project.projectId} · <span className={`font-semibold ${statusColor(project.status)}`}>{project.status}</span>
-                  </div>
-                </div>
-                <div className="ml-auto flex flex-wrap items-center gap-2">
-                  <button
-                    disabled={busy !== null}
-                    onClick={() =>
-                      void run('research', async () => {
-                        await api.research(project.projectId, { worldBankIndicator: indicator || undefined });
-                        await loadProject(project.projectId);
-                      })
-                    }
-                    className="panel px-3 py-2 text-sm font-semibold hover:bg-surface disabled:opacity-50"
-                  >
-                    Re-run research
-                  </button>
-                  <button
-                    disabled={busy !== null || project.status !== 'READY_FOR_REVIEW'}
-                    onClick={() =>
-                      void run('approve', async () => {
-                        await api.approve(project.projectId);
-                        await loadProject(project.projectId);
-                      })
-                    }
-                    className="panel px-3 py-2 text-sm font-semibold hover:bg-surface disabled:opacity-50"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    disabled={busy !== null || project.status !== 'APPROVED'}
-                    onClick={() =>
-                      void run('render', async () => {
-                        const result = await api.render(project.projectId);
-                        setDispatchNote(result.dispatch.message + (result.dispatch.workflowRunUrl ? ` · ${result.dispatch.workflowRunUrl}` : ''));
-                        await loadProject(project.projectId);
-                      })
-                    }
-                    className="bg-accent text-white px-3 py-2 text-sm font-bold rounded-lg disabled:opacity-50"
-                  >
-                    Render on GitHub
-                  </button>
-                </div>
-              </div>
-
-              {dispatchNote ? <div className="panel p-3 text-xs text-muted">dispatch: {dispatchNote}</div> : null}
-
-              <div className="flex flex-wrap gap-1">
-                {TABS.map((t) => (
-                  <button key={t} className={`tab ${tab === t ? 'tab-active' : ''}`} onClick={() => setTab(t)}>
-                    {t}
-                  </button>
+        {message ? (
+          <div className={`panel p-4 text-sm ${phase === 'error' ? 'border-l-4 border-l-accent text-accent' : 'text-ink'}`}>
+            <div className="font-bold">{message}</div>
+            {details.length > 0 ? (
+              <ul className="mt-2 list-disc pl-4 text-xs text-muted space-y-1">
+                {details.map((detail, index) => (
+                  <li key={index}>{detail}</li>
                 ))}
-              </div>
+              </ul>
+            ) : null}
+            {runUrl ? (
+              <a href={runUrl} target="_blank" rel="noreferrer" className="inline-block mt-2 text-blue-600 underline">
+                watch the render run on GitHub Actions
+              </a>
+            ) : null}
+          </div>
+        ) : null}
 
-              {tab === 'Overview' ? <Overview project={project} /> : null}
-              {tab === 'Data Plan' ? <DataPlanView plan={project.dataPlan} /> : null}
-              {tab === 'Sources' ? <SourcesView sources={project.sources} /> : null}
-              {tab === 'Dataset' ? (
-                <DatasetView
-                  dataset={project.dataset}
-                  onTopN={(topN) =>
-                    void run('dataset-edit', async () => {
-                      await api.patchDataset(project.projectId, { topN });
-                      await loadProject(project.projectId);
-                    })
-                  }
-                />
-              ) : null}
-              {tab === 'Preview' ? <RacePreview tape={project.frameTape} unit={project.dataset?.unit ?? 'count'} /> : null}
-              {tab === 'Story' ? (
-                <div className="space-y-3">
-                  <StoryView story={project.story} />
-                  <div className="panel p-4 space-y-2">
-                    <div className="text-sm font-bold text-ink">Revise in natural language</div>
-                    <textarea
-                      value={instruction}
-                      onChange={(e) => setInstruction(e.target.value)}
-                      rows={2}
-                      className="w-full text-sm border border-black/10 rounded-lg px-3 py-2 outline-none focus:border-accent"
-                    />
-                    <button
-                      disabled={busy !== null}
-                      onClick={() =>
-                        void run('revise', async () => {
-                          await api.revise(project.projectId, instruction);
-                          await loadProject(project.projectId);
-                        })
-                      }
-                      className="bg-ink text-white text-sm font-bold rounded-lg px-3 py-2 disabled:opacity-50"
-                    >
-                      {busy === 'revise' ? 'Revising…' : 'Apply revision'}
-                    </button>
-                    {project.revisions.length > 0 ? (
-                      <ul className="text-xs text-muted space-y-0.5 list-disc pl-4">
-                        {project.revisions.map((r) => (
-                          <li key={r.revisionId}>
-                            {r.revisionId}: {r.instruction}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </div>
-                </div>
-              ) : null}
-              {tab === 'Video Spec' ? <VideoSpecView spec={project.videoSpec} /> : null}
-              {tab === 'Quality' ? <QualityView quality={project.quality} /> : null}
-              {tab === 'Render' ? (
-                <div className="panel p-4 space-y-2 text-sm">
-                  <div className="font-bold text-ink">Render job</div>
-                  {project.renderJob ? (
-                    <>
-                      <div>status: {project.renderJob.status}</div>
-                      <div>github run: {project.renderJob.githubRunId ?? 'not dispatched'}</div>
-                      {(project.renderJob.notes ?? []).map((n, i) => (
-                        <div key={i} className="text-xs text-muted">
-                          {n}
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <div className="text-muted">Nothing dispatched yet. Approve the project, then press “Render on GitHub”.</div>
-                  )}
-                </div>
-              ) : null}
-            </>
-          )}
-        </main>
-      </div>
+        <details className="panel p-4 text-sm text-muted">
+          <summary className="cursor-pointer font-bold text-ink">What format does the file need?</summary>
+          <div className="mt-3 space-y-3">
+            <p>Everything the video shows comes from this one file: numbers, colors, flags and the fact texts.</p>
+            <pre className="bg-surface p-3 rounded text-xs overflow-x-auto">{`{
+  "version": "1.0",
+  "title": "World Population by Country | 1960 - 2024",
+  "metric": "World Population",
+  "unit": "people",
+  "entities": [
+    { "id": "india", "name": "India", "color": "#F15A22",
+      "flagCode": "in", "group": "Asia" }
+  ],
+  "observations": [
+    { "entity": "india", "date": "1960", "value": 449000000 }
+  ],
+  "facts": [
+    { "atDate": "2022", "heading": "Eight billion",
+      "body": "The world passes eight billion people.",
+      "tiles": ["india", "china"] }
+  ],
+  "groups": [ { "id": "Asia", "label": "Asia", "color": "#E1251B" } ]
+}`}</pre>
+            <p>
+              A CSV works too: columns <code>entity,date,value</code> (plus optional{' '}
+              <code>color,flagCode,group</code>), and an optional facts CSV with{' '}
+              <code>atDate,heading,body,tiles</code>. Missing flags are filled in automatically during the render.
+            </p>
+          </div>
+        </details>
+      </main>
     </div>
   );
 }

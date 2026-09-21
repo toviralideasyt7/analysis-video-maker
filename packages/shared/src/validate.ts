@@ -14,6 +14,7 @@ import storySchema from '../schemas/story.schema.json';
 import dataQualitySchema from '../schemas/data-quality-report.schema.json';
 import renderJobSchema from '../schemas/render-job.schema.json';
 import agentOutputsSchema from '../schemas/agent-outputs.schema.json';
+import videoInputSchema from '../schemas/video-input.schema.json';
 
 export type SchemaName =
   | 'dataPlan'
@@ -27,7 +28,8 @@ export type SchemaName =
   | 'sourceSelection'
   | 'extractedRows'
   | 'aiQaVerdict'
-  | 'revisionPlan';
+  | 'revisionPlan'
+  | 'videoInput';
 
 export interface ValidationResult {
   valid: boolean;
@@ -42,6 +44,7 @@ const rawSchemas: Partial<Record<SchemaName, object>> = {
   story: storySchema as object,
   dataQualityReport: dataQualitySchema as object,
   renderJob: renderJobSchema as object,
+  videoInput: videoInputSchema as object,
 };
 
 let cached: Record<SchemaName, ValidateFunction> | null = null;
@@ -104,6 +107,10 @@ export function validateDataQualityReport(value: unknown): ValidationResult {
 
 export function validateRenderJob(value: unknown): ValidationResult {
   return validate('renderJob', value);
+}
+
+export function validateVideoInput(value: unknown): ValidationResult {
+  return validate('videoInput', value);
 }
 
 /** Throwing variant used where a downstream step must not proceed. */

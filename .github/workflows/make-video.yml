@@ -1,0 +1,118 @@
+name: make-video
+
+# Renders a data-race video from a user-supplied input file.
+#
+#   inputs/inputPath  - repo path of the committed video-input JSON
+#
+# The file contains everything: data, colors, flags, facts, groups. No research,
+# no source discovery. Logos/flags that are not in the file are fetched here.
+
+on:
+  workflow_dispatch:
+    inputs:
+      inputPath:
+        description: Repo path of the committed video-input JSON
+        required: true
+        default: "inputs/video-input.json"
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      INPUT_PATH: ${{ inputs.inputPath }}
+      RENDER_CONCURRENCY: "2"
+      MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
+      NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
+      GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
+      GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - run: npm ci
+
+      - name: Build the Rust core (probe + validate)
+        run: cargo build --release --workspace
+
+      - name: Validate the input file
+        run: npx tsx tools/check-input.ts "$INPUT_PATH"
+
+      # Flags/logos: entities without a flagCode get one resolved here
+      # (Monid fetch first, AI as fallback). Purely additive metadata.
+      - name: Resolve missing flags and logos
+        run: npx tsx tools/resolve-assets.ts "$INPUT_PATH"
+
+      - name: Render the video
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          npm run render -w @avm/renderer -- \
+            --input "${GITHUB_WORKSPACE}/${INPUT_PATH}" \
+            --out "${GITHUB_WORKSPACE}/renders/${ID}.mp4"
+
+      - name: Render the thumbnail
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          npm run render -w @avm/renderer -- \
+            --input "${GITHUB_WORKSPACE}/${INPUT_PATH}" \
+            --thumbnail-only \
+            --out "${GITHUB_WORKSPACE}/renders/${ID}.mp4"
+
+      - name: Ensure ffmpeg
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
+
+      - name: Post-process with ffmpeg
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          ffmpeg -y -i "renders/${ID}.mp4" \
+            -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p \
+            -movflags +faststart -an "renders/${ID}-final.mp4"
+
+      - name: Probe the rendered MP4
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          ./target/release/datarace probe \
+            --in "renders/${ID}-final.mp4" \
+            --out "renders/${ID}-probe.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ inputs.inputPath }}
+          path: |
+            renders/*-final.mp4
+            renders/*.jpg
+            renders/*-probe.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish to R2 (optional)
+        if: ${{ vars.R2_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          command -v aws >/dev/null || pip install --quiet awscli
+          aws s3 cp "renders/${ID}-final.mp4" "s3://${R2_BUCKET}/videos/${ID}.mp4" \
+            --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"

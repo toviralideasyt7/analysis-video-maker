@@ -43,3 +43,6 @@ Thumbs.db
 .research-run.log
 .render.log
 .connectors.log
+# uploaded working copies
+uploads/
+

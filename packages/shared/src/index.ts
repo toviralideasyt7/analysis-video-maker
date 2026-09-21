@@ -1,4 +1,5 @@
 export * from './types';
+export * from './videoInput';
 export * from './validate';
 
 export const SCHEMA_IDS = {

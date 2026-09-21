@@ -1,43 +1,37 @@
-/** Thumbnail composition, built from the same design tokens as the video. */
-
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
-import { makeTheme } from './theme';
-import type { RenderInput } from './types';
-import { BrandMark, LogoBadge } from './components';
+import type { VideoInput } from '@avm/shared';
+import { buildTape } from './tape';
 
-export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
+export const Thumbnail: React.FC<{ input: VideoInput }> = ({ input }) => {
   const frame = useCurrentFrame();
-  const theme = makeTheme(input.videoSpec.theme as Record<string, string | number>);
-  const spec = input.thumbnail;
-  const appear = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: 'clamp' });
-  const entities = (spec?.entities ?? []).slice(0, 3);
-  const tapeEntities = input.frameTape.entities;
+  const appear = interpolate(frame, [0, 5], [0, 1], { extrapolateRight: 'clamp' });
+  const tape = buildTape(input);
+  const last = tape.frames[tape.frames.length - 1];
+  const top = (last?.bars ?? []).slice(0, 3);
+  const byId = new Map(tape.entities.map((e) => [e.id, e]));
 
   return (
-    <AbsoluteFill style={{ background: spec?.backgroundColor ?? theme.background, fontFamily: theme.fontFamily }}>
-      <div style={{ position: 'absolute', left: 46, top: 40 }}>
-        <BrandMark theme={theme} />
-      </div>
-      <div style={{ position: 'absolute', left: 46, top: 150, width: 900, opacity: appear }}>
-        <div style={{ fontSize: 92, fontWeight: 900, color: theme.primaryText, letterSpacing: '-0.04em', lineHeight: 0.98 }}>
-          {spec?.title ?? input.videoSpec.metadata.title.toUpperCase()}
-        </div>
-        <div style={{ fontSize: 54, fontWeight: 800, color: spec?.accentColor ?? theme.accent, letterSpacing: '-0.02em', marginTop: 10 }}>
-          {spec?.subtitle ?? input.videoSpec.metadata.subtitle ?? ''}
+    <AbsoluteFill style={{ background: '#EFEFEF', fontFamily: 'Inter, "Segoe UI", system-ui, sans-serif' }}>
+      <div style={{ position: 'absolute', left: 8, top: 5, width: 58, height: 58, borderRadius: '50%', background: '#E1251B' }} />
+      <div style={{ position: 'absolute', left: 60, top: 190, width: 1150, opacity: appear }}>
+        <div style={{ fontSize: 96, fontWeight: 900, color: '#1A1A1A', letterSpacing: '-0.03em', lineHeight: 1 }}>
+          {input.title.toUpperCase()}
         </div>
       </div>
-      <div style={{ position: 'absolute', left: 46, bottom: 70, display: 'flex', gap: 20, opacity: appear }}>
-        {entities.map((name, index) => {
-          const entity = tapeEntities.find((e) => e.name === name);
-          return <LogoBadge key={name} name={name} color={entity?.color ?? ['#2563eb', '#dc2626', '#059669'][index % 3]} size={74} />;
+      <div style={{ position: 'absolute', left: 60, bottom: 80, display: 'flex', gap: 18, opacity: appear }}>
+        {top.map((bar, index) => {
+          const entity = byId.get(bar.entityId);
+          return (
+            <div key={bar.entityId} style={{ width: 190, height: 120, background: entity?.color ?? '#333', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 900, fontSize: 30 }}>
+              {entity?.name ?? bar.entityId}
+            </div>
+          );
         })}
       </div>
-      <div style={{ position: 'absolute', right: 46, bottom: 60, textAlign: 'right', opacity: appear }}>
-        <div style={{ fontSize: 26, fontWeight: 800, color: theme.secondaryText }}>{input.dataset.metric}</div>
-        <div style={{ fontSize: 44, fontWeight: 900, color: theme.primaryText }}>
-          {input.dataset.timeRange.start}–{input.dataset.timeRange.end}
-        </div>
+      <div style={{ position: 'absolute', right: 60, bottom: 80, textAlign: 'right', opacity: appear }}>
+        <div style={{ fontSize: 30, fontWeight: 800, color: '#7C7C7C' }}>{input.metric}</div>
+        <div style={{ fontSize: 60, fontWeight: 900, color: '#1A1A1A' }}>{tape.dates[tape.dates.length - 1]}</div>
       </div>
     </AbsoluteFill>
   );

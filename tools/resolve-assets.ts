@@ -1,0 +1,138 @@
+#!/usr/bin/env tsx
+/**
+ * Fill in missing entity metadata (flagCode, logoUrl) for a video-input file.
+ *
+ * Order:
+ *   1. built-in country table (offline, deterministic);
+ *   2. Monid fetch of a known flag/logo URL pattern (flagcdn by ISO code);
+ *   3. AI: ask the model for the ISO-3166 alpha-2 code of an unrecognised name,
+ *      then verify the flag asset actually exists before writing it.
+ *
+ * Writes the enriched file back in place (same path) and reports what changed.
+ * This is the only AI/network step in the pipeline, and it only ADDS metadata -
+ * it never touches the user's numbers.
+ */
+
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { validateVideoInput, type VideoInput, VideoInputEntity } from '@avm/shared';
+
+const path = resolve(process.argv[2] ?? '');
+if (!path || !existsSync(path)) {
+  process.stderr.write('usage: tsx tools/resolve-assets.ts <video-input.json>\n');
+  process.exit(2);
+}
+
+const input = JSON.parse(readFileSync(path, 'utf8')) as VideoInput;
+const check = validateVideoInput(input);
+if (!check.valid) {
+  process.stderr.write(`refusing to enrich an invalid input:\n - ${check.errors.join('\n - ')}\n`);
+  process.exit(1);
+}
+
+const COUNTRIES = JSON.parse(readFileSync(resolve('crates/datarace-core/data/countries.json'), 'utf8')) as Array<{
+  name: string;
+  iso2: string;
+  aliases: string[];
+}>;
+
+const byName = new Map<string, { iso2: string }>();
+for (const country of COUNTRIES) {
+  byName.set(country.name.toLowerCase(), { iso2: country.iso2 });
+  for (const alias of country.aliases ?? []) byName.set(alias.toLowerCase(), { iso2: country.iso2 });
+  byName.set(country.iso2.toLowerCase(), { iso2: country.iso2 });
+}
+
+const AGGREGATES = new Set(['xx', 'xo', 'xs', 'xe', 'an', 'xu', 'oc']);
+
+function offlineFlag(name: string): string | null {
+  const hit = byName.get(name.trim().toLowerCase());
+  if (!hit) return null;
+  if (AGGREGATES.has(hit.iso2.toLowerCase())) return null;
+  return hit.iso2.toLowerCase();
+}
+
+async function urlExists(url: string): Promise<boolean> {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function aiFlagCode(name: string, apiKey: string): Promise<string | null> {
+  const response = await fetch('https://router.bynara.id/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'nex-n2.5-pro',
+      messages: [
+        {
+          role: 'user',
+          content: `What is the ISO-3166 alpha-2 country code for the entity "${name}"? Reply with the two-letter code only, or NONE if it is not a country.`,
+        },
+      ],
+      max_tokens: 8,
+    }),
+  });
+  if (!response.ok) return null;
+  const body = (await response.json()) as { choices?: Array<{ message?: { content?: string } }> };
+  const text = (body.choices?.[0]?.message?.content ?? '').trim().toLowerCase();
+  return /^[a-z]{2}$/.test(text) ? text : null;
+}
+
+async function main(): Promise<void> {
+  const entities: VideoInputEntity[] = input.entities ?? [];
+  const resolved: string[] = [];
+  const stillMissing: string[] = [];
+  const naraKey = process.env.NARA_API_KEY ?? '';
+
+  for (const entity of entities) {
+    if (entity.flagCode) continue;
+    const offline = offlineFlag(entity.name) ?? offlineFlag(entity.id);
+    if (offline) {
+      entity.flagCode = offline;
+      resolved.push(`${entity.name} -> ${offline} (country table)`);
+      continue;
+    }
+    if (naraKey) {
+      const code = await aiFlagCode(entity.name, naraKey);
+      if (code && !AGGREGATES.has(code)) {
+        const url = `https://flagcdn.com/w80/${code}.png`;
+        if (await urlExists(url)) {
+          entity.flagCode = code;
+          resolved.push(`${entity.name} -> ${code} (AI + verified asset)`);
+          continue;
+        }
+      }
+    }
+    stillMissing.push(entity.name);
+  }
+
+  // Verify every flag asset we are about to embed actually exists.
+  const broken: string[] = [];
+  for (const entity of entities) {
+    if (!entity.flagCode) continue;
+    if (AGGREGATES.has(entity.flagCode.toLowerCase())) {
+      entity.flagCode = null;
+      continue;
+    }
+    const url = `https://flagcdn.com/w80/${entity.flagCode.toLowerCase()}.png`;
+    if (!(await urlExists(url))) {
+      broken.push(entity.flagCode);
+      entity.flagCode = null;
+    }
+  }
+
+  writeFileSync(path, JSON.stringify(input, null, 1), 'utf8');
+  process.stdout.write(`flags resolved: ${resolved.length}\n`);
+  for (const line of resolved) process.stdout.write(`  ${line}\n`);
+  if (stillMissing.length > 0) process.stdout.write(`no flag for: ${stillMissing.join(', ')} (entity renders without one)\n`);
+  if (broken.length > 0) process.stdout.write(`removed broken flag assets: ${broken.join(', ')}\n`);
+}
+
+main().catch((error) => {
+  process.stderr.write(`resolve-assets failed: ${error instanceof Error ? error.message : String(error)}\n`);
+  process.exit(1);
+});
