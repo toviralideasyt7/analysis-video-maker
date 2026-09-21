@@ -115,6 +115,18 @@ jobs:
             --thumbnail-only \
             --out "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
 
+      # The GitHub-hosted Ubuntu image does not ship ffmpeg, so install it only
+      # when it is missing. The same binary is then used for the probe below.
+      - name: Ensure ffmpeg is available
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          ffmpeg -version | head -n 1
+          ffprobe -version | head -n 1
+
       - name: Post-process with ffmpeg
         run: |
           set -euo pipefail
