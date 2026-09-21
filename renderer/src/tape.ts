@@ -223,7 +223,11 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
     const key = dateKey(fact.atDate);
     const fromFrame = frameForDate(key, introFrames + raceFrames);
     const next = inputFacts[index + 1];
-    const toFrame = next ? frameForDate(dateKey(next.atDate), introFrames + raceFrames) : introFrames + raceFrames;
+    // The final fact must stay on screen through the final hold, otherwise the
+    // narrative panel renders empty for the whole last beat of the video.
+    const toFrame = next
+      ? frameForDate(dateKey(next.atDate), introFrames + raceFrames)
+      : introFrames + raceFrames + finalHoldFrames;
     if (fromFrame < toFrame) {
       facts.push({ heading: fact.heading, body: fact.body ?? '', tiles: fact.tiles ?? [], fromFrame, toFrame });
     }

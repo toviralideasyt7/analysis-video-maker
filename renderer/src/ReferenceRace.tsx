@@ -215,6 +215,12 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
           const barWidth = Math.max(10, bar.widthFraction * MAX_BAR);
           const available = Math.max(46, barWidth - 54);
           const nameSize = Math.min(19, Math.max(11, (available / (name.length * 10.4)) * 19));
+          const labelColor = isDarkColor(entity?.color ?? '#3A3A3A') ? '#FFFFFF' : '#101010';
+          // A short bar cannot hold its own label: the right-aligned name would
+          // overflow past the left edge and be clipped (e.g. "Mexico" -> "exico").
+          // When it does not fit, draw the label beside the value instead.
+          const estimatedLabel = name.length * nameSize * 0.56 + 19 + 14;
+          const insideLabel = barWidth >= estimatedLabel;
 
           return (
             <div key={bar.entityId} style={{ position: 'absolute', left: 0, top: y, height: BAR_HEIGHT, width: '100%' }}>
@@ -251,10 +257,14 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
                   opacity: bar.held ? 0.85 : 1,
                 }}
               >
-                <div style={{ color: isDarkColor(entity?.color ?? '#3A3A3A') ? '#FFFFFF' : '#101010', fontWeight: 700, fontSize: nameSize, whiteSpace: 'nowrap' }}>
-                  {name}
-                </div>
-                <LogoChip src={entity?.logoUrl} size={19} fallback={name.slice(0, 1).toUpperCase()} />
+                {insideLabel ? (
+                  <>
+                    <div style={{ color: labelColor, fontWeight: 700, fontSize: nameSize, whiteSpace: 'nowrap' }}>
+                      {name}
+                    </div>
+                    <LogoChip src={entity?.logoUrl} size={19} fallback={name.slice(0, 1).toUpperCase()} />
+                  </>
+                ) : null}
               </div>
               <div
                 style={{
@@ -268,9 +278,16 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
                   fontWeight: 700,
                   color: INK.title,
                   fontVariantNumeric: 'tabular-nums',
+                  gap: 6,
                   whiteSpace: 'nowrap',
                 }}
               >
+                {insideLabel ? null : (
+                  <>
+                    <span style={{ color: INK.text, fontWeight: 700, fontSize: 15 }}>{name}</span>
+                    <LogoChip src={entity?.logoUrl} size={17} fallback={name.slice(0, 1).toUpperCase()} />
+                  </>
+                )}
                 {formatValue(bar.value, 'comma')}
               </div>
             </div>
