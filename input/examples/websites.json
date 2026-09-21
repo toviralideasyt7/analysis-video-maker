@@ -11,9 +11,9 @@
  },
  "settings": {
   "topN": 12,
-  "secondsPerYear": 5,
+  "secondsPerYear": 17,
   "scalePower": 0.72,
-  "introSeconds": 3.5,
+  "introSeconds": 5,
   "outroSeconds": 6
  },
  "entities": [

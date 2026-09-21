@@ -46,6 +46,7 @@ export interface VideoInputSettings {
   minIntervalSeconds?: number;
   introSeconds?: number;
   outroSeconds?: number;
+  finalHoldSeconds?: number;
   backgroundColor?: string;
   dateDisplay?: 'auto' | 'year' | 'bC';
 }

@@ -32,6 +32,8 @@ export interface TapeFrame {
   worldTotal: number | null;
   groups: Array<{ id: string; label: string; value: number; color: string }>;
   factIndex: number | null;
+  /** True once the race has finished and the last period is held for reading. */
+  isFinalHold: boolean;
 }
 
 export interface Tape {
@@ -71,6 +73,7 @@ export const REFERENCE = {
   secondsPerYear: 0.4,
   introSeconds: 2.5,
   outroSeconds: 6,
+  finalHoldSeconds: 10,
   backgroundColor: '#efefef',
 } as const;
 
@@ -147,6 +150,7 @@ export interface TapeOptions {
   secondsPerYear?: number;
   introSeconds?: number;
   outroSeconds?: number;
+  finalHoldSeconds?: number;
 }
 
 export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
@@ -159,6 +163,7 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
   const secondsPerYear = options.secondsPerYear ?? input.settings?.secondsPerYear ?? REFERENCE.secondsPerYear;
   const introSeconds = options.introSeconds ?? input.settings?.introSeconds ?? REFERENCE.introSeconds;
   const outroSeconds = options.outroSeconds ?? input.settings?.outroSeconds ?? REFERENCE.outroSeconds;
+  const finalHoldFrames = Math.round((options.finalHoldSeconds ?? input.settings?.finalHoldSeconds ?? 10) * fps);
 
   const allDates = Array.from(new Set(input.observations.map((o) => o.date.trim())));
   const dates = allDates.filter((d) => Number.isFinite(dateKey(d))).sort((a, b) => dateKey(a) - dateKey(b));
@@ -204,7 +209,7 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
   const outroFrames = Math.max(0, Math.round(outroSeconds * fps));
   const framesPerPeriod = yearFrames;
   const raceFrames = (dates.length - 1) * framesPerPeriod + 1;
-  const durationInFrames = introFrames + raceFrames + outroFrames;
+  const durationInFrames = introFrames + raceFrames + finalHoldFrames + outroFrames;
 
   const facts: Tape['facts'] = [];
   const inputFacts: VideoInputFact[] = input.facts ?? [];
@@ -302,7 +307,16 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
       }
     }
 
-    frames.push({ index: frame, dateLabel: labels[periodIndex], t, bars, worldTotal, groups, factIndex });
+    frames.push({
+      index: frame,
+      dateLabel: labels[periodIndex],
+      t,
+      bars,
+      worldTotal,
+      groups,
+      factIndex,
+      isFinalHold: racePos >= raceFrames,
+    });
   }
 
   // Empty columns (a category with no members yet, or already gone) are dropped

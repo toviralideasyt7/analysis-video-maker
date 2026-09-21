@@ -41,9 +41,9 @@ const BAR_HEIGHT = 26;
 const ROWS = 14;
 const BAR_LEFT = 52;
 const RANK_LEFT = 14;
-const MAX_BAR = 500;
-const PANEL_LEFT = 742;
-const PANEL_WIDTH = 524;
+const MAX_BAR = 700;
+const PANEL_LEFT = 924;
+const PANEL_WIDTH = 340;
 
 function formatValue(value: number, mode: 'comma' | 'compact'): string {
   if (!Number.isFinite(value)) return '0';
@@ -122,9 +122,7 @@ const ProgressRing: React.FC<{ progress: number; size: number }> = ({ progress, 
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
       </svg>
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.3, fontWeight: 800, color: '#FFFFFF' }}>
-        {Math.round(clamped * 100)}%
-      </div>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.3, fontWeight: 800, color: '#FFFFFF' }}></div>
     </div>
   );
 };
@@ -202,7 +200,7 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
       </div>
 
       {/* ranked bars */}
-      <div style={{ position: 'absolute', left: 0, top: ROWS_TOP, width: 720, opacity: outroFade }}>
+      <div style={{ position: 'absolute', left: 0, top: ROWS_TOP, width: 720, opacity: frameData.isFinalHold ? 0.3 : outroFade }}>
         {shown.map((bar) => {
           const entity = entityById.get(bar.entityId);
           const name = entity?.name ?? bar.entityId;
@@ -314,7 +312,7 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
               <div style={{ borderTop: `1px solid ${INK.borderSoft}`, margin: '10px 0 8px' }} />
               <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: INK.muted, textAlign: 'center' }}>FOCUS CONTEXT BREAKDOWN</div>
               <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 5 }}>
-                {breakdown.map((g) => (
+                {breakdown.map((g, index) => (
                   <div key={g.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div style={{ width: 20, height: 20, borderRadius: '50%', background: g.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 11 }}>
                       {g.label.slice(0, 1).toUpperCase()}
@@ -346,12 +344,12 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
       {/* timeline progress + giant year */}
       <div style={{ position: 'absolute', right: 18, bottom: 16, display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: INK.muted, textAlign: 'right', lineHeight: 1.2 }}>
+          <div style={{ display: 'none', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: INK.muted, textAlign: 'right', lineHeight: 1.2 }}>
             DATA
             <br />
             PROGRESS
           </div>
-          <ProgressRing progress={progress} size={74} />
+          <ProgressRing progress={frameData.t} size={74} />
         </div>
         <div style={{ fontSize: 92, fontWeight: 800, color: INK.year, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
           {frameData.dateLabel}
