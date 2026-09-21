@@ -627,8 +627,21 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // Last resort: if nothing structured worked, let the extractor read the best
   // page and pull rows out of it - every row must quote the page verbatim.
   if (collected.length === 0 && !options.skipAi && ctx.budget.remaining()) {
+    // Prefer a deep page over a site homepage: an extractor reading
+    // "ourworldindata.org/" can only correctly answer "no data here".
+    const picked = state.sources.filter((s) => selection.picked.some((p) => p.candidateId === s.candidateId));
+    const isDeepPage = (url: string): boolean => {
+      try {
+        const parsed = new URL(url);
+        return parsed.pathname.replace(/\/+$/, '').length > 1;
+      } catch {
+        return false;
+      }
+    };
     const best =
-      state.sources.find((s) => selection.picked.some((p) => p.candidateId === s.candidateId)) ??
+      picked.find((s) => isDeepPage(s.url)) ??
+      [...state.sources].filter((s) => isDeepPage(s.url)).sort((a, b) => b.qualityScore - a.qualityScore)[0] ??
+      picked[0] ??
       [...state.sources].sort((a, b) => b.qualityScore - a.qualityScore)[0];
     if (best) {
       try {

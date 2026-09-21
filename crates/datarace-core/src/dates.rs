@@ -75,7 +75,7 @@ pub fn parse_date(raw: &str) -> Option<ParsedDate> {
     }
     // Drop time components, keep the date.
     let head: String = s
-        .split(|c| c == 'T' || c == ' ')
+        .split(['T', ' '])
         .next()
         .unwrap_or(s)
         .trim()

@@ -5,7 +5,7 @@
 
 use crate::dates::{display_label, parse_date};
 use crate::entities;
-use crate::model::{DatasetInput, Frequency, ObservationInput};
+use crate::model::{DatasetInput, Frequency};
 use serde::Serialize;
 use std::collections::BTreeMap;
 

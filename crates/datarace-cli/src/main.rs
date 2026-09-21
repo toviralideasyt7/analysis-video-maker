@@ -199,14 +199,11 @@ fn run() -> Result<()> {
                 let mut value = o.value;
                 let mut conversion = None;
                 if let (Some(v), Some(info), Some(target)) = (value, unit_info.as_ref(), target_unit.as_ref()) {
-                    match units::convert(v, &info.input, target) {
-                        Some(converted) => {
-                            conversion = Some(serde_json::json!({
-                                "from": info.canonical, "to": units::normalize_unit(target).canonical, "factor": info.factor
-                            }));
-                            value = Some(converted);
-                        }
-                        None => {}
+                    if let Some(converted) = units::convert(v, &info.input, target) {
+                        conversion = Some(serde_json::json!({
+                            "from": info.canonical, "to": units::normalize_unit(target).canonical, "factor": info.factor
+                        }));
+                        value = Some(converted);
                     }
                 }
                 let resolution = entities::resolve(&o.entity);

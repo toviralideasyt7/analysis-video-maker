@@ -92,16 +92,33 @@ export class Budget {
 const BROWSER_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
-/** Direct HTTP fetch with a browser user-agent (some providers 403 otherwise). */
-export async function directFetch(url: string, init: RequestInit = {}): Promise<FetchResult> {
-  const response = await fetch(url, {
-    ...init,
-    headers: {
-      'User-Agent': BROWSER_UA,
-      Accept: '*/*',
-      ...(init.headers ?? {}),
-    },
-  });
+/**
+ * Direct HTTP fetch with a browser user-agent (some providers 403 otherwise).
+ *
+ * Always bounded by a timeout: an unbounded fetch is how a run hangs forever on
+ * one slow host.
+ */
+export async function directFetch(url: string, init: RequestInit = {}, timeoutMs = 30_000): Promise<FetchResult> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  if (init.signal) {
+    const outer = init.signal;
+    outer.addEventListener('abort', () => controller.abort(), { once: true });
+  }
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...init,
+      signal: controller.signal,
+      headers: {
+        'User-Agent': BROWSER_UA,
+        Accept: '*/*',
+        ...(init.headers ?? {}),
+      },
+    });
+  } finally {
+    clearTimeout(timer);
+  }
   const contentType = response.headers.get('content-type') ?? undefined;
   const text = await response.text();
   let json: unknown = undefined;
@@ -130,6 +147,8 @@ export interface MonidConfig {
   searchEndpoint: string;
   fetchEndpoint: string;
   cacheRoot?: string;
+  /** Wall-clock budget for one proxy call. */
+  timeoutMs?: number;
 }
 
 export class MonidProvider implements SearchProvider {
@@ -152,11 +171,19 @@ export class MonidProvider implements SearchProvider {
   private async call(endpoint: 'inspect' | 'run', body: Record<string, unknown>): Promise<unknown> {
     if (!this.config.apiKey) throw new Error('MONID_API_KEY is not configured');
     const started = Date.now();
-    const response = await fetch(`${this.config.baseUrl.replace(/\/$/, '')}/${endpoint}`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${this.config.apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), this.config.timeoutMs ?? 60_000);
+    let response: Response;
+    try {
+      response = await fetch(`${this.config.baseUrl.replace(/\/$/, '')}/${endpoint}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${this.config.apiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
     const text = await response.text();
     this.usage.append({
       at: new Date().toISOString(),

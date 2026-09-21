@@ -109,7 +109,7 @@ pub fn flag_emoji(iso2: &str) -> Option<String> {
 pub fn has_real_flag(iso2: &str) -> bool {
     let up = iso2.to_uppercase();
     let known_aggregates = ["XX", "XO", "XS", "XE", "AN", "XU", "OC"];
-    known_aggregates.contains(&up.as_str()) == false && up.len() == 2
+    !known_aggregates.contains(&up.as_str()) && up.len() == 2
 }
 
 fn country_ref(c: &CountryEntry) -> EntityRef {

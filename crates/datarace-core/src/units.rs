@@ -67,7 +67,7 @@ pub fn normalize_unit(raw: &str) -> UnitInfo {
         "lb" | "pound mass" | "pounds mass" => mk(raw, "kg", "mass", 0.453_592_37, true),
         "bbl" | "barrel" | "barrels" | "oil barrel" => mk(raw, "barrel", "volume", 1.0, true),
         "l" | "litre" | "litres" | "liter" | "liters" => mk(raw, "litre", "volume", 1.0, true),
-        "m3" | "cubic metre" | "cubic metre" | "cubic meter" | "cubic meters" => {
+        "m3" | "cubic metre" | "cubic meter" | "cubic meters" => {
             mk(raw, "m3", "volume", 1.0, true)
         }
         "km" | "kilometer" | "kilometers" => {
