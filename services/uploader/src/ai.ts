@@ -115,11 +115,12 @@ export function createAIClient(): AIClient {
   return {
     completeRole: (role: AgentRole, req: AIRequest) => raw(role, req),
     async completeJsonRole<T>(role: AgentRole, req: AIRequest): Promise<T> {
+    async completeJsonRole<T>(role: AgentRole, req: AIRequest): Promise<T> {
       const instruction = `${req.prompt}\n\nCRITICAL OUTPUT RULE: reply with a single valid JSON document and nothing else. No prose, no markdown fences, no commentary.`;
-      let lastErrors = '';
-      for (let attempt = 0; attempt < 2; attempt += 1) {
+      let lastErrors = "";
       for (let attempt = 0; attempt < 3; attempt += 1) {
         const response = await raw(role, attempt === 0 ? { ...req, prompt: instruction } : { ...req, prompt: `${instruction}\n\nPrevious reply was rejected: ${lastErrors}. Return ONLY the raw JSON document.` });
+        try {
           return extractJson(response.text) as T;
         } catch (error) {
           lastErrors = error instanceof Error ? error.message : String(error);
