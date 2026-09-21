@@ -98,17 +98,22 @@ jobs:
           GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
         run: npx tsx services/orchestrator/src/scripts/ai-qa.ts --project "projects/${PROJECT_ID}"
 
+      # npm runs a workspace script with the workspace as cwd, so the project
+      # path is passed absolute rather than relative to the repository root.
       - name: Render the video with Remotion
         run: |
           set -euo pipefail
           npm run render -w @avm/renderer -- \
-            --project "projects/${PROJECT_ID}" \
-            --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
+            --project "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}" \
+            --out "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
 
       - name: Render the thumbnail
         run: |
-          npm run render -w @avm/renderer -- --project "projects/${PROJECT_ID}" --thumbnail-only \
-            --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
+          set -euo pipefail
+          npm run render -w @avm/renderer -- \
+            --project "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}" \
+            --thumbnail-only \
+            --out "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
 
       - name: Post-process with ffmpeg
         run: |
