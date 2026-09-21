@@ -82,6 +82,11 @@ export class Budget {
   exhausted(): boolean {
     return this.searches >= this.maxSearches || this.fetches >= this.maxFetches || this.aiCalls >= this.maxAiCalls;
   }
+
+  /** True while there is still budget left for more calls. */
+  remaining(): boolean {
+    return !this.exhausted();
+  }
 }
 
 const BROWSER_UA =

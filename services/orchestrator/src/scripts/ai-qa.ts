@@ -1,0 +1,92 @@
+/**
+ * AI QA gate for CI.
+ *
+ *   npx tsx services/orchestrator/src/scripts/ai-qa.ts --project <dir> [--json]
+ *
+ * Loads an approved bundle, hands a compact summary of the dataset, the
+ * VideoSpec and the frame tape to the QA agent, and exits non-zero when the
+ * agent reports a problem. This is what lets GitHub Actions use the AI layer
+ * too, not just the deterministic checks.
+ */
+
+import { existsSync, readFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { aiQaReview, type AgentContext } from '../agents';
+import { createAIClient } from '../providers/ai';
+import { Budget, createSearchProvider } from '../providers/search';
+import { JsonlLog, limits, logger } from '../runtime';
+import type { Dataset, VideoSpec } from '@avm/shared';
+import type { FrameTape } from '../pipeline';
+
+function arg(name: string): string | undefined {
+  const index = process.argv.indexOf(`--${name}`);
+  return index >= 0 ? process.argv[index + 1] : undefined;
+}
+
+function readJson<T>(path: string): T {
+  return JSON.parse(readFileSync(path, 'utf8')) as T;
+}
+
+async function main(): Promise<void> {
+  const projectDir = resolve(arg('project') ?? '');
+  if (!projectDir || !existsSync(projectDir)) {
+    process.stderr.write('usage: tsx ai-qa.ts --project <projectDir> [--json]\n');
+    process.exit(2);
+  }
+
+  const dataset = readJson<Dataset>(join(projectDir, 'dataset.json'));
+  const videoSpec = readJson<VideoSpec>(join(projectDir, 'video-spec.json'));
+  const frameTape = readJson<FrameTape>(join(projectDir, 'frames.json'));
+
+  const lim = limits();
+  const ctx: AgentContext = {
+    ai: createAIClient(),
+    search: createSearchProvider(),
+    budget: new Budget(lim.maxSearches, lim.maxSearches * 4, lim.maxAgentRounds * 8),
+    limits: lim,
+    runLog: new JsonlLog('ci-ai-qa.jsonl'),
+  };
+
+  process.stdout.write(`provider: ${ctx.ai.providerName}\n`);
+  const verdict = await aiQaReview(
+    {
+      datasetSummary: {
+        name: dataset.name,
+        metric: dataset.metric,
+        unit: dataset.unit,
+        timeRange: dataset.timeRange,
+        frequency: dataset.frequency,
+        stats: dataset.stats,
+        sources: Array.from(new Set(dataset.observations.map((o) => o.source.url))).slice(0, 10),
+      },
+      videoSpec: {
+        metadata: videoSpec.metadata,
+        canvas: videoSpec.canvas,
+        scenes: videoSpec.scenes.map((s) => ({ id: s.id, type: s.type, duration: s.duration })),
+        sourceCount: videoSpec.sources.length,
+      },
+      frameTapeSummary: {
+        fps: frameTape.fps,
+        durationInFrames: frameTape.durationInFrames,
+        periods: frameTape.periodLabels.length,
+        entities: frameTape.entities.length,
+        notes: frameTape.notes,
+      },
+    },
+    ctx,
+  );
+
+  if (process.argv.includes('--json')) {
+    process.stdout.write(`${JSON.stringify(verdict, null, 2)}\n`);
+  } else {
+    process.stdout.write(`AI QA: ${verdict.passed ? 'PASS' : 'FAIL'}\n`);
+    for (const problem of verdict.problems) process.stdout.write(` - ${problem}\n`);
+    for (const note of verdict.notes) process.stdout.write(` note: ${note}\n`);
+  }
+  if (!verdict.passed) {
+    logger.warn('AI QA rejected the bundle');
+    process.exit(1);
+  }
+}
+
+void main();

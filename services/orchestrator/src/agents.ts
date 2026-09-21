@@ -10,7 +10,7 @@
 import type { DataPlan, Dataset, SourceCandidate, Story } from '@avm/shared';
 import { JsonlLog, logger, type Limits } from './runtime';
 import type { AIClient } from './providers/ai';
-import { MODEL_ROLES, extractJson } from './providers/ai';
+import { extractJson, type AgentRole } from './providers/ai';
 import type { Budget, SearchProvider } from './providers/search';
 import { hostOf } from './providers/search';
 import {
@@ -107,8 +107,8 @@ Reply with JSON only, shaped exactly like:
   "targetEntityCount": ${options.entityCount ?? 10}
 }`;
 
-  const plan = await ctx.ai.completeJson<DataPlan>({ prompt, system: RESEARCH_RULES, maxTokens: 2048 }, 'dataPlan', MODEL_ROLES.planner);
-  logRun(ctx, 'planner', topic, plan, MODEL_ROLES.planner);
+  const plan = await ctx.ai.completeJsonRole<DataPlan>('planner', { prompt, system: RESEARCH_RULES, maxTokens: 2048 }, 'dataPlan');
+  logRun(ctx, 'planner', topic, plan, 'role:planner');
   return plan;
 }
 
@@ -117,13 +117,10 @@ Reply with JSON only, shaped exactly like:
 // ---------------------------------------------------------------------------
 
 export async function huntSources(plan: DataPlan, ctx: AgentContext): Promise<SourceCandidate[]> {
-  const queries = [
-    `${plan.metric} ${plan.entityType} historical dataset csv`,
-    `${plan.topic} ${plan.timeRange.start} ${plan.timeRange.end} data`,
-    `${plan.metric} official statistics download`,
-  ];
-  const found: SourceCandidate[] = [];
-  for (const query of queries) {
+  const scouted = await scoutQueries(plan, ctx);
+  const found: SourceCandidate[] = candidatesFromScout(scouted);
+
+  for (const query of scouted.queries) {
     if (ctx.budget.exhausted()) {
       logger.warn('research budget exhausted during source hunting');
       break;
@@ -141,7 +138,7 @@ export async function huntSources(plan: DataPlan, ctx: AgentContext): Promise<So
         description: r.snippet,
         retrievedAt: new Date().toISOString(),
         license: 'UNKNOWN',
-        machineReadable: /\.(csv|json|xlsx?|tsv)(\?|$)/i.test(r.url),
+        machineReadable: /\.(csv|json|xlsx?|tsv)(\?|$)/i.test(r.url) || /\/api\//i.test(r.url),
         authority: 0.3,
         directness: 0.25,
         coverage: 0.3,
@@ -152,14 +149,13 @@ export async function huntSources(plan: DataPlan, ctx: AgentContext): Promise<So
         accepts: null,
         primary: false,
         discoveredBy: 'source-hunter',
-        notes: ['web hit: must be followed through to actual data before use'],
+        notes: [`query: ${query}`, 'web hit: must be followed through to actual data before use'],
       });
     }
   }
-  logRun(ctx, 'source-hunter', plan.topic, { count: found.length });
+  logRun(ctx, 'source-hunter', plan.topic, { count: found.length, queries: scouted.queries.length });
   return found;
 }
-
 // ---------------------------------------------------------------------------
 // 3. Judge - accept/reject candidates
 // ---------------------------------------------------------------------------
@@ -186,7 +182,7 @@ ${JSON.stringify(listing, null, 2)}
 Reply with JSON only:
 { "decisions": [ { "candidateId": "...", "accept": true, "reason": "short reason" } ] }`;
 
-  const response = await ctx.ai.complete({ prompt, system: RESEARCH_RULES, maxTokens: 4096 }, MODEL_ROLES.factCheck);
+  const response = await ctx.ai.completeRole('factCheck', { prompt, system: RESEARCH_RULES, maxTokens: 4096 });
   let decisions: JudgeDecision[] = [];
   try {
     const parsed = extractJson(response.text) as { decisions?: JudgeDecision[] };
@@ -250,8 +246,8 @@ Reply with JSON only:
   "ending": "one recap sentence",
   "sourcesLine": "Data: publisher names"
 }`;
-    const story = await ctx.ai.completeJson<Story>({ prompt, system: RESEARCH_RULES, maxTokens: 3000 }, 'story', MODEL_ROLES.story);
-    logRun(ctx, 'story-director', facts, story, MODEL_ROLES.story);
+    const story = await ctx.ai.completeJsonRole<Story>('story', { prompt, system: RESEARCH_RULES, maxTokens: 3000 }, 'story');
+    logRun(ctx, 'story-director', facts, story, 'role:story');
     return story;
   } catch (error) {
     logger.warn('story model unavailable; using the deterministic story', { error: String(error) });
@@ -341,8 +337,8 @@ Reply with JSON only:
   "notes": ["..."]
 }`;
   try {
-    const plan = await ctx.ai.completeJson<RevisionPlan>({ prompt, system: RESEARCH_RULES, maxTokens: 1200 }, 'dataPlan', MODEL_ROLES.qa);
-    logRun(ctx, 'revision', instruction, plan, MODEL_ROLES.qa);
+    const plan = await ctx.ai.completeJsonRole<RevisionPlan>('qa', { prompt, system: RESEARCH_RULES, maxTokens: 1200 }, 'revisionPlan');
+    logRun(ctx, 'revision', instruction, plan, 'role:qa');
     return plan;
   } catch (error) {
     logger.warn('revision model failed; applying a conservative interpretation', { error: String(error) });
@@ -517,3 +513,339 @@ export function mergeAndVerify(all: Observation[], metric: string): { observatio
 }
 
 export type { FrameOptions };
+// ---------------------------------------------------------------------------
+// 8. Query Scout - what should we even search for?
+// ---------------------------------------------------------------------------
+
+export interface ScoutingResult {
+  queries: string[];
+  knownSources: Array<{ name: string; url: string; why: string }>;
+}
+
+/**
+ * Ask the model to design the search, instead of hard-coding a query template.
+ * It is given the plan and must return concrete, targetable queries plus any
+ * dataset or API it already knows about.
+ */
+export async function scoutQueries(plan: DataPlan, ctx: AgentContext): Promise<ScoutingResult> {
+  const fallback: ScoutingResult = {
+    queries: [
+      `${plan.metric} ${plan.entityType} historical dataset csv`,
+      `${plan.topic} ${plan.timeRange.start} ${plan.timeRange.end} data download`,
+      `${plan.metric} official statistics api`,
+    ],
+    knownSources: [],
+  };
+  const prompt = `You are the Query Scout for a data-research agent.
+
+PLAN:
+${JSON.stringify({ topic: plan.topic, metric: plan.metric, entityType: plan.entityType, timeRange: plan.timeRange, frequency: plan.frequency, geography: plan.geography }, null, 2)}
+
+Design the research. Prefer, in this order: official APIs, official datasets, government statistics,
+then a reputable public dataset. Name the endpoints you actually expect to exist; do not invent URLs
+you are unsure about.
+
+Reply with JSON only:
+{
+  "queries": ["6 to 10 concrete search queries, each targeting machine-readable data"],
+  "knownSources": [ { "name": "publisher", "url": "https://...", "why": "what it provides and in what format" } ]
+}`;
+  try {
+    const result = await ctx.ai.completeJsonRole<ScoutingResult>('queryScout', { prompt, system: RESEARCH_RULES, maxTokens: 1400 }, 'scouting');
+    const queries = (result.queries ?? []).filter((q) => typeof q === 'string' && q.trim().length > 4).slice(0, 10);
+    // Models often omit the scheme; normalise rather than discard a good source.
+    const knownSources = (result.knownSources ?? [])
+      .filter((s) => typeof s?.url === 'string' && s.url.trim().length > 3)
+      .slice(0, 8)
+      .map((s) => ({ ...s, url: /^https?:\/\//i.test(s.url.trim()) ? s.url.trim() : `https://${s.url.trim()}` }));
+    logRun(ctx, 'query-scout', plan.topic, { queries: queries.length, knownSources: knownSources.length }, 'role:queryScout');
+    return queries.length > 0 ? { queries, knownSources } : fallback;
+  } catch (error) {
+    logger.warn('query scout failed; using template queries', { error: String(error) });
+    return fallback;
+  }
+}
+
+/** Turn the scout's known sources into candidates with a starting score. */
+export function candidatesFromScout(scouted: ScoutingResult): SourceCandidate[] {
+  return scouted.knownSources.map((source, index) => ({
+    candidateId: `scout_${index}_${hostOf(source.url) || 'source'}`,
+    sourceName: source.name || hostOf(source.url),
+    publisher: source.name || hostOf(source.url),
+    url: source.url,
+    kind: 'dataset' as const,
+    accessMethod: 'web' as const,
+    title: source.name,
+    description: source.why,
+    retrievedAt: new Date().toISOString(),
+    license: 'UNKNOWN',
+    machineReadable: /\.(csv|json|tsv|xlsx?)(\?|$)/i.test(source.url) || /api/i.test(source.url),
+    authority: 0.6,
+    directness: 0.5,
+    coverage: 0.5,
+    methodologyTransparency: 0.4,
+    recency: 0.5,
+    consistency: 0.5,
+    qualityScore: 0,
+    accepts: null,
+    primary: false,
+    discoveredBy: 'query-scout',
+    notes: [`scout rationale: ${source.why}`],
+  }));
+}
+
+// ---------------------------------------------------------------------------
+// 9. Source Picker - read the actual pages, then choose
+// ---------------------------------------------------------------------------
+
+export interface SourceSelection {
+  picked: Array<{ candidateId: string; rank: number; why: string; directDataUrl?: string }>;
+  rejected: Array<{ candidateId: string; why: string }>;
+  dataUrls: string[];
+  inspected: Array<{ candidateId: string; url: string; via: string; bytes: number; ok: boolean }>;
+  problems: string[];
+}
+
+function normaliseForMatch(input: string): string {
+  return input.replace(/\s+/g, ' ').toLowerCase();
+}
+
+/**
+ * Fetch the leading candidates, hand the real page content to the model, and
+ * let it choose which source is actually best - rather than trusting a title.
+ *
+ * Anti-hallucination guard: any `directDataUrl` the model proposes is kept only
+ * if it literally appears in the fetched page text (or is the candidate's own
+ * URL). Invented links are dropped and counted.
+ */
+export async function selectBestSources(
+  candidates: SourceCandidate[],
+  plan: DataPlan,
+  ctx: AgentContext,
+  options: { inspectLimit?: number } = {},
+): Promise<SourceSelection> {
+  const selection: SourceSelection = { picked: [], rejected: [], dataUrls: [], inspected: [], problems: [] };
+  const inspectLimit = options.inspectLimit ?? 6;
+  const ordered = [...candidates].sort((a, b) => b.qualityScore - a.qualityScore).slice(0, inspectLimit);
+
+  const briefs: Array<{ candidateId: string; source: string; url: string; title?: string; kind: string; machineReadable: boolean; excerpt?: string }> = [];
+  for (const candidate of ordered) {
+    const brief: (typeof briefs)[number] = {
+      candidateId: candidate.candidateId,
+      source: candidate.sourceName,
+      url: candidate.url,
+      title: candidate.title,
+      kind: candidate.kind,
+      machineReadable: candidate.machineReadable,
+    };
+    try {
+      const fetched = await ctx.search.fetch(candidate.url);
+      const text = fetched.text ?? '';
+      brief.excerpt = text.slice(0, 4000);
+      selection.inspected.push({ candidateId: candidate.candidateId, url: candidate.url, via: fetched.via, bytes: fetched.bytes ?? text.length, ok: fetched.status === 200 });
+    } catch (error) {
+      selection.inspected.push({ candidateId: candidate.candidateId, url: candidate.url, via: 'none', bytes: 0, ok: false });
+      selection.problems.push(`${candidate.url}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    briefs.push(brief);
+  }
+
+  const pageText = normaliseForMatch(briefs.map((b) => `${b.url} ${b.excerpt ?? ''}`).join(' '));
+
+  const prompt = `You are the Source Picker for a data-video platform. Choose the sources that can actually supply
+machine-readable numbers for the plan, after having read their pages.
+
+PLAN:
+${JSON.stringify({ topic: plan.topic, metric: plan.metric, entityType: plan.entityType, timeRange: plan.timeRange, frequency: plan.frequency }, null, 2)}
+
+CANDIDATES (excerpts are real page content, truncated):
+${JSON.stringify(briefs, null, 2)}
+
+Rules:
+- Prefer an official API or official dataset over an aggregator; prefer machine-readable over prose.
+- Reject pages that only mention numbers, are paywalled, or have no licence we could check.
+- If a candidate page links to a downloadable CSV/JSON/API endpoint, put that exact URL in "directDataUrl".
+- Only propose URLs you can see in the excerpts. Do not invent links.
+
+Reply with JSON only:
+{
+  "picks": [ { "candidateId": "...", "rank": 1, "why": "short reason", "directDataUrl": "https://... or omit" } ],
+  "rejected": [ { "candidateId": "...", "why": "short reason" } ],
+  "dataUrls": ["every genuinely downloadable data URL you can see, best first"]
+}`;
+
+  try {
+    const response = await ctx.ai.completeRole('sourcePicker', { prompt, system: RESEARCH_RULES, maxTokens: 2500 });
+    const parsed = extractJson(response.text) as {
+      picks?: Array<{ candidateId: string; rank: number; why: string; directDataUrl?: string }>;
+      rejected?: Array<{ candidateId: string; why: string }>;
+      dataUrls?: string[];
+    };
+    selection.picked = (parsed.picks ?? []).filter((p) => typeof p?.candidateId === 'string');
+    selection.rejected = (parsed.rejected ?? []).filter((r) => typeof r?.candidateId === 'string');
+
+    const proposed = [
+      ...(parsed.dataUrls ?? []),
+      ...selection.picked.map((p) => p.directDataUrl).filter((u): u is string => typeof u === 'string'),
+    ];
+    const verified: string[] = [];
+    for (const url of proposed) {
+      if (typeof url !== 'string' || !/^https?:/.test(url)) continue;
+      const known = pageText.includes(normaliseForMatch(url)) || briefs.some((b) => b.url === url);
+      if (known && !verified.includes(url)) verified.push(url);
+      else selection.problems.push(`dropped a data URL the model proposed but the pages do not contain: ${url}`);
+    }
+    selection.dataUrls = verified.slice(0, 10);
+    logRun(ctx, 'source-picker', ordered.map((c) => c.candidateId), { picked: selection.picked.length, dataUrls: selection.dataUrls.length }, 'role:sourcePicker');
+  } catch (error) {
+    selection.problems.push(`source picker failed: ${error instanceof Error ? error.message : String(error)}`);
+    logger.warn('source picker failed', { error: String(error) });
+  }
+
+  // Apply the decision to the candidates so the UI shows it.
+  for (const candidate of candidates) {
+    const pick = selection.picked.find((p) => p.candidateId === candidate.candidateId);
+    const reject = selection.rejected.find((r) => r.candidateId === candidate.candidateId);
+    if (pick) {
+      candidate.accepts = true;
+      candidate.primary = pick.rank === 1;
+      candidate.notes = [...(candidate.notes ?? []), `picker: ${pick.why}`];
+    } else if (reject) {
+      candidate.accepts = false;
+      candidate.notes = [...(candidate.notes ?? []), `picker: ${reject.why}`];
+    }
+  }
+  return selection;
+}
+
+// ---------------------------------------------------------------------------
+// 10. Text Extractor - last resort, with a substring guard
+// ---------------------------------------------------------------------------
+
+export interface ExtractedRow {
+  entity: string;
+  date: string;
+  value: number | null;
+  unit?: string;
+  quote: string;
+}
+
+export interface TextExtraction {
+  rows: ExtractedRow[];
+  dropped: number;
+  notes: string[];
+}
+
+/**
+ * Pull rows out of a fetched page.
+ *
+ * Every row must come with a verbatim quote, and that quote must actually occur
+ * in the page text and contain the reported number. Anything that fails the
+ * guard is dropped and counted, so a model cannot smuggle in a value that is
+ * not on the page.
+ */
+export async function extractRowsFromText(
+  text: string,
+  meta: { url: string; publisher: string; title?: string },
+  plan: DataPlan,
+  ctx: AgentContext,
+): Promise<TextExtraction> {
+  const haystack = normaliseForMatch(text);
+  const prompt = `You are the Data Extractor for a data-video platform.
+
+SOURCE: ${meta.publisher} - ${meta.url}
+PLAN: ${JSON.stringify({ metric: plan.metric, entityType: plan.entityType, timeRange: plan.timeRange, frequency: plan.frequency }, null, 0)}
+
+PAGE TEXT:
+"""
+${text.slice(0, 40000)}
+"""
+
+Extract only numbers that are literally written in the page text above.
+
+Hard rules:
+- Every row needs a "quote": an exact substring copied from the page text that contains the number.
+- If the page does not contain the metric over time, return an empty rows array. That is a valid answer.
+- Do not compute, convert, estimate or interpolate anything.
+- Use the unit the page uses (e.g. "million", "percent", "count").
+
+Reply with JSON only:
+{
+  "rows": [ { "entity": "...", "date": "1960 or 1960-05", "value": 123.4, "unit": "...", "quote": "exact text from the page" } ],
+  "notes": ["anything the analyst should know about this page"]
+}`;
+
+  const extraction: TextExtraction = { rows: [], dropped: 0, notes: [] };
+  try {
+    const parsed = await ctx.ai.completeJsonRole<{ rows?: ExtractedRow[]; notes?: string[] }>(
+      'extractor',
+      { prompt, system: RESEARCH_RULES, maxTokens: 4000 },
+      'extractedRows',
+    );
+    extraction.notes = (parsed.notes ?? []).filter((n) => typeof n === 'string').slice(0, 5);
+    for (const row of parsed.rows ?? []) {
+      if (!row || typeof row.entity !== 'string' || typeof row.date !== 'string') {
+        extraction.dropped += 1;
+        continue;
+      }
+      const quote = typeof row.quote === 'string' ? row.quote : '';
+      const quoteNorm = normaliseForMatch(quote);
+      const valueOk = row.value === null || typeof row.value === 'number';
+      if (!valueOk || quoteNorm.length < 8 || !haystack.includes(quoteNorm)) {
+        extraction.dropped += 1;
+        continue;
+      }
+      if (typeof row.value === 'number' && !quoteNorm.includes(String(row.value))) {
+        // accept a rounded form too, but never silently: count it and require the digits to appear
+        const digits = String(row.value).replace(/[^0-9.]/g, '');
+        if (!quoteNorm.includes(digits)) {
+          extraction.dropped += 1;
+          continue;
+        }
+      }
+      extraction.rows.push({ entity: row.entity.trim(), date: row.date.trim(), value: row.value ?? null, unit: row.unit, quote });
+    }
+    logRun(ctx, 'text-extractor', meta.url, { kept: extraction.rows.length, dropped: extraction.dropped }, 'role:extractor');
+  } catch (error) {
+    extraction.notes.push(`extraction failed: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  return extraction;
+}
+
+// ---------------------------------------------------------------------------
+// 11. AI QA - used both interactively and inside CI
+// ---------------------------------------------------------------------------
+
+export interface AiQaVerdict {
+  passed: boolean;
+  problems: string[];
+  notes: string[];
+}
+
+export async function aiQaReview(
+  input: { datasetSummary: unknown; videoSpec: unknown; frameTapeSummary: unknown },
+  ctx: AgentContext,
+): Promise<AiQaVerdict> {
+  const fallback: AiQaVerdict = { passed: false, problems: ['AI QA unavailable'], notes: [] };
+  const prompt = `You are the QA Agent for a data-video platform. Audit this rendered-plan bundle for
+unsupported claims, impossible timings, missing provenance, duplicate entities and ranking errors.
+
+DATASET SUMMARY:
+${JSON.stringify(input.datasetSummary, null, 2)}
+
+VIDEO SPEC:
+${JSON.stringify(input.videoSpec, null, 2)}
+
+FRAME TAPE SUMMARY:
+${JSON.stringify(input.frameTapeSummary, null, 2)}
+
+Reply with JSON only:
+{ "passed": true, "problems": ["only real, specific problems"], "notes": ["optional"] }`;
+  try {
+    const verdict = await ctx.ai.completeJsonRole<AiQaVerdict>('qa', { prompt, system: RESEARCH_RULES, maxTokens: 1500 }, 'aiQaVerdict');
+    return { passed: Boolean(verdict.passed), problems: verdict.problems ?? [], notes: verdict.notes ?? [] };
+  } catch (error) {
+    logger.warn('AI QA failed', { error: String(error) });
+    return fallback;
+  }
+}

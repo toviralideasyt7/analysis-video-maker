@@ -277,7 +277,11 @@ export class OpenAICompatProvider implements AIProvider {
   }
 
   async generate(req: AIRequest): Promise<AIResponse> {
-    const model = this.config.models[0];
+    return this.generateWithModel(this.config.models[0] ?? '', req);
+  }
+
+  /** Run a request on a specific upstream model. */
+  async generateWithModel(model: string, req: AIRequest): Promise<AIResponse> {
     if (!model) throw new AIError(`${this.name}: no model configured`);
     if (!this.config.apiKey) throw new AIError(`${this.name}: missing API key`);
 
@@ -300,6 +304,38 @@ export class OpenAICompatProvider implements AIProvider {
     const text = await response.text();
     if (!response.ok) {
       this.usage.append({ at: new Date().toISOString(), provider: this.name, model, operation: 'generate', ok: false, durationMs: Date.now() - started, status: response.status });
+      if (RETRYABLE_STATUS.has(response.status)) {
+        // Retry for real before falling over to the next model: a burst 429 on a
+        // shared router is usually gone after a short wait.
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+          const retryAfter = Number(response.headers.get('retry-after'));
+          const waitMs = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 2500 * (attempt + 1);
+          logger.warn('retrying provider request', { provider: this.name, model, status: response.status, waitMs });
+          await new Promise((r) => setTimeout(r, waitMs));
+          const retry = await this.pacer.run(() =>
+            fetch(`${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.config.apiKey}` },
+              body: JSON.stringify({ model, messages, ...(req.maxTokens ? { max_tokens: req.maxTokens } : {}) }),
+            }),
+          );
+          if (retry.ok) {
+            const retryText = await retry.text();
+            const retryParsed = JSON.parse(retryText) as { choices?: Array<{ message?: { content?: string } }>; usage?: { total_tokens?: number } };
+            const ok: AIResponse = {
+              text: retryParsed.choices?.[0]?.message?.content ?? '',
+              provider: this.name,
+              model,
+              cached: false,
+              durationMs: Date.now() - started,
+              usage: { tokens: retryParsed.usage?.total_tokens },
+            };
+            this.cache.set(cacheKey, ok);
+            this.usage.append({ at: new Date().toISOString(), provider: this.name, model, operation: 'generate', ok: true, durationMs: ok.durationMs, tokens: ok.usage?.tokens, retried: true });
+            return ok;
+          }
+        }
+      }
       throw new AIError(`${this.name} returned ${response.status}: ${text.slice(0, 200)}`, response.status, RETRYABLE_STATUS.has(response.status));
     }
     const parsed = JSON.parse(text) as { choices?: Array<{ message?: { content?: string } }>; usage?: { total_tokens?: number } };
@@ -333,10 +369,91 @@ export class MockProvider implements AIProvider {
 // Client facade
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Role routing
+// ---------------------------------------------------------------------------
+
+export type ModelProvider = 'gemini' | 'nara' | 'mock';
+
+export interface ModelSpec {
+  provider: ModelProvider;
+  model: string;
+}
+
+/**
+ * The job of each agent, and the models tried for it in order.
+ *
+ * Selection is deliberately explicit: picking the best source is a reasoning
+ * task (a frontier model), while planning and QA are throughput tasks (fast
+ * flash models). Gemini proxy workers are keyless and cheap; Nara carries the
+ * hard reasoning roles. Every role has a cross-provider fallback so one
+ * exhausted provider never stops a run.
+ */
+export type AgentRole =
+  | 'planner'
+  | 'queryScout'
+  | 'sourcePicker'
+  | 'extractor'
+  | 'factCheck'
+  | 'dataJudge'
+  | 'story'
+  | 'video'
+  | 'qa';
+
+export const ROLE_MODELS: Record<AgentRole, ModelSpec[]> = {
+  // `nex-n2.5-pro`, `nemotron-3-ultra-free` and `ling-3.0-flash-sante-free` are
+  // the models this Nara account actually serves (verified by probing every
+  // listed model). The premium names are kept last so an upgraded plan can use
+  // them without a code change, but they never block a run.
+  planner: [
+    { provider: 'gemini', model: 'gemini-3.7-flash' },
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+    { provider: 'gemini', model: 'gemini-3.6-flash' },
+  ],
+  queryScout: [
+    { provider: 'gemini', model: 'gemini-3.7-flash' },
+    { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
+    { provider: 'nara', model: 'nemotron-3-ultra-free' },
+  ],
+  sourcePicker: [
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+    { provider: 'gemini', model: 'gemini-3.5-flash-thinking' },
+    { provider: 'nara', model: 'nemotron-3-ultra-free' },
+    { provider: 'nara', model: 'claude-opus-5' },
+  ],
+  extractor: [
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+    { provider: 'gemini', model: 'gemini-3.6-flash' },
+    { provider: 'nara', model: 'nemotron-3-ultra-free' },
+  ],
+  factCheck: [
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+    { provider: 'gemini', model: 'gemini-3.6-flash' },
+  ],
+  dataJudge: [
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+    { provider: 'nara', model: 'nemotron-3-ultra-free' },
+    { provider: 'gemini', model: 'gemini-3.5-flash-thinking' },
+    { provider: 'nara', model: 'claude-opus-5' },
+  ],
+  story: [
+    { provider: 'gemini', model: 'gemini-3.7-flash' },
+    { provider: 'nara', model: 'nex-n2.5-pro' },
+  ],
+  video: [{ provider: 'gemini', model: 'gemini-3.7-flash' }],
+  qa: [
+    { provider: 'gemini', model: 'gemini-3.6-flash' },
+    { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
+  ],
+};
 export interface AIClient {
+  /** Names of the configured providers, for logging and the health endpoint. */
   readonly providerName: string;
   complete(req: AIRequest, model?: string): Promise<AIResponse>;
   completeJson<T>(req: AIRequest, schema: SchemaName, model?: string): Promise<T>;
+  /** Run a request on the model chosen for a role, with cross-provider fallback. */
+  completeRole(role: AgentRole, req: AIRequest): Promise<AIResponse>;
+  completeJsonRole<T>(role: AgentRole, req: AIRequest, schema: SchemaName): Promise<T>;
 }
 
 const JSON_INSTRUCTION =
@@ -368,109 +485,160 @@ export function extractJson(text: string): unknown {
     if (ch === opener) depth += 1;
     else if (ch === closer) {
       depth -= 1;
-      if (depth === 0) {
-        return JSON.parse(body.slice(start, i + 1));
-      }
+      if (depth === 0) return JSON.parse(body.slice(start, i + 1));
     }
   }
   throw new AIError('unterminated JSON in model response');
 }
 
-class FacadeClient implements AIClient {
-  constructor(private readonly provider: AIProvider) {}
-
-  get providerName(): string {
-    return this.provider.name;
-  }
-
-  complete(req: AIRequest, model?: string): Promise<AIResponse> {
-    if (model && this.provider instanceof GeminiProxyProvider) {
-      return this.provider.generateWithModel(model, req);
+/** Repair-aware JSON call used by every agent. */
+async function jsonWithRepair<T>(
+  run: (req: AIRequest) => Promise<AIResponse>,
+  req: AIRequest,
+  schema: SchemaName,
+): Promise<T> {
+  const withInstruction: AIRequest = { ...req, prompt: `${req.prompt}\n\n${JSON_INSTRUCTION}` };
+  let lastErrors: string[] = [];
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const response = await run(
+      attempt === 0
+        ? withInstruction
+        : {
+            ...withInstruction,
+            prompt: `${withInstruction.prompt}\n\nYour previous reply was rejected by the schema validator:\n${lastErrors.join('\n')}\nReturn corrected JSON only.`,
+          },
+    );
+    let parsed: unknown;
+    try {
+      parsed = extractJson(response.text);
+    } catch (error) {
+      lastErrors = [error instanceof Error ? error.message : 'unparsable JSON'];
+      continue;
     }
-    return this.provider.generate(req);
+    const check = validate(schema, parsed);
+    if (check.valid) return parsed as T;
+    lastErrors = check.errors;
   }
-
-  async completeJson<T>(req: AIRequest, schema: SchemaName, model?: string): Promise<T> {
-    const withInstruction: AIRequest = {
-      ...req,
-      prompt: `${req.prompt}\n\n${JSON_INSTRUCTION}`,
-    };
-    let lastErrors: string[] = [];
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      const response = await this.complete(
-        attempt === 0
-          ? withInstruction
-          : {
-              ...withInstruction,
-              prompt: `${withInstruction.prompt}\n\nYour previous reply was rejected by the schema validator:\n${lastErrors.join('\n')}\nReturn corrected JSON only.`,
-            },
-        model,
-      );
-      let parsed: unknown;
-      try {
-        parsed = extractJson(response.text);
-      } catch (error) {
-        lastErrors = [error instanceof Error ? error.message : 'unparsable JSON'];
-        continue;
-      }
-      const check = validate(schema, parsed);
-      if (check.valid) return parsed as T;
-      lastErrors = check.errors;
-    }
-    throw new AIError(`model output failed ${schema} validation: ${lastErrors.join('; ')}`);
-  }
+  throw new AIError(`model output failed ${schema} validation: ${lastErrors.join('; ')}`);
 }
 
 export interface AIClientOptions {
   cacheRoot?: string;
   provider?: AIProvider;
+  /** Overrides for tests; merged over the environment-derived providers. */
+  providers?: Partial<Record<ModelProvider, AIProvider>>;
+}
+
+class RoutingClient implements AIClient {
+  constructor(
+    private readonly providers: Partial<Record<ModelProvider, AIProvider>>,
+    private readonly fallback: AIProvider,
+  ) {}
+
+  get providerName(): string {
+    const names = Object.entries(this.providers).filter(([, p]) => p).map(([name]) => name);
+    return names.length > 0 ? names.join('+') : this.fallback.name;
+  }
+
+  private providerFor(provider: ModelProvider): AIProvider | undefined {
+    return this.providers[provider];
+  }
+
+  private async run(spec: ModelSpec, req: AIRequest): Promise<AIResponse> {
+    const provider = this.providerFor(spec.provider);
+    if (!provider) throw new AIError(`${spec.provider} provider is not configured`);
+    if (provider instanceof GeminiProxyProvider) return provider.generateWithModel(spec.model, req);
+    if (provider instanceof OpenAICompatProvider) return provider.generateWithModel(spec.model, req);
+    return provider.generate(req);
+  }
+
+  complete(req: AIRequest, model?: string): Promise<AIResponse> {
+    if (model && model.includes(':')) {
+      const [provider, name] = model.split(':', 2);
+      return this.run({ provider: provider as ModelProvider, model: name }, req);
+    }
+    if (this.providers.gemini) return this.run({ provider: 'gemini', model: model ?? 'gemini-3.7-flash' }, req);
+    if (this.providers.nara) return this.run({ provider: 'nara', model: model ?? 'gemini-3.8-flash-high' }, req);
+    return this.fallback.generate(req);
+  }
+
+  completeJson<T>(req: AIRequest, schema: SchemaName, model?: string): Promise<T> {
+    return jsonWithRepair<T>((r) => this.complete(r, model), req, schema);
+  }
+
+  async completeRole(role: AgentRole, req: AIRequest): Promise<AIResponse> {
+    const chain = ROLE_MODELS[role];
+    let lastError: unknown = null;
+    for (const spec of chain) {
+      if (!this.providerFor(spec.provider)) continue;
+      try {
+        const response = await this.run(spec, req);
+        logger.debug('role served', { role, provider: spec.provider, model: spec.model });
+        return response;
+      } catch (error) {
+        lastError = error;
+        logger.warn('role model failed, trying the next one', { role, model: spec.model, error: String(error) });
+      }
+    }
+    if (!this.fallback) {
+      throw lastError instanceof Error ? lastError : new AIError(`no model available for role ${role}`);
+    }
+    return this.fallback.generate(req);
+  }
+
+  completeJsonRole<T>(role: AgentRole, req: AIRequest, schema: SchemaName): Promise<T> {
+    return jsonWithRepair<T>((r) => this.completeRole(role, r), req, schema);
+  }
 }
 
 /**
- * Build the default AI client:
- *   1. Gemini web-proxy workers (keyless, primary);
- *   2. Nara router (if a key is present);
- *   3. a mock provider so the pipeline can still be exercised offline.
+ * Build the default AI client.
+ *
+ * Providers are assembled from the environment; a routing client then picks the
+ * best available model per role (see `ROLE_MODELS`).
  */
 export function createAIClient(options: AIClientOptions = {}): AIClient {
-  if (options.provider) return new FacadeClient(options.provider);
+  if (options.provider) return new RoutingClient({}, options.provider);
 
-  const workers = envList('GEMINI_WORKER_1')
-    .concat(envList('GEMINI_WORKER_2'))
-    .filter(Boolean);
+  const workers = envList('GEMINI_WORKER_1').concat(envList('GEMINI_WORKER_2')).filter(Boolean);
   const models = envList('GEMINI_MODELS', ['gemini-3.7-flash', 'gemini-3.6-flash']);
+  const providers: Partial<Record<ModelProvider, AIProvider>> = { ...(options.providers ?? {}) };
 
-  if (workers.length > 0) {
-    return new FacadeClient(new GeminiProxyProvider({ workers, models, cacheRoot: options.cacheRoot }));
+  if (!providers.gemini && workers.length > 0) {
+    providers.gemini = new GeminiProxyProvider({ workers, models, cacheRoot: options.cacheRoot });
   }
-
-  const naraKey = env('NARA_API_KEY');
-  if (naraKey) {
-    return new FacadeClient(
-      new OpenAICompatProvider({
+  if (!providers.nara) {
+    const naraKey = env('NARA_API_KEY');
+    if (naraKey) {
+      providers.nara = new OpenAICompatProvider({
         baseUrl: env('NARA_BASE_URL', 'https://router.bynara.id/v1'),
         apiKey: naraKey,
         models: envList('NARA_MODELS', ['nex-n2.5-pro']),
         label: 'nara',
         cacheRoot: options.cacheRoot,
-      }),
-    );
+      });
+    } else {
+      logger.warn('NARA_API_KEY is not set; the Nara reasoning models are unavailable');
+    }
   }
 
-  logger.warn('no AI provider configured; falling back to the mock provider');
-  return new FacadeClient(
-    new MockProvider(() => JSON.stringify({ note: 'mock provider: configure GEMINI_WORKER_1 to use a real model' })),
+  const fallback = new MockProvider(() =>
+    JSON.stringify({ note: 'mock provider: configure GEMINI_WORKER_1 or NARA_API_KEY for real models' }),
   );
+  const client = new RoutingClient(providers, fallback);
+  logger.info('ai providers ready', { providers: client.providerName });
+  return client;
 }
 
-/** Models recommended for each job, from the tested worker notes. */
-export const MODEL_ROLES = {
-  planner: 'gemini-3.7-flash',
-  research: 'gemini-3.7-flash',
-  classification: 'gemini-3.6-flash',
-  factCheck: 'gemini-3.6-flash',
-  dataJudge: 'gemini-3.5-flash-thinking',
-  story: 'gemini-3.7-flash',
-  video: 'gemini-3.7-flash',
-  qa: 'gemini-3.6-flash',
-} as const;
+/**
+ * A Nara call needs an explicit model, so the OpenAI-compatible adapter stores
+ * its primary model. Roles that name a different Nara model are routed through
+ * `completeRole`, which builds a per-model request.
+ */
+export const NARA_REASONING_MODELS = [
+  'claude-opus-5',
+  'gemini-3.1-pro-high',
+  'nex-n2.5-pro',
+  'gemini-3.8-flash-high',
+  'agnes-3-flash',
+] as const;

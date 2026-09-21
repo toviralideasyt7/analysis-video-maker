@@ -13,6 +13,7 @@ import thumbnailSpecSchema from '../schemas/thumbnail-spec.schema.json';
 import storySchema from '../schemas/story.schema.json';
 import dataQualitySchema from '../schemas/data-quality-report.schema.json';
 import renderJobSchema from '../schemas/render-job.schema.json';
+import agentOutputsSchema from '../schemas/agent-outputs.schema.json';
 
 export type SchemaName =
   | 'dataPlan'
@@ -21,14 +22,19 @@ export type SchemaName =
   | 'thumbnailSpec'
   | 'story'
   | 'dataQualityReport'
-  | 'renderJob';
+  | 'renderJob'
+  | 'scouting'
+  | 'sourceSelection'
+  | 'extractedRows'
+  | 'aiQaVerdict'
+  | 'revisionPlan';
 
 export interface ValidationResult {
   valid: boolean;
   errors: string[];
 }
 
-const rawSchemas: Record<SchemaName, object> = {
+const rawSchemas: Partial<Record<SchemaName, object>> = {
   dataPlan: dataPlanSchema as object,
   observation: observationSchema as object,
   videoSpec: videoSpecSchema as object,
@@ -40,12 +46,22 @@ const rawSchemas: Record<SchemaName, object> = {
 
 let cached: Record<SchemaName, ValidateFunction> | null = null;
 
+// Agent-output contracts live as `definitions` in one document, so they are
+// registered once and referenced by pointer.
+const AGENT_OUTPUT_DEFS = ['scouting', 'sourceSelection', 'extractedRows', 'aiQaVerdict', 'revisionPlan'] as const;
+
 function compilers(): Record<SchemaName, ValidateFunction> {
   if (cached) return cached;
   const ajv = new Ajv({ allErrors: true, strict: false });
   const out = {} as Record<SchemaName, ValidateFunction>;
   for (const [name, schema] of Object.entries(rawSchemas)) {
+    if (!schema) continue;
     out[name as SchemaName] = ajv.compile(schema);
+  }
+  ajv.addSchema(agentOutputsSchema, 'agentOutputs');
+  for (const def of AGENT_OUTPUT_DEFS) {
+    const fn = ajv.getSchema(`agentOutputs#/definitions/${def}`);
+    if (fn) out[def] = fn;
   }
   cached = out;
   return out;

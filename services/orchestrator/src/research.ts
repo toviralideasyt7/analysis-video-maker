@@ -44,11 +44,19 @@ import {
   worldBankFetch,
   type UploadedFile,
 } from './connectors';
-import { Budget, createSearchProvider } from './providers/search';
+import { Budget, createSearchProvider, hostOf } from './providers/search';
 import { createAIClient, type AIClient } from './providers/ai';
 import { JsonlLog, limits as loadLimits, logger, runRustJson } from './runtime';
 import { ProjectStore, type ProjectState } from './project';
-import { huntSources, judgeSources, planTopic, type AgentContext } from './agents';
+import {
+  extractRowsFromText,
+  huntSources,
+  judgeSources,
+  planTopic,
+  selectBestSources,
+  type AgentContext,
+  type SourceSelection,
+} from './agents';
 
 export interface ResearchOptions {
   topic: string;
@@ -358,6 +366,35 @@ export async function canonicalizeDrafts(drafts: ExtractedDraft[], options: { co
   if (dropped > 0) logger.info('dropped non-country rows', { dropped });
   return out;
 }
+/** Flatten an array of JSON objects into a column/row table. */
+export function tableFromJsonArray(items: unknown[]): { columns: string[]; rows: string[][] } {
+  const columns: string[] = [];
+  for (const item of items.slice(0, 500)) {
+    if (item && typeof item === 'object') {
+      for (const key of Object.keys(item as Record<string, unknown>)) {
+        if (!columns.includes(key)) columns.push(key);
+      }
+    }
+  }
+  const rows: string[][] = [];
+  for (const item of items.slice(0, 200_000)) {
+    if (!item || typeof item !== 'object') continue;
+    const node = item as Record<string, unknown>;
+    rows.push(
+      columns.map((c) => {
+        const v = node[c];
+        if (v === null || v === undefined) return '';
+        return typeof v === 'string' ? v : typeof v === 'number' || typeof v === 'boolean' ? String(v) : JSON.stringify(v);
+      }),
+    );
+  }
+  return { columns, rows };
+}
+
+function candidateIdFor(url: string): string {
+  const slug = url.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+  return `picked_${slug}`;
+}
 // ---------------------------------------------------------------------------
 // Driver
 // ---------------------------------------------------------------------------
@@ -449,7 +486,18 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     : await harvestSources(plan, options, ctx);
   errors.push(...harvest.errors);
   state.sources = harvest.candidates;
+
+  // The AI agent reads the leading candidate pages (through Monid fetch) and
+  // decides which source is actually best, instead of trusting titles.
+  let selection: SourceSelection = { picked: [], rejected: [], dataUrls: [], inspected: [], problems: [] };
   if (!options.skipAi && !store.reached(state, 'SOURCES_COMPLETE')) {
+    try {
+      selection = await selectBestSources(state.sources, plan, ctx, { inspectLimit: 6 });
+      state.notes.push(`source picker inspected ${selection.inspected.filter((i) => i.ok).length}/${selection.inspected.length} pages and verified ${selection.dataUrls.length} data URLs`);
+      for (const problem of selection.problems.slice(0, 5)) state.notes.push(`picker: ${problem}`);
+    } catch (error) {
+      errors.push(`source picker: ${error instanceof Error ? error.message : String(error)}`);
+    }
     try {
       await judgeSources(state.sources, ctx);
     } catch (error) {
@@ -501,6 +549,58 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     }
   }
 
+  // URLs the picker verified in the pages it actually read.
+  for (const dataUrl of selection.dataUrls.slice(0, 5)) {
+    if (ctx.budget.exhausted()) break;
+    try {
+      const fetched = await ctx.search.fetch(dataUrl);
+      const text = fetched.text ?? '';
+      if (text.length === 0) continue;
+      const looksJson = /json/i.test(fetched.contentType ?? '') || text.trimStart().startsWith('[');
+      let table = { columns: [] as string[], rows: [] as string[][] };
+      if (looksJson && fetched.json !== undefined) {
+        const parsed = fetched.json as unknown;
+        if (Array.isArray(parsed)) table = tableFromJsonArray(parsed);
+      } else {
+        const { parseCsv } = await import('./connectors');
+        table = parseCsv(text, dataUrl.endsWith('.tsv') ? '\t' : ',');
+      }
+      if (table.rows.length === 0) continue;
+      const { drafts: urlDrafts, problems } = draftsFromTable(table.columns, table.rows, 'count');
+      extractionNotes.push(...problems);
+      if (urlDrafts.length === 0) continue;
+      const drafts = await canonicalizeDrafts(urlDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
+      const normalized = await normalizeDrafts(drafts, 'count');
+      const candidate =
+        state.sources.find((s) => s.url === dataUrl) ??
+        ({
+          candidateId: candidateIdFor(dataUrl),
+          sourceName: hostOf(dataUrl) || 'source',
+          publisher: hostOf(dataUrl) || 'source',
+          url: dataUrl,
+          kind: 'dataset',
+          accessMethod: 'download',
+          retrievedAt: new Date().toISOString(),
+          license: 'UNKNOWN',
+          machineReadable: true,
+          authority: 0.7,
+          directness: 0.8,
+          coverage: 0.6,
+          methodologyTransparency: 0.5,
+          recency: 0.6,
+          consistency: 0.6,
+          qualityScore: 0.7,
+          accepts: true,
+          primary: false,
+          discoveredBy: 'source-picker',
+        } as SourceCandidate);
+      collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+      extractionNotes.push(`picker data URL ${dataUrl}: ${normalized.length} observations`);
+    } catch (error) {
+      extractionNotes.push(`${dataUrl}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
   const csvCandidates = state.sources.filter((s) => s.machineReadable && /\.(csv|tsv)(\?|$)/i.test(s.url) && s.accepts !== false);
   for (const candidate of csvCandidates.slice(0, 3)) {
     try {
@@ -521,6 +621,32 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       extractionNotes.push(`${candidate.url}: ${normalized.length} observations`);
     } catch (error) {
       extractionNotes.push(`${candidate.url}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  // Last resort: if nothing structured worked, let the extractor read the best
+  // page and pull rows out of it - every row must quote the page verbatim.
+  if (collected.length === 0 && !options.skipAi && ctx.budget.remaining()) {
+    const best =
+      state.sources.find((s) => selection.picked.some((p) => p.candidateId === s.candidateId)) ??
+      [...state.sources].sort((a, b) => b.qualityScore - a.qualityScore)[0];
+    if (best) {
+      try {
+        const fetched = await ctx.search.fetch(best.url);
+        const text = fetched.text ?? '';
+        if (text.length > 200) {
+          const extraction = await extractRowsFromText(text, { url: best.url, publisher: best.publisher, title: best.title }, plan, ctx);
+          extractionNotes.push(`AI text extraction from ${best.url}: kept ${extraction.rows.length}, dropped ${extraction.dropped}`);
+          for (const note of extraction.notes) extractionNotes.push(`extractor: ${note}`);
+          if (extraction.rows.length > 0) {
+            const drafts: ExtractedDraft[] = extraction.rows.map((r) => ({ entity: r.entity, date: r.date, value: r.value, unit: r.unit ?? 'count' }));
+            const normalized = await normalizeDrafts(drafts, 'count');
+            collected.push(...normalized.map((d) => toObservation(d, best, timeRange)));
+          }
+        }
+      } catch (error) {
+        extractionNotes.push(`AI text extraction failed: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
   }
 
