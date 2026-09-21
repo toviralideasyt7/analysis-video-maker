@@ -32,7 +32,9 @@
         "introSeconds": { "type": "number", "minimum": 0 },
         "outroSeconds": { "type": "number", "minimum": 0 },
         "backgroundColor": { "type": "string" },
-        "dateDisplay": { "enum": ["auto", "year", "bC"] }
+        "dateDisplay": { "enum": ["auto", "year", "bC"] },
+          "finalHoldSeconds": { "type": "number", "minimum": 0 },
+          "layout": { "enum": ["auto", "standard", "dense", "focus"] }
       }
     },
     "entities": {

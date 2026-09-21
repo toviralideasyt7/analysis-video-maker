@@ -27,6 +27,8 @@ async function main(): Promise<void> {
       topic,
       dataUrl: envValue('DATA_URL'),
       topN: envValue('TOP_N') ? Number(envValue('TOP_N')) : undefined,
+      layout: envValue('LAYOUT'),
+      targetMinutes: envValue('TARGET_MINUTES') ? Number(envValue('TARGET_MINUTES')) : undefined,
     },
     'inputs',
   );

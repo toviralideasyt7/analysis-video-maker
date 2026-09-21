@@ -30,6 +30,10 @@ export interface ResearchRequest {
   minYear?: number;
   maxYear?: number;
   topN?: number;
+  /** Layout override: auto | standard | dense | focus. "auto" lets the planner decide. */
+  layout?: string;
+  /** Target video length; pacing is derived from it. */
+  targetMinutes?: number;
 }
 
 export interface ResearchOutput {
@@ -61,6 +65,8 @@ interface Plan {
   startYear: number;
   endYear: number;
   searchQueries: string[];
+  /** Chosen presentation density for this dataset. */
+  layout?: string;
 }
 
 async function planResearch(req: ResearchRequest, ai: AIClient): Promise<Plan> {
@@ -71,6 +77,11 @@ Design the research for a bar-chart-race video. Identify the 10-30 entities that
 belong in the race, what group/segment each belongs to, the measurable definition
 and unit, and 3-6 search queries that would find historical numeric data for it.
 
+Also choose the presentation density for this dataset:
+  "standard" - 12 rows, the default for a country or company race;
+  "dense"    - 14 rows, for a wide field of many similar-sized entities;
+  "focus"    - 8 rows with bigger bars, for a small elite field.
+
 Reply with JSON only:
 {
   "measurableDefinition": "...",
@@ -79,6 +90,7 @@ Reply with JSON only:
   "entities": [ { "id": "kebab-id", "name": "Display Name", "group": "Segment", "domain": "example.com" } ],
   "startYear": 1995,
   "endYear": 2026,
+  "layout": "standard",
   "searchQueries": ["..."]
 }`;
   return ai.completeJsonRole<Plan>('planner', { prompt, system: SYSTEM, maxTokens: 2500 });
@@ -421,6 +433,24 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   const totals = new Map<string, number>();
   for (const row of rows) totals.set(row.date, (totals.get(row.date) ?? 0) + row.value);
 
+  // Presentation: an explicit request wins, then the planner choice, then auto so
+  // the renderer decides from the shape of the data.
+  type LayoutId = 'standard' | 'dense' | 'focus';
+  const validLayouts: LayoutId[] = ['standard', 'dense', 'focus'];
+  const requestedLayout = (req.layout ?? 'auto').toLowerCase();
+  const plannedLayout = (plan.layout ?? '').toLowerCase();
+  const chosenLayout: LayoutId | 'auto' = validLayouts.includes(requestedLayout as LayoutId)
+    ? (requestedLayout as LayoutId)
+    : validLayouts.includes(plannedLayout as LayoutId)
+      ? (plannedLayout as LayoutId)
+      : 'auto';
+
+  // Derive per-period pacing from the requested length so a long history still
+  // lands near the target instead of running for hours.
+  const distinctDates = new Set(rows.map((row) => row.date)).size || 1;
+  const targetSeconds = Math.max(60, (req.targetMinutes ?? 10) * 60);
+  const pacingSeconds = Number(((targetSeconds - 5 - 8 - 12) / distinctDates).toFixed(3));
+
   const knownIds = new Set(plan.entities.map((e) => e.id));
   const input: VideoInput = {
     version: '1.0',
@@ -429,7 +459,17 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     unit: plan.unit,
     valueFormat: 'comma',
     canvas: { width: 1280, height: 720, fps: 60 },
-    settings: { topN: req.topN ?? 12, secondsPerYear: 17, introSeconds: 5, outroSeconds: 8, finalHoldSeconds: 12 },
+    settings: {
+      topN: req.topN ?? 12,
+      // Pacing is derived from the requested length so a long history (hundreds
+      // of periods) still lands near the target instead of running for an hour.
+      secondsPerYear: pacingSeconds,
+      scalePower: 0.72,
+      introSeconds: 5,
+      outroSeconds: 8,
+      finalHoldSeconds: 12,
+      layout: chosenLayout,
+    },
     entities: plan.entities
       .filter((e: { name: string; id: string }) => byEntity.has(e.name) || byEntity.has(e.id) || knownIds.has(e.id))
       .map((e: { id: string; name: string; group: string; domain?: string }) => ({ id: e.id, name: e.name, group: e.group, logoUrl: e.domain ? `logos/${e.id}.png` : undefined })),

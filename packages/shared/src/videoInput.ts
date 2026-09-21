@@ -46,9 +46,11 @@ export interface VideoInputSettings {
   minIntervalSeconds?: number;
   introSeconds?: number;
   outroSeconds?: number;
-  finalHoldSeconds?: number;
   backgroundColor?: string;
   dateDisplay?: 'auto' | 'year' | 'bC';
+  finalHoldSeconds?: number;
+  /** Presentation density. auto lets the renderer choose from the data. */
+  layout?: 'auto' | 'standard' | 'dense' | 'focus';
 }
 
 export interface VideoInput {

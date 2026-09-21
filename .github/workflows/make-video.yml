@@ -1,11 +1,11 @@
 name: make-video
 
-# Renders a data-race video from a user-supplied input file.
+# Renders a data-race video from a user-supplied input file, publishes the MP4 to
+# gofile.io, and reports the link back to the control plane when one is passed.
 #
-#   inputs/inputPath  - repo path of the committed video-input JSON
-#
-# The file contains everything: data, colors, flags, facts, groups. No research,
-# no source discovery. Logos/flags that are not in the file are fetched here.
+#   inputPath   repo path of the committed video-input JSON
+#   jobId       control-plane job id (optional)
+#   callbackUrl control-plane callback URL (optional)
 
 on:
   workflow_dispatch:
@@ -14,6 +14,14 @@ on:
         description: Repo path of the committed video-input JSON
         required: true
         default: "inputs/video-input.json"
+      jobId:
+        description: Control-plane job id (optional)
+        required: false
+        default: ""
+      callbackUrl:
+        description: Control-plane callback URL (optional)
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -29,6 +37,10 @@ jobs:
       NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
       GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
       GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+      JOB_ID: ${{ inputs.jobId }}
+      CALLBACK_URL: ${{ inputs.callbackUrl }}
+      HOOK_SECRET: ${{ secrets.HOOK_SECRET }}
+      RUN_URL: ${{ server.url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
 
@@ -99,6 +111,18 @@ jobs:
             --in "renders/${ID}-final.mp4" \
             --out "renders/${ID}-probe.json"
 
+      # The video is published to gofile.io (no account, no paid storage). Its
+      # page link is what the control plane shows the user.
+      - name: Publish the MP4 to gofile.io
+        id: publish
+        run: |
+          set -euo pipefail
+          ID=$(basename "$INPUT_PATH" .json)
+          npx tsx tools/upload-gofile.mts "renders/${ID}-final.mp4" --json "renders/${ID}-gofile.json"
+          GOFILE_URL=$(node -e "process.stdout.write(require('./renders/${ID}-gofile.json').downloadPage)")
+          echo "GOFILE_URL=${GOFILE_URL}" >> "$GITHUB_ENV"
+          echo "video url: ${GOFILE_URL}"
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_ID }}
@@ -109,16 +133,14 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Publish to R2 (optional)
-        if: ${{ vars.R2_BUCKET != '' }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          R2_BUCKET: ${{ vars.R2_BUCKET }}
-          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      - name: Report the finished video
+        if: always()
         run: |
           set -euo pipefail
           ID=$(basename "$INPUT_PATH" .json)
-          command -v aws >/dev/null || pip install --quiet awscli
-          aws s3 cp "renders/${ID}-final.mp4" "s3://${R2_BUCKET}/videos/${ID}.mp4" \
-            --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          if [ -n "${GOFILE_URL:-}" ]; then
+            npx tsx tools/notify-control.mts --stage done --status done \
+              --videoUrl "$GOFILE_URL" --inputPath "$INPUT_PATH" --probe "renders/${ID}-probe.json"
+          else
+            npx tsx tools/notify-control.mts --stage failed --status failed --error "render or publish did not complete"
+          fi

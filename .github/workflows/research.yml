@@ -1,8 +1,10 @@
 name: research
 
-# AI research agent: a topic (and optionally a data URL) becomes a
-# video-input JSON. A second job renders it automatically when research
-# succeeds - the full system runs unattended.
+# AI research agent: a topic (and optionally a data URL) becomes a video-input
+# JSON, and the render is chained automatically. When the control plane passes a
+# jobId it also reports progress back to it.
+#
+#   topic, dataUrl, topN, jobId, layout, targetMinutes, callbackUrl
 
 on:
   workflow_dispatch:
@@ -10,7 +12,7 @@ on:
       topic:
         description: Video topic
         required: true
-        default: "Most Popular Websites 1995-2026"
+        default: "World population by country"
       dataUrl:
         description: Optional direct data URL (CSV/JSON) to analyze
         required: false
@@ -19,12 +21,29 @@ on:
         description: Entities in the race
         required: false
         default: "12"
+      jobId:
+        description: Control-plane job id (optional)
+        required: false
+        default: ""
+      layout:
+        description: Layout override (auto|standard|dense|focus)
+        required: false
+        default: "auto"
+      targetMinutes:
+        description: Target video length in minutes
+        required: false
+        default: "10"
+      callbackUrl:
+        description: Control-plane callback URL (optional)
+        required: false
+        default: ""
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
-  group: research-${{ github.event.inputs.topic }}
+  group: research-${{ github.event.inputs.jobId }}-${{ github.event.inputs.topic }}
   cancel-in-progress: false
 
 jobs:
@@ -36,8 +55,14 @@ jobs:
       MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
       GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
       GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
       LOGO_DOMAINS: "{}"
       TOPIC_FILE: ${{ github.workspace }}/research-topic.txt
+      JOB_ID: ${{ inputs.jobId }}
+      CALLBACK_URL: ${{ inputs.callbackUrl }}
+      HOOK_SECRET: ${{ secrets.HOOK_SECRET }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
 
@@ -48,11 +73,16 @@ jobs:
 
       - run: npm ci
 
+      - name: Announce the job
+        run: npx tsx tools/notify-control.mts --stage researching
+
       - name: Run the research agent
         env:
           TOPIC: ${{ inputs.topic }}
           DATA_URL: ${{ inputs.dataUrl }}
           TOP_N: ${{ inputs.topN }}
+          LAYOUT: ${{ inputs.layout }}
+          TARGET_MINUTES: ${{ inputs.targetMinutes }}
         run: npx tsx services/uploader/src/scripts/research.ts
 
       - name: Commit the generated input file
@@ -62,15 +92,27 @@ jobs:
           git config user.email "research-agent@users.noreply.github.com"
           git add inputs/
           git commit -m "research: input for '${{ inputs.topic }}'" || echo "nothing to commit"
-          git push
+          git push || echo "nothing to push"
 
       - name: Chain into the video render
-        if: success()
         run: |
           set -euo pipefail
           INPUT_PATH=$(ls inputs/*.json | head -n 1)
+          echo "INPUT_PATH=${INPUT_PATH}" >> "$GITHUB_ENV"
           gh workflow run make-video.yml \
             -f inputPath="$INPUT_PATH" \
+            -f jobId="${{ inputs.jobId }}" \
+            -f callbackUrl="${{ inputs.callbackUrl }}" \
             --repo "$GITHUB_REPOSITORY"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report to the control plane
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ -n "${INPUT_PATH:-}" ]; then
+            npx tsx tools/notify-control.mts --stage rendering --inputPath "$INPUT_PATH"
+          else
+            npx tsx tools/notify-control.mts --stage failed --error "research produced no input file"
+          fi

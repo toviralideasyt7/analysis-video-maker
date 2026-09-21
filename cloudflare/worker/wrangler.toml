@@ -1,0 +1,30 @@
+# Control plane: password-gated API in front of the render pipeline.
+#
+#   wrangler d1 create avm                      -> paste the id below
+#   wrangler kv namespace create SESSIONS       -> paste the id below
+#   wrangler d1 execute avm --file=./schema.sql --remote
+#   wrangler secret put GH_TOKEN
+#   wrangler secret put HOOK_SECRET
+#   wrangler secret put APP_PASSWORD            (optional; a default is coded in)
+#   wrangler deploy
+
+name = "avm-control"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "avm"
+database_id = "REPLACE_WITH_D1_ID"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "REPLACE_WITH_KV_ID"
+
+[vars]
+GITHUB_OWNER = "toviralideasyt7"
+GITHUB_REPO = "analysis-video-maker"
+GITHUB_BRANCH = "main"
+RESEARCH_WORKFLOW = "research.yml"
+# Set to the Pages origin once it exists to lock CORS down.
+ALLOWED_ORIGIN = "*"
