@@ -233,9 +233,43 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   const ai = client();
   const search = createSearchProvider();
 
-  const plan = await planResearch(req, ai);
-  const source = await gather(req, plan, ai, search, warnings);
+  // With a tabular data URL the file itself is the plan: entities, dates and
+  // values come from the columns deterministically. AI is used only to
+  // narrate. This keeps a 12k-row CSV out of a prompt window entirely.
+  const isTable = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
+  let plan: Plan;
+  let source: { text: string; url: string } | null = null;
   let rows: RawRow[] = [];
+  if (isTable && req.dataUrl) {
+    const fetched = await search.fetch(req.dataUrl);
+    const text = fetched.text ?? "";
+    const parsed = ingestCsvTable(text);
+    if (parsed.length === 0) {
+      errors.push("the CSV at dataUrl could not be parsed (need entity/date/value columns)");
+      return { ok: false, warnings, errors };
+    }
+    warnings.push(`${parsed.length} rows ingested directly from the CSV table`);
+    const names = Array.from(new Set(parsed.map((r) => r.entity))).slice(0, 40);
+    const years = parsed.map((r) => Number(r.date)).filter((y) => Number.isFinite(y));
+    plan = {
+      measurableDefinition: req.topic,
+      unit: "count",
+      entityType: "entity",
+      entities: names.map((name) => ({
+        id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        name,
+        group: "All",
+      })),
+      startYear: Math.min(...years),
+      endYear: Math.max(...years),
+      searchQueries: [],
+    };
+    source = { text, url: req.dataUrl };
+    rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
+  } else {
+    plan = await planResearch(req, ai);
+    source = await gather(req, plan, ai, search, warnings);
+  }
   const isTableUrl = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
   if (source && isTableUrl) {
     const parsed = ingestCsvTable(source.text);
