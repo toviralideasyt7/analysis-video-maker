@@ -104,7 +104,10 @@ async function main(): Promise<void> {
   const entities: VideoInputEntity[] = input.entities ?? [];
   const resolved: string[] = [];
   const stillMissing: string[] = [];
-  const rawNaraKey = process.env.NARA_API_KEY ?? '';\n  // A masked/truncated key (chat clients abbreviate secrets with an ellipsis)\n  // must not crash the run - AI flag lookup is simply skipped.\n  const naraKey = usableKey(rawNaraKey) ? rawNaraKey : '';
+  const rawNaraKey = process.env.NARA_API_KEY ?? "";
+  // A masked/truncated key (chat clients abbreviate secrets with an ellipsis)
+  // must not crash the run - AI flag lookup is simply skipped.
+  const naraKey = usableKey(rawNaraKey) ? rawNaraKey : "";
 
   for (const entity of entities) {
     if (entity.flagCode) continue;
