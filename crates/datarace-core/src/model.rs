@@ -78,10 +78,97 @@ pub struct EntityRef {
     pub group: Option<String>,
 }
 
+/// A field that arrives either as a bare string or as an object.
+///
+/// The Rust core has its own compact input shape, but the platform's dataset
+/// file is richer (`entity: { id, name, iso2, ... }`, `source: { url, ... }`).
+/// Accepting both means one file can be validated by the CLI, the API and CI
+/// without a conversion step that could drift.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum EntityField {
+    Name(String),
+    Object {
+        #[serde(default)]
+        id: Option<String>,
+        #[serde(default)]
+        name: Option<String>,
+    },
+}
+
+impl Default for EntityField {
+    fn default() -> Self {
+        EntityField::Name(String::new())
+    }
+}
+
+impl EntityField {
+    /// The human-readable name, whichever shape was supplied.
+    pub fn name(&self) -> String {
+        match self {
+            EntityField::Name(s) => s.clone(),
+            EntityField::Object { id, name } => name
+                .clone()
+                .or_else(|| id.clone())
+                .unwrap_or_default(),
+        }
+    }
+}
+
+impl From<&str> for EntityField {
+    fn from(value: &str) -> Self {
+        EntityField::Name(value.to_string())
+    }
+}
+
+impl From<String> for EntityField {
+    fn from(value: String) -> Self {
+        EntityField::Name(value)
+    }
+}
+
+impl From<&str> for TextOrObject {
+    fn from(value: &str) -> Self {
+        TextOrObject::Text(value.to_string())
+    }
+}
+
+impl From<String> for TextOrObject {
+    fn from(value: String) -> Self {
+        TextOrObject::Text(value)
+    }
+}
+/// A field that arrives either as a bare string or as an object with a
+/// `publisher` / `title` / `url`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TextOrObject {
+    Text(String),
+    Object {
+        #[serde(default)]
+        publisher: Option<String>,
+        #[serde(default)]
+        title: Option<String>,
+        #[serde(default)]
+        url: Option<String>,
+    },
+}
+
+impl TextOrObject {
+    pub fn text(&self) -> Option<String> {
+        match self {
+            TextOrObject::Text(s) => Some(s.clone()),
+            TextOrObject::Object { publisher, title, url } => {
+                publisher.clone().or_else(|| title.clone()).or_else(|| url.clone())
+            }
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ObservationInput {
-    pub entity: String,
+    pub entity: EntityField,
     pub date: String,
     #[serde(default)]
     pub value: Option<f64>,
@@ -96,7 +183,7 @@ pub struct ObservationInput {
     #[serde(default)]
     pub status: Option<String>,
     #[serde(default)]
-    pub source: Option<String>,
+    pub source: Option<TextOrObject>,
     #[serde(default)]
     pub source_url: Option<String>,
     #[serde(default)]
@@ -130,4 +217,10 @@ pub struct DatasetInput {
     pub entities: Vec<EntityInput>,
     #[serde(default)]
     pub observations: Vec<ObservationInput>,
+}
+impl ObservationInput {
+    /// Resolved entity name, regardless of which input shape was used.
+    pub fn entity_name(&self) -> String {
+        self.entity.name()
+    }
 }

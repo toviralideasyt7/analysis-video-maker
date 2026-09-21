@@ -84,7 +84,7 @@ pub fn rank_dataset(
             .unwrap_or(parsed.frequency);
         meta.entry(parsed.sort_key)
             .or_insert_with(|| (parsed.iso.clone(), frequency));
-        let key = entities::slugify(&obs.entity);
+        let key = entities::slugify(&obs.entity_name());
         let period = cells.entry(parsed.sort_key).or_default();
         match period.get_mut(&key) {
             Some(existing) => {
@@ -149,8 +149,8 @@ pub fn rank_dataset(
             let raw_name = dataset
                 .observations
                 .iter()
-                .find(|o| entities::slugify(&o.entity) == **entity_id)
-                .map(|o| o.entity.clone())
+                .find(|o| entities::slugify(&o.entity_name()) == **entity_id)
+                .map(|o| o.entity_name())
                 .unwrap_or_else(|| (*entity_id).clone());
             display_names.insert((*entity_id).clone(), raw_name.clone());
             *order_score.entry((*entity_id).clone()).or_insert(0.0) += acc.value;
@@ -209,7 +209,7 @@ mod tests {
 
     fn obs(entity: &str, date: &str, value: Option<f64>) -> ObservationInput {
         ObservationInput {
-            entity: entity.to_string(),
+            entity: crate::model::EntityField::Name(entity.to_string()),
             date: date.to_string(),
             value,
             ..Default::default()

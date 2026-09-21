@@ -5,7 +5,7 @@
 //! it is NOT a data source.
 
 use datarace_core::frames::{build_frame_tape, FrameOptions};
-use datarace_core::model::{DatasetInput, EntityInput, ObservationInput};
+use datarace_core::model::{DatasetInput, EntityField, EntityInput, ObservationInput, TextOrObject};
 use datarace_core::{entities, hash, ingest, rank, validate};
 use std::path::PathBuf;
 
@@ -26,11 +26,11 @@ fn dataset_from_fixture() -> DatasetInput {
         .rows
         .iter()
         .map(|r| ObservationInput {
-            entity: r[brand].clone(),
+            entity: EntityField::Name(r[brand].clone()),
             date: r[year].clone(),
             value: r[share].parse::<f64>().ok(),
             unit: Some("percent".into()),
-            source: Some("fixture".into()),
+            source: Some(TextOrObject::Text("fixture".into())),
             source_url: Some("https://example.invalid/fixture.csv".into()),
             ..Default::default()
         })

@@ -48,7 +48,7 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
         d.push("no observations present".to_string());
     }
     for (i, o) in dataset.observations.iter().enumerate() {
-        if o.entity.trim().is_empty() {
+        if o.entity_name().trim().is_empty() {
             d.push(format!("observation {} has an empty entity", i));
         }
         if o.date.trim().is_empty() {
@@ -96,9 +96,9 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
     let mut ambiguous = 0usize;
     let mut seen: HashSet<String> = HashSet::new();
     for o in &dataset.observations {
-        let key = entities::slugify(&o.entity);
+        let key = entities::slugify(&o.entity_name());
         if seen.insert(key) {
-            let r = entities::resolve(&o.entity);
+            let r = entities::resolve(&o.entity_name());
             if r.status == "ambiguous" {
                 ambiguous += 1;
             }
@@ -113,9 +113,9 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
     let mut d = Vec::new();
     let mut cells: HashSet<(String, String)> = HashSet::new();
     for o in &dataset.observations {
-        let key = (entities::slugify(&o.entity), o.date.clone());
+        let key = (entities::slugify(&o.entity_name()), o.date.clone());
         if !cells.insert(key) {
-            d.push(format!("duplicate entity/date cell: {} / {}", o.entity, o.date));
+            d.push(format!("duplicate entity/date cell: {} / {}", o.entity_name(), o.date));
         }
     }
     checks.push(check("duplicate", d));
@@ -208,7 +208,7 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
         entities: dataset
             .observations
             .iter()
-            .map(|o| entities::slugify(&o.entity))
+            .map(|o| entities::slugify(&o.entity_name()))
             .collect::<HashSet<_>>()
             .len(),
         checks,

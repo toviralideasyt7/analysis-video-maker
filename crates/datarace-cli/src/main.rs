@@ -206,7 +206,7 @@ fn run() -> Result<()> {
                         value = Some(converted);
                     }
                 }
-                let resolution = entities::resolve(&o.entity);
+                let resolution = entities::resolve(&o.entity_name());
                 if !entities_out.iter().any(|e: &serde_json::Value| e["id"] == serde_json::json!(resolution.entity.id)) {
                     entities_out.push(serde_json::to_value(&resolution.entity)?);
                 }
@@ -224,7 +224,7 @@ fn run() -> Result<()> {
                     "unitKnown": unit_info.as_ref().map(|u| u.known),
                     "conversion": conversion,
                     "geography": o.geography,
-                    "source": o.source,
+                    "source": o.source.as_ref().and_then(|s| s.text()),
                     "sourceUrl": o.source_url,
                     "confidence": o.confidence
                 }));
