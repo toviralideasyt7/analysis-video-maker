@@ -138,7 +138,7 @@ async function main(): Promise<void> {
   const repoPublic = resolve('public/logos');
   mkdirSync(logoDir, { recursive: true });
   mkdirSync(repoPublic, { recursive: true });
-  const domains = process.env.LOGO_DOMAINS ? JSON.parse(process.env.LOGO_DOMAINS) : {};
+  const domains = process.env.LOGO_DOMAINS && process.env.LOGO_DOMAINS !== '{}'\n    ? JSON.parse(process.env.LOGO_DOMAINS)\n    : ((input as { logoDomains?: Record<string, string> }).logoDomains ?? {});
   for (const entity of entities) {
     const domain = domains[entity.id];
     if (!domain) continue;

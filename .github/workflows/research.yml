@@ -1,0 +1,76 @@
+name: research
+
+# AI research agent: a topic (and optionally a data URL) becomes a
+# video-input JSON. A second job renders it automatically when research
+# succeeds - the full system runs unattended.
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: Video topic
+        required: true
+        default: "Most Popular Websites 1995-2026"
+      dataUrl:
+        description: Optional direct data URL (CSV/JSON) to analyze
+        required: false
+        default: ""
+      topN:
+        description: Entities in the race
+        required: false
+        default: "12"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research-${{ github.event.inputs.topic }}
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
+      MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
+      GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
+      GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+      LOGO_DOMAINS: "{}"
+      TOPIC_FILE: ${{ github.workspace }}/research-topic.txt
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run the research agent
+        env:
+          TOPIC: ${{ inputs.topic }}
+          DATA_URL: ${{ inputs.dataUrl }}
+          TOP_N: ${{ inputs.topN }}
+        run: npx tsx services/uploader/src/scripts/research.ts
+
+      - name: Commit the generated input file
+        run: |
+          set -euo pipefail
+          git config user.name "research-agent"
+          git config user.email "research-agent@users.noreply.github.com"
+          git add inputs/
+          git commit -m "research: input for '${{ inputs.topic }}'" || echo "nothing to commit"
+          git push
+
+      - name: Chain into the video render
+        if: success()
+        run: |
+          set -euo pipefail
+          INPUT_PATH=$(ls inputs/*.json | head -n 1)
+          gh workflow run make-video.yml \
+            -f inputPath="$INPUT_PATH" \
+            --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
