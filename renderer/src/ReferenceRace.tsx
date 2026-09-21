@@ -47,7 +47,13 @@ const PANEL_WIDTH = 340;
 
 function formatValue(value: number, mode: 'comma' | 'compact'): string {
   if (!Number.isFinite(value)) return '0';
-  if (mode === 'comma') return Math.round(value).toLocaleString('en-US');
+  if (mode === 'comma') {
+    // Whole numbers for large magnitudes (population, tonnes); decimals for
+    // small-magnitude metrics such as per-capita values.
+    const abs = Math.abs(value);
+    const decimals = abs >= 1000 ? 0 : abs >= 10 ? 1 : 2;
+    return value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
   const abs = Math.abs(value);
   if (abs >= 1e12) return `${(value / 1e12).toFixed(2)} T`;
   if (abs >= 1e9) return `${(value / 1e9).toFixed(2)} B`;

@@ -151,9 +151,9 @@ function ingestCsvTable(text: string): Array<{ entity: string; date: string; val
     return out;
   };
   const header = split(lines[0]).map((h) => h.trim().toLowerCase());
-  const entityIndex = header.findIndex((h) => ['entity', 'country', 'name', 'brand'].includes(h));
-  const dateIndex = header.findIndex((h) => ['date', 'year', 'time'].includes(h));
-  const valueIndex = header.findIndex((h) => ['value', 'population', 'amount', 'count', 'total', 'sales'].includes(h));
+  const entityIndex = header.findIndex((h) => ['entity', 'country', 'name', 'brand'].some((n) => h.includes(n)));
+  const dateIndex = header.findIndex((h) => ['date', 'year', 'time'].some((n) => h.includes(n)));
+  const valueIndex = header.findIndex((h) => ['value', 'population', 'amount', 'count', 'total', 'sales'].some((n) => h.includes(n)));
   if (entityIndex < 0 || dateIndex < 0 || valueIndex < 0) return [];
   const rows: Array<{ entity: string; date: string; value: number }> = [];
   for (const line of lines.slice(1)) {

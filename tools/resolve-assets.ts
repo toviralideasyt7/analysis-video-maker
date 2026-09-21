@@ -16,6 +16,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { validateVideoInput, type VideoInput, VideoInputEntity } from '@avm/shared';
+import { circleFlagDataUrl } from './sources/flags';
 
 const path = resolve(process.argv[2] ?? '');
 if (!path || !existsSync(path)) {
@@ -138,7 +139,9 @@ async function main(): Promise<void> {
   const repoPublic = resolve('public/logos');
   mkdirSync(logoDir, { recursive: true });
   mkdirSync(repoPublic, { recursive: true });
-  const domains = process.env.LOGO_DOMAINS && process.env.LOGO_DOMAINS !== '{}'\n    ? JSON.parse(process.env.LOGO_DOMAINS)\n    : ((input as { logoDomains?: Record<string, string> }).logoDomains ?? {});
+  const domains = process.env.LOGO_DOMAINS && process.env.LOGO_DOMAINS !== '{}'
+    ? JSON.parse(process.env.LOGO_DOMAINS)
+    : ((input as { logoDomains?: Record<string, string> }).logoDomains ?? {});
   for (const entity of entities) {
     const domain = domains[entity.id];
     if (!domain) continue;
@@ -153,26 +156,35 @@ async function main(): Promise<void> {
     }
   }
 
-  // Verify every flag asset we are about to embed actually exists.
+  // Flags: the renderer draws entity.logoUrl, so a flag code alone is not
+  // enough. Turn each code into an inline circular-flag SVG data URL. Inlining
+  // keeps the render offline (Remotion aborts on a failed remote image fetch)
+  // and costs well under 1 KB per country. A code with no asset is dropped
+  // rather than guessed.
   const broken: string[] = [];
+  let inlined = 0;
   for (const entity of entities) {
     if (!entity.flagCode) continue;
     if (AGGREGATES.has(entity.flagCode.toLowerCase())) {
       entity.flagCode = null;
       continue;
     }
-    const url = `https://flagcdn.com/w80/${entity.flagCode.toLowerCase()}.png`;
-    if (!(await urlExists(url))) {
-      broken.push(entity.flagCode);
-      entity.flagCode = null;
+    if (entity.logoUrl) continue;
+    const dataUrl = await circleFlagDataUrl(entity.flagCode);
+    if (dataUrl) {
+      entity.logoUrl = dataUrl;
+      inlined += 1;
+      continue;
     }
+    broken.push(entity.flagCode);
+    entity.flagCode = null;
   }
-
   writeFileSync(path, JSON.stringify(input, null, 1), 'utf8');
   process.stdout.write(`flags resolved: ${resolved.length}\n`);
   for (const line of resolved) process.stdout.write(`  ${line}\n`);
   if (stillMissing.length > 0) process.stdout.write(`no flag for: ${stillMissing.join(', ')} (entity renders without one)\n`);
   if (broken.length > 0) process.stdout.write(`removed broken flag assets: ${broken.join(', ')}\n`);
+  process.stdout.write(`flags inlined as images: ${inlined}\n`);
 }
 
 main().catch((error) => {
