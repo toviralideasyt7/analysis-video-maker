@@ -15,7 +15,7 @@ export const VISUAL = {
   panelMetric: '#B4B4B4',
   logo: '#E1251B',
   /** Longest bar ends here on a 1280 canvas (measured from the reference). */
-  maxBarX: 1024,
+  maxBarX: 690,
   rowPitch: 42,
   barHeight: 38,
   rowsTop: 66,

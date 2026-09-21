@@ -70,7 +70,7 @@ export const REFERENCE = {
   scalePower: 0.8,
   secondsPerYear: 0.4,
   introSeconds: 2.5,
-  outroSeconds: 4,
+  outroSeconds: 6,
   backgroundColor: '#efefef',
 } as const;
 
@@ -305,16 +305,10 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
     frames.push({ index: frame, dateLabel: labels[periodIndex], t, bars, worldTotal, groups, factIndex });
   }
 
-  // A group that never has any member data is a definition left in the file
-  // with nothing behind it - drop it instead of drawing an empty column.
-  const groupTotals = new Map<string, number>();
+  // Empty columns (a category with no members yet, or already gone) are dropped
+  // per frame, so the chart never draws a zero bar with a "0" label.
   for (const frameState of frames) {
-    for (const group of frameState.groups) {
-      groupTotals.set(group.id, (groupTotals.get(group.id) ?? 0) + group.value);
-    }
-  }
-  for (const frameState of frames) {
-    frameState.groups = frameState.groups.filter((g) => (groupTotals.get(g.id) ?? 0) > 0);
+    frameState.groups = frameState.groups.filter((g) => g.value > 0);
   }
 
   if (heldNotes > 0) {

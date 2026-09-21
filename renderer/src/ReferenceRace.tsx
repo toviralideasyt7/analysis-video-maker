@@ -353,7 +353,7 @@ const RaceBody: React.FC<{ input: VideoInput; tape: Tape; frame: number }> = ({ 
           </div>
         </div>
 
-        <div style={{ position: 'absolute', top: 385, right: 0, fontSize: 148, fontWeight: 800, color: VISUAL.yearColor, lineHeight: 1, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
+        <div style={{ position: 'absolute', top: 372, right: 8, fontSize: 128, fontWeight: 800, color: VISUAL.yearColor, lineHeight: 1, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
           {frameData.dateLabel}
         </div>
       </div>
