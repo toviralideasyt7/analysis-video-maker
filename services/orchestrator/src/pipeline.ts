@@ -169,6 +169,23 @@ export function sourceRef(input: {
 // Dataset assembly + stats
 // ---------------------------------------------------------------------------
 
+/**
+ * The range the data actually covers.
+ *
+ * The requested range and the observed range are different things: asking the
+ * World Bank for 1990-2026 returns nothing for 2026, and a spec that keeps
+ * claiming 2026 is stating something the dataset does not support. The QA agent
+ * caught exactly this, so the dataset now reports what it observed.
+ */
+export function observedTimeRange(observations: Observation[], fallback: { start: string; end: string }): { start: string; end: string } {
+  const dates = observations
+    .map((o) => o.date)
+    .filter((d) => /^\d{4}/.test(d))
+    .sort();
+  if (dates.length === 0) return fallback;
+  const label = (iso: string): string => (o => o)(iso.slice(0, 4));
+  return { start: label(dates[0]), end: label(dates[dates.length - 1]) };
+}
 export function datasetStats(observations: Observation[]): Dataset['stats'] {
   const stats: Dataset['stats'] = {
     observations: observations.length,

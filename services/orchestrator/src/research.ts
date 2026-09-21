@@ -26,6 +26,7 @@ import {
   datasetToCoreInput,
   deterministicStory,
   inferFrequency,
+  observedTimeRange,
   resolveEntities,
   scoreCandidates,
   sourceQualityScore,
@@ -676,13 +677,18 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // --- 4. Verification ----------------------------------------------------
   store.setStatus(state, 'VERIFYING');
   const verified = verifyAcrossSources(observations, { metric: plan.metric });
+  // Report the range the data actually covers, not the range we asked for.
+  const actualRange = observedTimeRange(verified.observations, timeRange);
+  if (actualRange.end !== String(timeRange.end).slice(0, 4) || actualRange.start !== String(timeRange.start).slice(0, 4)) {
+    extractionNotes.push(`observed range ${actualRange.start}-${actualRange.end} (requested ${timeRange.start}-${timeRange.end})`);
+  }
   const dataset = buildDataset({
     projectId: state.projectId,
     datasetId: `dataset_${state.projectId}`,
     name: plan.topic,
     metric: plan.metric,
     unit: 'count',
-    timeRange,
+    timeRange: actualRange,
     frequency: plan.frequency,
     missingDataPolicy: plan.missingDataPolicy,
     observations: verified.observations,
