@@ -61,6 +61,11 @@ async function urlExists(url: string): Promise<boolean> {
   }
 }
 
+/** True when the key looks usable (non-empty, no truncation ellipsis). */
+function usableKey(key: string): boolean {
+  return key.length > 20 && !key.includes('…') && !key.includes('...');
+}
+
 async function aiFlagCode(name: string, apiKey: string): Promise<string | null> {
   const response = await fetch('https://router.bynara.id/v1/chat/completions', {
     method: 'POST',
@@ -99,7 +104,7 @@ async function main(): Promise<void> {
   const entities: VideoInputEntity[] = input.entities ?? [];
   const resolved: string[] = [];
   const stillMissing: string[] = [];
-  const naraKey = process.env.NARA_API_KEY ?? '';
+  const rawNaraKey = process.env.NARA_API_KEY ?? '';\n  // A masked/truncated key (chat clients abbreviate secrets with an ellipsis)\n  // must not crash the run - AI flag lookup is simply skipped.\n  const naraKey = usableKey(rawNaraKey) ? rawNaraKey : '';
 
   for (const entity of entities) {
     if (entity.flagCode) continue;
