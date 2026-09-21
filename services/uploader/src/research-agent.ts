@@ -127,10 +127,14 @@ interface RawRow {
  * instead of asking a model to read it. AI plans and narrates; the numbers come
  * from the file. This is the honest and scalable path for any tabular source.
  */
-function ingestCsvTable(text: string): Array<{ entity: string; date: string; value: number }> {
+function ingestCsvTable(text: string): Array<{ entity: string; date: string; value: number; code: string }> {
   const lines = text.split('\n').filter((l) => l.trim() !== '');
   if (lines.length < 2) return [];
-  const delimiter = lines[0].includes('\t') ? '\t' : ',';
+  // A proxied CSV often arrives as a markdown table (| a | b |). Support both
+  // shapes so the deterministic ingestion path works either way.
+  const markdown = lines[0].trim().startsWith('|') && lines[0].includes('|');
+  const delimiter = markdown ? '|' : lines[0].includes('\t') ? '\t' : ',';
+  const clean = (value: string): string => value.replace(/\|/g, '').trim();
   const split = (line: string): string[] => {
     const out: string[] = [];
     let field = '';
@@ -150,21 +154,44 @@ function ingestCsvTable(text: string): Array<{ entity: string; date: string; val
     out.push(field);
     return out;
   };
-  const header = split(lines[0]).map((h) => h.trim().toLowerCase());
-  const entityIndex = header.findIndex((h) => ['entity', 'country', 'name', 'brand'].some((n) => h.includes(n)));
-  const dateIndex = header.findIndex((h) => ['date', 'year', 'time'].some((n) => h.includes(n)));
-  const valueIndex = header.findIndex((h) => ['value', 'population', 'amount', 'count', 'total', 'sales'].some((n) => h.includes(n)));
+  const header = split(lines[0]).map((h) => clean(h).toLowerCase());
+  // Header hints are matched as substrings so real-world names work:
+  // "Country Name", "Annual CO2 emissions", "Entity", "Code", "Year", "Value".
+  const hint = (names: string[]): number =>
+    header.findIndex((h) => names.some((n) => h.includes(n)));
+  const entityIndex = hint(['entity', 'country', 'name', 'brand']);
+  const dateIndex = hint(['date', 'year', 'time', 'period']);
+  // Some sources (OWID) carry an ISO3 country code in a sibling column; when it
+  // exists it lets us drop region aggregates instead of racing them.
+  const codeIndex = hint(['code', 'iso']);
+  let valueIndex = hint(['value', 'population', 'amount', 'count', 'total', 'sales', 'emissions', 'gdp']);
+  // Fallback for a value column with an unpredictable title (OWID's "Annual CO2
+  // emissions"): pick the column that actually parses as numbers.
+  if (valueIndex < 0) {
+    let best = { index: -1, hits: 0 };
+    for (let c = 0; c < header.length; c += 1) {
+      if (c === entityIndex || c === dateIndex || c === codeIndex) continue;
+      let hits = 0;
+      for (const line of lines.slice(1, 25)) {
+        const raw = clean(split(line)[c] ?? '').replace(/[\s,]/g, '');
+        if (raw !== '' && Number.isFinite(Number.parseFloat(raw))) hits += 1;
+      }
+      if (hits > best.hits) best = { index: c, hits };
+    }
+    if (best.hits >= 3) valueIndex = best.index;
+  }
   if (entityIndex < 0 || dateIndex < 0 || valueIndex < 0) return [];
-  const rows: Array<{ entity: string; date: string; value: number }> = [];
+  const rows: Array<{ entity: string; date: string; value: number; code: string }> = [];
   for (const line of lines.slice(1)) {
+    if (/^\|?[\s|:-]+\|?$/.test(line)) continue;   // markdown separator row
     const parts = split(line);
-    const entity = (parts[entityIndex] ?? '').trim();
-    const date = (parts[dateIndex] ?? '').trim();
-    const raw = (parts[valueIndex] ?? '').trim().replace(/[",\s]/g, '');
+    const entity = clean(parts[entityIndex] ?? '');
+    const date = clean(parts[dateIndex] ?? '');
+    const raw = clean(parts[valueIndex] ?? '').replace(/["',\s]/g, '');
     if (!entity || !date || raw === '') continue;
     const value = Number.parseFloat(raw);
     if (!Number.isFinite(value)) continue;
-    rows.push({ entity, date, value });
+    rows.push({ entity, date, value, code: codeIndex >= 0 ? clean(parts[codeIndex] ?? '') : '' });
   }
   return rows;
 }
@@ -227,6 +254,75 @@ Reply with JSON only:
   return parsed.facts ?? [];
 }
 
+/**
+ * Data-derived fallback narrative, used when the model is unavailable. Every
+ * sentence is built from the ingested rows, so it cannot invent a number.
+ */
+function deriveFacts(rows: RawRow[], plan: Plan): VideoInputFact[] {
+  const byDate = new Map<string, RawRow[]>();
+  for (const row of rows) {
+    const list = byDate.get(row.date) ?? [];
+    list.push(row);
+    byDate.set(row.date, list);
+  }
+  const dates = Array.from(byDate.keys()).sort((a, b) => Number(a) - Number(b));
+  const facts: VideoInputFact[] = [];
+  const compact = (value: number): string => {
+    const abs = Math.abs(value);
+    if (abs >= 1e12) return (value / 1e12).toFixed(2) + ' trillion';
+    if (abs >= 1e9) return (value / 1e9).toFixed(2) + ' billion';
+    if (abs >= 1e6) return (value / 1e6).toFixed(1) + ' million';
+    return Math.round(value).toLocaleString('en-US');
+  };
+  let previousLeader = '';
+  for (const date of dates) {
+    const leader = [...(byDate.get(date) ?? [])].sort((a, b) => b.value - a.value)[0];
+    if (!leader) continue;
+    if (!previousLeader) {
+      facts.push({
+        atDate: date,
+        heading: 'WHERE IT BEGAN',
+        body: leader.entity + ' led in ' + date + ' with ' + compact(leader.value) + '.',
+        tiles: [leader.entity],
+      });
+    } else if (leader.entity !== previousLeader) {
+      facts.push({
+        atDate: date,
+        heading: leader.entity.toUpperCase() + ' TAKES THE LEAD',
+        body: leader.entity + ' overtook ' + previousLeader + ' in ' + date + ' at ' + compact(leader.value) + '.',
+        tiles: [leader.entity, previousLeader],
+      });
+    }
+    previousLeader = leader.entity;
+  }
+  const last = dates[dates.length - 1];
+  const lastLeader = last ? [...(byDate.get(last) ?? [])].sort((a, b) => b.value - a.value)[0] : undefined;
+  if (lastLeader) {
+    facts.push({
+      atDate: last,
+      heading: 'WHERE IT STANDS',
+      body: lastLeader.entity + ' tops the ' + last + ' table at ' + compact(lastLeader.value) + '.',
+      tiles: [lastLeader.entity],
+    });
+  }
+  return facts.slice(0, 9);
+}
+
+/** Region/world aggregates that must never race against real countries. */
+const AGGREGATE_NAMES = new Set([
+  'world', 'asia', 'africa', 'europe', 'north america', 'south america', 'americas',
+  'oceania', 'european union', 'oecd', 'high income', 'low income', 'middle income',
+  'upper middle income', 'lower middle income', 'east asia and pacific',
+  'latin america and caribbean', 'middle east and north africa', 'sub-saharan africa',
+  'south asia', 'europe and central asia', 'least developed countries',
+]);
+
+function isAggregateName(name: string): boolean {
+  const key = name.trim().toLowerCase();
+  // OWID/UN region entities are suffixed "(UN)"; some are bare region names.
+  return key.endsWith('(un)') || AGGREGATE_NAMES.has(key);
+}
+
 export async function runResearch(req: ResearchRequest, outDir: string): Promise<ResearchOutput> {
   const warnings: string[] = [];
   const errors: string[] = [];
@@ -243,13 +339,30 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   if (isTable && req.dataUrl) {
     const fetched = await search.fetch(req.dataUrl);
     const text = fetched.text ?? "";
-    const parsed = ingestCsvTable(text);
-    if (parsed.length === 0) {
+    const parsedTable = ingestCsvTable(text);
+    if (parsedTable.length === 0) {
       errors.push("the CSV at dataUrl could not be parsed (need entity/date/value columns)");
       return { ok: false, warnings, errors };
     }
-    warnings.push(`${parsed.length} rows ingested directly from the CSV table`);
-    const names = Array.from(new Set(parsed.map((r) => r.entity))).slice(0, 40);
+    // When the table carries a country-code column, region aggregates (OWID_* and
+    // blank codes) are not countries: exclude them instead of racing them.
+    const hasCodes = parsedTable.some((row) => row.code !== '');
+    const parsed = hasCodes
+      ? parsedTable.filter((row) => row.code !== '' && !row.code.startsWith('OWID_') && !isAggregateName(row.entity))
+      : parsedTable.filter((row) => !isAggregateName(row.entity));
+    // Rank by each entity's peak value so the race holds the biggest players
+    // rather than the alphabetically first ones.
+    const peak = new Map<string, number>();
+    for (const row of parsed) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
+    warnings.push(`${parsedTable.length} rows ingested directly from the CSV table`
+      + (hasCodes ? `, ${parsedTable.length - parsed.length} aggregate rows excluded` : ''));
+    if (parsed.length === 0) {
+      errors.push("every row in the CSV was filtered out as an aggregate");
+      return { ok: false, warnings, errors };
+    }
+    const names = Array.from(peak.keys())
+      .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
+      .slice(0, 40);
     const years = parsed.map((r) => Number(r.date)).filter((y) => Number.isFinite(y));
     plan = {
       measurableDefinition: req.topic,
@@ -275,7 +388,6 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     const parsed = ingestCsvTable(source.text);
     if (parsed.length > 0) {
       rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
-      warnings.push(`${parsed.length} rows ingested directly from the CSV table`);
     }
   }
   if (rows.length === 0 && source) {
@@ -292,7 +404,15 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     return { ok: false, warnings, errors };
   }
 
-  const facts = await composeFacts(rows, req, plan, ai);
+  let facts: VideoInputFact[] = [];
+  try {
+    facts = await composeFacts(rows, req, plan, ai);
+  } catch (error) {
+    warnings.push('fact narration unavailable: ' + (error instanceof Error ? error.message : String(error)));
+  }
+  // Never ship a video with an empty panel: fall back to facts derived from the
+  // rows themselves, which cannot invent a number.
+  if (facts.length < 3) facts = deriveFacts(rows, plan);
   const byEntity = new Map<string, Array<{ date: string; value: number }>>();
   for (const row of rows) {
     const list = byEntity.get(row.entity) ?? [];

@@ -8,6 +8,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpus } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { bundle } from '@remotion/bundler';
 import { ensureBrowser, renderMedia, renderStill, selectComposition } from '@remotion/renderer';
@@ -56,7 +57,9 @@ async function main(): Promise<void> {
     codec: 'h264',
     outputLocation: out,
     inputProps: props,
-    concurrency: Number(process.env.RENDER_CONCURRENCY ?? 2),
+    // Never exceed the machine's core count: Remotion rejects a concurrency
+    // above it, which is exactly what a 2-core CI runner does to a fixed 3.
+    concurrency: Math.max(1, Math.min(Number(process.env.RENDER_CONCURRENCY ?? 2), cpus().length)),
     onProgress: ({ renderedFrames }) => {
       if (renderedFrames % 300 === 0) process.stdout.write(`  ${renderedFrames}/${composition.durationInFrames}\n`);
     },
