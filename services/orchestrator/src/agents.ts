@@ -829,12 +829,15 @@ export interface AiQaVerdict {
 }
 
 export async function aiQaReview(
-  input: { datasetSummary: unknown; videoSpec: unknown; frameTapeSummary: unknown },
+  input: { datasetSummary: unknown; videoSpec: unknown; frameTapeSummary: unknown; verificationContext?: unknown },
   ctx: AgentContext,
 ): Promise<AiQaVerdict> {
   const fallback: AiQaVerdict = { passed: false, available: false, problems: ['AI QA could not run: no model was reachable'], notes: [] };
   const prompt = `You are the QA Agent for a data-video platform. Audit this rendered-plan bundle for
 unsupported claims, impossible timings, missing provenance, duplicate entities and ranking errors.
+
+The frame tape covers the bar-race scene only, and a verified count of zero means the values
+come from a single authoritative publisher - neither of those is a defect on its own.
 
 DATASET SUMMARY:
 ${JSON.stringify(input.datasetSummary, null, 2)}
@@ -844,6 +847,9 @@ ${JSON.stringify(input.videoSpec, null, 2)}
 
 FRAME TAPE SUMMARY:
 ${JSON.stringify(input.frameTapeSummary, null, 2)}
+
+VERIFICATION CONTEXT:
+${JSON.stringify(input.verificationContext ?? {}, null, 2)}
 
 Reply with JSON only:
 { "passed": true, "problems": ["only real, specific problems"], "notes": ["optional"] }`;
