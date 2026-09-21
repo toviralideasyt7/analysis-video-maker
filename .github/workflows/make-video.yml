@@ -40,7 +40,7 @@ jobs:
       JOB_ID: ${{ inputs.jobId }}
       CALLBACK_URL: ${{ inputs.callbackUrl }}
       HOOK_SECRET: ${{ secrets.HOOK_SECRET }}
-      RUN_URL: ${{ server.url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
 
