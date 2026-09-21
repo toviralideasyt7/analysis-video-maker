@@ -383,13 +383,6 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     plan = await planResearch(req, ai);
     source = await gather(req, plan, ai, search, warnings);
   }
-  const isTableUrl = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
-  if (source && isTableUrl) {
-    const parsed = ingestCsvTable(source.text);
-    if (parsed.length > 0) {
-      rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
-    }
-  }
   if (rows.length === 0 && source) {
     const extracted = await extractRows(source, plan, ai);
     rows = extracted.rows;
@@ -406,7 +399,13 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
 
   let facts: VideoInputFact[] = [];
   try {
-    facts = await composeFacts(rows, req, plan, ai);
+    const narrated = await composeFacts(rows, req, plan, ai);
+    // A fact that names no number is not worth a panel slot ("hit a major
+    // milestone"): keep only concrete ones and top up from the data below.
+    facts = narrated.filter((fact) => /\d/.test(fact.body ?? ''));
+    if (facts.length < narrated.length) {
+      warnings.push(`${narrated.length - facts.length} narrated facts dropped (no number in the body)`);
+    }
   } catch (error) {
     warnings.push('fact narration unavailable: ' + (error instanceof Error ? error.message : String(error)));
   }
