@@ -2,6 +2,7 @@
  * Upload API.
  *
  * POST /api/upload        multipart form: file=<video-input.json|csv> [facts=<csv>]
+ * POST /api/research      json { topic, dataUrl?, topN? } - AI agent researches and renders
  * GET  /api/health
  * GET  /api/input/:id     the last committed input (for the result page)
  *
@@ -16,7 +17,7 @@ import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { commitInputFile, dispatchRender, inputId } from './github';
+import { commitInputFile, dispatchRender, dispatchResearch, inputId } from './github';
 import { env, logger, maxUploadBytes, port, uploadsDir } from './runtime';
 import { csvToInput, parseCsv } from './csv';
 import { validateVideoInputFile } from './validate';
@@ -119,6 +120,33 @@ app.post('/api/upload', async (c) => {
   });
 });
 
+
+/**
+ * Fully automatic path: hand a topic to the research agent. It finds the data,
+ * commits an input file and chains into the render workflow, so the browser
+ * only has to poll for the artifact.
+ */
+app.post('/api/research', async (c) => {
+  const body = (await c.req.json().catch(() => null)) as
+    | { topic?: string; dataUrl?: string; topN?: number }
+    | null;
+  const topic = (body?.topic ?? '').trim();
+  if (!topic) return c.json({ error: 'topic is required' }, 400);
+  const topN = Number.isFinite(body?.topN) ? Number(body?.topN) : undefined;
+  const dispatched = await dispatchResearch({
+    topic,
+    dataUrl: (body?.dataUrl ?? '').trim() || undefined,
+    topN,
+  });
+  if (!dispatched.ok) return c.json({ error: dispatched.error }, 502);
+  logger.info('research dispatched', { topic });
+  return c.json({
+    ok: true,
+    topic,
+    runUrl: dispatched.runUrl,
+    message: 'the research agent is running; it commits an input file and the render follows automatically',
+  });
+});
 app.get('/api/input/:id', (c) => {
   const state = inputs.get(c.req.param('id'));
   if (!state) return c.json({ error: 'unknown id' }, 404);

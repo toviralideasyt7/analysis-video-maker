@@ -54,6 +54,41 @@ export default function App(): React.ReactElement {
       setMessage(error instanceof Error ? error.message : String(error));
     }
   }, [file, title]);
+  const [topic, setTopic] = useState('');
+  const [dataUrl, setDataUrl] = useState('');
+
+  const submitResearch = useCallback(async () => {
+    const clean = topic.trim();
+    if (!clean) return;
+    setPhase('uploading');
+    setMessage('Handing the topic to the research agent…');
+    setDetails([]);
+    try {
+      const response = await fetch(`${API_BASE}/api/research`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ topic: clean, dataUrl: dataUrl.trim() || undefined }),
+      });
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        runUrl?: string;
+        message?: string;
+      };
+      if (!response.ok || !payload.ok) {
+        setPhase('error');
+        setMessage(payload.error ?? `research failed (HTTP ${response.status})`);
+        return;
+      }
+      setPhase('done');
+      setMessage(payload.message ?? 'research running');
+      setRunUrl(payload.runUrl ?? null);
+    } catch (error) {
+      setPhase('error');
+      setMessage(error instanceof Error ? error.message : String(error));
+    }
+  }, [topic, dataUrl]);
+
 
   return (
     <div className="min-h-screen">
@@ -141,6 +176,35 @@ export default function App(): React.ReactElement {
             ) : null}
           </div>
         ) : null}
+
+        <section className="panel p-4">
+          <h2 className="font-bold text-ink">Or describe a topic — no file needed</h2>
+          <p className="text-sm text-muted mt-1">
+            The research agent finds the data, writes the input file and starts the render automatically.
+          </p>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            <input
+              className="border border-black/15 bg-white px-3 py-2 text-sm"
+              placeholder="Topic, e.g. CO2 emissions by country"
+              value={topic}
+              onChange={(event) => setTopic(event.target.value)}
+            />
+            <input
+              className="border border-black/15 bg-white px-3 py-2 text-sm"
+              placeholder="Optional direct data URL (CSV or JSON)"
+              value={dataUrl}
+              onChange={(event) => setDataUrl(event.target.value)}
+            />
+          </div>
+          <button
+            className="mt-3 border border-ink bg-ink px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+            disabled={!topic.trim() || phase === 'uploading'}
+            onClick={submitResearch}
+            type="button"
+          >
+            Research and render
+          </button>
+        </section>
 
         <details className="panel p-4 text-sm text-muted">
           <summary className="cursor-pointer font-bold text-ink">What format does the file need?</summary>

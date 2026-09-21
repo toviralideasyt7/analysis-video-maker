@@ -86,6 +86,36 @@ export async function dispatchRender(inputPath: string): Promise<DispatchResult>
   return { ok: false, error: `workflow dispatch returned ${response.status}: ${text.slice(0, 300)}` };
 }
 
+/**
+ * Dispatch the research workflow: a topic (plus an optional data URL) is
+ * researched by the AI agent, committed as an input file, and then rendered -
+ * the whole chain runs unattended on GitHub.
+ */
+export async function dispatchResearch(request: {
+  topic: string;
+  dataUrl?: string;
+  topN?: number;
+}): Promise<DispatchResult> {
+  const { owner, repo } = repoInfo();
+  const workflow = env('GITHUB_RESEARCH_WORKFLOW_FILE', 'research.yml');
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflow}/dispatches`, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify({
+      ref: env('GITHUB_BRANCH', 'main'),
+      inputs: {
+        topic: request.topic,
+        dataUrl: request.dataUrl ?? '',
+        topN: String(request.topN ?? 12),
+      },
+    }),
+  });
+  if (response.status === 204) {
+    return { ok: true, runUrl: `https://github.com/${owner}/${repo}/actions/workflows/${workflow}` };
+  }
+  const text = await response.text();
+  return { ok: false, error: `research dispatch returned ${response.status}: ${text.slice(0, 300)}` };
+}
 /** Stable id for the uploaded file, used in the artifact name. */
 export function inputId(fileName: string, content: string): string {
   const hash = createHash('sha256').update(content).digest('hex').slice(0, 8);
