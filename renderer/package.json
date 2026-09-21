@@ -14,6 +14,7 @@
     "@avm/shared": "*",
     "@remotion/bundler": "4.0.245",
     "@remotion/cli": "4.0.245",
+    "@remotion/google-fonts": "^4.0.245",
     "@remotion/renderer": "4.0.245",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

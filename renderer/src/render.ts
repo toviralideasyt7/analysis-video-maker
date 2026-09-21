@@ -36,7 +36,7 @@ async function main(): Promise<void> {
   mkdirSync(dirname(out), { recursive: true });
   const entry = resolve(import.meta.dirname ?? __dirname, 'index.ts');
   process.stdout.write(`bundling ${entry}\n`);
-  const bundleLocation = await bundle({ entryPoint: entry });
+  const bundleLocation = await bundle({ entryPoint: entry, publicDir: resolve(import.meta.dirname ?? __dirname, '..', 'public') });
   await ensureBrowser();
   const props = { input };
 

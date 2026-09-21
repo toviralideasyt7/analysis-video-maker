@@ -82,6 +82,19 @@ async function aiFlagCode(name: string, apiKey: string): Promise<string | null> 
   return /^[a-z]{2}$/.test(text) ? text : null;
 }
 
+async function downloadLogo(domain: string, outPath: string): Promise<boolean> {
+  try {
+    const response = await fetch(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
+    if (!response.ok) return false;
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.byteLength < 200) return false;
+    writeFileSync(outPath, buffer);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function main(): Promise<void> {
   const entities: VideoInputEntity[] = input.entities ?? [];
   const resolved: string[] = [];
@@ -108,6 +121,28 @@ async function main(): Promise<void> {
       }
     }
     stillMissing.push(entity.name);
+  }
+
+  // Logos: fetch a real favicon per entity into public/logos so the render
+  // never touches the network (Remotion cancels on a failed image fetch).
+  const { mkdirSync } = await import('node:fs');
+  const logoDir = resolve('renderer/public/logos');
+  const repoPublic = resolve('public/logos');
+  mkdirSync(logoDir, { recursive: true });
+  mkdirSync(repoPublic, { recursive: true });
+  const domains = process.env.LOGO_DOMAINS ? JSON.parse(process.env.LOGO_DOMAINS) : {};
+  for (const entity of entities) {
+    const domain = domains[entity.id];
+    if (!domain) continue;
+    const outPath = resolve(logoDir, `${entity.id}.png`);
+    if (existsSync(outPath)) {
+      entity.logoUrl = `logos/${entity.id}.png`;
+      continue;
+    }
+    if (await downloadLogo(domain, outPath)) {
+      entity.logoUrl = `logos/${entity.id}.png`;
+      process.stdout.write(`  logo: ${entity.name} -> logos/${entity.id}.png\n`);
+    }
   }
 
   // Verify every flag asset we are about to embed actually exists.

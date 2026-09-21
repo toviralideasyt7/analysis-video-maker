@@ -1,0 +1,1986 @@
+{
+ "version": "1.0",
+ "title": "Most Popular Websites | 1995 - 2026",
+ "metric": "Monthly Visits",
+ "unit": "visits",
+ "valueFormat": "comma",
+ "canvas": {
+  "width": 1280,
+  "height": 720,
+  "fps": 60
+ },
+ "settings": {
+  "topN": 15,
+  "secondsPerYear": 0.55,
+  "scalePower": 0.72,
+  "introSeconds": 3,
+  "outroSeconds": 5
+ },
+ "entities": [
+  {
+   "id": "craigslist",
+   "name": "Craigslist",
+   "color": "#5B6ABF",
+   "group": "Forums",
+   "logoUrl": "logos/craigslist.png"
+  },
+  {
+   "id": "amazon",
+   "name": "Amazon",
+   "color": "#FF9900",
+   "group": "Shopping",
+   "logoUrl": "logos/amazon.png"
+  },
+  {
+   "id": "ebay",
+   "name": "eBay",
+   "color": "#E53238",
+   "group": "Shopping"
+  },
+  {
+   "id": "yahoo",
+   "name": "Yahoo!",
+   "color": "#5F01D1",
+   "group": "Portals",
+   "logoUrl": "logos/yahoo.png"
+  },
+  {
+   "id": "msn",
+   "name": "MSN",
+   "color": "#0078D4",
+   "group": "Portals",
+   "logoUrl": "logos/msn.png"
+  },
+  {
+   "id": "google",
+   "name": "Google",
+   "color": "#4285F4",
+   "group": "Search",
+   "logoUrl": "logos/google.png"
+  },
+  {
+   "id": "wikipedia",
+   "name": "Wikipedia",
+   "color": "#3A3A3A",
+   "group": "Reference",
+   "logoUrl": "logos/wikipedia.png"
+  },
+  {
+   "id": "facebook",
+   "name": "Facebook",
+   "color": "#1877F2",
+   "group": "Social",
+   "logoUrl": "logos/facebook.png"
+  },
+  {
+   "id": "youtube",
+   "name": "YouTube",
+   "color": "#FF0000",
+   "group": "Video",
+   "logoUrl": "logos/youtube.png"
+  },
+  {
+   "id": "reddit",
+   "name": "Reddit",
+   "color": "#FF4500",
+   "group": "Forums",
+   "logoUrl": "logos/reddit.png"
+  },
+  {
+   "id": "twitter",
+   "name": "Twitter / X",
+   "color": "#141414",
+   "group": "Social",
+   "logoUrl": "logos/twitter.png"
+  },
+  {
+   "id": "instagram",
+   "name": "Instagram",
+   "color": "#E4405F",
+   "group": "Social",
+   "logoUrl": "logos/instagram.png"
+  },
+  {
+   "id": "chatgpt",
+   "name": "ChatGPT",
+   "color": "#10A37F",
+   "group": "AI",
+   "logoUrl": "logos/chatgpt.png"
+  }
+ ],
+ "observations": [
+  {
+   "entity": "craigslist",
+   "date": "1995",
+   "value": 1000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "1996",
+   "value": 80800000
+  },
+  {
+   "entity": "craigslist",
+   "date": "1997",
+   "value": 160600000
+  },
+  {
+   "entity": "craigslist",
+   "date": "1998",
+   "value": 240400000
+  },
+  {
+   "entity": "craigslist",
+   "date": "1999",
+   "value": 320200000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2000",
+   "value": 400000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2001",
+   "value": 560000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2002",
+   "value": 720000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2003",
+   "value": 880000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2004",
+   "value": 1040000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2005",
+   "value": 1200000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2006",
+   "value": 1360000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2007",
+   "value": 1520000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2008",
+   "value": 1680000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2009",
+   "value": 1840000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2010",
+   "value": 2000000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2011",
+   "value": 2166666667
+  },
+  {
+   "entity": "craigslist",
+   "date": "2012",
+   "value": 2333333333
+  },
+  {
+   "entity": "craigslist",
+   "date": "2013",
+   "value": 2500000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2014",
+   "value": 2666666667
+  },
+  {
+   "entity": "craigslist",
+   "date": "2015",
+   "value": 2833333333
+  },
+  {
+   "entity": "craigslist",
+   "date": "2016",
+   "value": 3000000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2017",
+   "value": 2820000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2018",
+   "value": 2640000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2019",
+   "value": 2460000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2020",
+   "value": 2280000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2021",
+   "value": 2100000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2022",
+   "value": 1920000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2023",
+   "value": 1740000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2024",
+   "value": 1560000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2025",
+   "value": 1380000000
+  },
+  {
+   "entity": "craigslist",
+   "date": "2026",
+   "value": 1200000000
+  },
+  {
+   "entity": "amazon",
+   "date": "1995",
+   "value": 1000000
+  },
+  {
+   "entity": "amazon",
+   "date": "1996",
+   "value": 60800000
+  },
+  {
+   "entity": "amazon",
+   "date": "1997",
+   "value": 120600000
+  },
+  {
+   "entity": "amazon",
+   "date": "1998",
+   "value": 180400000
+  },
+  {
+   "entity": "amazon",
+   "date": "1999",
+   "value": 240200000
+  },
+  {
+   "entity": "amazon",
+   "date": "2000",
+   "value": 300000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2001",
+   "value": 440000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2002",
+   "value": 580000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2003",
+   "value": 720000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2004",
+   "value": 860000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2005",
+   "value": 1000000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2006",
+   "value": 1280000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2007",
+   "value": 1560000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2008",
+   "value": 1840000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2009",
+   "value": 2120000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2010",
+   "value": 2400000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2011",
+   "value": 2750000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2012",
+   "value": 3100000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2013",
+   "value": 3450000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2014",
+   "value": 3800000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2015",
+   "value": 4150000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2016",
+   "value": 4500000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2017",
+   "value": 4875000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2018",
+   "value": 5250000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2019",
+   "value": 5625000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2020",
+   "value": 6000000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2021",
+   "value": 6416666667
+  },
+  {
+   "entity": "amazon",
+   "date": "2022",
+   "value": 6833333333
+  },
+  {
+   "entity": "amazon",
+   "date": "2023",
+   "value": 7250000000
+  },
+  {
+   "entity": "amazon",
+   "date": "2024",
+   "value": 7666666667
+  },
+  {
+   "entity": "amazon",
+   "date": "2025",
+   "value": 8083333333
+  },
+  {
+   "entity": "amazon",
+   "date": "2026",
+   "value": 8500000000
+  },
+  {
+   "entity": "ebay",
+   "date": "1995",
+   "value": 1000000
+  },
+  {
+   "entity": "ebay",
+   "date": "1996",
+   "value": 160800000
+  },
+  {
+   "entity": "ebay",
+   "date": "1997",
+   "value": 320600000
+  },
+  {
+   "entity": "ebay",
+   "date": "1998",
+   "value": 480400000
+  },
+  {
+   "entity": "ebay",
+   "date": "1999",
+   "value": 640200000
+  },
+  {
+   "entity": "ebay",
+   "date": "2000",
+   "value": 800000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2001",
+   "value": 1080000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2002",
+   "value": 1360000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2003",
+   "value": 1640000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2004",
+   "value": 1920000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2005",
+   "value": 2200000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2006",
+   "value": 2360000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2007",
+   "value": 2520000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2008",
+   "value": 2680000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2009",
+   "value": 2840000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2010",
+   "value": 3000000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2011",
+   "value": 2920000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2012",
+   "value": 2840000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2013",
+   "value": 2760000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2014",
+   "value": 2680000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2015",
+   "value": 2600000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2016",
+   "value": 2520000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2017",
+   "value": 2440000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2018",
+   "value": 2360000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2019",
+   "value": 2280000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2020",
+   "value": 2200000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2021",
+   "value": 2083333333
+  },
+  {
+   "entity": "ebay",
+   "date": "2022",
+   "value": 1966666667
+  },
+  {
+   "entity": "ebay",
+   "date": "2023",
+   "value": 1850000000
+  },
+  {
+   "entity": "ebay",
+   "date": "2024",
+   "value": 1733333333
+  },
+  {
+   "entity": "ebay",
+   "date": "2025",
+   "value": 1616666667
+  },
+  {
+   "entity": "ebay",
+   "date": "2026",
+   "value": 1500000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "1995",
+   "value": 2000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "1996",
+   "value": 334666667
+  },
+  {
+   "entity": "yahoo",
+   "date": "1997",
+   "value": 667333333
+  },
+  {
+   "entity": "yahoo",
+   "date": "1998",
+   "value": 1000000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "1999",
+   "value": 1625000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2000",
+   "value": 2250000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2001",
+   "value": 2875000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2002",
+   "value": 3500000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2003",
+   "value": 3750000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2004",
+   "value": 4000000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2005",
+   "value": 4250000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2006",
+   "value": 4500000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2007",
+   "value": 4425000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2008",
+   "value": 4350000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2009",
+   "value": 4275000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2010",
+   "value": 4200000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2011",
+   "value": 3833333333
+  },
+  {
+   "entity": "yahoo",
+   "date": "2012",
+   "value": 3466666667
+  },
+  {
+   "entity": "yahoo",
+   "date": "2013",
+   "value": 3100000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2014",
+   "value": 2733333333
+  },
+  {
+   "entity": "yahoo",
+   "date": "2015",
+   "value": 2366666667
+  },
+  {
+   "entity": "yahoo",
+   "date": "2016",
+   "value": 2000000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2017",
+   "value": 1880000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2018",
+   "value": 1760000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2019",
+   "value": 1640000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2020",
+   "value": 1520000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2021",
+   "value": 1400000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2022",
+   "value": 1280000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2023",
+   "value": 1160000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2024",
+   "value": 1040000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2025",
+   "value": 920000000
+  },
+  {
+   "entity": "yahoo",
+   "date": "2026",
+   "value": 800000000
+  },
+  {
+   "entity": "msn",
+   "date": "1996",
+   "value": 50000000
+  },
+  {
+   "entity": "msn",
+   "date": "1997",
+   "value": 487500000
+  },
+  {
+   "entity": "msn",
+   "date": "1998",
+   "value": 925000000
+  },
+  {
+   "entity": "msn",
+   "date": "1999",
+   "value": 1362500000
+  },
+  {
+   "entity": "msn",
+   "date": "2000",
+   "value": 1800000000
+  },
+  {
+   "entity": "msn",
+   "date": "2001",
+   "value": 2040000000
+  },
+  {
+   "entity": "msn",
+   "date": "2002",
+   "value": 2280000000
+  },
+  {
+   "entity": "msn",
+   "date": "2003",
+   "value": 2520000000
+  },
+  {
+   "entity": "msn",
+   "date": "2004",
+   "value": 2760000000
+  },
+  {
+   "entity": "msn",
+   "date": "2005",
+   "value": 3000000000
+  },
+  {
+   "entity": "msn",
+   "date": "2006",
+   "value": 2900000000
+  },
+  {
+   "entity": "msn",
+   "date": "2007",
+   "value": 2800000000
+  },
+  {
+   "entity": "msn",
+   "date": "2008",
+   "value": 2700000000
+  },
+  {
+   "entity": "msn",
+   "date": "2009",
+   "value": 2600000000
+  },
+  {
+   "entity": "msn",
+   "date": "2010",
+   "value": 2500000000
+  },
+  {
+   "entity": "msn",
+   "date": "2011",
+   "value": 2250000000
+  },
+  {
+   "entity": "msn",
+   "date": "2012",
+   "value": 2000000000
+  },
+  {
+   "entity": "msn",
+   "date": "2013",
+   "value": 1750000000
+  },
+  {
+   "entity": "msn",
+   "date": "2014",
+   "value": 1500000000
+  },
+  {
+   "entity": "msn",
+   "date": "2015",
+   "value": 1250000000
+  },
+  {
+   "entity": "msn",
+   "date": "2016",
+   "value": 1000000000
+  },
+  {
+   "entity": "msn",
+   "date": "2017",
+   "value": 930000000
+  },
+  {
+   "entity": "msn",
+   "date": "2018",
+   "value": 860000000
+  },
+  {
+   "entity": "msn",
+   "date": "2019",
+   "value": 790000000
+  },
+  {
+   "entity": "msn",
+   "date": "2020",
+   "value": 720000000
+  },
+  {
+   "entity": "msn",
+   "date": "2021",
+   "value": 650000000
+  },
+  {
+   "entity": "msn",
+   "date": "2022",
+   "value": 580000000
+  },
+  {
+   "entity": "msn",
+   "date": "2023",
+   "value": 510000000
+  },
+  {
+   "entity": "msn",
+   "date": "2024",
+   "value": 440000000
+  },
+  {
+   "entity": "msn",
+   "date": "2025",
+   "value": 370000000
+  },
+  {
+   "entity": "msn",
+   "date": "2026",
+   "value": 300000000
+  },
+  {
+   "entity": "google",
+   "date": "1998",
+   "value": 2000000
+  },
+  {
+   "entity": "google",
+   "date": "1999",
+   "value": 201000000
+  },
+  {
+   "entity": "google",
+   "date": "2000",
+   "value": 400000000
+  },
+  {
+   "entity": "google",
+   "date": "2001",
+   "value": 925000000
+  },
+  {
+   "entity": "google",
+   "date": "2002",
+   "value": 1450000000
+  },
+  {
+   "entity": "google",
+   "date": "2003",
+   "value": 1975000000
+  },
+  {
+   "entity": "google",
+   "date": "2004",
+   "value": 2500000000
+  },
+  {
+   "entity": "google",
+   "date": "2005",
+   "value": 3625000000
+  },
+  {
+   "entity": "google",
+   "date": "2006",
+   "value": 4750000000
+  },
+  {
+   "entity": "google",
+   "date": "2007",
+   "value": 5875000000
+  },
+  {
+   "entity": "google",
+   "date": "2008",
+   "value": 7000000000
+  },
+  {
+   "entity": "google",
+   "date": "2009",
+   "value": 9000000000
+  },
+  {
+   "entity": "google",
+   "date": "2010",
+   "value": 11000000000
+  },
+  {
+   "entity": "google",
+   "date": "2011",
+   "value": 13000000000
+  },
+  {
+   "entity": "google",
+   "date": "2012",
+   "value": 15000000000
+  },
+  {
+   "entity": "google",
+   "date": "2013",
+   "value": 18750000000
+  },
+  {
+   "entity": "google",
+   "date": "2014",
+   "value": 22500000000
+  },
+  {
+   "entity": "google",
+   "date": "2015",
+   "value": 26250000000
+  },
+  {
+   "entity": "google",
+   "date": "2016",
+   "value": 30000000000
+  },
+  {
+   "entity": "google",
+   "date": "2017",
+   "value": 36250000000
+  },
+  {
+   "entity": "google",
+   "date": "2018",
+   "value": 42500000000
+  },
+  {
+   "entity": "google",
+   "date": "2019",
+   "value": 48750000000
+  },
+  {
+   "entity": "google",
+   "date": "2020",
+   "value": 55000000000
+  },
+  {
+   "entity": "google",
+   "date": "2021",
+   "value": 61750000000
+  },
+  {
+   "entity": "google",
+   "date": "2022",
+   "value": 68500000000
+  },
+  {
+   "entity": "google",
+   "date": "2023",
+   "value": 75250000000
+  },
+  {
+   "entity": "google",
+   "date": "2024",
+   "value": 82000000000
+  },
+  {
+   "entity": "google",
+   "date": "2025",
+   "value": 88500000000
+  },
+  {
+   "entity": "google",
+   "date": "2026",
+   "value": 95000000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2001",
+   "value": 2000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2002",
+   "value": 176500000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2003",
+   "value": 351000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2004",
+   "value": 525500000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2005",
+   "value": 700000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2006",
+   "value": 1260000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2007",
+   "value": 1820000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2008",
+   "value": 2380000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2009",
+   "value": 2940000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2010",
+   "value": 3500000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2011",
+   "value": 3833333333
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2012",
+   "value": 4166666667
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2013",
+   "value": 4500000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2014",
+   "value": 4833333333
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2015",
+   "value": 5166666667
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2016",
+   "value": 5500000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2017",
+   "value": 5750000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2018",
+   "value": 6000000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2019",
+   "value": 6250000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2020",
+   "value": 6500000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2021",
+   "value": 6583333333
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2022",
+   "value": 6666666667
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2023",
+   "value": 6750000000
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2024",
+   "value": 6833333333
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2025",
+   "value": 6916666667
+  },
+  {
+   "entity": "wikipedia",
+   "date": "2026",
+   "value": 7000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2004",
+   "value": 1000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2005",
+   "value": 167333333
+  },
+  {
+   "entity": "facebook",
+   "date": "2006",
+   "value": 333666667
+  },
+  {
+   "entity": "facebook",
+   "date": "2007",
+   "value": 500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2008",
+   "value": 1500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2009",
+   "value": 2500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2010",
+   "value": 3500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2011",
+   "value": 5125000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2012",
+   "value": 6750000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2013",
+   "value": 8375000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2014",
+   "value": 10000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2015",
+   "value": 12000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2016",
+   "value": 14000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2017",
+   "value": 16000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2018",
+   "value": 18000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2019",
+   "value": 19000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2020",
+   "value": 20000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2021",
+   "value": 21000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2022",
+   "value": 22000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2023",
+   "value": 22500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2024",
+   "value": 23000000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2025",
+   "value": 23500000000
+  },
+  {
+   "entity": "facebook",
+   "date": "2026",
+   "value": 24000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2005",
+   "value": 2000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2006",
+   "value": 501333333
+  },
+  {
+   "entity": "youtube",
+   "date": "2007",
+   "value": 1000666667
+  },
+  {
+   "entity": "youtube",
+   "date": "2008",
+   "value": 1500000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2009",
+   "value": 3125000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2010",
+   "value": 4750000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2011",
+   "value": 6375000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2012",
+   "value": 8000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2013",
+   "value": 11000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2014",
+   "value": 14000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2015",
+   "value": 17000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2016",
+   "value": 20000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2017",
+   "value": 23500000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2018",
+   "value": 27000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2019",
+   "value": 30500000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2020",
+   "value": 34000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2021",
+   "value": 38000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2022",
+   "value": 42000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2023",
+   "value": 46000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2024",
+   "value": 50000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2025",
+   "value": 54000000000
+  },
+  {
+   "entity": "youtube",
+   "date": "2026",
+   "value": 58000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2005",
+   "value": 1000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2006",
+   "value": 120800000
+  },
+  {
+   "entity": "reddit",
+   "date": "2007",
+   "value": 240600000
+  },
+  {
+   "entity": "reddit",
+   "date": "2008",
+   "value": 360400000
+  },
+  {
+   "entity": "reddit",
+   "date": "2009",
+   "value": 480200000
+  },
+  {
+   "entity": "reddit",
+   "date": "2010",
+   "value": 600000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2011",
+   "value": 1080000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2012",
+   "value": 1560000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2013",
+   "value": 2040000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2014",
+   "value": 2520000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2015",
+   "value": 3000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2016",
+   "value": 4000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2017",
+   "value": 5000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2018",
+   "value": 6000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2019",
+   "value": 7000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2020",
+   "value": 8000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2021",
+   "value": 9000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2022",
+   "value": 10000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2023",
+   "value": 11000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2024",
+   "value": 12000000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2025",
+   "value": 12500000000
+  },
+  {
+   "entity": "reddit",
+   "date": "2026",
+   "value": 13000000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2006",
+   "value": 1000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2007",
+   "value": 267333333
+  },
+  {
+   "entity": "twitter",
+   "date": "2008",
+   "value": 533666667
+  },
+  {
+   "entity": "twitter",
+   "date": "2009",
+   "value": 800000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2010",
+   "value": 1533333333
+  },
+  {
+   "entity": "twitter",
+   "date": "2011",
+   "value": 2266666667
+  },
+  {
+   "entity": "twitter",
+   "date": "2012",
+   "value": 3000000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2013",
+   "value": 3750000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2014",
+   "value": 4500000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2015",
+   "value": 5250000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2016",
+   "value": 6000000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2017",
+   "value": 6750000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2018",
+   "value": 7500000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2019",
+   "value": 8250000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2020",
+   "value": 9000000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2021",
+   "value": 8666666667
+  },
+  {
+   "entity": "twitter",
+   "date": "2022",
+   "value": 8333333333
+  },
+  {
+   "entity": "twitter",
+   "date": "2023",
+   "value": 8000000000
+  },
+  {
+   "entity": "twitter",
+   "date": "2024",
+   "value": 7666666667
+  },
+  {
+   "entity": "twitter",
+   "date": "2025",
+   "value": 7333333333
+  },
+  {
+   "entity": "twitter",
+   "date": "2026",
+   "value": 7000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2010",
+   "value": 1000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2011",
+   "value": 500666667
+  },
+  {
+   "entity": "instagram",
+   "date": "2012",
+   "value": 1000333333
+  },
+  {
+   "entity": "instagram",
+   "date": "2013",
+   "value": 1500000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2014",
+   "value": 3000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2015",
+   "value": 4500000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2016",
+   "value": 6000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2017",
+   "value": 8000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2018",
+   "value": 10000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2019",
+   "value": 12000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2020",
+   "value": 14000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2021",
+   "value": 15500000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2022",
+   "value": 17000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2023",
+   "value": 18500000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2024",
+   "value": 20000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2025",
+   "value": 21000000000
+  },
+  {
+   "entity": "instagram",
+   "date": "2026",
+   "value": 22000000000
+  },
+  {
+   "entity": "chatgpt",
+   "date": "2022",
+   "value": 50000000
+  },
+  {
+   "entity": "chatgpt",
+   "date": "2023",
+   "value": 8000000000
+  },
+  {
+   "entity": "chatgpt",
+   "date": "2024",
+   "value": 14000000000
+  },
+  {
+   "entity": "chatgpt",
+   "date": "2025",
+   "value": 18000000000
+  },
+  {
+   "entity": "chatgpt",
+   "date": "2026",
+   "value": 22000000000
+  }
+ ],
+ "facts": [
+  {
+   "atDate": "1996",
+   "heading": "The wild west",
+   "body": "Web directories and classified boards rule. Yahoo! hand-lists the internet; Amazon sells its first book.",
+   "tiles": [
+    "yahoo",
+    "amazon"
+   ]
+  },
+  {
+   "atDate": "2000",
+   "heading": "The portal era",
+   "body": "Yahoo! and MSN fight to be your homepage. Search is a feature, not yet a kingdom.",
+   "tiles": [
+    "yahoo",
+    "msn"
+   ]
+  },
+  {
+   "atDate": "2004",
+   "heading": "A book of faces",
+   "body": "Facebook opens to universities. Wikipedia quietly becomes the reference shelf of the web.",
+   "tiles": [
+    "facebook",
+    "wikipedia"
+   ]
+  },
+  {
+   "atDate": "2007",
+   "heading": "The iPhone year",
+   "body": "Mobile traffic begins its climb. Google passes every portal and never looks back.",
+   "tiles": [
+    "google",
+    "youtube"
+   ]
+  },
+  {
+   "atDate": "2012",
+   "heading": "Social takes over",
+   "body": "Facebook and YouTube trade the lead. Time spent starts to matter more than page views.",
+   "tiles": [
+    "facebook",
+    "youtube"
+   ]
+  },
+  {
+   "atDate": "2018",
+   "heading": "Video wins attention",
+   "body": "YouTube approaches thirty billion monthly visits; Instagram closes in fast.",
+   "tiles": [
+    "youtube",
+    "instagram"
+   ]
+  },
+  {
+   "atDate": "2023",
+   "heading": "AI arrives",
+   "body": "ChatGPT becomes the fastest-growing site in history within months of launch.",
+   "tiles": [
+    "chatgpt",
+    "google"
+   ]
+  },
+  {
+   "atDate": "2026",
+   "heading": "One giant, many rooms",
+   "body": "Google dwarfs everything, but social and AI keep pulling hours away from the open web.",
+   "tiles": [
+    "google",
+    "youtube"
+   ]
+  }
+ ],
+ "groups": [
+  {
+   "id": "Search",
+   "label": "Search",
+   "color": "#4285F4"
+  },
+  {
+   "id": "Social",
+   "label": "Social",
+   "color": "#1877F2"
+  },
+  {
+   "id": "Video",
+   "label": "Video",
+   "color": "#FF0000"
+  },
+  {
+   "id": "Shopping",
+   "label": "Shopping",
+   "color": "#FF9900"
+  },
+  {
+   "id": "AI",
+   "label": "AI",
+   "color": "#10A37F"
+  },
+  {
+   "id": "Forums",
+   "label": "Forums",
+   "color": "#FF4500"
+  }
+ ],
+ "worldTotal": [
+  {
+   "date": "1995",
+   "value": 5000000
+  },
+  {
+   "date": "1996",
+   "value": 687066667
+  },
+  {
+   "date": "1997",
+   "value": 1756633333
+  },
+  {
+   "date": "1998",
+   "value": 2828200000
+  },
+  {
+   "date": "1999",
+   "value": 4389100000
+  },
+  {
+   "date": "2000",
+   "value": 5950000000
+  },
+  {
+   "date": "2001",
+   "value": 7922000000
+  },
+  {
+   "date": "2002",
+   "value": 10066500000
+  },
+  {
+   "date": "2003",
+   "value": 11836000000
+  },
+  {
+   "date": "2004",
+   "value": 13606500000
+  },
+  {
+   "date": "2005",
+   "value": 16145333333
+  },
+  {
+   "date": "2006",
+   "value": 19366800000
+  },
+  {
+   "date": "2007",
+   "value": 22528600000
+  },
+  {
+   "date": "2008",
+   "value": 26524066667
+  },
+  {
+   "date": "2009",
+   "value": 32520200000
+  },
+  {
+   "date": "2010",
+   "value": 38984333333
+  },
+  {
+   "date": "2011",
+   "value": 46100666667
+  },
+  {
+   "date": "2012",
+   "value": 53217000000
+  },
+  {
+   "date": "2013",
+   "value": 63475000000
+  },
+  {
+   "date": "2014",
+   "value": 74733333333
+  },
+  {
+   "date": "2015",
+   "value": 86366666667
+  },
+  {
+   "date": "2016",
+   "value": 98520000000
+  },
+  {
+   "date": "2017",
+   "value": 114195000000
+  },
+  {
+   "date": "2018",
+   "value": 129870000000
+  },
+  {
+   "date": "2019",
+   "value": 144545000000
+  },
+  {
+   "date": "2020",
+   "value": 159220000000
+  },
+  {
+   "date": "2021",
+   "value": 173150000000
+  },
+  {
+   "date": "2022",
+   "value": 187130000000
+  },
+  {
+   "date": "2023",
+   "value": 208510000000
+  },
+  {
+   "date": "2024",
+   "value": 227940000000
+  },
+  {
+   "date": "2025",
+   "value": 244120000000
+  },
+  {
+   "date": "2026",
+   "value": 260300000000
+  }
+ ],
+ "sources": "Traffic estimates: Similarweb public reporting, company disclosures, press archives",
+ "endingTitle": "Thirty-one years of the web",
+ "logoDomains": {
+  "craigslist": "craigslist.org",
+  "amazon": "amazon.com",
+  "ebay": "ebay.com",
+  "yahoo": "yahoo.com",
+  "msn": "msn.com",
+  "google": "google.com",
+  "wikipedia": "wikipedia.org",
+  "facebook": "facebook.com",
+  "youtube": "youtube.com",
+  "reddit": "reddit.com",
+  "twitter": "twitter.com",
+  "instagram": "instagram.com",
+  "chatgpt": "openai.com"
+ }
+}

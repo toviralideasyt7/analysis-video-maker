@@ -258,7 +258,10 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
       } else if (b === undefined || b === null) {
         value = a;
       } else {
-        value = a + (b - a) * t;
+        // Ease inside the transition: the reference never moves linearly; values
+        // glide with a slight ease-out so each year lands with a settle.
+        const eased = t * t * (3 - 2 * t); // smoothstep
+        value = a + (b - a) * eased;
       }
       if (held) heldNotes += 1;
       bars.push({ entityId: meta?.id ?? series.entityId, value, rank: 0, widthFraction: 0, held });
