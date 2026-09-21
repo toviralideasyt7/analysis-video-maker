@@ -41,6 +41,19 @@ async function main(): Promise<void> {
   await ensureBrowser();
   const props = { input };
 
+  // Render a single frame of the main composition - a fast way to review the
+  // layout without paying for a full render.
+  const stillArg = process.argv.indexOf('--still');
+  if (stillArg >= 0) {
+    const requested = Number(process.argv[stillArg + 1]);
+    const composition = await selectComposition({ serveUrl: bundleLocation, id: 'DataRace', inputProps: props });
+    const frame = Number.isFinite(requested) ? Math.max(0, Math.min(composition.durationInFrames - 1, Math.round(requested))) : Math.round(composition.durationInFrames * 0.5);
+    const jpg = out.replace(/\.mp4$/, '.jpg');
+    await renderStill({ composition, serveUrl: bundleLocation, output: jpg, inputProps: props, imageFormat: 'jpeg', jpegQuality: 92, frame });
+    process.stdout.write(`still: ${jpg} (frame ${frame}/${composition.durationInFrames})\n`);
+    return;
+  }
+
   if (process.argv.includes('--thumbnail-only')) {
     const composition = await selectComposition({ serveUrl: bundleLocation, id: 'Thumbnail', inputProps: props });
     const png = out.replace(/\.mp4$/, '.jpg');

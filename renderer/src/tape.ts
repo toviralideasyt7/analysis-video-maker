@@ -22,6 +22,12 @@ export interface TapeBar {
   rank: number;
   widthFraction: number;
   held: boolean;
+  /**
+   * Continuous, collision-free row slot (1 = top row). Unlike rank this is
+   * smoothed across frames, and the tape guarantees no two bars ever share a
+   * slot, so rows slide past each other instead of collapsing onto one line.
+   */
+  slot: number;
 }
 
 export interface TapeFrame {
@@ -244,6 +250,8 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
     color: g.color ?? defaultColor(`group-${index}`),
   }));
 
+  /** Last smoothed row slot per entity, carried across frames. */
+  const rowSlot = new Map<string, number>();
   const frames: TapeFrame[] = [];
   let heldNotes = 0;
 
@@ -273,13 +281,43 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
         value = a + (b - a) * eased;
       }
       if (held) heldNotes += 1;
-      bars.push({ entityId: meta?.id ?? series.entityId, value, rank: 0, widthFraction: 0, held });
+      bars.push({ entityId: meta?.id ?? series.entityId, value, rank: 0, widthFraction: 0, held, slot: 0 });
     }
 
     bars.sort((x, y) => y.value - x.value || x.entityId.localeCompare(y.entityId));
     bars.forEach((bar, index) => {
       bar.rank = index + 1;
     });
+
+    // Row slots: ease each bar toward its discrete rank, then enforce a minimum
+    // separation of one row in rank order. Two bars can therefore never occupy
+    // the same y at the same frame - the visible "bars crossing each other"
+    // defect - while the motion still reads as a smooth slide.
+    const eased: Array<{ bar: (typeof bars)[number]; pos: number }> = [];
+    for (const bar of bars) {
+      const target = bar.rank;
+      const previous = rowSlot.get(bar.entityId);
+      const pos = previous === undefined ? target : previous + (target - previous) * 0.18;
+      eased.push({ bar, pos });
+    }
+    eased.sort((a, b) => a.pos - b.pos || a.bar.rank - b.bar.rank);
+    let floor = 1;
+    for (const entry of eased) {
+      const pos = Math.max(entry.pos, floor);
+      entry.bar.slot = pos;
+      // would ratchet every row downward a little each frame, which drifted the
+      // whole chart out of order and pushed rows out of the visible band.
+      rowSlot.set(entry.bar.entityId, entry.pos);
+      floor = pos + 1;
+    }
+
+    // The badge must agree with what the viewer sees, so the rank is taken
+    // from the final vertical order rather than from the pre-easing value
+    // order, which briefly disagreed while rows were still sliding.
+    eased.forEach((entry, index) => {
+      entry.bar.rank = index + 1;
+    });
+    bars.sort((a, b) => a.slot - b.slot);
 
     const maxValue = bars.length > 0 ? bars[0].value : 0;
     for (const bar of bars) {
