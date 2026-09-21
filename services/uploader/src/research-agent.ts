@@ -21,7 +21,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createAIClient, type AIClient } from './ai';
 import { createSearchProvider, type SearchProvider } from './search';
-import { validateVideoInput } from '@avm/shared';
+import { resolveOwidTable, validateVideoInput } from '@avm/shared';
 import type { VideoInput, VideoInputFact } from '@avm/shared';
 
 export interface ResearchRequest {
@@ -335,6 +335,55 @@ function isAggregateName(name: string): boolean {
   return key.endsWith('(un)') || AGGREGATE_NAMES.has(key);
 }
 
+/**
+ * Try the key-free direct sources before asking the web. A topic like "world
+ * population by country" resolves straight to a grapher CSV, which is faster and
+ * more trustworthy than reading a page: the numbers come from the file, not from
+ * a model's transcription of it.
+ */
+async function tryDirectSources(
+  req: ResearchRequest,
+  warnings: string[],
+): Promise<{ plan: Plan; source: { text: string; url: string }; rows: RawRow[] } | null> {
+  try {
+    const table = await resolveOwidTable(req.topic);
+    if (!table || table.rows.length < 20) return null;
+    warnings.push(`direct download: OWID ${table.slug} (${table.rows.length} rows)`);
+
+    const peak = new Map<string, number>();
+    for (const row of table.rows) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
+    const names = Array.from(peak.keys())
+      .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
+      .slice(0, 40);
+    const years = table.rows.map((row) => row.year);
+
+    const plan: Plan = {
+      measurableDefinition: req.topic,
+      unit: 'units',
+      entityType: 'entity',
+      entities: names.map((name) => ({
+        id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name,
+        group: 'All',
+      })),
+      startYear: Math.min(...years),
+      endYear: Math.max(...years),
+      layout: undefined,
+      searchQueries: [],
+    };
+    const rows: RawRow[] = table.rows.map((row) => ({
+      entity: row.entity,
+      date: String(row.year),
+      value: row.value,
+      quote: 'our world in data grapher csv',
+    }));
+    return { plan, source: { text: '', url: `https://ourworldindata.org/grapher/${table.slug}.csv` }, rows };
+  } catch (error) {
+    warnings.push(`direct download failed: ${error instanceof Error ? error.message : String(error)}`);
+    return null;
+  }
+}
+
 export async function runResearch(req: ResearchRequest, outDir: string): Promise<ResearchOutput> {
   const warnings: string[] = [];
   const errors: string[] = [];
@@ -345,7 +394,7 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   // values come from the columns deterministically. AI is used only to
   // narrate. This keeps a 12k-row CSV out of a prompt window entirely.
   const isTable = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
-  let plan: Plan;
+  let plan: Plan | undefined;
   let source: { text: string; url: string } | null = null;
   let rows: RawRow[] = [];
   if (isTable && req.dataUrl) {
@@ -391,10 +440,24 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     };
     source = { text, url: req.dataUrl };
     rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
-  } else {
-    plan = await planResearch(req, ai);
-    source = await gather(req, plan, ai, search, warnings);
+  } else if (!req.dataUrl) {
+    // No data URL was supplied: try the key-free direct sources first, and only
+    // fall back to searching the web when they have nothing for this topic.
+    const direct = await tryDirectSources(req, warnings);
+    if (direct) {
+      plan = direct.plan;
+      source = direct.source;
+      rows = direct.rows;
+    } else {
+      plan = await planResearch(req, ai);
+      source = await gather(req, plan, ai, search, warnings);
+    }
   }
+  if (!plan) {
+    errors.push('no plan could be built for this topic');
+    return { ok: false, warnings, errors };
+  }
+
   if (rows.length === 0 && source) {
     const extracted = await extractRows(source, plan, ai);
     rows = extracted.rows;

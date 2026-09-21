@@ -1,6 +1,7 @@
 export * from './types';
 export * from './videoInput';
 export * from './validate';
+export * from './sources';
 
 export const SCHEMA_IDS = {
   dataPlan: 'schemas/data-plan.schema.json',
