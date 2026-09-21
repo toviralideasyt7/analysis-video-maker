@@ -87,7 +87,17 @@ Reply with JSON only:
 async function gather(req: ResearchRequest, plan: Plan, ai: AIClient, search: SearchProvider, warnings: string[]): Promise<{ text: string; url: string } | null> {
   if (req.dataUrl) {
     const fetched = await search.fetch(req.dataUrl);
-    if (fetched.text && fetched.text.length > 100) return { text: fetched.text, url: req.dataUrl };
+    let text = fetched.text ?? "";
+    if (text.length > 100) {
+      // A raw CSV dump is data, not prose: keep the rows whole and cap the size
+      // so the extractor sees real rows without blowing the context window.
+      if (/\.(csv|tsv)(\?|$)/i.test(req.dataUrl)) {
+        const lines = text.split("\n").filter((l) => l.trim() !== "");
+        text = lines.slice(0, 4000).join("\n");
+        warnings.push(`data URL is a raw table: ${lines.length} rows (capped at 4000)`);
+      }
+      return { text, url: req.dataUrl };
+    }
     warnings.push(`data URL provided but unusable: ${req.dataUrl}`);
   }
   for (const query of plan.searchQueries.slice(0, 4)) {
@@ -112,6 +122,52 @@ interface RawRow {
   quote: string;
 }
 
+/**
+ * Deterministic CSV ingestion: when the data URL is a table, parse it directly
+ * instead of asking a model to read it. AI plans and narrates; the numbers come
+ * from the file. This is the honest and scalable path for any tabular source.
+ */
+function ingestCsvTable(text: string): Array<{ entity: string; date: string; value: number }> {
+  const lines = text.split('\n').filter((l) => l.trim() !== '');
+  if (lines.length < 2) return [];
+  const delimiter = lines[0].includes('\t') ? '\t' : ',';
+  const split = (line: string): string[] => {
+    const out: string[] = [];
+    let field = '';
+    let quoted = false;
+    for (let i = 0; i < line.length; i += 1) {
+      const ch = line[i];
+      if (quoted) {
+        if (ch === '"') {
+          if (line[i + 1] === '"') { field += '"'; i += 1; } else { quoted = false; }
+        } else field += ch;
+        continue;
+      }
+      if (ch === '"') quoted = true;
+      else if (ch === delimiter) { out.push(field); field = ''; }
+      else if (ch !== '\r') field += ch;
+    }
+    out.push(field);
+    return out;
+  };
+  const header = split(lines[0]).map((h) => h.trim().toLowerCase());
+  const entityIndex = header.findIndex((h) => ['entity', 'country', 'name', 'brand'].includes(h));
+  const dateIndex = header.findIndex((h) => ['date', 'year', 'time'].includes(h));
+  const valueIndex = header.findIndex((h) => ['value', 'population', 'amount', 'count', 'total', 'sales'].includes(h));
+  if (entityIndex < 0 || dateIndex < 0 || valueIndex < 0) return [];
+  const rows: Array<{ entity: string; date: string; value: number }> = [];
+  for (const line of lines.slice(1)) {
+    const parts = split(line);
+    const entity = (parts[entityIndex] ?? '').trim();
+    const date = (parts[dateIndex] ?? '').trim();
+    const raw = (parts[valueIndex] ?? '').trim().replace(/[",\s]/g, '');
+    if (!entity || !date || raw === '') continue;
+    const value = Number.parseFloat(raw);
+    if (!Number.isFinite(value)) continue;
+    rows.push({ entity, date, value });
+  }
+  return rows;
+}
 async function extractRows(source: { text: string; url: string }, plan: Plan, ai: AIClient): Promise<{ rows: RawRow[]; dropped: number }> {
   const prompt = `SOURCE: ${source.url}
 
@@ -180,12 +236,21 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   const plan = await planResearch(req, ai);
   const source = await gather(req, plan, ai, search, warnings);
   let rows: RawRow[] = [];
-  if (source) {
+  const isTableUrl = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
+  if (source && isTableUrl) {
+    const parsed = ingestCsvTable(source.text);
+    if (parsed.length > 0) {
+      rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
+      warnings.push(`${parsed.length} rows ingested directly from the CSV table`);
+    }
+  }
+  if (rows.length === 0 && source) {
     const extracted = await extractRows(source, plan, ai);
     rows = extracted.rows;
     if (extracted.dropped > 0) warnings.push(`${extracted.dropped} extracted rows dropped (quote guard)`);
-  } else {
-    warnings.push('no usable source page found; cannot extract a series');
+  }
+  if (!source) {
+    warnings.push("no usable source page found; cannot extract a series");
   }
 
   if (rows.length === 0) {

@@ -86,6 +86,9 @@ export function createSearchProvider(): SearchProvider {
       return [];
     },
     async fetch(url) {
+      // A thin proxy response (JS-rendered pages) gets a direct retry.
+      const direct = await directFetch(url);
+      if ((direct.text?.length ?? 0) > 20000) return direct;
       if (usable) {
         for (const input of [
           { body: { urls: [url], format: 'markdown' } },
