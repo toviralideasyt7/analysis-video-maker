@@ -1,0 +1,2762 @@
+{
+ "version": "1.0",
+ "title": "Global renewable energy capacity by country",
+ "metric": "Global renewable energy capacity by coun",
+ "unit": "units",
+ "valueFormat": "comma",
+ "canvas": {
+  "width": 1280,
+  "height": 720,
+  "fps": 60
+ },
+ "settings": {
+  "topN": 12,
+  "secondsPerYear": 22.115,
+  "scalePower": 0.72,
+  "introSeconds": 5,
+  "outroSeconds": 8,
+  "finalHoldSeconds": 12,
+  "layout": "auto"
+ },
+ "entities": [
+  {
+   "id": "all-renewables-total-",
+   "name": "All renewables (total)",
+   "group": "All"
+  },
+  {
+   "id": "solar-total-",
+   "name": "Solar (total)",
+   "group": "All"
+  },
+  {
+   "id": "solar-photovoltaic",
+   "name": "Solar photovoltaic",
+   "group": "All"
+  },
+  {
+   "id": "hydropower-total-",
+   "name": "Hydropower (total)",
+   "group": "All"
+  },
+  {
+   "id": "wind-total-",
+   "name": "Wind (total)",
+   "group": "All"
+  },
+  {
+   "id": "hydropower",
+   "name": "Hydropower",
+   "group": "All"
+  },
+  {
+   "id": "onshore-wind",
+   "name": "Onshore wind",
+   "group": "All"
+  },
+  {
+   "id": "pumped-storage",
+   "name": "Pumped storage",
+   "group": "All"
+  },
+  {
+   "id": "bioenergy-total-",
+   "name": "Bioenergy (total)",
+   "group": "All"
+  },
+  {
+   "id": "solid-biofuels",
+   "name": "Solid biofuels",
+   "group": "All"
+  },
+  {
+   "id": "offshore-wind",
+   "name": "Offshore wind",
+   "group": "All"
+  },
+  {
+   "id": "mixed-hydro-plants",
+   "name": "Mixed hydro plants",
+   "group": "All"
+  },
+  {
+   "id": "renewable-municipal-waste",
+   "name": "Renewable municipal waste",
+   "group": "All"
+  },
+  {
+   "id": "biogas",
+   "name": "Biogas",
+   "group": "All"
+  },
+  {
+   "id": "geothermal",
+   "name": "Geothermal",
+   "group": "All"
+  },
+  {
+   "id": "solar-photovoltaic-off-grid-",
+   "name": "Solar photovoltaic (off-grid)",
+   "group": "All"
+  },
+  {
+   "id": "concentrated-solar-power",
+   "name": "Concentrated solar power",
+   "group": "All"
+  },
+  {
+   "id": "liquid-biofuels",
+   "name": "Liquid biofuels",
+   "group": "All"
+  },
+  {
+   "id": "marine",
+   "name": "Marine",
+   "group": "All"
+  }
+ ],
+ "observations": [
+  {
+   "entity": "All renewables (total)",
+   "date": "2000",
+   "value": 763.94165
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2001",
+   "value": 785.04565
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2002",
+   "value": 805.9863
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2003",
+   "value": 836.23505
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2004",
+   "value": 869.0441
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2005",
+   "value": 908.40063
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2006",
+   "value": 949.881
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2007",
+   "value": 999.30676
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2008",
+   "value": 1062.3982
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2009",
+   "value": 1143.4758
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2010",
+   "value": 1226.5267
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2011",
+   "value": 1331.3591
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2012",
+   "value": 1446.2083
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2013",
+   "value": 1570.126
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2014",
+   "value": 1700.0487
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2015",
+   "value": 1852.7697
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2016",
+   "value": 2021.3016
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2017",
+   "value": 2187.566
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2018",
+   "value": 2358.148
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2019",
+   "value": 2541.9038
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2020",
+   "value": 2811.1064
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2021",
+   "value": 3077.1157
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2022",
+   "value": 3379.2378
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2023",
+   "value": 3875.7563
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2024",
+   "value": 4461.6313
+  },
+  {
+   "entity": "All renewables (total)",
+   "date": "2025",
+   "value": 5155.0073
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2000",
+   "value": 31.108576
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2001",
+   "value": 33.53601
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2002",
+   "value": 35.491558
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2003",
+   "value": 38.370678
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2004",
+   "value": 40.74342
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2005",
+   "value": 45.436073
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2006",
+   "value": 49.71104
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2007",
+   "value": 52.71051
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2008",
+   "value": 56.139137
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2009",
+   "value": 63.87699
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2010",
+   "value": 68.1517
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2011",
+   "value": 74.378204
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2012",
+   "value": 78.3197
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2013",
+   "value": 84.93275
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2014",
+   "value": 89.84415
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2015",
+   "value": 95.44434
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2016",
+   "value": 103.867096
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2017",
+   "value": 109.66231
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2018",
+   "value": 116.75079
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2019",
+   "value": 122.5341
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2020",
+   "value": 129.76935
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2021",
+   "value": 136.41307
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2022",
+   "value": 143.07036
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2023",
+   "value": 147.79239
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2024",
+   "value": 152.50092
+  },
+  {
+   "entity": "Bioenergy (total)",
+   "date": "2025",
+   "value": 155.36418
+  },
+  {
+   "entity": "Biogas",
+   "date": "2000",
+   "value": 2.519515
+  },
+  {
+   "entity": "Biogas",
+   "date": "2001",
+   "value": 2.8510911
+  },
+  {
+   "entity": "Biogas",
+   "date": "2002",
+   "value": 3.115297
+  },
+  {
+   "entity": "Biogas",
+   "date": "2003",
+   "value": 3.547862
+  },
+  {
+   "entity": "Biogas",
+   "date": "2004",
+   "value": 3.8432572
+  },
+  {
+   "entity": "Biogas",
+   "date": "2005",
+   "value": 4.900606
+  },
+  {
+   "entity": "Biogas",
+   "date": "2006",
+   "value": 5.485813
+  },
+  {
+   "entity": "Biogas",
+   "date": "2007",
+   "value": 6.2924266
+  },
+  {
+   "entity": "Biogas",
+   "date": "2008",
+   "value": 6.771159
+  },
+  {
+   "entity": "Biogas",
+   "date": "2009",
+   "value": 8.439474
+  },
+  {
+   "entity": "Biogas",
+   "date": "2010",
+   "value": 9.614234
+  },
+  {
+   "entity": "Biogas",
+   "date": "2011",
+   "value": 11.505142
+  },
+  {
+   "entity": "Biogas",
+   "date": "2012",
+   "value": 13.196084
+  },
+  {
+   "entity": "Biogas",
+   "date": "2013",
+   "value": 14.028011
+  },
+  {
+   "entity": "Biogas",
+   "date": "2014",
+   "value": 15.09053
+  },
+  {
+   "entity": "Biogas",
+   "date": "2015",
+   "value": 15.791611
+  },
+  {
+   "entity": "Biogas",
+   "date": "2016",
+   "value": 16.510094
+  },
+  {
+   "entity": "Biogas",
+   "date": "2017",
+   "value": 17.348356
+  },
+  {
+   "entity": "Biogas",
+   "date": "2018",
+   "value": 18.356876
+  },
+  {
+   "entity": "Biogas",
+   "date": "2019",
+   "value": 19.178461
+  },
+  {
+   "entity": "Biogas",
+   "date": "2020",
+   "value": 19.875584
+  },
+  {
+   "entity": "Biogas",
+   "date": "2021",
+   "value": 20.104948
+  },
+  {
+   "entity": "Biogas",
+   "date": "2022",
+   "value": 20.518404
+  },
+  {
+   "entity": "Biogas",
+   "date": "2023",
+   "value": 20.85522
+  },
+  {
+   "entity": "Biogas",
+   "date": "2024",
+   "value": 21.119646
+  },
+  {
+   "entity": "Biogas",
+   "date": "2025",
+   "value": 21.225315
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2000",
+   "value": 0.419
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2001",
+   "value": 0.246
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2002",
+   "value": 0.202
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2003",
+   "value": 0.3884
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2004",
+   "value": 0.3884
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2005",
+   "value": 0.3884
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2006",
+   "value": 0.4124
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2007",
+   "value": 0.479
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2008",
+   "value": 0.535
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2009",
+   "value": 0.7651
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2010",
+   "value": 1.2658199
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2011",
+   "value": 1.70432
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2012",
+   "value": 2.56652
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2013",
+   "value": 3.941583
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2014",
+   "value": 4.599083
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2015",
+   "value": 4.850193
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2016",
+   "value": 4.970193
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2017",
+   "value": 5.0701632
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2018",
+   "value": 5.8109837
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2019",
+   "value": 6.368134
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2020",
+   "value": 6.405834
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2021",
+   "value": 6.3662043
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2022",
+   "value": 6.5640936
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2023",
+   "value": 6.864094
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2024",
+   "value": 7.495094
+  },
+  {
+   "entity": "Concentrated solar power",
+   "date": "2025",
+   "value": 8.333994
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2000",
+   "value": 8.2727
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2001",
+   "value": 7.9607
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2002",
+   "value": 8.1132
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2003",
+   "value": 8.1881
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2004",
+   "value": 8.208799
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2005",
+   "value": 8.555817
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2006",
+   "value": 8.758716
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2007",
+   "value": 9.012736
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2008",
+   "value": 9.3190155
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2009",
+   "value": 9.754416
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2010",
+   "value": 9.921716
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2011",
+   "value": 10.065466
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2012",
+   "value": 10.524567
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2013",
+   "value": 10.794366
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2014",
+   "value": 11.244416
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2015",
+   "value": 11.843466
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2016",
+   "value": 12.169374
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2017",
+   "value": 12.75398
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2018",
+   "value": 13.196476
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2019",
+   "value": 13.823755
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2020",
+   "value": 14.183774
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2021",
+   "value": 14.467982
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2022",
+   "value": 14.705642
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2023",
+   "value": 15.1015215
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2024",
+   "value": 15.364696
+  },
+  {
+   "entity": "Geothermal",
+   "date": "2025",
+   "value": 15.623535
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2000",
+   "value": 663.8796
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2001",
+   "value": 669.9363
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2002",
+   "value": 681.07294
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2003",
+   "value": 699.99005
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2004",
+   "value": 719.3062
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2005",
+   "value": 738.9509
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2006",
+   "value": 759.2824
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2007",
+   "value": 784.5629
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2008",
+   "value": 813.16376
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2009",
+   "value": 842.9081
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2010",
+   "value": 872.59106
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2011",
+   "value": 900.23956
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2012",
+   "value": 933.3854
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2013",
+   "value": 980.1874
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2014",
+   "value": 1015.8015
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2015",
+   "value": 1047.2346
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2016",
+   "value": 1081.9562
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2017",
+   "value": 1099.2634
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2018",
+   "value": 1117.4058
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2019",
+   "value": 1132.8761
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2020",
+   "value": 1153.2491
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2021",
+   "value": 1176.2826
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2022",
+   "value": 1198.6019
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2023",
+   "value": 1209.2324
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2024",
+   "value": 1216.4052
+  },
+  {
+   "entity": "Hydropower",
+   "date": "2025",
+   "value": 1234.1528
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2000",
+   "value": 786.9784
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2001",
+   "value": 795.74475
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2002",
+   "value": 808.92096
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2003",
+   "value": 827.72687
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2004",
+   "value": 849.18536
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2005",
+   "value": 874.0484
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2006",
+   "value": 897.502
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2007",
+   "value": 927.0085
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2008",
+   "value": 957.9169
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2009",
+   "value": 992.5017
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2010",
+   "value": 1025.9272
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2011",
+   "value": 1057.1052
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2012",
+   "value": 1092.9615
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2013",
+   "value": 1142.1687
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2014",
+   "value": 1179.5725
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2015",
+   "value": 1213.8833
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2016",
+   "value": 1255.9128
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2017",
+   "value": 1277.1514
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2018",
+   "value": 1296.677
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2019",
+   "value": 1312.4377
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2020",
+   "value": 1334.4879
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2021",
+   "value": 1362.7153
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2022",
+   "value": 1396.6031
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2023",
+   "value": 1411.8344
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2024",
+   "value": 1427.0946
+  },
+  {
+   "entity": "Hydropower (total)",
+   "date": "2025",
+   "value": 1455.6842
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2000",
+   "value": 0.0027100001
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2001",
+   "value": 0.00771
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2002",
+   "value": 0.0110100005
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2003",
+   "value": 0.066010006
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2004",
+   "value": 0.63401
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2005",
+   "value": 0.80345
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2006",
+   "value": 0.92938703
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2007",
+   "value": 1.036215
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2008",
+   "value": 1.21548
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2009",
+   "value": 1.699723
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2010",
+   "value": 1.87337
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2011",
+   "value": 1.908875
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2012",
+   "value": 2.068338
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2013",
+   "value": 2.043143
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2014",
+   "value": 2.325106
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2015",
+   "value": 2.395711
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2016",
+   "value": 2.322275
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2017",
+   "value": 2.357124
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2018",
+   "value": 2.4883249
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2019",
+   "value": 3.387059
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2020",
+   "value": 2.40077
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2021",
+   "value": 1.923517
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2022",
+   "value": 1.947093
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2023",
+   "value": 2.241103
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2024",
+   "value": 2.009949
+  },
+  {
+   "entity": "Liquid biofuels",
+   "date": "2025",
+   "value": 2.013962
+  },
+  {
+   "entity": "Marine",
+   "date": "2000",
+   "value": 0.23825
+  },
+  {
+   "entity": "Marine",
+   "date": "2001",
+   "value": 0.24025
+  },
+  {
+   "entity": "Marine",
+   "date": "2002",
+   "value": 0.24325
+  },
+  {
+   "entity": "Marine",
+   "date": "2003",
+   "value": 0.24425
+  },
+  {
+   "entity": "Marine",
+   "date": "2004",
+   "value": 0.24325
+  },
+  {
+   "entity": "Marine",
+   "date": "2005",
+   "value": 0.24125
+  },
+  {
+   "entity": "Marine",
+   "date": "2006",
+   "value": 0.24025
+  },
+  {
+   "entity": "Marine",
+   "date": "2007",
+   "value": 0.24255
+  },
+  {
+   "entity": "Marine",
+   "date": "2008",
+   "value": 0.24555
+  },
+  {
+   "entity": "Marine",
+   "date": "2009",
+   "value": 0.24455
+  },
+  {
+   "entity": "Marine",
+   "date": "2010",
+   "value": 0.2499
+  },
+  {
+   "entity": "Marine",
+   "date": "2011",
+   "value": 0.247926
+  },
+  {
+   "entity": "Marine",
+   "date": "2012",
+   "value": 0.254655
+  },
+  {
+   "entity": "Marine",
+   "date": "2013",
+   "value": 0.514612
+  },
+  {
+   "entity": "Marine",
+   "date": "2014",
+   "value": 0.517427
+  },
+  {
+   "entity": "Marine",
+   "date": "2015",
+   "value": 0.51798797
+  },
+  {
+   "entity": "Marine",
+   "date": "2016",
+   "value": 0.524108
+  },
+  {
+   "entity": "Marine",
+   "date": "2017",
+   "value": 0.527072
+  },
+  {
+   "entity": "Marine",
+   "date": "2018",
+   "value": 0.527054
+  },
+  {
+   "entity": "Marine",
+   "date": "2019",
+   "value": 0.525034
+  },
+  {
+   "entity": "Marine",
+   "date": "2020",
+   "value": 0.491341
+  },
+  {
+   "entity": "Marine",
+   "date": "2021",
+   "value": 0.49076802
+  },
+  {
+   "entity": "Marine",
+   "date": "2022",
+   "value": 0.49234602
+  },
+  {
+   "entity": "Marine",
+   "date": "2023",
+   "value": 0.493796
+  },
+  {
+   "entity": "Marine",
+   "date": "2024",
+   "value": 0.489768
+  },
+  {
+   "entity": "Marine",
+   "date": "2025",
+   "value": 0.489769
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2000",
+   "value": 41.91619
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2001",
+   "value": 47.73619
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2002",
+   "value": 48.36119
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2003",
+   "value": 48.09119
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2004",
+   "value": 49.09919
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2005",
+   "value": 51.41272
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2006",
+   "value": 51.83469
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2007",
+   "value": 51.871693
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2008",
+   "value": 52.368607
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2009",
+   "value": 52.573605
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2010",
+   "value": 52.805607
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2011",
+   "value": 53.094288
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2012",
+   "value": 53.439808
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2013",
+   "value": 53.70823
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2014",
+   "value": 53.74632
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2015",
+   "value": 54.16151
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2016",
+   "value": 56.361404
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2017",
+   "value": 57.42268
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2018",
+   "value": 57.332474
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2019",
+   "value": 57.353546
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2020",
+   "value": 57.31792
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2021",
+   "value": 57.731354
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2022",
+   "value": 59.872517
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2023",
+   "value": 59.19495
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2024",
+   "value": 59.298306
+  },
+  {
+   "entity": "Mixed hydro plants",
+   "date": "2025",
+   "value": 59.838425
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2000",
+   "value": 0.06694999
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2001",
+   "value": 0.07595
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2002",
+   "value": 0.23995
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2003",
+   "value": 0.50955003
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2004",
+   "value": 0.59475
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2005",
+   "value": 0.68475
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2006",
+   "value": 0.88275
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2007",
+   "value": 1.09425
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2008",
+   "value": 1.44245
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2009",
+   "value": 2.1340501
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2010",
+   "value": 3.05535
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2011",
+   "value": 3.7866101
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2012",
+   "value": 5.34475
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2013",
+   "value": 7.18305
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2014",
+   "value": 8.50257
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2015",
+   "value": 11.73287
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2016",
+   "value": 14.37725
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2017",
+   "value": 18.804901
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2018",
+   "value": 23.559599
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2019",
+   "value": 28.263298
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2020",
+   "value": 34.33995
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2021",
+   "value": 54.268375
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2022",
+   "value": 62.54248
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2023",
+   "value": 74.4896
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2024",
+   "value": 82.760414
+  },
+  {
+   "entity": "Offshore wind",
+   "date": "2025",
+   "value": 91.1405
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2000",
+   "value": 16.881317
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2001",
+   "value": 23.872374
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2002",
+   "value": 30.474352
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2003",
+   "value": 38.14397
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2004",
+   "value": 47.0585
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2005",
+   "value": 57.77133
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2006",
+   "value": 72.25379
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2007",
+   "value": 90.41164
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2008",
+   "value": 114.019714
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2009",
+   "value": 147.95607
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2010",
+   "value": 177.71161
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2011",
+   "value": 216.24608
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2012",
+   "value": 261.36124
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2013",
+   "value": 292.2761
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2014",
+   "value": 340.63977
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2015",
+   "value": 404.24646
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2016",
+   "value": 452.48743
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2017",
+   "value": 495.68216
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2018",
+   "value": 539.4404
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2019",
+   "value": 594.2465
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2020",
+   "value": 698.3322
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2021",
+   "value": 769.2722
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2022",
+   "value": 839.7883
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2023",
+   "value": 943.11884
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2024",
+   "value": 1049.0746
+  },
+  {
+   "entity": "Onshore wind",
+   "date": "2025",
+   "value": 1199.0929
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2000",
+   "value": 80.83855
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2001",
+   "value": 77.72255
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2002",
+   "value": 79.13755
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2003",
+   "value": 79.29755
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2004",
+   "value": 80.423546
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2005",
+   "value": 83.26655
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2006",
+   "value": 85.96055
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2007",
+   "value": 90.13955
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2008",
+   "value": 91.926544
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2009",
+   "value": 96.55005
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2010",
+   "value": 100.05205
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2011",
+   "value": 103.27321
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2012",
+   "value": 105.60529
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2013",
+   "value": 107.72924
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2014",
+   "value": 109.47074
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2015",
+   "value": 111.90174
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2016",
+   "value": 116.99478
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2017",
+   "value": 119.84336
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2018",
+   "value": 120.36566
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2019",
+   "value": 120.612564
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2020",
+   "value": 122.31942
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2021",
+   "value": 127.082924
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2022",
+   "value": 136.51334
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2023",
+   "value": 141.77168
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2024",
+   "value": 149.58289
+  },
+  {
+   "entity": "Pumped storage",
+   "date": "2025",
+   "value": 159.8787
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2000",
+   "value": 3.52233
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2001",
+   "value": 3.6900802
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2002",
+   "value": 3.781235
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2003",
+   "value": 4.181735
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2004",
+   "value": 4.303435
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2005",
+   "value": 4.582256
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2006",
+   "value": 4.9452043
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2007",
+   "value": 4.886549
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2008",
+   "value": 5.0962305
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2009",
+   "value": 5.30498
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2010",
+   "value": 6.593303
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2011",
+   "value": 6.935867
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2012",
+   "value": 7.396883
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2013",
+   "value": 8.496881
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2014",
+   "value": 8.733109
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2015",
+   "value": 9.659275
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2016",
+   "value": 10.450595
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2017",
+   "value": 11.37457
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2018",
+   "value": 12.547553
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2019",
+   "value": 14.042963
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2020",
+   "value": 15.854766
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2021",
+   "value": 18.777205
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2022",
+   "value": 20.112764
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2023",
+   "value": 21.291021
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2024",
+   "value": 22.372456
+  },
+  {
+   "entity": "Renewable municipal waste",
+   "date": "2025",
+   "value": 23.27775
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2000",
+   "value": 1.2213535
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2001",
+   "value": 1.3319664
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2002",
+   "value": 1.6317205
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2003",
+   "value": 2.3429854
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2004",
+   "value": 3.427396
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2005",
+   "value": 4.9233394
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2006",
+   "value": 6.4868364
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2007",
+   "value": 8.956226
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2008",
+   "value": 15.22942
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2009",
+   "value": 23.544443
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2010",
+   "value": 41.488235
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2011",
+   "value": 72.6579
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2012",
+   "value": 102.81575
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2013",
+   "value": 139.68687
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2014",
+   "value": 178.84773
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2015",
+   "value": 226.5979
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2016",
+   "value": 298.50723
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2017",
+   "value": 392.3427
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2018",
+   "value": 487.84647
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2019",
+   "value": 590.1197
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2020",
+   "value": 721.2222
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2021",
+   "value": 865.921
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2022",
+   "value": 1057.8683
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2023",
+   "value": 1423.988
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2024",
+   "value": 1883.1776
+  },
+  {
+   "entity": "Solar (total)",
+   "date": "2025",
+   "value": 2396.7092
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2000",
+   "value": 0.756669
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2001",
+   "value": 1.0238141
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2002",
+   "value": 1.341977
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2003",
+   "value": 1.848395
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2004",
+   "value": 2.916281
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2005",
+   "value": 4.3913684
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2006",
+   "value": 5.9124722
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2007",
+   "value": 8.266139
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2008",
+   "value": 14.4450035
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2009",
+   "value": 22.483068
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2010",
+   "value": 39.84921
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2011",
+   "value": 70.42784
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2012",
+   "value": 99.54065
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2013",
+   "value": 134.7275
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2014",
+   "value": 172.96739
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2015",
+   "value": 220.15082
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2016",
+   "value": 291.68625
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2017",
+   "value": 384.91513
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2018",
+   "value": 479.046
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2019",
+   "value": 580.46674
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2020",
+   "value": 710.7258
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2021",
+   "value": 854.81244
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2022",
+   "value": 1045.6914
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2023",
+   "value": 1410.5559
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2024",
+   "value": 1866.8978
+  },
+  {
+   "entity": "Solar photovoltaic",
+   "date": "2025",
+   "value": 2378.0415
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2000",
+   "value": 0.045684572
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2001",
+   "value": 0.062152456
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2002",
+   "value": 0.087743536
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2003",
+   "value": 0.10619042
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2004",
+   "value": 0.12271507
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2005",
+   "value": 0.14357135
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2006",
+   "value": 0.16196446
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2007",
+   "value": 0.21108857
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2008",
+   "value": 0.24941605
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2009",
+   "value": 0.29627573
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2010",
+   "value": 0.37320715
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2011",
+   "value": 0.5257366
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2012",
+   "value": 0.70858246
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2013",
+   "value": 1.0177978
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2014",
+   "value": 1.2812693
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2015",
+   "value": 1.5968931
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2016",
+   "value": 1.8507733
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2017",
+   "value": 2.3574421
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2018",
+   "value": 2.989473
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2019",
+   "value": 3.2848325
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2020",
+   "value": 4.0906334
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2021",
+   "value": 4.7423744
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2022",
+   "value": 5.612752
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2023",
+   "value": 6.5681014
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2024",
+   "value": 8.784686
+  },
+  {
+   "entity": "Solar photovoltaic (off-grid)",
+   "date": "2025",
+   "value": 10.333791
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2000",
+   "value": 23.44678
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2001",
+   "value": 25.35928
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2002",
+   "value": 26.959255
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2003",
+   "value": 28.948132
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2004",
+   "value": 30.299015
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2005",
+   "value": 33.09325
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2006",
+   "value": 36.235542
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2007",
+   "value": 38.289818
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2008",
+   "value": 40.61169
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2009",
+   "value": 45.39646
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2010",
+   "value": 46.87753
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2011",
+   "value": 50.64267
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2012",
+   "value": 52.219425
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2013",
+   "value": 56.90575
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2014",
+   "value": 59.671444
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2015",
+   "value": 63.299812
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2016",
+   "value": 70.16094
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2017",
+   "value": 74.753136
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2018",
+   "value": 79.31916
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2019",
+   "value": 82.08945
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2020",
+   "value": 87.30674
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2021",
+   "value": 90.86453
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2022",
+   "value": 94.9166
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2023",
+   "value": 97.62305
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2024",
+   "value": 101.24706
+  },
+  {
+   "entity": "Solid biofuels",
+   "date": "2025",
+   "value": 102.92154
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2000",
+   "value": 16.96093
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2001",
+   "value": 23.954521
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2002",
+   "value": 30.7232
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2003",
+   "value": 38.65972
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2004",
+   "value": 47.65947
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2005",
+   "value": 58.4623
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2006",
+   "value": 73.14276
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2007",
+   "value": 91.51582
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2008",
+   "value": 115.4748
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2009",
+   "value": 150.1039
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2010",
+   "value": 180.83994
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2011",
+   "value": 220.1776
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2012",
+   "value": 266.93732
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2013",
+   "value": 299.75797
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2014",
+   "value": 349.49323
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2015",
+   "value": 416.38437
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2016",
+   "value": 467.3158
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2017",
+   "value": 514.97186
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2018",
+   "value": 563.5159
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2019",
+   "value": 623.076
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2020",
+   "value": 733.2712
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2021",
+   "value": 824.1905
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2022",
+   "value": 903.0115
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2023",
+   "value": 1018.3177
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2024",
+   "value": 1132.5869
+  },
+  {
+   "entity": "Wind (total)",
+   "date": "2025",
+   "value": 1291.015
+  }
+ ],
+ "facts": [
+  {
+   "atDate": "2020",
+   "heading": "Record Capacity Growth",
+   "body": "Global renewable energy capacity additions in 2020 beat earlier estimates and all previous records despite the economic slowdown that resulted from the COVID-19 pandemic.",
+   "tiles": [
+    "All renewables (total)",
+    "Solar (total)",
+    "Wind (total)"
+   ]
+  },
+  {
+   "atDate": "2024",
+   "heading": "Largest Annual Increase",
+   "body": "The year 2024 saw the largest increase in renewable energy capacity to date with the addition of 585 gigawatts of renewables.",
+   "tiles": [
+    "All renewables (total)",
+    "Solar photovoltaic",
+    "Wind (total)"
+   ]
+  },
+  {
+   "atDate": "2024",
+   "heading": "Dominance of Solar and Wind",
+   "body": "Solar and wind energy continued to lead during this period, accounting for 96.6% of all new renewable capacity additions in 2024.",
+   "tiles": [
+    "Solar (total)",
+    "Wind (total)",
+    "Solar photovoltaic"
+   ]
+  },
+  {
+   "atDate": "2024",
+   "heading": "Hydropower Reaches Milestones",
+   "body": "In the hydropower sector, global capacity reached 1,283 GW, driven by significant increases from China and other nations.",
+   "tiles": [
+    "Hydropower (total)",
+    "Hydropower"
+   ]
+  },
+  {
+   "atDate": "2024",
+   "heading": "Bioenergy Expansion Recovery",
+   "body": "The expansion of the bioenergy sector recovered in 2024 with a notable increase in new capacity additions.",
+   "tiles": [
+    "Bioenergy (total)",
+    "Solid biofuels"
+   ]
+  },
+  {
+   "atDate": "2024",
+   "heading": "Off-Grid Growth Surge",
+   "body": "Off-grid energy capacity almost tripled by expanding to reach a total of 14.3 GW led by solar developments.",
+   "tiles": [
+    "Solar photovoltaic (off-grid)",
+    "All renewables (total)"
+   ]
+  }
+ ],
+ "groups": [
+  {
+   "id": "All",
+   "label": "All"
+  }
+ ],
+ "worldTotal": [
+  {
+   "date": "2000",
+   "value": 2443.0171550620994
+  },
+  {
+   "date": "2001",
+   "value": 2500.397339256
+  },
+  {
+   "date": "2002",
+   "value": 2565.8946880365
+  },
+  {
+   "date": "2003",
+   "value": 2656.886687856
+  },
+  {
+   "date": "2004",
+   "value": 2757.5010942700005
+  },
+  {
+   "date": "2005",
+   "value": 2880.4569611499996
+  },
+  {
+   "date": "2006",
+   "value": 3010.0195653900005
+  },
+  {
+   "date": "2007",
+   "value": 3166.2943711699995
+  },
+  {
+   "date": "2008",
+   "value": 3358.56807655
+  },
+  {
+   "date": "2009",
+   "value": 3610.0087548300003
+  },
+  {
+   "date": "2010",
+   "value": 3865.7677420499986
+  },
+  {
+   "date": "2011",
+   "value": 4186.2815947
+  },
+  {
+   "date": "2012",
+   "value": 4534.8547624600005
+  },
+  {
+   "date": "2013",
+   "value": 4910.225953799999
+  },
+  {
+   "date": "2014",
+   "value": 5302.3969842999995
+  },
+  {
+   "date": "2015",
+   "value": 5764.46255907
+  },
+  {
+   "date": "2016",
+   "value": 6279.726192300001
+  },
+  {
+   "date": "2017",
+   "value": 6784.167744300001
+  },
+  {
+   "date": "2018",
+   "value": 7295.323993600003
+  },
+  {
+   "date": "2019",
+   "value": 7846.589736500001
+  },
+  {
+   "date": "2020",
+   "value": 8656.7508824
+  },
+  {
+   "date": "2021",
+   "value": 9463.542991720004
+  },
+  {
+   "date": "2022",
+   "value": 10387.670691620002
+  },
+  {
+   "date": "2023",
+   "value": 11887.090066899998
+  },
+  {
+   "date": "2024",
+   "value": 13659.893885000001
+  },
+  {
+   "date": "2025",
+   "value": 15760.144360999993
+  }
+ ],
+ "sources": "Source: https://ourworldindata.org/grapher/installed-global-renewable-energy-capacity-by-technology.csv"
+}
