@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/thumbnail-spec.schema.json",
+  "title": "ThumbnailSpec",
+  "type": "object",
+  "required": ["version", "title", "subtitle", "entities", "layout"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "const": "1.0" },
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": "string" },
+    "entities": { "type": "array", "items": { "type": "string" }, "maxItems": 6 },
+    "assets": { "type": "array", "items": { "type": "string" } },
+    "layout": { "enum": ["ranking", "split", "versus", "spotlight"] },
+    "backgroundColor": { "type": "string" },
+    "accentColor": { "type": "string" }
+  }
+}

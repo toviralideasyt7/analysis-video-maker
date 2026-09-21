@@ -1,0 +1,15 @@
+[package]
+name = "datarace-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "CLI wrapper around datarace-core."
+
+[[bin]]
+name = "datarace"
+path = "src/main.rs"
+
+[dependencies]
+datarace-core = { path = "../datarace-core" }
+serde_json = { workspace = true }
+anyhow = "1.0"

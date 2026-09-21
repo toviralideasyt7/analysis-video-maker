@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/data-plan.schema.json",
+  "title": "DataPlan",
+  "type": "object",
+  "required": ["version", "topic", "metric", "entityType", "timeRange", "frequency", "requiredFields", "missingDataPolicy"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "const": "1.0" },
+    "topic": { "type": "string", "minLength": 1 },
+    "metric": { "type": "string", "minLength": 1 },
+    "metricAmbiguous": { "type": "boolean" },
+    "interpretations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "measurableDefinition"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "measurableDefinition": { "type": "string" },
+          "caveats": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "chosenInterpretationId": { "type": "string" },
+    "entityType": { "type": "string" },
+    "timeRange": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": { "start": { "type": "string" }, "end": { "type": "string" } }
+    },
+    "frequency": { "enum": ["annual", "quarterly", "monthly", "weekly", "daily", "unknown"] },
+    "requiredFields": { "type": "array", "items": { "type": "string" } },
+    "candidateEntities": { "type": "array", "items": { "type": "string" } },
+    "preferredSources": { "type": "array", "items": { "type": "string" } },
+    "knownRisks": { "type": "array", "items": { "type": "string" } },
+    "missingDataPolicy": { "enum": ["STRICT", "INTERPOLATION_ALLOWED", "ESTIMATION_ALLOWED"] },
+    "targetEntityCount": { "type": "integer", "minimum": 1 }
+  }
+}

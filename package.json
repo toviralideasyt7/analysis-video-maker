@@ -1,0 +1,30 @@
+{
+  "name": "analysis-video-maker",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Automated, source-backed data-driven video production platform (research -> verify -> VideoSpec -> GitHub Actions -> data-race MP4).",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "workspaces": [
+    "packages/shared",
+    "services/orchestrator",
+    "renderer",
+    "apps/web"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "rust:test": "cargo test --workspace",
+    "rust:build": "cargo build --release --workspace",
+    "demo:connectors": "npm run demo:connectors -w @avm/orchestrator",
+    "demo:plan": "npm run demo:plan -w @avm/orchestrator",
+    "demo:research": "npm run demo:research -w @avm/orchestrator",
+    "render": "npm run render -w @avm/renderer",
+    "dev:web": "npm run dev -w @avm/web"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/observation.schema.json",
+  "title": "Observation",
+  "type": "object",
+  "required": ["observationId", "entity", "date", "frequency", "value", "unit", "source", "method", "status"],
+  "additionalProperties": true,
+  "properties": {
+    "observationId": { "type": "string", "minLength": 1 },
+    "entity": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "iso2": { "type": ["string", "null"] },
+        "flagCode": { "type": ["string", "null"] },
+        "group": { "type": ["string", "null"] }
+      }
+    },
+    "entityResolution": { "enum": ["resolved", "ambiguous", "unresolved"] },
+    "date": { "type": "string", "minLength": 4 },
+    "frequency": { "enum": ["annual", "quarterly", "monthly", "weekly", "daily", "unknown"] },
+    "value": { "type": ["number", "null"] },
+    "unit": { "type": "string" },
+    "geography": { "type": "string" },
+    "source": {
+      "type": "object",
+      "required": ["url", "publisher", "retrievedAt"],
+      "properties": {
+        "url": { "type": "string" },
+        "publisher": { "type": "string" },
+        "title": { "type": "string" },
+        "publishedAt": { "type": ["string", "null"] },
+        "retrievedAt": { "type": "string" },
+        "identifier": { "type": "string" }
+      }
+    },
+    "evidence": { "type": "object" },
+    "method": { "enum": ["direct", "calculated", "estimated"] },
+    "status": { "enum": ["VERIFIED", "SUPPORTED", "ESTIMATED", "UNKNOWN", "CONFLICTING", "REJECTED"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "derived": {
+      "type": "object",
+      "required": ["method", "formula", "inputs"],
+      "properties": {
+        "method": { "const": "calculated" },
+        "formula": { "type": "string" },
+        "inputs": { "type": "array", "items": { "type": "string" } },
+        "sourceObservations": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "value": { "type": "null" } }, "required": ["value"] },
+      "then": { "properties": { "status": { "const": "UNKNOWN" } } }
+    }
+  ]
+}

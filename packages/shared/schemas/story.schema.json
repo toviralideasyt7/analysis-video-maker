@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/story.schema.json",
+  "title": "Story",
+  "type": "object",
+  "required": ["version", "title", "subtitle", "hook", "sequence", "highlights", "ending", "sourcesLine"],
+  "additionalProperties": true,
+  "properties": {
+    "version": { "const": "1.0" },
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": "string" },
+    "hook": { "type": "string" },
+    "setup": { "type": "string" },
+    "sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["atLabel", "text"],
+        "properties": { "atLabel": { "type": "string" }, "text": { "type": "string" } }
+      }
+    },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["atLabel", "entityId", "headline", "detail"],
+        "properties": {
+          "atLabel": { "type": "string" },
+          "entityId": { "type": "string" },
+          "headline": { "type": "string" },
+          "detail": { "type": "string" },
+          "factBox": {
+            "type": "object",
+            "properties": {
+              "heading": { "type": "string" },
+              "body": { "type": "string" },
+              "dateLabel": { "type": "string" },
+              "wordmark": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "ending": { "type": "string" },
+    "sourcesLine": { "type": "string" }
+  }
+}

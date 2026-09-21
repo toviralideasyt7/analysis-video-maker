@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "title": "World population by country",
+  "subtitle": "1960 to 2024 population counts",
+  "hook": "Tracking annual population counts from 1960 to 2024 reveals shifts in global leadership among nations.",
+  "setup": "During this period, countries such as China and India held the highest population counts.",
+  "sequence": [
+    {
+      "atLabel": "1960",
+      "text": "In 1960, China led with a population of 667070000."
+    },
+    {
+      "atLabel": "2021",
+      "text": "In 2021, India led with a population of 1414203896."
+    },
+    {
+      "atLabel": "2022",
+      "text": "In 2022, India led with a population of 1425423212."
+    },
+    {
+      "atLabel": "2023",
+      "text": "In 2023, India led with a population of 1438069596."
+    }
+  ],
+  "highlights": [
+    {
+      "atLabel": "1960",
+      "entityId": "China",
+      "headline": "China leads in 1960",
+      "detail": "China recorded a population of 667070000 in 1960.",
+      "factBox": {
+        "heading": "Population Count",
+        "body": "China reached 667070000 people in 1960.",
+        "dateLabel": "1960",
+        "wordmark": "China"
+      }
+    },
+    {
+      "atLabel": "2023",
+      "entityId": "India",
+      "headline": "India leads in 2023",
+      "detail": "India recorded a population of 1438069596 in 2023.",
+      "factBox": {
+        "heading": "Population Count",
+        "body": "India reached 1438069596 people in 2023.",
+        "dateLabel": "2023",
+        "wordmark": "India"
+      }
+    }
+  ],
+  "ending": "Global population leadership shifted from China to India over the recorded decades.",
+  "sourcesLine": "Data: provided dataset"
+}

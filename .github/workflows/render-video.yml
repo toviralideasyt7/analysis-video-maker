@@ -1,0 +1,143 @@
+name: render-video
+
+# The render layer. Dispatched by the backend only after a project is APPROVED.
+on:
+  workflow_dispatch:
+    inputs:
+      projectId:
+        description: Project id (bundle is read from the approved artifact)
+        required: true
+      videoSpecVersion:
+        description: VideoSpec version
+        required: false
+        default: "1"
+      datasetVersion:
+        description: Dataset version
+        required: false
+        default: "1"
+      artifactBaseUrl:
+        description: Optional base URL for the project bundle
+        required: false
+        default: ""
+      renderScale:
+        description: "1 = full quality, 0.5 = fast preview"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PROJECT_ID: ${{ inputs.projectId }}
+      VIDEO_SPEC_VERSION: ${{ inputs.videoSpecVersion }}
+      DATASET_VERSION: ${{ inputs.datasetVersion }}
+      ARTIFACT_BASE_URL: ${{ inputs.artifactBaseUrl }}
+      RENDER_SCALE: ${{ inputs.renderScale }}
+      RENDER_CONCURRENCY: "2"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the Rust core
+        run: cargo build --release --workspace
+
+      - name: Locate the approved project bundle
+        run: |
+          set -euo pipefail
+          mkdir -p projects
+          if [ -n "${ARTIFACT_BASE_URL}" ]; then
+            curl -fsSL "${ARTIFACT_BASE_URL%/}/${PROJECT_ID}.tar.gz" -o bundle.tar.gz
+            tar -xzf bundle.tar.gz -C projects
+          else
+            # Fall back to a bundle committed under bundles/<projectId>/
+            test -d "bundles/${PROJECT_ID}" || { echo "no bundle for ${PROJECT_ID}"; exit 1; }
+            cp -r "bundles/${PROJECT_ID}" "projects/${PROJECT_ID}"
+          fi
+          ls -la "projects/${PROJECT_ID}"
+
+      - name: Validate the VideoSpec against the shared schema
+        run: npx tsx tools/validate-spec.ts "projects/${PROJECT_ID}"
+
+      - name: Validate the dataset with the Rust core
+        run: |
+          set -euo pipefail
+          ./target/release/datarace validate \
+            --in "projects/${PROJECT_ID}/dataset.json" \
+            --out "projects/${PROJECT_ID}/quality.ci.json" \
+            --strict
+
+      - name: Verify the frame tape matches the dataset
+        run: npx tsx tools/verify-tape.ts "projects/${PROJECT_ID}"
+
+      - name: Render the video with Remotion
+        run: |
+          set -euo pipefail
+          npm run render -w @avm/renderer -- \
+            --project "projects/${PROJECT_ID}" \
+            --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
+
+      - name: Render the thumbnail
+        run: |
+          npm run render -w @avm/renderer -- --project "projects/${PROJECT_ID}" --thumbnail-only \
+            --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
+
+      - name: Post-process with ffmpeg
+        run: |
+          set -euo pipefail
+          IN="projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
+          OUT="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
+          ffmpeg -y -i "$IN" -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p -movflags +faststart -an "$OUT"
+
+      - name: Validate the rendered MP4
+        run: |
+          set -euo pipefail
+          ./target/release/datarace probe \
+            --in "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
+            --expect-size 1280x720 \
+            --out "projects/${PROJECT_ID}/renders/probe.json"
+
+      - name: Upload the render artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-${{ inputs.projectId }}
+          path: |
+            projects/${{ inputs.projectId }}/renders/*.mp4
+            projects/${{ inputs.projectId }}/renders/*.jpg
+            projects/${{ inputs.projectId }}/renders/probe.json
+          if-no-files-found: error
+          retention-days: 14
+
+      # Optional: push the finished asset to Cloudflare R2 (S3 compatible).
+      - name: Publish to object storage
+        if: ${{ env.R2_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          command -v aws >/dev/null || pip install --quiet awscli
+          aws s3 cp "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
+            "s3://${R2_BUCKET}/renders/${PROJECT_ID}.mp4" \
+            --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+
+      - name: Report completion
+        if: always()
+        run: |
+          echo "project=${PROJECT_ID} status=${{ job.status }}"

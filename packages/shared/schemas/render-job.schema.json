@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/render-job.schema.json",
+  "title": "RenderJob",
+  "type": "object",
+  "required": ["renderJobId", "projectId", "videoSpecVersion", "datasetVersion", "status", "createdAt"],
+  "additionalProperties": true,
+  "properties": {
+    "renderJobId": { "type": "string" },
+    "projectId": { "type": "string" },
+    "commit": { "type": "string" },
+    "videoSpecVersion": { "type": "integer", "minimum": 1 },
+    "datasetVersion": { "type": "integer", "minimum": 1 },
+    "status": { "enum": ["queued", "running", "succeeded", "failed", "cancelled"] },
+    "createdAt": { "type": "string" },
+    "githubRunId": { "type": ["integer", "null"] },
+    "artifactUrl": { "type": ["string", "null"] },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

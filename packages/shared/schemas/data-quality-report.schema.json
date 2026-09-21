@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://analysis-video-maker/schemas/data-quality-report.schema.json",
+  "title": "DataQualityReport",
+  "type": "object",
+  "required": ["observations", "entities", "checks", "violations", "passed", "generatedAt"],
+  "additionalProperties": true,
+  "properties": {
+    "observations": { "type": "integer", "minimum": 0 },
+    "entities": { "type": "integer", "minimum": 0 },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "passed", "violations", "details"],
+        "properties": {
+          "name": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "violations": { "type": "integer", "minimum": 0 },
+          "details": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "violations": { "type": "integer", "minimum": 0 },
+    "passed": { "type": "boolean" },
+    "generatedAt": { "type": "string" },
+    "engine": { "enum": ["rust", "typescript"] }
+  }
+}
