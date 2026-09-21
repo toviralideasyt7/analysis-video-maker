@@ -76,16 +76,29 @@ async function main(): Promise<void> {
     ctx,
   );
 
+  const strict = process.argv.includes('--strict');
+
   if (process.argv.includes('--json')) {
     process.stdout.write(`${JSON.stringify(verdict, null, 2)}\n`);
   } else {
-    process.stdout.write(`AI QA: ${verdict.passed ? 'PASS' : 'FAIL'}\n`);
+    const label = !verdict.available ? 'UNAVAILABLE' : verdict.passed ? 'PASS' : 'FAIL';
+    process.stdout.write(`AI QA: ${label}\n`);
     for (const problem of verdict.problems) process.stdout.write(` - ${problem}\n`);
     for (const note of verdict.notes) process.stdout.write(` note: ${note}\n`);
   }
-  if (!verdict.passed) {
+
+  // A rejection fails the build. An unreachable provider does not: the
+  // deterministic gates (schema, quality, frame-tape reproducibility) have
+  // already run, and blocking a render on a transient 502 would be worse than
+  // shipping a bundle that passed every hard check. Use --strict to require the
+  // review to actually run.
+  if (verdict.available && !verdict.passed) {
     logger.warn('AI QA rejected the bundle');
     process.exit(1);
+  }
+  if (!verdict.available) {
+    logger.warn('AI QA did not run; continuing because the deterministic gates passed');
+    if (strict) process.exit(1);
   }
 }
 

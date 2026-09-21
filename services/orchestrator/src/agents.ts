@@ -818,6 +818,12 @@ Reply with JSON only:
 
 export interface AiQaVerdict {
   passed: boolean;
+  /**
+   * False when the review could not run at all (no provider reachable). Callers
+   * must distinguish this from an actual rejection: an advisory AI check should
+   * not block a pipeline just because a provider was briefly down.
+   */
+  available: boolean;
   problems: string[];
   notes: string[];
 }
@@ -826,7 +832,7 @@ export async function aiQaReview(
   input: { datasetSummary: unknown; videoSpec: unknown; frameTapeSummary: unknown },
   ctx: AgentContext,
 ): Promise<AiQaVerdict> {
-  const fallback: AiQaVerdict = { passed: false, problems: ['AI QA unavailable'], notes: [] };
+  const fallback: AiQaVerdict = { passed: false, available: false, problems: ['AI QA could not run: no model was reachable'], notes: [] };
   const prompt = `You are the QA Agent for a data-video platform. Audit this rendered-plan bundle for
 unsupported claims, impossible timings, missing provenance, duplicate entities and ranking errors.
 
@@ -843,7 +849,7 @@ Reply with JSON only:
 { "passed": true, "problems": ["only real, specific problems"], "notes": ["optional"] }`;
   try {
     const verdict = await ctx.ai.completeJsonRole<AiQaVerdict>('qa', { prompt, system: RESEARCH_RULES, maxTokens: 1500 }, 'aiQaVerdict');
-    return { passed: Boolean(verdict.passed), problems: verdict.problems ?? [], notes: verdict.notes ?? [] };
+    return { passed: Boolean(verdict.passed), available: true, problems: verdict.problems ?? [], notes: verdict.notes ?? [] };
   } catch (error) {
     logger.warn('AI QA failed', { error: String(error) });
     return fallback;
