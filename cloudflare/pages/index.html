@@ -96,32 +96,12 @@
       </div>
       <div class="row">
         <div class="field">
-          <label for="dataUrl">Direct data URL (optional)</label>
           <input id="dataUrl" placeholder="Paste a CSV or JSON link, or leave empty">
-        </div>
-        <div class="field">
-          <label for="layout">Look</label>
-          <select id="layout">
-            <option value="auto">Auto (choose from the data)</option>
-            <option value="standard">Standard</option>
-            <option value="dense">Dense</option>
-            <option value="focus">Focus (fewer, bigger rows)</option>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label for="topN">Rows on screen</label>
-          <input id="topN" type="number" min="3" max="20" value="12">
-        </div>
-        <div class="field">
-          <label for="minutes">Target length (minutes)</label>
-          <input id="minutes" type="number" min="1" max="30" value="10">
         </div>
       </div>
       <button id="create">Build the video</button>
       <button id="signout" class="ghost" style="float:right;margin-top:-42px">Sign out</button>
-      <div class="hint">The AI agent picks the sources, writes the CSV and starts the render. Everything is tracked below.</div>
+      <div class="hint">The agent picks the official data, the look, the frame rate and how long the video should be &mdash; all automatically &mdash; then renders it. Everything is tracked below.</div>
       <div id="form-error" class="err" hidden></div>
     </section>
 
@@ -250,9 +230,6 @@ el('create').addEventListener('click', async () => {
     body: JSON.stringify({
       topic,
       dataUrl: el('dataUrl').value.trim(),
-      layout: el('layout').value,
-      topN: Number(el('topN').value),
-      targetMinutes: Number(el('minutes').value),
     }),
   });
   el('create').disabled = false;

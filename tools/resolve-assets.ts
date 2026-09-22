@@ -136,6 +136,44 @@ async function downloadLogo(domain: string, outPath: string): Promise<boolean> {
   return false;
 }
 
+/**
+ * Last resort for an entity with no resolvable country code.
+ *
+ * Monid is asked to search the web for the entity's flag, and any flag-shaped
+ * image URL in the results is downloaded and inlined. This is deliberately the
+ * last step: it costs a network round trip and can return nothing, in which case
+ * the renderer draws the monogram (the "U" for an entity like the USSR).
+ */
+async function flagViaMonid(name: string): Promise<string | null> {
+  const key = process.env.MONID_API_KEY ?? '';
+  if (!key || key.includes('...') || key.includes('\u2026')) return null;
+  try {
+    const response = await fetch('https://api.monid.ai/v1/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        provider: 'tinyfish',
+        endpoint: '/search',
+        input: { queryParams: { query: `${name} country flag png`, purpose: 'find a flag image asset' } },
+      }),
+    });
+    if (!response.ok) return null;
+    const text = await response.text();
+    const urls = Array.from(text.matchAll(/https?:\/\/[^"'\s)]+\.(?:png|svg|webp)/gi)).map((match) => match[0]);
+    for (const url of urls.slice(0, 6)) {
+      if (!/flag|flags|country|commons/i.test(url)) continue;
+      const image = await fetch(url);
+      if (!image.ok) continue;
+      const buffer = Buffer.from(await image.arrayBuffer());
+      if (buffer.byteLength < 300 || buffer.byteLength > 400_000) continue;
+      const mime = url.toLowerCase().endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+      return `data:${mime};base64,${buffer.toString('base64')}`;
+    }
+  } catch {
+    /* fall through to the monogram */
+  }
+  return null;
+}
 async function main(): Promise<void> {
   const entities: VideoInputEntity[] = input.entities ?? [];
   const resolved: string[] = [];
@@ -209,6 +247,15 @@ async function main(): Promise<void> {
     if (dataUrl) {
       entity.logoUrl = dataUrl;
       inlined += 1;
+      continue;
+    }
+    // Nothing left in the code tables: ask Monid for the flag, and only then fall
+    // back to the renderer's monogram.
+    const viaMonid = await flagViaMonid(entity.name);
+    if (viaMonid) {
+      entity.logoUrl = viaMonid;
+      inlined += 1;
+      process.stdout.write(`  flag via Monid: ${entity.name}\n`);
       continue;
     }
     broken.push(entity.flagCode);

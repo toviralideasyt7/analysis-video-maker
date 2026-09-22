@@ -21,7 +21,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createAIClient, type AIClient } from './ai';
 import { createSearchProvider, type SearchProvider } from './search';
-import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, isAdditiveUnit, resolveOwidTable, validateVideoInput } from '@avm/shared';
+import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, isAdditiveUnit, iso2FromIso3, resolveOwidTable, validateVideoInput } from '@avm/shared';
 import type { VideoInput, VideoInputFact } from '@avm/shared';
 
 export interface ResearchRequest {
@@ -63,7 +63,7 @@ interface Plan {
   measurableDefinition: string;
   unit: string;
   entityType: string;
-  entities: Array<{ id: string; name: string; group: string; domain?: string }>;
+  entities: Array<{ id: string; name: string; group: string; domain?: string; flagCode?: string | null }>;
   startYear: number;
   endYear: number;
   searchQueries: string[];
@@ -419,7 +419,11 @@ function planFromTable(
   warnings.push(`${source.length} rows ingested${label ? ' from ' + label : ''}`);
 
   const peak = new Map<string, number>();
-  for (const row of source) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
+  const codeByName = new Map<string, string>();
+  for (const row of source) {
+    peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
+    if (row.code) codeByName.set(row.entity, row.code);
+  }
   const names = Array.from(peak.keys())
     .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
     .slice(0, 40);
@@ -442,6 +446,7 @@ function planFromTable(
     entities: names.map((name) => ({
       id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
       name,
+      flagCode: iso2FromIso3(codeByName.get(name)),
       group: 'All',
     })),
     startYear: years.length > 0 ? Math.min(...years) : 0,
@@ -674,11 +679,34 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
 
   // Derive per-period pacing from the requested length so a long history still
   // lands near the target instead of running for hours.
+  // Readable pacing: the tape interpolates between samples, so a long history is
+  // better sampled every few periods than flashed past. 776 periods in a 10-minute
+  // video is under a second each; ~180 periods gets about three seconds each.
+  const maxPeriods = 180;
+  const allDates = Array.from(new Set(rows.map((row) => String(row.date))))
+    .sort((a, b) => Number(a) - Number(b));
+  let displayRows = rows;
+  if (allDates.length > maxPeriods) {
+    const step = Math.ceil(allDates.length / maxPeriods);
+    const keep = new Set(allDates.filter((_, index) => index % step === 0));
+    keep.add(allDates[allDates.length - 1]);
+    displayRows = rows.filter((row) => keep.has(String(row.date)));
+    warnings.push(`paced every ${step} periods (${allDates.length} -> ${keep.size}) so each is readable`);
+  }
+  rows = displayRows;
+
   const distinctDates = new Set(rows.map((row) => row.date)).size || 1;
-  const targetSeconds = Math.max(60, (req.targetMinutes ?? 10) * 60);
+  // Automatic length: about three and a half seconds per period, clamped to a
+  // minute at the short end and ten minutes at the long end, so small data yields
+  // a short video and long data still stays watchable. A length requested by the
+  // caller overrides this.
+  const autoTarget = Math.min(600, Math.max(60, distinctDates * 3.5));
+  const targetSeconds = req.targetMinutes && req.targetMinutes > 0
+    ? Math.max(60, req.targetMinutes * 60)
+    : autoTarget;
   // The target length is a ceiling: a short series gets a short video instead of a
   // long, nearly static one.
-  const pacingSeconds = Number(Math.min((targetSeconds - 5 - 8 - 12) / distinctDates, 6).toFixed(3));
+  const pacingSeconds = Number(Math.max(1.2, Math.min((targetSeconds - 5 - 8 - 12) / distinctDates, 3.6)).toFixed(3));
 
   // The video title is the topic with any instruction tail removed, so a
   // request like "... and must include the side infos" does not end up on screen.
@@ -707,7 +735,7 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     },
     entities: plan.entities
       .filter((e: { name: string; id: string }) => byEntity.has(e.name) || byEntity.has(e.id) || knownIds.has(e.id))
-      .map((e: { id: string; name: string; group: string; domain?: string }) => ({ id: e.id, name: e.name, group: e.group, logoUrl: e.domain ? `logos/${e.id}.png` : undefined })),
+      .map((e: { id: string; name: string; group: string; domain?: string; flagCode?: string | null }) => ({ id: e.id, name: e.name, group: e.group, flagCode: e.flagCode ?? null, logoUrl: e.domain ? `logos/${e.id}.png` : undefined })),
     observations: rows.map((r) => ({ entity: r.entity, date: r.date, value: r.value })),
     facts,
     groups: Array.from(new Set(plan.entities.map((e: { group: string }) => e.group))).map((g) => ({ id: g, label: g })),
