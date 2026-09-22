@@ -32,4 +32,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Pin the CLI: the newest wrangler omitted the Pages Functions bundle when
+          # deploying a directory that is not the repo root, which silently broke the
+          # /api/* proxy in production. Observed: /api/login returned the static page.
+          wranglerVersion: '3.114.17'
           command: pages deploy cloudflare/pages --project-name=${{ vars.PAGES_PROJECT || 'race-video-studio' }}
