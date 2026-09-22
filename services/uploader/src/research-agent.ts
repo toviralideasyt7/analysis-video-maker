@@ -21,7 +21,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createAIClient, type AIClient } from './ai';
 import { createSearchProvider, type SearchProvider } from './search';
-import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, resolveOwidTable, validateVideoInput } from '@avm/shared';
+import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, isAdditiveUnit, resolveOwidTable, validateVideoInput } from '@avm/shared';
 import type { VideoInput, VideoInputFact } from '@avm/shared';
 
 export interface ResearchRequest {
@@ -289,6 +289,8 @@ function deriveFacts(rows: RawRow[], plan: Plan): VideoInputFact[] {
     return Math.round(value).toLocaleString('en-US');
   };
   let previousLeader = '';
+  // Cap the churn: a noisy metric would otherwise fill the panel with swaps.
+  let leaderChanges = 0;
   for (const date of dates) {
     const leader = [...(byDate.get(date) ?? [])].sort((a, b) => b.value - a.value)[0];
     if (!leader) continue;
@@ -296,10 +298,11 @@ function deriveFacts(rows: RawRow[], plan: Plan): VideoInputFact[] {
       facts.push({
         atDate: date,
         heading: 'WHERE IT BEGAN',
-        body: leader.entity + ' led in ' + date + ' with ' + compact(leader.value) + '.',
+        body: leader.entity + ' led in ' + date + ' with ' + compact(leader.value) + ' ' + plan.unit + '.',
         tiles: [leader.entity],
       });
-    } else if (leader.entity !== previousLeader) {
+    } else if (leader.entity !== previousLeader && leaderChanges < 4) {
+      leaderChanges += 1;
       facts.push({
         atDate: date,
         heading: leader.entity.toUpperCase() + ' TAKES THE LEAD',
@@ -476,6 +479,60 @@ function applyDefaultWindow(
   return windowed;
 }
 
+/**
+ * Independent review before anything is rendered.
+ *
+ * The deterministic guards catch structural faults (a comparison chart, a metric
+ * that cannot be summed). They cannot tell that "richest countries" was answered
+ * with an income *share* chart, which is a different question with different
+ * numbers. So two models are asked, separately, whether the dataset answers the
+ * topic at all. Both must object before a job is refused, which keeps a single
+ * confused model from blocking good work. Best-effort: with no model reachable the
+ * run proceeds on the deterministic checks alone.
+ */
+async function reviewInput(input: VideoInput, req: ResearchRequest, ai: AIClient, warnings: string[], errors: string[]): Promise<boolean> {
+  const entities = (input.entities ?? []).slice(0, 6).map((entity) => entity.name).join(', ');
+  const sample = input.observations
+    .slice(0, 8)
+    .map((row) => `${row.entity} ${row.date}=${row.value}`)
+    .join('; ');
+  const facts = (input.facts ?? []).map((fact) => fact.heading).join(' | ');
+  const prompt = [
+    'A data-race video is about to be rendered. Judge whether the dataset actually answers the request.',
+    `Requested topic: "${req.topic}"`,
+    `Chart used: ${input.metric}`,
+    `Unit: ${input.unit}`,
+    `Entities: ${entities}`,
+    `Sample rows: ${sample}`,
+    `Narrative headings: ${facts}`,
+    '',
+    'Reply with JSON only:',
+    '{ "matchesTopic": true, "problems": ["..."], "severity": "ok" | "warning" | "fatal" }',
+    'severity is fatal only when the dataset answers a different question (for example a share where a level was asked for).',
+  ].join('\n');
+
+  let objections = 0;
+  for (const role of ['planner', 'story'] as const) {
+    try {
+      const verdict = await ai.completeJsonRole<{ matchesTopic?: boolean; problems?: string[]; severity?: string }>(
+        role,
+        { prompt, system: SYSTEM, maxTokens: 600 },
+      );
+      const fatal = verdict?.severity === 'fatal' || verdict?.matchesTopic === false;
+      if (fatal) {
+        objections += 1;
+        warnings.push(`review(${role}) objected: ${(verdict?.problems ?? []).slice(0, 3).join('; ') || 'no detail'}`);
+      }
+    } catch {
+      /* a review that cannot run must not fail the job */
+    }
+  }
+  if (objections >= 2) {
+    errors.push('both reviewers judged that the data does not answer the requested topic; refusing to render');
+    return false;
+  }
+  return true;
+}
 export async function runResearch(req: ResearchRequest, outDir: string): Promise<ResearchOutput> {
   const warnings: string[] = [];
   const errors: string[] = [];
@@ -640,9 +697,12 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     observations: rows.map((r) => ({ entity: r.entity, date: r.date, value: r.value })),
     facts,
     groups: Array.from(new Set(plan.entities.map((e: { group: string }) => e.group))).map((g) => ({ id: g, label: g })),
-    worldTotal: [...totals.entries()].map(([date, value]) => ({ date, value })).sort((a, b) => Number(a.date) - Number(b.date)),
+    // Only an additive metric gets a total. Summing a share, a per-capita value or     // a rate produces a number that means nothing, which is how a video came to     // show "19" as the world total of an income-share metric.     worldTotal: isAdditiveUnit(plan.unit)       ? [...totals.entries()].map(([date, value]) => ({ date, value })).sort((a, b) => Number(a.date) - Number(b.date))       : undefined,
     sources: source ? `Source: ${source.url}` : undefined,
   };
+
+  const approved = await reviewInput(input, req, ai, warnings, errors);
+  if (!approved) return { ok: false, warnings, errors };
 
   const check = validateVideoInput(input);
   if (!check.valid) {

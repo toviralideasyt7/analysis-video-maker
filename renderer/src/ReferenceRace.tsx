@@ -340,9 +340,11 @@ export const ReferenceRace: React.FC<{ input: VideoInput }> = ({ input }) => {
             Data summary
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, paddingTop: 9 }}>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: INK.axis }}>{input.metric}</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: INK.axis }}>
+              {frameData.worldTotal === null ? 'Top: ' + input.metric : input.metric}
+            </span>
             <span style={{ fontSize: 19, fontWeight: 800, color: INK.title, fontVariantNumeric: 'tabular-nums' }}>
-              {compact(frameData.worldTotal ?? 0)}
+              {compact(frameData.worldTotal ?? frameData.bars[0]?.value ?? 0)}
             </span>
           </div>
         </div>

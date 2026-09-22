@@ -11,6 +11,23 @@
 
 export const OWID_BASE = 'https://ourworldindata.org';
 
+/**
+ * Whether summing the metric across entities produces a meaningful "total".
+ * A share, a percentage, a per-capita value or a rate is a property of each
+ * entity, not a quantity that adds up: summing them yields a meaningless number
+ * (the earlier bug summed "income share of the richest 1%" and showed 19 as a
+ * world total). Such metrics must not get a world-total label.
+ */
+export function isAdditiveUnit(unit: string | undefined): boolean {
+  const value = (unit ?? '').toLowerCase();
+  if (!value) return false;
+  const nonAdditive = [
+    '%', 'percent', 'share', 'per capita', 'per person', 'per 1', 'per 100',
+    'rate', 'ratio', 'index', 'years', 'days', 'hours', 'per woman', 'per child',
+  ];
+  return !nonAdditive.some((marker) => value.includes(marker));
+}
+
 export interface OwidSearchHit {
   title: string;
   slug: string;
@@ -75,6 +92,60 @@ export function normaliseOwidUrl(url: string): string {
 
 export const owidCsvUrl = (slug: string): string => `${OWID_BASE}/grapher/${slug}.csv`;
 export const fetchOwidCsv = (slug: string): Promise<string> => getText(owidCsvUrl(slug));
+/**
+ * How many CSV columns hold a value, rather than identifying a row.
+ *
+ * A grapher CSV is Entity,Code,Year plus one or more data columns. When there is
+ * more than one, the chart is a comparison (for example "income share: WID vs
+ * World Bank", which also ships a Population and a World region column). Racing
+ * such a file would mean picking one arbitrary column and labelling it with
+ * another column's unit, so callers must reject it rather than guess.
+ */
+export function countValueColumns(text: string): { columns: string[]; valueColumns: string[] } {
+  const lines = text.split('\n').filter((line) => line.trim() !== '');
+  if (lines.length < 2) return { columns: [], valueColumns: [] };
+  const header = lines[0].split(',').map((cell) => cell.trim());
+  const lower = header.map((cell) => cell.toLowerCase());
+  const skip = (name: string): boolean =>
+    name === 'entity' || name === 'code' || name === 'year' || name === 'date' ||
+    name === 'iso' || name.includes('region') || name.includes('continent');
+  const numericRate = (index: number): number => {
+    let seen = 0;
+    let numeric = 0;
+    for (const line of lines.slice(1, 40)) {
+      const raw = (line.split(',')[index] ?? '').trim();
+      if (raw === '') continue;
+      seen += 1;
+      if (Number.isFinite(Number.parseFloat(raw))) numeric += 1;
+    }
+    return seen === 0 ? 0 : numeric / seen;
+  };
+  const valueColumns = header.filter((name, index) => !skip(lower[index]) && numericRate(index) >= 0.5);
+  return { columns: header, valueColumns };
+}
+
+/**
+ * Common phrasings mapped to the official series that answers them. Owid's search
+ * cannot bridge this gap: "richest countries" does not contain the words
+ * "gdp per capita", and the search happily returns an income-*share* chart
+ * instead, which is a different question with different numbers.
+ */
+const INTENT_SLUGS: Array<{ match: RegExp; slugs: string[] }> = [
+  { match: /\b(richest|wealthiest|most prosperous|highest income|best off)\b/i, slugs: ['gdp-per-capita-worldbank', 'gdp-per-capita-maddison-project-database'] },
+  { match: /\b(poorest|least developed|lowest income)\b/i, slugs: ['gdp-per-capita-worldbank', 'gdp-per-capita-maddison-project-database'] },
+  { match: /\b(largest|biggest|largest)\s+(econom|economy|economies|gdp)/i, slugs: ['gross-domestic-product', 'gdp-world-regions'] },
+  { match: /\b(most populous|population)\b/i, slugs: ['population'] },
+  { match: /\b(richest|wealth|wealthiest)\b.*\b(ancient|history|historical|old)\b/i, slugs: ['gdp-per-capita-maddison-project-database'] },
+];
+
+/** The official series to use for a phrasing, when one is recognised. */
+export function intentSlugs(topic: string): string[] {
+  for (const entry of INTENT_SLUGS) {
+    if (entry.match.test(topic)) return entry.slugs;
+  }
+  return [];
+}
+
 export interface OwidColumnMeta {
   titleShort?: string;
   unit?: string;
@@ -196,7 +267,13 @@ export async function resolveOwidTable(
 
   const tryChart = async (chart: OwidSearchHit): Promise<{ slug: string; title: string; rows: OwidRow[]; countries: OwidRow[] } | null> => {
     try {
-      const rows = parseOwidCsv(await fetchOwidCsv(chart.slug));
+      const text = await fetchOwidCsv(chart.slug);
+      // A comparison chart (two or more value columns) cannot be raced: picking one
+      // column and labelling it with another column's unit is exactly how a video
+      // shows the wrong number under the wrong name.
+      const shape = countValueColumns(text);
+      if (shape.valueColumns.length !== 1) return null;
+      const rows = parseOwidCsv(text);
       if (rows.length < 20) return null;
       const countries = rows.filter((row) => row.code !== '' && !isOwidAggregate(row.code));
       let usable = countries.length >= 10 ? countries : rows;
@@ -219,7 +296,10 @@ export async function resolveOwidTable(
     }
   };
 
-  for (const chart of [...exactHits, ...otherHits.slice(0, 8)]) {
+  // The phrasing may name an intent that search cannot bridge, so try the mapped
+  // official series first.
+  const intent = intentSlugs(topic).map((slug) => ({ title: slug, slug, type: 'chart' }));
+  for (const chart of [...intent, ...exactHits, ...otherHits.slice(0, 8)]) {
     const resolved = await tryChart(chart);
     if (resolved) return resolved;
   }
