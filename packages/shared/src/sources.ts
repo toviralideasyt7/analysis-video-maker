@@ -38,6 +38,16 @@ export function iso2FromIso3(code: string | undefined | null): string | null {
   if (!code) return null;
   return ISO3_TO_ISO2.get(code.trim().toUpperCase()) ?? null;
 }
+/**
+ * A unit must never be empty: Owid ships charts whose metadata unit is the empty
+ * string, and an empty unit fails input validation downstream. Pass every unit
+ * through this before writing it anywhere.
+ */
+export function safeUnit(unit: string | undefined | null, fallback = 'units'): string {
+  const value = (unit ?? '').trim();
+  return value.length > 0 ? value : fallback;
+}
+
 export function isAdditiveUnit(unit: string | undefined): boolean {
   const value = (unit ?? '').toLowerCase();
   if (!value) return false;

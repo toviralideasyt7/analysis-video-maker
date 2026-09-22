@@ -21,7 +21,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createAIClient, type AIClient } from './ai';
 import { createSearchProvider, type SearchProvider } from './search';
-import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, isAdditiveUnit, iso2FromIso3, resolveOwidTable, validateVideoInput } from '@avm/shared';
+import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, isAdditiveUnit, safeUnit, iso2FromIso3, resolveOwidTable, validateVideoInput } from '@avm/shared';
 import type { VideoInput, VideoInputFact } from '@avm/shared';
 
 export interface ResearchRequest {
@@ -363,9 +363,10 @@ function searchPhrase(topic: string): string {
 async function tryDirectSources(
   req: ResearchRequest,
   warnings: string[],
+  topicOverride?: string,
 ): Promise<{ plan: Plan; source: { text: string; url: string }; rows: RawRow[] } | null> {
   try {
-    const phrase = searchPhrase(req.topic);
+    const phrase = searchPhrase(topicOverride ?? req.topic);
     const table = await resolveOwidTable(phrase);
     if (!table || table.rows.length < 20) return null;
     warnings.push(`direct download: OWID ${table.slug} (${table.rows.length} rows)`);
@@ -374,7 +375,7 @@ async function tryDirectSources(
     // Take the chart's own title and unit so the video labels the numbers.
     const metadata = await fetchOwidMetadata(table.slug).catch(() => undefined);
     const column = metadata?.columns ? Object.values(metadata.columns)[0] : undefined;
-    const unit = column?.unit ?? column?.shortUnit ?? 'units';
+    const unit = safeUnit(column?.unit ?? column?.shortUnit);
 
     // Reuse the same windowing, aggregate filter and size ranking as every other
     // direct path, so this route cannot drift from them.
@@ -564,6 +565,17 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   // Our World in Data hands out several download shapes for the same chart (.csv,
   // .zip, with and without query strings). The slug is the stable part and the
   // CSV endpoint is the table, so normalise before deciding anything.
+  // An Owid "explorer" link points at a multi-chart browser, not a single series,
+  // so it never matches a grapher slug. Its Indicator parameter names the chart
+  // the user actually wants, and that is what we search for.
+  let explorerTopic: string | null = null;
+  if (req.dataUrl) {
+    try {
+      explorerTopic = new URL(req.dataUrl).searchParams.get('Indicator');
+    } catch {
+      explorerTopic = null;
+    }
+  }
   const owidSlug = req.dataUrl ? owidSlugFromUrl(req.dataUrl) : null;
   const dataUrl = req.dataUrl ? normaliseOwidUrl(req.dataUrl) : undefined;
   const isTable = Boolean(dataUrl && /\.(csv|tsv)(\?|$)/i.test(dataUrl));
@@ -613,7 +625,7 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   if (!plan) {
     // No URL supplied, or the supplied one yielded nothing: try the key-free
     // direct sources for the topic before reading a page.
-    const direct = await tryDirectSources(req, warnings);
+    const direct = await tryDirectSources(req, warnings, explorerTopic ?? undefined);
     if (direct) {
       plan = direct.plan;
       source = direct.source;
