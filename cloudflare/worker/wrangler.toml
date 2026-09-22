@@ -11,15 +11,16 @@
 name = "avm-control"
 main = "src/index.ts"
 compatibility_date = "2024-11-01"
+workers_dev = true
 
 [[d1_databases]]
 binding = "DB"
 database_name = "avm"
-database_id = "REPLACE_WITH_D1_ID"
+database_id = "0371647f-942c-403d-9ac2-0d82498fd97b"
 
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "REPLACE_WITH_KV_ID"
+id = "6abbd87e08f34791acbbdf8ae6542d27"
 
 [vars]
 GITHUB_OWNER = "toviralideasyt7"
