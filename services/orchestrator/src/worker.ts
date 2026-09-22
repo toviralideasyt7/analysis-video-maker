@@ -46,7 +46,7 @@ const app = new Hono<{ Bindings: Env }>();
 
 app.use('*', cors({
   origin: (origin, c) => {
-    const allowed = (c.env.ALLOWED_ORIGINS ?? '').split(',').map(s => s.trim()).filter(Boolean);
+    const allowed = (c.env.ALLOWED_ORIGINS ?? '').split(',').map((s: string) => s.trim()).filter(Boolean);
     if (allowed.length === 0) return origin; // allow all if not configured
     return allowed.includes(origin) ? origin : allowed[0];
   },
