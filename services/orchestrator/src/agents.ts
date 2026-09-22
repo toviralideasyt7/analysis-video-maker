@@ -976,8 +976,33 @@ export async function aiQaReview(
   const prompt = `You are the QA Agent for a data-video platform. Audit this rendered-plan bundle for
 unsupported claims, impossible timings, missing provenance, duplicate entities and ranking errors.
 
-The frame tape covers the bar-race scene only, and a verified count of zero means the values
-come from a single authoritative publisher - neither of those is a defect on its own.
+HOW TO READ THE FRAME TAPE (bar-race semantics - get this right):
+- The tape covers the bar-race scene only.
+- "entities" is the UNION of every entity that ever enters the top-N across ALL periods: bars
+  move in and out over time, so the roster routinely exceeds topN. This is correct, expected
+  behavior. NEVER flag "entities > topN" as a ranking error on its own.
+- The only ranking error is a single frame showing MORE than topN bars: compare
+  maxBarsPerFrame against topN. If maxBarsPerFrame <= topN, the ranking display is fine no
+  matter how large the roster is.
+- A title like "Top 10" must match the tape's topN - not the roster size.
+- A verified count of zero means the values come from a single authoritative publisher -
+  not a defect on its own.
+
+HOW TO JUDGE (investigate before you accuse):
+- You are the last gate before a video ships. A false rejection wastes ~20 minutes of
+  pipeline compute and blocks a good video; a false pass ships a wrong video. Both are
+  expensive, so never decide on a hunch.
+- When something looks suspicious, dig DEEPER into the evidence first: re-check the numbers
+  across all three summaries, redo the timing math yourself (sceneDurationSeconds vs
+  durationInFrames/fps, scene durations vs metadata totals), cross-check the title's
+  "Top N" claim against tape topN, and look for the same fact stated in two places before
+  trusting it.
+- A "problem" must cite the exact contradicting fields and values. If you cannot pin the
+  contradiction to specific evidence, it is not a problem - put it in "notes" instead.
+- If the evidence is genuinely ambiguous and you cannot resolve it from what is provided,
+  say what is missing in "notes" and PASS the bundle rather than failing on a guess: the
+  deterministic gates (schema, strict dataset validation, tape reproducibility) have already
+  run ahead of you.
 
 DATASET SUMMARY:
 ${JSON.stringify(input.datasetSummary, null, 2)}
@@ -992,10 +1017,53 @@ VERIFICATION CONTEXT:
 ${JSON.stringify(input.verificationContext ?? {}, null, 2)}
 
 Reply with JSON only:
-{ "passed": true, "problems": ["only real, specific problems"], "notes": ["optional"] }`;
+{ "passed": true, "problems": ["only real, specific, evidence-cited problems"], "notes": ["optional"] }`;
   try {
-    const verdict = await ctx.ai.completeJsonRole<AiQaVerdict>('qa', { prompt, system: RESEARCH_RULES, maxTokens: 1500 }, 'aiQaVerdict');
-    return { passed: Boolean(verdict.passed), available: true, problems: verdict.problems ?? [], notes: verdict.notes ?? [] };
+    const first = await ctx.ai.completeJsonRole<AiQaVerdict>('qa', { prompt, system: RESEARCH_RULES, maxTokens: 1500 }, 'aiQaVerdict');
+    const verdict: AiQaVerdict = { passed: Boolean(first.passed), available: true, problems: first.problems ?? [], notes: first.notes ?? [] };
+    // Challenge round: a rejection must survive its own cross-examination. The reviewer
+    // re-argues each problem against the evidence and drops anything it cannot prove -
+    // this is what stops a confident-sounding guess from killing a good bundle.
+    if (!verdict.passed && verdict.problems.length > 0) {
+      const challenge = `You just rejected a video bundle with these problems:
+${verdict.problems.map((p, i) => `${i + 1}. ${p}`).join('\n')}
+
+You are now the defense. For EACH problem above, re-examine it against the evidence below
+and decide whether it is PROVEN or must be DROPPED. Dig into the numbers again - do not
+just repeat your first answer. Drop a problem unless you can point to the exact fields
+and values that contradict each other. Remember the bar-race rule: the entity roster is
+the union across all periods and may exceed topN - that alone proves nothing; only
+maxBarsPerFrame > topN is a ranking error.
+
+EVIDENCE (same bundle):
+DATASET SUMMARY:
+${JSON.stringify(input.datasetSummary, null, 2)}
+
+VIDEO SPEC:
+${JSON.stringify(input.videoSpec, null, 2)}
+
+FRAME TAPE SUMMARY:
+${JSON.stringify(input.frameTapeSummary, null, 2)}
+
+VERIFICATION CONTEXT:
+${JSON.stringify(input.verificationContext ?? {}, null, 2)}
+
+Reply with JSON only:
+{ "passed": true, "problems": ["surviving problems, each citing the exact contradicting evidence"], "notes": ["one line per dropped problem explaining why it was dropped"] }`;
+      try {
+        const second = await ctx.ai.completeJsonRole<AiQaVerdict>('qa', { prompt: challenge, system: RESEARCH_RULES, maxTokens: 1500 }, 'aiQaVerdict');
+        const surviving = second.problems ?? [];
+        return {
+          passed: Boolean(second.passed) && surviving.length === 0,
+          available: true,
+          problems: surviving,
+          notes: [...verdict.notes, ...(second.notes ?? [])],
+        };
+      } catch (error) {
+        logger.warn('AI QA challenge round failed; keeping first verdict', { error: String(error) });
+      }
+    }
+    return verdict;
   } catch (error) {
     logger.warn('AI QA failed', { error: String(error) });
     return fallback;

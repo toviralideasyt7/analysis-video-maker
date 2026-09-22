@@ -48,6 +48,15 @@ async function main(): Promise<void> {
   };
 
   process.stdout.write(`provider: ${ctx.ai.providerName}\n`);
+  // Deterministic frame facts, so the reviewer judges numbers instead of
+  // guessing them. In a bar race the tape's entity roster is the UNION of
+  // every entity that ever enters the top-N across all periods (bars move in
+  // and out over time), so `entities` routinely exceeds `topN` while no
+  // single frame ever shows more than `topN` bars. That is correct behavior,
+  // not a ranking error.
+  const barCounts = frameTape.frames.map((f) => f.bars.length);
+  const maxBarsPerFrame = barCounts.length > 0 ? Math.max(...barCounts) : 0;
+  const minBarsPerFrame = barCounts.length > 0 ? Math.min(...barCounts) : 0;
   const verdict = await aiQaReview(
     {
       datasetSummary: {
@@ -78,6 +87,11 @@ async function main(): Promise<void> {
         periodRange: `${frameTape.periodLabels[0] ?? ''}..${frameTape.periodLabels[frameTape.periodLabels.length - 1] ?? ''}`,
         entities: frameTape.entities.length,
         topN: frameTape.topN,
+        maxBarsPerFrame,
+        minBarsPerFrame,
+        rosterSemantics:
+          'entities is the union of every entity that ever enters the top-N across all periods; ' +
+          'it may exceed topN. Only a frame showing more than topN bars is a ranking error.',
         notes: frameTape.notes,
       },
       verificationContext: {
