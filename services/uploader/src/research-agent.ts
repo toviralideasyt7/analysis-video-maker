@@ -462,6 +462,12 @@ function applyDefaultWindow(
   req: ResearchRequest,
   warnings: string[],
 ): Array<{ entity: string; date: string; value: number; code: string }> {
+  // A request for depth overrides the recency default: windowing a topic that
+  // says "ancient" or "history" down to 150 years would answer a different
+  // question, which is exactly what the reviewers objected to.
+  if (/\b(ancient|antiquity|history|historical|long run|long-run|centuries)\b/i.test(req.topic)) {
+    return table;
+  }
   const years = table.map((row) => Number(row.date)).filter((year) => Number.isFinite(year));
   if (years.length === 0) return table;
   const latest = Math.max(...years);
@@ -491,8 +497,16 @@ function applyDefaultWindow(
  * run proceeds on the deterministic checks alone.
  */
 async function reviewInput(input: VideoInput, req: ResearchRequest, ai: AIClient, warnings: string[], errors: string[]): Promise<boolean> {
-  const entities = (input.entities ?? []).slice(0, 6).map((entity) => entity.name).join(', ');
+  // conclude the race was limited to six countries.
+  const allEntities = input.entities ?? [];
+  const entities = `${allEntities.length} entities, led by ${allEntities.slice(0, 12).map((entity) => entity.name).join(', ')}`;
+  // Sample the leading entities, not whichever rows happen to come first: the
+  // observations are in file order (alphabetical), so slicing blindly showed the
+  // reviewers Afghanistan while the entity list said Macao, Qatar, Singapore, and
+  // they rightly objected to the mismatch.
+  const leading = new Set((input.entities ?? []).slice(0, 6).map((entity) => entity.name));
   const sample = input.observations
+    .filter((row) => leading.has(row.entity))
     .slice(0, 8)
     .map((row) => `${row.entity} ${row.date}=${row.value}`)
     .join('; ');
@@ -504,7 +518,7 @@ async function reviewInput(input: VideoInput, req: ResearchRequest, ai: AIClient
     `Unit: ${input.unit}`,
     `Entities: ${entities}`,
     `Sample rows: ${sample}`,
-    `Narrative headings: ${facts}`,
+    `Years: ${Math.min(...input.observations.map((row) => Number(row.date)).filter((y) => Number.isFinite(y)))} to ${Math.max(...input.observations.map((row) => Number(row.date)).filter((y) => Number.isFinite(y)))}`,
     '',
     'Reply with JSON only:',
     '{ "matchesTopic": true, "problems": ["..."], "severity": "ok" | "warning" | "fatal" }',

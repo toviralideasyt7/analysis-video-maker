@@ -131,6 +131,10 @@ export function countValueColumns(text: string): { columns: string[]; valueColum
  * instead, which is a different question with different numbers.
  */
 const INTENT_SLUGS: Array<{ match: RegExp; slugs: string[] }> = [
+  // The historical rule must come first: the World Bank series only starts in 1990,
+  // so a request for deep history has to be answered by the Maddison series (1700+).
+  { match: /\b(ancient|historical|history|long run|over the centuries|since antiquity)\b/i, slugs: ['gdp-per-capita-maddison-project-database', 'gdp-per-capita-worldbank'] },
+  
   { match: /\b(richest|wealthiest|most prosperous|highest income|best off)\b/i, slugs: ['gdp-per-capita-worldbank', 'gdp-per-capita-maddison-project-database'] },
   { match: /\b(poorest|least developed|lowest income)\b/i, slugs: ['gdp-per-capita-worldbank', 'gdp-per-capita-maddison-project-database'] },
   { match: /\b(largest|biggest|largest)\s+(econom|economy|economies|gdp)/i, slugs: ['gross-domestic-product', 'gdp-world-regions'] },
