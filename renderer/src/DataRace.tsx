@@ -223,6 +223,40 @@ const BarRace: React.FC<{
     }
     return current;
   }, [story, labelToTapeIndex, tapePos]);
+  // Card content: an active highlight takes precedence; otherwise a story
+  // segment may show - but ONLY for a few screen-seconds after its period
+  // begins, with a fade in/out. Stale narrative must never linger on screen
+  // (the 1960 card once sat there for the entire race).
+  const cardContent = ((): { title?: string; body: string; start: number; end: number } | null => {
+    if (activeHighlight) {
+      const s = toScreenFrame(activeHighlight.atFrame);
+      return {
+        title: activeHighlight.headline,
+        body: activeHighlight.detail ?? '',
+        start: s,
+        end: s + 6 * fps,
+      };
+    }
+    if (segment?.text) {
+      const idx = labelToTapeIndex.get(segment.atLabel);
+      if (idx !== undefined) {
+        const s = ((idx - rangeStart) / tapeSpan) * durationInFrames;
+        const end = s + 10 * fps;
+        if (frame >= s && frame < end) {
+          return { body: segment.text, start: s, end };
+        }
+      }
+    }
+    return null;
+  })();
+  const cardAppear = cardContent
+    ? interpolate(
+        frame,
+        [cardContent.start, cardContent.start + 12, cardContent.end - 12, cardContent.end],
+        [0, 1, 1, 0],
+        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
+      )
+    : 0;
 
   const featured = useMemo(() => {
     if (activeHighlight) {
@@ -236,7 +270,7 @@ const BarRace: React.FC<{
       .filter((e): e is FrameTapeEntity => !!e);
   }, [activeHighlight, rows, entityById]);
 
-  const panelAppear = spring({ frame, fps, durationInFrames: 24, config: { damping: 200 } });
+  const panelAppear = cardAppear;
   const chromeAppear = interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   // Progress across the whole race (all segments), not just this one.
   const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
@@ -265,13 +299,15 @@ const BarRace: React.FC<{
           />
         );
       })}
-      <EraPanel
-        title={activeHighlight?.headline}
-        body={activeHighlight?.detail ?? segment?.text}
-        featured={featured}
-        flagBaseUrl={flagBaseUrl}
-        appear={panelAppear}
-      />
+      {cardContent ? (
+        <EraPanel
+          title={cardContent.title}
+          body={cardContent.body}
+          featured={featured}
+          flagBaseUrl={flagBaseUrl}
+          appear={panelAppear}
+        />
+      ) : null}
       <RaceProgress
         progress={progress}
         caption={`Source: ${input.videoSpec.sources[0]?.publisher ?? 'multiple sources'}`}
