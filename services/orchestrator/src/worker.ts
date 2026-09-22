@@ -222,8 +222,16 @@ app.post('/api/projects/:id/render', async (c) => {
   }
 
   // The render-video workflow reads the bundle from bundles/<projectId>/ in the repo.
-  // For draft projects without a bundle yet, we point it at the template bundle.
-  const bundleProjectId = 'world-population-by-country-20260921094702';
+  // Use the project's own bundle when it exists; fall back to the template bundle.
+  const TEMPLATE_BUNDLE = 'world-population-by-country-20260921094702';
+  let bundleProjectId = TEMPLATE_BUNDLE;
+  try {
+    const check = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/bundles/${id}`,
+      { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': `Bearer ${token}`, 'User-Agent': 'avm-orchestrator-worker' } }
+    );
+    if (check.ok) bundleProjectId = id;
+  } catch { /* fall back to template */ }
 
   const dispatchRes = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/actions/workflows/render-video.yml/dispatches`,
