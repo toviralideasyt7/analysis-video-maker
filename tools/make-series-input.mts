@@ -91,7 +91,13 @@ async function main(): Promise<void> {
 
   // ---- filter years -------------------------------------------------------
   const allYears = series.observations.map((o) => o.year).filter((y) => Number.isFinite(y));
-  const minYear = arg('start') ? Number.parseInt(String(arg('start')), 10) : Math.min(...allYears);
+  // Default to a recent window. A series such as world population starts in
+  // 10 000 BC, and running from there spends the whole video before anything
+  // recognisable happens. Pass --start to override.
+  const windowYears = numArg('window-years', 150);
+  const latestYear = Math.max(...allYears);
+  const defaultStart = Math.max(Math.min(...allYears), latestYear - windowYears);
+  const minYear = arg('start') ? Number.parseInt(String(arg('start')), 10) : defaultStart;
   const maxYear = arg('end') ? Number.parseInt(String(arg('end')), 10) : Math.max(...allYears);
 
   const inRange = series.observations.filter((o) => o.year >= minYear && o.year <= maxYear);
@@ -141,7 +147,7 @@ async function main(): Promise<void> {
 
   // ---- sampling step from the frame budget -------------------------------
   const yearSpan = maxYear - minYear + 1;
-  const maxFrames = numArg('max-frames', 150);
+  const maxFrames = numArg('max-frames', 220);
   const step = numArg('step', Math.max(1, Math.ceil(yearSpan / maxFrames)));
   const frames: number[] = [];
   for (let year = minYear; year <= maxYear; year += step) frames.push(year);
@@ -287,9 +293,12 @@ async function main(): Promise<void> {
   const finalHoldSeconds = numArg('final-hold', 12);
   const targetMinutes = numArg('target-minutes', 10);
   const raceSeconds = Math.max(30, targetMinutes * 60 - introSeconds - outroSeconds - finalHoldSeconds);
+  // Cap the time-per-period so a short series yields a short video rather than a
+  // long, nearly static one. The target length is a ceiling, not a promise.
+  const maxSecondsPerPeriod = numArg('max-seconds-per-period', 6);
   const secondsPerYear = arg('seconds-per-year')
     ? numArg('seconds-per-year', 5)
-    : Number((raceSeconds / frames.length).toFixed(3));
+    : Number(Math.min(raceSeconds / frames.length, maxSecondsPerPeriod).toFixed(3));
 
   const input: VideoInput = {
     version: '1.0',
@@ -297,7 +306,9 @@ async function main(): Promise<void> {
     metric,
     unit,
     valueFormat: (arg('format') as 'comma' | 'compact') ?? 'comma',
-    canvas: { width: 1280, height: 720, fps: 60 },
+    // 30 fps halves the frame count (and the render time) with no visible
+    // difference for a slow bar race.
+    canvas: { width: 1280, height: 720, fps: numArg('fps', 30) },
     settings: {
       topN: numArg('topn', 12),
       secondsPerYear,

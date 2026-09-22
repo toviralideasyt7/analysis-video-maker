@@ -297,7 +297,7 @@ export function buildTape(input: VideoInput, options: TapeOptions = {}): Tape {
     for (const bar of bars) {
       const target = bar.rank;
       const previous = rowSlot.get(bar.entityId);
-      const pos = previous === undefined ? target : previous + (target - previous) * 0.18;
+      const pos = previous === undefined ? target : previous + (target - previous) * 0.06;
       eased.push({ bar, pos });
     }
     eased.sort((a, b) => a.pos - b.pos || a.bar.rank - b.bar.rank);

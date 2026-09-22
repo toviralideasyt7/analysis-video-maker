@@ -29,6 +29,7 @@ async function main(): Promise<void> {
       topN: envValue('TOP_N') ? Number(envValue('TOP_N')) : undefined,
       layout: envValue('LAYOUT'),
       targetMinutes: envValue('TARGET_MINUTES') ? Number(envValue('TARGET_MINUTES')) : undefined,
+      startYear: envValue('START_YEAR') ? Number(envValue('START_YEAR')) : undefined,
     },
     'inputs',
   );

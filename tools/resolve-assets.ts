@@ -105,17 +105,35 @@ async function fetchFlagPng(code: string): Promise<string | null> {
   }
 }
 
+/**
+ * Fetch an entity logo. Several sources are tried in order of quality, because a
+ * single favicon endpoint misses a fair number of sites:
+ *   1. Google's favicon service at 256px;
+ *   2. the site's own apple-touch-icon, which is usually a real logo;
+ *   3. the site's favicon.ico.
+ * A monogram is drawn by the renderer when none of them yields an image.
+ */
 async function downloadLogo(domain: string, outPath: string): Promise<boolean> {
-  try {
-    const response = await fetch(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
-    if (!response.ok) return false;
-    const buffer = Buffer.from(await response.arrayBuffer());
-    if (buffer.byteLength < 200) return false;
-    writeFileSync(outPath, buffer);
-    return true;
-  } catch {
-    return false;
+  const clean = domain.replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
+  const sources = [
+    `https://www.google.com/s2/favicons?domain=${clean}&sz=256`,
+    `https://${clean}/apple-touch-icon.png`,
+    `https://${clean}/favicon.ico`,
+  ];
+  for (const url of sources) {
+    try {
+      const response = await fetch(url, { redirect: 'follow' });
+      if (!response.ok) continue;
+      const buffer = Buffer.from(await response.arrayBuffer());
+      // Reject tiny error pages and 1x1 placeholders.
+      if (buffer.byteLength < 300) continue;
+      writeFileSync(outPath, buffer);
+      return true;
+    } catch {
+      /* try the next source */
+    }
   }
+  return false;
 }
 
 async function main(): Promise<void> {

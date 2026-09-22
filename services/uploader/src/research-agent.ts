@@ -34,6 +34,8 @@ export interface ResearchRequest {
   layout?: string;
   /** Target video length; pacing is derived from it. */
   targetMinutes?: number;
+  /** First year to include; defaults to a recent window. */
+  startYear?: number;
 }
 
 export interface ResearchOutput {
@@ -362,38 +364,30 @@ async function tryDirectSources(
   try {
     const phrase = searchPhrase(req.topic);
     const table = await resolveOwidTable(phrase);
-    if (phrase !== req.topic) warnings.push(`searching for "${phrase}"`);
     if (!table || table.rows.length < 20) return null;
     warnings.push(`direct download: OWID ${table.slug} (${table.rows.length} rows)`);
+    if (phrase !== req.topic) warnings.push(`searching for "${phrase}"`);
 
-    const peak = new Map<string, number>();
-    for (const row of table.rows) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
-    const names = Array.from(peak.keys())
-      .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
-      .slice(0, 40);
-    const years = table.rows.map((row) => row.year);
+    // Take the chart's own title and unit so the video labels the numbers.
+    const metadata = await fetchOwidMetadata(table.slug).catch(() => undefined);
+    const column = metadata?.columns ? Object.values(metadata.columns)[0] : undefined;
+    const unit = column?.unit ?? column?.shortUnit ?? 'units';
 
-    const plan: Plan = {
-      measurableDefinition: req.topic,
-      unit: 'units',
-      entityType: 'entity',
-      entities: names.map((name) => ({
-        id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        name,
-        group: 'All',
-      })),
-      startYear: Math.min(...years),
-      endYear: Math.max(...years),
-      layout: undefined,
-      searchQueries: [],
-    };
-    const rows: RawRow[] = table.rows.map((row) => ({
+    // Reuse the same windowing, aggregate filter and size ranking as every other
+    // direct path, so this route cannot drift from them.
+    const mapped = table.rows.map((row) => ({
       entity: row.entity,
       date: String(row.year),
       value: row.value,
-      quote: 'our world in data grapher csv',
+      code: row.code,
     }));
-    return { plan, source: { text: '', url: `https://ourworldindata.org/grapher/${table.slug}.csv` }, rows };
+    const windowed = applyDefaultWindow(mapped, req, warnings);
+    const plan = planFromTable(windowed, req, warnings, `OWID ${table.slug}`);
+    plan.unit = unit;
+    plan.measurableDefinition = metadata?.chart?.title ?? table.title ?? req.topic;
+
+    const rows: RawRow[] = windowed.map((row) => ({ ...row, quote: 'our world in data grapher csv' }));
+    return { plan, source: { text: '', url: owidCsvUrl(table.slug) }, rows };
   } catch (error) {
     warnings.push(`direct download failed: ${error instanceof Error ? error.message : String(error)}`);
     return null;
@@ -454,6 +448,34 @@ function planFromTable(
   };
 }
 
+/**
+ * Keep the recent window by default. A series such as world population runs from
+ * 10 000 BC, and starting there makes a video that creeps for ten minutes before
+ * anything recognisable happens. The recent 150 years is what a viewer wants
+ * unless a start year is asked for explicitly.
+ */
+function applyDefaultWindow(
+  table: Array<{ entity: string; date: string; value: number; code: string }>,
+  req: ResearchRequest,
+  warnings: string[],
+): Array<{ entity: string; date: string; value: number; code: string }> {
+  const years = table.map((row) => Number(row.date)).filter((year) => Number.isFinite(year));
+  if (years.length === 0) return table;
+  const latest = Math.max(...years);
+  const earliest = Math.min(...years);
+  const requested = req.startYear;
+  const start = Number.isFinite(requested) ? Number(requested) : Math.max(earliest, latest - 150);
+  if (start <= earliest) return table;
+
+  const windowed = table.filter((row) => Number(row.date) >= start);
+  if (windowed.length < 20) {
+    warnings.push(`a start year of ${start} left too little data; keeping the full range`);
+    return table;
+  }
+  warnings.push(`window ${start}-${latest} (the series runs from ${earliest})`);
+  return windowed;
+}
+
 export async function runResearch(req: ResearchRequest, outDir: string): Promise<ResearchOutput> {
   const warnings: string[] = [];
   const errors: string[] = [];
@@ -478,7 +500,8 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     // Fetch the CSV directly: routing it through the fetch proxy would convert it
     // to markdown and lose the country-code column used to drop aggregates.
     const text = await fetchOwidCsv(owidSlug);
-    const parsed = ingestCsvTable(text);
+    const parsedRaw = ingestCsvTable(text);
+    const parsed = applyDefaultWindow(parsedRaw, req, warnings);
     if (parsed.length > 0) {
       plan = planFromTable(parsed, req, warnings, `OWID ${owidSlug}`);
       // Prefer the chart's own title and unit over the placeholders. Metadata is
@@ -500,7 +523,8 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   } else if (isTable && dataUrl) {
     const fetched = await search.fetch(dataUrl);
     const text = fetched.text ?? '';
-    const parsedTable = ingestCsvTable(text);
+    const parsedTableRaw = ingestCsvTable(text);
+    const parsedTable = applyDefaultWindow(parsedTableRaw, req, warnings);
     if (parsedTable.length > 0) {
       plan = planFromTable(parsedTable, req, warnings);
       source = { text, url: dataUrl };
@@ -581,7 +605,9 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   // lands near the target instead of running for hours.
   const distinctDates = new Set(rows.map((row) => row.date)).size || 1;
   const targetSeconds = Math.max(60, (req.targetMinutes ?? 10) * 60);
-  const pacingSeconds = Number(((targetSeconds - 5 - 8 - 12) / distinctDates).toFixed(3));
+  // The target length is a ceiling: a short series gets a short video instead of a
+  // long, nearly static one.
+  const pacingSeconds = Number(Math.min((targetSeconds - 5 - 8 - 12) / distinctDates, 6).toFixed(3));
 
   // The video title is the topic with any instruction tail removed, so a
   // request like "... and must include the side infos" does not end up on screen.
@@ -594,7 +620,9 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
     metric: plan.measurableDefinition.slice(0, 60),
     unit: plan.unit,
     valueFormat: 'comma',
-    canvas: { width: 1280, height: 720, fps: 60 },
+    // 30 fps halves the frame count (and the render time); a slow bar race looks
+    // the same.
+    canvas: { width: 1280, height: 720, fps: 30 },
     settings: {
       topN: req.topN ?? 12,
       // Pacing is derived from the requested length so a long history (hundreds

@@ -129,50 +129,99 @@ export const isOwidAggregate = (code: string): boolean => code.startsWith('OWID_
  * Resolve a topic straight to a table: search, take the best chart, download and
  * parse. Returns null when nothing usable is found, so the caller can fall back.
  */
-export async function resolveOwidTable(topic: string, options: { maxEntities?: number } = {}): Promise<
-  | { slug: string; title: string; rows: OwidRow[]; countries: OwidRow[] }
-  | null
-> {
-  const charts = await searchOwidCharts(topic);
-
-  // OWID search is relevance-ordered but loose: "renewable energy capacity"
-  // returns a per-capita-vs-electricity scatter before the capacity series. Rank
-  // the candidates by how many of the topic's own words appear in the title, so
-  // the closest chart is tried first.
+/**
+ * Resolve a topic to a grapher table.
+ *
+ * Owid's search only behaves on short queries: "population" finds the Population
+ * chart, while "world population by country" returns health-access charts and the
+ * wordier the request the worse it gets. So walk a ladder of progressively
+ * simpler queries and prefer a chart whose title is exactly what was asked for.
+ */
+export async function resolveOwidTable(
+  topic: string,
+  options: { maxEntities?: number } = {},
+): Promise<{ slug: string; title: string; rows: OwidRow[]; countries: OwidRow[] } | null> {
+  const DROP = new Set([
+    'world', 'global', 'countries', 'country', 'by', 'all', 'top', 'over', 'across',
+    'since', 'total', 'list', 'ranking', 'rank', 'chart', 'video', 'data', 'the', 'of', 'in', 'a',
+  ]);
+  const split = (value: string): string[] => value.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const words = (value: string): string[] => split(value).filter((word) => word.length > 2);
+  const simplify = (value: string): string => split(value).filter((word) => !DROP.has(word)).join(' ');
   const stop = new Set(['the', 'and', 'per', 'for', 'with', 'from', 'by', 'of', 'in', 'to', 'a', 'total']);
-  const tokens = topic
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((token) => token.length > 2 && !stop.has(token));
-  const score = (title: string): number => {
-    const lower = title.toLowerCase();
-    return tokens.reduce((sum, token) => sum + (lower.includes(token) ? 1 : 0), 0);
-  };
-  const ranked = [...charts].sort((a, b) => score(b.title) - score(a.title));
 
-  for (const chart of ranked.slice(0, 6)) {
+  const core = simplify(topic);
+  const ladder = Array.from(new Set([
+    topic.trim(),
+    core,
+    core.split(' ').slice(0, 2).join(' '),
+  ].filter((query) => query.length > 2)));
+
+  const topicPhrase = words(topic).join(' ');
+  const tokens = words(topic).filter((token) => !stop.has(token));
+  const score = (title: string): [number, number, number] => {
+    const titleWords = words(title);
+    const titlePhrase = titleWords.join(' ');
+    const exact = topicPhrase.includes(titlePhrase) || titlePhrase.includes(topicPhrase) ? 1 : 0;
+    const overlap = tokens.reduce((sum, token) => sum + (titleWords.includes(token) ? 1 : 0), 0);
+    return [exact, overlap, -titleWords.length];
+  };
+
+  const exactHits: OwidSearchHit[] = [];
+  const otherHits: OwidSearchHit[] = [];
+  const seen = new Set<string>();
+  for (const query of ladder) {
+    let hits: OwidSearchHit[] = [];
     try {
-      const csv = await fetchOwidCsv(chart.slug);
-      const rows = parseOwidCsv(csv);
-      if (rows.length < 20) continue;
+      hits = await searchOwidCharts(query);
+    } catch {
+      continue;
+    }
+    const queryPhrase = words(query).join(' ');
+    for (const hit of hits) {
+      if (seen.has(hit.slug)) continue;
+      seen.add(hit.slug);
+      const titleWords = words(hit.title);
+      const isExact = hit.type === 'chart'
+        && (titleWords.join(' ') === queryPhrase || titleWords.join(' ') === topicPhrase);
+      if (isExact) exactHits.push(hit);
+      else otherHits.push(hit);
+    }
+  }
+  otherHits.sort((a, b) => {
+    const left = score(a.title);
+    const right = score(b.title);
+    return right[0] - left[0] || right[1] - left[1] || right[2] - left[2];
+  });
+
+  const tryChart = async (chart: OwidSearchHit): Promise<{ slug: string; title: string; rows: OwidRow[]; countries: OwidRow[] } | null> => {
+    try {
+      const rows = parseOwidCsv(await fetchOwidCsv(chart.slug));
+      if (rows.length < 20) return null;
       const countries = rows.filter((row) => row.code !== '' && !isOwidAggregate(row.code));
-      const usable = countries.length >= 10 ? countries : rows;
+      let usable = countries.length >= 10 ? countries : rows;
       if (options.maxEntities) {
-        const seen = new Set<string>();
+        const kept = new Set<string>();
         const trimmed: OwidRow[] = [];
         for (const row of usable) {
-          if (!seen.has(row.code || row.entity)) {
-            if (seen.size >= options.maxEntities) continue;
-            seen.add(row.code || row.entity);
+          const key = row.code || row.entity;
+          if (!kept.has(key)) {
+            if (kept.size >= options.maxEntities) continue;
+            kept.add(key);
           }
           trimmed.push(row);
         }
-        return { slug: chart.slug, title: chart.title, rows: trimmed, countries: trimmed };
+        usable = trimmed;
       }
       return { slug: chart.slug, title: chart.title, rows: usable, countries: usable };
     } catch {
-      /* try the next chart */
+      return null;
     }
+  };
+
+  for (const chart of [...exactHits, ...otherHits.slice(0, 8)]) {
+    const resolved = await tryChart(chart);
+    if (resolved) return resolved;
   }
   return null;
 }

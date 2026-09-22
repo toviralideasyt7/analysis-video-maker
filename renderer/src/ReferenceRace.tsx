@@ -37,8 +37,10 @@ const INK = {
   bronze: '#C58A5A',
   badge: '#1B1F1E',
   badgeText: '#D8DEDC',
-  fact: '#8E9795',
+  fact: '#A7B1AE',
   source: '#7C8785',
+  panelLine: '#22302C',
+  panelKicker: '#AFBAB7',
 } as const;
 
 type LayoutId = 'standard' | 'dense' | 'focus';
@@ -62,6 +64,8 @@ const FLAG_LEFT = 26;
 const BADGE_LEFT = 76;
 const BAR_LEFT = 132;
 const RIGHT_MARGIN = 34;
+const PANEL_LEFT = 950;
+const PANEL_WIDTH = 322;
 const ROWS_TOP = 104;
 const VALUE_ROOM = 104;
 
@@ -168,10 +172,23 @@ export const ReferenceRace: React.FC<{ input: VideoInput }> = ({ input }) => {
   const magnitude = frameData.bars[0]?.value ?? 0;
   const scalePower = tape.scalePower;
   const shown = frameData.bars.filter((bar) => bar.slot <= rows).slice(0, rows);
-  const fact = frameData.factIndex === null ? null : tape.facts[frameData.factIndex];
+  // one already reached, else the first. The intro and outro used to render empty
+  // because no fact was active, which is why the extra info only "sometimes" showed.
+  const activeFact = frameData.factIndex === null ? null : tape.facts[frameData.factIndex];
+  const fact =
+    activeFact ??
+    [...tape.facts].reverse().find((entry) => entry.fromFrame <= safeFrame) ??
+    tape.facts[0] ??
+    null;
+
+  /** Absolute frame -> the label the tape shows for it. */
+  const labelForFrame = (absolute: number): string =>
+    tape.frames[Math.max(0, Math.min(tape.frames.length - 1, absolute))]?.dateLabel ?? '';
+  /** The moments reached so far, newest last, capped for the panel. */
+  const moments = tape.facts.filter((entry) => entry.fromFrame <= safeFrame).slice(-4);
 
   const bandBottom = ROWS_TOP + rows * profile.pitch;
-  const maxBar = Math.max(80, 1280 - RIGHT_MARGIN - BAR_LEFT - VALUE_ROOM);
+  const maxBar = Math.max(80, PANEL_LEFT - 20 - BAR_LEFT - VALUE_ROOM);
   const year = frameData.dateLabel;
   const subtitle = `${input.metric}${input.unit ? ' · ' + input.unit : ''} · ${tape.dateLabels[0] ?? ''} - ${tape.dateLabels[tape.dateLabels.length - 1] ?? ''}`;
 
@@ -290,19 +307,70 @@ export const ReferenceRace: React.FC<{ input: VideoInput }> = ({ input }) => {
         );
       })}
 
-      {/* one line of fact text, lower left */}
-      {fact ? (
-        <div style={{ position: 'absolute', left: 30, top: bandBottom + 26, width: 860, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap', overflow: 'hidden', opacity: appear }}>
-          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: INK.gold, textTransform: 'uppercase' }}>
-            {fact.heading}
-          </span>
-          {fact.body ? (
-            <span style={{ fontSize: 12.5, color: INK.fact, marginLeft: 8 }}>
-              {fact.body.length > 110 ? fact.body.slice(0, 110) + "…" : fact.body}
-            </span>
+      {/* right-hand info panel: the narrative plus the moments, never blank */}
+      <div style={{ position: 'absolute', left: PANEL_LEFT, top: ROWS_TOP - 4, width: PANEL_WIDTH, display: 'flex', flexDirection: 'column', gap: 10, opacity: appear }}>
+        <div style={{ border: `1px solid ${INK.panelLine}`, background: 'rgba(255,255,255,0.03)', padding: '11px 13px 13px' }}>
+          <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.16em', color: INK.panelKicker, textTransform: 'uppercase', textAlign: 'center', paddingBottom: 8, borderBottom: `1px solid ${INK.panelLine}` }}>
+            Data narrative &amp; insights
+          </div>
+          {fact ? (
+            <div style={{ paddingTop: 10 }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: INK.title, textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.25 }}>
+                {fact.heading}
+              </div>
+              {fact.tiles.length > 0 ? (
+                <div style={{ display: 'flex', gap: 8, padding: '9px 0 7px' }}>
+                  {fact.tiles.slice(0, 2).map((tile) => {
+                    const entity = entityIndex.get(tile) ?? entityIndex.get(tile.toLowerCase());
+                    return <FlagCard key={tile} src={entity?.logoUrl} fallback={(entity?.name ?? tile).slice(0, 1).toUpperCase()} />;
+                  })}
+                </div>
+              ) : null}
+              {fact.body ? (
+                <div style={{ fontSize: 12.5, lineHeight: 1.4, color: INK.fact, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                  {fact.body}
+                </div>
+              ) : null}
+            </div>
           ) : null}
         </div>
-      ) : null}
+
+        <div style={{ border: `1px solid ${INK.panelLine}`, background: 'rgba(255,255,255,0.03)', padding: '10px 13px 12px' }}>
+          <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.16em', color: INK.panelKicker, textTransform: 'uppercase', paddingBottom: 8, borderBottom: `1px solid ${INK.panelLine}` }}>
+            Data summary
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, paddingTop: 9 }}>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: INK.axis }}>{input.metric}</span>
+            <span style={{ fontSize: 19, fontWeight: 800, color: INK.title, fontVariantNumeric: 'tabular-nums' }}>
+              {compact(frameData.worldTotal ?? 0)}
+            </span>
+          </div>
+        </div>
+
+        {moments.length > 0 ? (
+          <div style={{ border: `1px solid ${INK.panelLine}`, background: 'rgba(255,255,255,0.03)', padding: '10px 13px 12px' }}>
+            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.16em', color: INK.panelKicker, textTransform: 'uppercase', paddingBottom: 8, borderBottom: `1px solid ${INK.panelLine}` }}>
+              Key moments
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingTop: 9 }}>
+              {moments.map((entry) => {
+                const active = fact !== null && entry.fromFrame === fact.fromFrame;
+                return (
+                  <div key={`${entry.fromFrame}-${entry.heading}`} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: active ? INK.gold : INK.axis, fontVariantNumeric: 'tabular-nums', minWidth: 56 }}>
+                      {labelForFrame(entry.fromFrame)}
+                    </span>
+                    <span style={{ fontSize: 11.5, lineHeight: 1.3, color: active ? INK.value : INK.fact, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {entry.heading}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
 
       {/* source */}
       {input.sources ? (
