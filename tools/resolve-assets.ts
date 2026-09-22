@@ -88,6 +88,23 @@ async function aiFlagCode(name: string, apiKey: string): Promise<string | null> 
   return /^[a-z]{2}$/.test(text) ? text : null;
 }
 
+/**
+ * Inline a rectangular flag as a PNG data URL. The reference design shows a
+ * rectangular flag card, and a circular SVG inside a rectangular card reads as a
+ * circle, so a rectangular asset is fetched when one exists.
+ */
+async function fetchFlagPng(code: string): Promise<string | null> {
+  try {
+    const response = await fetch(`https://flagcdn.com/w80/${code.toLowerCase()}.png`);
+    if (!response.ok) return null;
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.byteLength < 200) return null;
+    return `data:image/png;base64,${buffer.toString('base64')}`;
+  } catch {
+    return null;
+  }
+}
+
 async function downloadLogo(domain: string, outPath: string): Promise<boolean> {
   try {
     const response = await fetch(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
@@ -170,7 +187,7 @@ async function main(): Promise<void> {
       continue;
     }
     if (entity.logoUrl) continue;
-    const dataUrl = await circleFlagDataUrl(entity.flagCode);
+    const dataUrl = (await fetchFlagPng(entity.flagCode)) ?? (await circleFlagDataUrl(entity.flagCode));
     if (dataUrl) {
       entity.logoUrl = dataUrl;
       inlined += 1;
