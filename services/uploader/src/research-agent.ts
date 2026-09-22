@@ -21,7 +21,7 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createAIClient, type AIClient } from './ai';
 import { createSearchProvider, type SearchProvider } from './search';
-import { resolveOwidTable, validateVideoInput } from '@avm/shared';
+import { fetchOwidCsv, fetchOwidMetadata, normaliseOwidUrl, owidSlugFromUrl, owidCsvUrl, resolveOwidTable, validateVideoInput } from '@avm/shared';
 import type { VideoInput, VideoInputFact } from '@avm/shared';
 
 export interface ResearchRequest {
@@ -341,12 +341,28 @@ function isAggregateName(name: string): boolean {
  * more trustworthy than reading a page: the numbers come from the file, not from
  * a model's transcription of it.
  */
+/**
+ * Reduce a topic sentence to a search phrase. Users write instructions into the
+ * topic box ("population growth rate by coutry and must include the side infos"),
+ * and those tails poison a data search: they are not part of the subject.
+ */
+function searchPhrase(topic: string): string {
+  const cleaned = topic
+    .replace(/\b(?:and\s+)?(?:please\s+)?(?:must\s+|should\s+|make\s+sure\s+)?(?:include|including|add|show|with|contain)\b[\s\S]*$/i, '')
+    .replace(/\bside\s+(?:info|infos|information)\b[\s\S]*$/i, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  return cleaned.length >= 6 ? cleaned : topic.trim();
+}
+
 async function tryDirectSources(
   req: ResearchRequest,
   warnings: string[],
 ): Promise<{ plan: Plan; source: { text: string; url: string }; rows: RawRow[] } | null> {
   try {
-    const table = await resolveOwidTable(req.topic);
+    const phrase = searchPhrase(req.topic);
+    const table = await resolveOwidTable(phrase);
+    if (phrase !== req.topic) warnings.push(`searching for "${phrase}"`);
     if (!table || table.rows.length < 20) return null;
     warnings.push(`direct download: OWID ${table.slug} (${table.rows.length} rows)`);
 
@@ -384,6 +400,60 @@ async function tryDirectSources(
   }
 }
 
+/**
+ * Build a plan straight from an ingested table: entities ranked by peak value,
+ * region aggregates dropped when the table carries a country-code column, and a
+ * density chosen from the shape of the data. No model involved.
+ */
+function planFromTable(
+  table: Array<{ entity: string; date: string; value: number; code: string }>,
+  req: ResearchRequest,
+  warnings: string[],
+  label?: string,
+): Plan {
+  const hasCodes = table.some((row) => row.code !== '');
+  const usable = hasCodes
+    ? table.filter((row) => row.code !== '' && !row.code.startsWith('OWID_') && !isAggregateName(row.entity))
+    : table.filter((row) => !isAggregateName(row.entity));
+  const source = usable.length > 0 ? usable : table;
+  if (hasCodes && usable.length < table.length) {
+    warnings.push(`${table.length - usable.length} aggregate rows excluded`);
+  }
+  warnings.push(`${source.length} rows ingested${label ? ' from ' + label : ''}`);
+
+  const peak = new Map<string, number>();
+  for (const row of source) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
+  const names = Array.from(peak.keys())
+    .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
+    .slice(0, 40);
+  const years = source.map((row) => Number(row.date)).filter((year) => Number.isFinite(year));
+
+  const explicit = (req.layout ?? 'auto').toLowerCase();
+  const requested = ['standard', 'dense', 'focus'].includes(explicit) ? explicit : '';
+  const layout = requested !== ''
+    ? requested
+    : names.length >= 45 || (req.topN ?? 0) >= 13
+      ? 'dense'
+      : names.length <= 12
+        ? 'focus'
+        : 'standard';
+
+  return {
+    measurableDefinition: req.topic,
+    unit: 'units',
+    entityType: 'entity',
+    entities: names.map((name) => ({
+      id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      name,
+      group: 'All',
+    })),
+    startYear: years.length > 0 ? Math.min(...years) : 0,
+    endYear: years.length > 0 ? Math.max(...years) : 0,
+    layout,
+    searchQueries: [],
+  };
+}
+
 export async function runResearch(req: ResearchRequest, outDir: string): Promise<ResearchOutput> {
   const warnings: string[] = [];
   const errors: string[] = [];
@@ -393,69 +463,68 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   // With a tabular data URL the file itself is the plan: entities, dates and
   // values come from the columns deterministically. AI is used only to
   // narrate. This keeps a 12k-row CSV out of a prompt window entirely.
-  const isTable = Boolean(req.dataUrl && /\.(csv|tsv)(\?|$)/i.test(req.dataUrl));
+  // Our World in Data hands out several download shapes for the same chart (.csv,
+  // .zip, with and without query strings). The slug is the stable part and the
+  // CSV endpoint is the table, so normalise before deciding anything.
+  const owidSlug = req.dataUrl ? owidSlugFromUrl(req.dataUrl) : null;
+  const dataUrl = req.dataUrl ? normaliseOwidUrl(req.dataUrl) : undefined;
+  const isTable = Boolean(dataUrl && /\.(csv|tsv)(\?|$)/i.test(dataUrl));
+
   let plan: Plan | undefined;
   let source: { text: string; url: string } | null = null;
   let rows: RawRow[] = [];
-  if (isTable && req.dataUrl) {
-    const fetched = await search.fetch(req.dataUrl);
-    const text = fetched.text ?? "";
+
+  if (owidSlug) {
+    // Fetch the CSV directly: routing it through the fetch proxy would convert it
+    // to markdown and lose the country-code column used to drop aggregates.
+    const text = await fetchOwidCsv(owidSlug);
+    const parsed = ingestCsvTable(text);
+    if (parsed.length > 0) {
+      plan = planFromTable(parsed, req, warnings, `OWID ${owidSlug}`);
+      // Prefer the chart's own title and unit over the placeholders. Metadata is
+      // a bonus: if the fetch fails the plan still stands.
+      try {
+        const metadata = await fetchOwidMetadata(owidSlug);
+        const column = metadata.columns ? Object.values(metadata.columns)[0] : undefined;
+        const unit = column?.unit ?? column?.shortUnit;
+        if (unit) plan.unit = unit;
+        if (metadata.chart?.title) plan.measurableDefinition = metadata.chart.title;
+      } catch {
+        /* ignore */
+      }
+      source = { text: '', url: owidCsvUrl(owidSlug) };
+      rows = parsed.map((row) => ({ ...row, quote: 'our world in data grapher csv' }));
+    } else {
+      warnings.push(`the OWID chart "${owidSlug}" had no readable entity/date/value rows`);
+    }
+  } else if (isTable && dataUrl) {
+    const fetched = await search.fetch(dataUrl);
+    const text = fetched.text ?? '';
     const parsedTable = ingestCsvTable(text);
-    if (parsedTable.length === 0) {
-      errors.push("the CSV at dataUrl could not be parsed (need entity/date/value columns)");
-      return { ok: false, warnings, errors };
+    if (parsedTable.length > 0) {
+      plan = planFromTable(parsedTable, req, warnings);
+      source = { text, url: dataUrl };
+      rows = parsedTable.map((row) => ({ ...row, quote: 'deterministic CSV ingestion' }));
+    } else {
+      warnings.push(`the table at ${dataUrl} had no readable entity/date/value rows`);
     }
-    // When the table carries a country-code column, region aggregates (OWID_* and
-    // blank codes) are not countries: exclude them instead of racing them.
-    const hasCodes = parsedTable.some((row) => row.code !== '');
-    const parsed = hasCodes
-      ? parsedTable.filter((row) => row.code !== '' && !row.code.startsWith('OWID_') && !isAggregateName(row.entity))
-      : parsedTable.filter((row) => !isAggregateName(row.entity));
-    // Rank by each entity's peak value so the race holds the biggest players
-    // rather than the alphabetically first ones.
-    const peak = new Map<string, number>();
-    for (const row of parsed) peak.set(row.entity, Math.max(peak.get(row.entity) ?? 0, row.value));
-    warnings.push(`${parsedTable.length} rows ingested directly from the CSV table`
-      + (hasCodes ? `, ${parsedTable.length - parsed.length} aggregate rows excluded` : ''));
-    if (parsed.length === 0) {
-      errors.push("every row in the CSV was filtered out as an aggregate");
-      return { ok: false, warnings, errors };
-    }
-    const names = Array.from(peak.keys())
-      .sort((a, b) => (peak.get(b) ?? 0) - (peak.get(a) ?? 0))
-      .slice(0, 40);
-    const years = parsed.map((r) => Number(r.date)).filter((y) => Number.isFinite(y));
-    plan = {
-      measurableDefinition: req.topic,
-      unit: "count",
-      entityType: "entity",
-      entities: names.map((name) => ({
-        id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-        name,
-        group: "All",
-      })),
-      startYear: Math.min(...years),
-      endYear: Math.max(...years),
-      searchQueries: [],
-    };
-    source = { text, url: req.dataUrl };
-    rows = parsed.map((r) => ({ ...r, quote: "deterministic CSV ingestion" }));
-  } else if (!req.dataUrl) {
-    // No data URL was supplied: try the key-free direct sources first, and only
-    // fall back to searching the web when they have nothing for this topic.
+  }
+
+  if (!plan) {
+    // No URL supplied, or the supplied one yielded nothing: try the key-free
+    // direct sources for the topic before reading a page.
     const direct = await tryDirectSources(req, warnings);
     if (direct) {
       plan = direct.plan;
       source = direct.source;
       rows = direct.rows;
-    } else {
-      plan = await planResearch(req, ai);
-      source = await gather(req, plan, ai, search, warnings);
     }
   }
+
   if (!plan) {
-    errors.push('no plan could be built for this topic');
-    return { ok: false, warnings, errors };
+    // Last resort: let the planner choose a source and read it.
+    plan = await planResearch(req, ai);
+    source = await gather(req, plan, ai, search, warnings);
   }
 
   if (rows.length === 0 && source) {
@@ -514,11 +583,15 @@ export async function runResearch(req: ResearchRequest, outDir: string): Promise
   const targetSeconds = Math.max(60, (req.targetMinutes ?? 10) * 60);
   const pacingSeconds = Number(((targetSeconds - 5 - 8 - 12) / distinctDates).toFixed(3));
 
+  // The video title is the topic with any instruction tail removed, so a
+  // request like "... and must include the side infos" does not end up on screen.
+  const presentationTitle = searchPhrase(req.topic);
+
   const knownIds = new Set(plan.entities.map((e) => e.id));
   const input: VideoInput = {
     version: '1.0',
-    title: req.topic,
-    metric: plan.measurableDefinition.slice(0, 40),
+    title: presentationTitle,
+    metric: plan.measurableDefinition.slice(0, 60),
     unit: plan.unit,
     valueFormat: 'comma',
     canvas: { width: 1280, height: 720, fps: 60 },

@@ -53,8 +53,48 @@ export async function searchOwidCharts(query: string): Promise<OwidSearchHit[]> 
   return hits.filter((hit) => hit.type === 'chart' || hit.type === 'explorerView');
 }
 
+/**
+ * Pull the grapher slug out of any Our World in Data link. The site hands out
+ * several download shapes for the same chart - with query strings, and as .csv,
+ * .zip or .metadata.json - so the slug is the only stable part:
+ *
+ *   /grapher/population-growth-rates
+ *   /grapher/population-growth-rates.zip?v=1&csvType=full
+ *   /grapher/population-growth-rates.csv?v=1&useColumnShortNames=false
+ */
+export function owidSlugFromUrl(url: string): string | null {
+  const match = /ourworldindata\.org\/grapher\/([A-Za-z0-9_-]+)/i.exec(url);
+  return match ? match[1] : null;
+}
+
+/** Rewrite any Owid grapher link to the plain CSV endpoint. */
+export function normaliseOwidUrl(url: string): string {
+  const slug = owidSlugFromUrl(url);
+  return slug ? owidCsvUrl(slug) : url;
+}
+
 export const owidCsvUrl = (slug: string): string => `${OWID_BASE}/grapher/${slug}.csv`;
 export const fetchOwidCsv = (slug: string): Promise<string> => getText(owidCsvUrl(slug));
+export interface OwidColumnMeta {
+  titleShort?: string;
+  unit?: string;
+  shortUnit?: string;
+  timespan?: string;
+  shortName?: string;
+}
+
+export interface OwidMetadata {
+  chart?: { title?: string; subtitle?: string; citation?: string };
+  columns?: Record<string, OwidColumnMeta>;
+}
+
+export const owidMetadataUrl = (slug: string): string => `${OWID_BASE}/grapher/${slug}.metadata.json`;
+
+/** Chart metadata: the unit, title and citation that describe the series. */
+export async function fetchOwidMetadata(slug: string): Promise<OwidMetadata> {
+  return JSON.parse(await getText(owidMetadataUrl(slug))) as OwidMetadata;
+}
+
 
 /**
  * Parse a grapher CSV. The header is always Entity,Code,Year,<value column>; the
