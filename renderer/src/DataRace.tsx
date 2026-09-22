@@ -18,8 +18,11 @@ import {
   BrandMark,
   Canvas,
   EraPanel,
+  RaceHeader,
+  RaceProgress,
   RankingRow,
   SourceCard,
+  SpotlightCard,
   TitleBlock,
 } from './components';
 
@@ -36,7 +39,7 @@ interface SmoothRanks {
   ranks: Map<string, number>[];
 }
 
-/** Pre-compute animated ranks so row movement is smooth rather than jittery. */
+/** Pre-compute animated ranks so row movement eases instead of snapping. */
 function buildSmoothRanks(tape: FrameTape, blendFrames = 12): SmoothRanks {
   const smoothed: Map<string, number>[] = [];
   const displayed = new Map<string, { value: number; target: number; since: number }>();
@@ -53,7 +56,7 @@ function buildSmoothRanks(tape: FrameTape, blendFrames = 12): SmoothRanks {
       }
       const progress = Math.min(1, (index - existing.since) / Math.max(1, blendFrames));
       const eased = 1 - (1 - progress) ** 3;
-      existing.value = existing.value + (existing.target - existing.value) * (index === existing.since ? 1 : eased);
+      existing.value = existing.value + (existing.target - existing.value) * eased;
     }
     smoothed.push(new Map(Array.from(displayed.entries()).map(([id, v]) => [id, v.value])));
   });
@@ -78,19 +81,20 @@ function groupTotals(tape: FrameTape, frameIndex: number): Array<{ label: string
 }
 
 /**
- * The bar-race scene, in the classic full-bleed style of the reference video:
- * ranking bars run from the left edge across the full 720px height, the entity
- * name sits in white bold type inside the bar, the flag is attached to the bar
- * end, the value is set in dark type just past the flag, and the right-hand
- * panel shows the giant year + era narrative + featured flags. No header
- * during the race. Values, widths and ranks are interpolated between the two
- * bracketing tape frames so motion glides instead of stepping.
+ * The bar-race scene, polished style:
+ * header (title left, giant year right, hairline divider), pill bars with page
+ * margins and rank numbers, flag + value past the bar end, bordered spotlight
+ * card on the right, progress track along the bottom. Values, widths and ranks
+ * are eased between the two bracketing tape frames so motion glides.
  */
-const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationInFrames: number }> = ({
-  input,
-  highlights,
-  durationInFrames,
-}) => {
+const BarRace: React.FC<{
+  input: RenderInput;
+  highlights: Highlight[];
+  durationInFrames: number;
+  /** Absolute tape-frame range this segment covers (for split races). */
+  tapeStart?: number;
+  tapeEnd?: number;
+}> = ({ input, highlights, durationInFrames, tapeStart = 0, tapeEnd }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const tape = input.frameTape;
@@ -100,17 +104,25 @@ const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationI
 
   const tapeCount = tape.frames.length;
   const tapeFps = tape.fps || 30;
+  const rangeStart = Math.max(0, Math.min(tapeCount - 1, tapeStart));
+  const rangeEnd = Math.max(rangeStart, Math.min(tapeCount - 1, tapeEnd ?? tapeCount - 1));
 
-  // Fractional position in tape-frame units; the two bracketing tape frames
-  // are interpolated so bars glide smoothly at any render fps.
-  const tapePos = Math.min(tapeCount - 1, Math.max(0, (frame / Math.max(1, durationInFrames)) * tapeCount));
+  // Fractional position in tape-frame units within this segment's range; the
+  // two bracketing tape frames are interpolated so bars glide smoothly.
+  const tapePos = Math.min(
+    rangeEnd,
+    Math.max(rangeStart, rangeStart + (frame / Math.max(1, durationInFrames)) * (rangeEnd - rangeStart)),
+  );
   const i0 = Math.min(tapeCount - 1, Math.floor(tapePos));
   const i1 = Math.min(tapeCount - 1, i0 + 1);
   const t = Math.min(1, Math.max(0, tapePos - i0));
+  // Ease the blend so bars accelerate/decelerate instead of moving linearly.
+  const te = t * t * (3 - 2 * t);
   const f0 = tape.frames[i0];
   const f1 = tape.frames[i1];
 
   const entityById = useMemo(() => new Map(tape.entities.map((e) => [e.id, e])), [tape]);
+  const smoothRanks = useMemo(() => buildSmoothRanks(tape), [tape]);
   const labelToTapeIndex = useMemo(() => {
     const m = new Map<string, number>();
     tape.frames.forEach((f, idx) => {
@@ -133,56 +145,73 @@ const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationI
     const b = new Map((f1?.bars ?? []).map((b) => [b.entityId, b]));
     const ids = new Set<string>([...a.keys(), ...b.keys()]);
     const count = Math.max(f0?.bars.length ?? 0, f1?.bars.length ?? 0, 1);
+    const s0 = smoothRanks.ranks[i0];
+    const s1 = smoothRanks.ranks[i1];
     const out: Row[] = [];
     for (const id of ids) {
       const ba = a.get(id);
       const bb = b.get(id);
       if (ba && bb) {
+        const r0 = s0?.get(id) ?? ba.rank;
+        const r1 = s1?.get(id) ?? bb.rank;
         out.push({
           id,
-          value: ba.value + (bb.value - ba.value) * t,
-          widthFrac: ba.width + (bb.width - ba.width) * t,
-          rank: ba.rank + (bb.rank - ba.rank) * t,
+          value: ba.value + (bb.value - ba.value) * te,
+          widthFrac: ba.width + (bb.width - ba.width) * te,
+          rank: r0 + (r1 - r0) * te,
           held: ba.held ?? bb.held ?? false,
           appear: 1,
         });
       } else if (bb) {
         // entering the top-N: glide up from below the list
+        const r1 = s1?.get(id) ?? bb.rank;
         out.push({
           id,
           value: bb.value,
-          widthFrac: bb.width * t,
-          rank: count + 1 + (bb.rank - (count + 1)) * t,
+          widthFrac: bb.width * te,
+          rank: count + 1 + (r1 - (count + 1)) * te,
           held: bb.held ?? false,
-          appear: t,
+          appear: te,
         });
       } else if (ba) {
         // leaving the top-N: glide down out of the list
         out.push({
           id,
           value: ba.value,
-          widthFrac: ba.width * (1 - t),
-          rank: ba.rank + (count + 1 - ba.rank) * t,
+          widthFrac: ba.width * (1 - te),
+          rank: ba.rank + (count + 1 - ba.rank) * te,
           held: ba.held ?? false,
-          appear: 1 - t,
+          appear: 1 - te,
         });
       }
     }
     out.sort((x, y) => x.rank - y.rank);
     return { rows: out.slice(0, count + 2), barCount: count };
-  }, [f0, f1, t]);
+  }, [f0, f1, t, te, i0, i1, smoothRanks]);
 
-  const rowHeight = 720 / Math.max(1, barCount);
-  const maxBarWidth = 800; // leader's bar end; flag + value sit past it, panel starts at x=968
+  // Layout: header occupies the top 96px; bars live between y=112 and y=648.
+  const raceTop = 112;
+  const raceBottom = 648;
+  const rowHeight = (raceBottom - raceTop) / Math.max(1, barCount);
+  const barX0 = 96;
+  const maxBarWidth = 740; // leader's bar end; flag + value sit past it, card starts at x=960
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
-  // Right-hand era panel ------------------------------------------------------
-  const activeHighlight = highlights.find(
-    (h) => tapePos >= h.atFrame && tapePos < h.atFrame + 6 * tapeFps,
-  );
+  // Right-hand spotlight card -------------------------------------------------
+  // Highlight windows are measured in SCREEN time (6s each): with slow-motion
+  // pacing a tape-frame window would keep stale text up for nearly a minute.
+  const tapeSpan = Math.max(1, rangeEnd - rangeStart);
+  const toScreenFrame = (tapeFrame: number) =>
+    ((tapeFrame - rangeStart) / tapeSpan) * durationInFrames;
+  const activeHighlight = highlights.find((h) => {
+    const s = toScreenFrame(h.atFrame);
+    return frame >= s && frame < s + 6 * fps;
+  });
+  // The year always tracks the current period. A highlight only overrides the
+  // card's headline/body - it must never freeze the year counter.
   const currentLabel = t < 0.5 ? f0?.label ?? '' : f1?.label ?? '';
   const segment = useMemo(() => {
     if (!story) return undefined;
@@ -208,9 +237,13 @@ const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationI
   }, [activeHighlight, rows, entityById]);
 
   const panelAppear = spring({ frame, fps, durationInFrames: 24, config: { damping: 200 } });
+  const chromeAppear = interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  // Progress across the whole race (all segments), not just this one.
+  const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
 
   return (
     <AbsoluteFill style={{ background: '#ffffff' }}>
+      <RaceHeader title={input.videoSpec.metadata.title} yearLabel={currentLabel} appear={chromeAppear} />
       {rows.map((row) => {
         const entity = entityById.get(row.id);
         if (!entity) return null;
@@ -223,8 +256,9 @@ const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationI
             rank={row.rank}
             held={row.held}
             unit={dataset.unit}
-            y={(row.rank - 1) * rowHeight}
+            y={raceTop + (row.rank - 1) * rowHeight}
             rowHeight={rowHeight}
+            x0={barX0}
             maxBarWidth={maxBarWidth}
             appear={Math.max(0, Math.min(1, row.appear * introAppear))}
             flagBaseUrl={flagBaseUrl}
@@ -232,12 +266,16 @@ const BarRace: React.FC<{ input: RenderInput; highlights: Highlight[]; durationI
         );
       })}
       <EraPanel
-        yearLabel={activeHighlight?.atLabel ?? currentLabel}
         title={activeHighlight?.headline}
         body={activeHighlight?.detail ?? segment?.text}
         featured={featured}
         flagBaseUrl={flagBaseUrl}
         appear={panelAppear}
+      />
+      <RaceProgress
+        progress={progress}
+        caption={`Source: ${input.videoSpec.sources[0]?.publisher ?? 'multiple sources'}`}
+        appear={chromeAppear}
       />
     </AbsoluteFill>
   );
@@ -257,25 +295,25 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
     cursor += durationInFrames;
   }
 
-  const raceOffset = offsets.find((o) => o.type === 'bar_race');
-  const highlights = ((raceOffset?.scene.props?.highlights as unknown[]) ?? []).map((raw) => {
-    const h = raw as Record<string, unknown>;
-    return {
+  const raceOffsets = offsets.filter((o) => o.type === 'bar_race');
+  const highlights = raceOffsets.flatMap((o) =>
+    (((o.scene.props?.highlights as unknown[]) ?? []) as Record<string, unknown>[]).map((h) => ({
       atFrame: Number(h.atFrame ?? 0),
       atLabel: String(h.atLabel ?? ''),
       entityId: String(h.entityId ?? ''),
       headline: String(h.headline ?? ''),
       detail: String(h.detail ?? ''),
       factBox: h.factBox as Highlight['factBox'],
-    } satisfies Highlight;
-  });
-  const raceFrom = raceOffset?.from ?? 0;
-  const raceDuration = raceOffset?.durationInFrames ?? input.frameTape.durationInFrames;
+    })),
+  );
 
   const sourceScene = offsets.find((o) => o.type === 'source_card');
   const endingScene = offsets.find((o) => o.type === 'ending');
   const introScene = offsets.find((o) => o.type === 'intro');
   const titleScene = offsets.find((o) => o.type === 'title');
+  const factBoxScenes = offsets.filter((o) => o.type === 'fact_box');
+  const tapeEntities = input.frameTape.entities;
+  const flagBase = input.flagBaseUrl ?? DEFAULT_FLAG_BASE;
 
   return (
     <Canvas theme={theme}>
@@ -317,11 +355,43 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
         </Sequence>
       ) : null}
 
-      {raceOffset ? (
-        <Sequence from={raceOffset.from} durationInFrames={raceOffset.durationInFrames}>
-          <BarRace input={input} highlights={highlights} durationInFrames={raceDuration} />
-        </Sequence>
-      ) : null}
+      {raceOffsets.map((o) => {
+        const props = (o.scene.props ?? {}) as Record<string, unknown>;
+        const tapeRange = Array.isArray(props.tapeRange) ? (props.tapeRange as number[]) : undefined;
+        return (
+          <Sequence key={o.id} from={o.from} durationInFrames={o.durationInFrames}>
+            <BarRace
+              input={input}
+              highlights={highlights}
+              durationInFrames={o.durationInFrames}
+              tapeStart={tapeRange?.[0] ?? 0}
+              tapeEnd={tapeRange?.[1]}
+            />
+          </Sequence>
+        );
+      })}
+
+      {factBoxScenes.map((o) => {
+        const props = (o.scene.props ?? {}) as Record<string, unknown>;
+        const entityIds = Array.isArray(props.entityIds) ? (props.entityIds as string[]) : [];
+        const featured = entityIds
+          .map((id) => tapeEntities.find((e) => e.id === id))
+          .filter((e): e is (typeof tapeEntities)[number] => !!e);
+        const localFrame = frame - o.from;
+        return (
+          <Sequence key={o.id} from={o.from} durationInFrames={o.durationInFrames}>
+            <SpotlightCard
+              kicker={String(props.kicker ?? 'SPOTLIGHT')}
+              yearLabel={String(props.atLabel ?? '')}
+              headline={String(o.scene.title ?? '')}
+              body={String(props.body ?? o.scene.subtitle ?? '')}
+              featured={featured}
+              flagBaseUrl={flagBase}
+              appear={interpolate(localFrame, [0, 14], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
+            />
+          </Sequence>
+        );
+      })}
 
       {endingScene ? (
         <Sequence from={endingScene.from} durationInFrames={endingScene.durationInFrames}>

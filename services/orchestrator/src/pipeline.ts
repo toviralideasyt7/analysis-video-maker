@@ -1008,6 +1008,69 @@ export interface VideoSpecOptions {
   introSeconds?: number;
   endingSeconds?: number;
   sourceCardSeconds?: number;
+  /** Target total runtime; the race is slowed and decade spotlights inserted to fill it. Default 480 (8 min). */
+  targetDurationSeconds?: number;
+  /** Seconds per decade-spotlight card. Default 14. */
+  spotlightSeconds?: number;
+}
+
+/** Format a race value the same way the renderer does (duplicated to avoid a renderer import). */
+function formatSpecValue(value: number, unit: string): string {
+  if (!Number.isFinite(value)) return '-';
+  if (unit === 'percent') return `${value.toFixed(2)}%`;
+  return Math.round(value).toLocaleString('en-US');
+}
+
+interface DecadeSpot {
+  atLabel: string;
+  kicker: string;
+  headline: string;
+  body: string;
+  entityIds: string[];
+}
+
+/**
+ * Deterministic decade-spotlight beats computed from the tape: for each
+ * decade boundary, who led as the decade began and who climbed most in the
+ * previous ten periods. No LLM needed, always consistent with the data.
+ */
+function buildDecadeSpotlights(tape: FrameTape, dataset: Dataset): DecadeSpot[] {
+  const out: DecadeSpot[] = [];
+  const fpt = Math.max(1, tape.framesPerTransition);
+  for (const decade of ['1970', '1980', '1990', '2000', '2010', '2020']) {
+    const pi = tape.periodLabels.indexOf(decade);
+    if (pi < 0) continue;
+    const fi = Math.min(pi * fpt, tape.frames.length - 1);
+    const frame = tape.frames[fi];
+    if (!frame) continue;
+    const top = [...frame.bars].sort((a, b) => a.rank - b.rank).slice(0, 3);
+    const ent = (id: string) => tape.entities.find((e) => e.id === id);
+    const leader = top[0] ? ent(top[0].entityId) : undefined;
+    const prevPi = Math.max(0, pi - 10);
+    const prevFi = Math.min(prevPi * fpt, tape.frames.length - 1);
+    const prevRank = new Map((tape.frames[prevFi]?.bars ?? []).map((b) => [b.entityId, b.rank]));
+    let climber: { id: string; gain: number } | undefined;
+    for (const b of frame.bars) {
+      const pr = prevRank.get(b.entityId) ?? tape.topN + 5;
+      const gain = pr - b.rank;
+      if (gain > 0 && (!climber || gain > climber.gain)) climber = { id: b.entityId, gain };
+    }
+    const leaderName = leader?.name ?? '—';
+    const leaderVal = top[0] ? formatSpecValue(top[0].value, dataset.unit) : '';
+    const climberEnt = climber ? ent(climber.id) : undefined;
+    const climberGain = climber?.gain ?? 0;
+    const decadeName = `${decade.slice(0, 3)}0s`;
+    out.push({
+      atLabel: decade,
+      kicker: `THE ${decadeName.toUpperCase()}`,
+      headline: `${leaderName} rules the ${decadeName}`,
+      body: climberEnt
+        ? `As the ${decadeName} began, ${leaderName} led the world with ${leaderVal}. ${climberEnt.name} was the previous decade's biggest climber, rising ${climberGain} place${climberGain === 1 ? '' : 's'} into the top ${tape.topN}.`
+        : `As the ${decadeName} began, ${leaderName} led the world with ${leaderVal}.`,
+      entityIds: top.map((b) => b.entityId),
+    });
+  }
+  return out;
 }
 
 export const DEFAULT_THEME = {
@@ -1033,12 +1096,56 @@ export function prettyLabel(raw: string): string {
 export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: FrameTape; options?: VideoSpecOptions }): VideoSpec {
   const { dataset, story, tape } = input;
   const options = input.options ?? {};
-  const titleSeconds = options.titleSeconds ?? 6;
-  const introSeconds = options.introSeconds ?? 8;
-  const endingSeconds = options.endingSeconds ?? 6;
-  const sourceCardSeconds = options.sourceCardSeconds ?? 8;
-  const raceSeconds = tape.frames.length > 0 ? tape.durationInFrames / tape.fps : 1;
-  const total = titleSeconds + introSeconds + raceSeconds + endingSeconds + sourceCardSeconds;
+  const titleSeconds = options.titleSeconds ?? 8;
+  const introSeconds = options.introSeconds ?? 25;
+  const endingSeconds = options.endingSeconds ?? 15;
+  const sourceCardSeconds = options.sourceCardSeconds ?? 12;
+  const spotlightSeconds = options.spotlightSeconds ?? 14;
+  const targetDuration = options.targetDurationSeconds ?? 480;
+
+  const periods = tape.periodLabels.length;
+  const fpt = Math.max(1, tape.framesPerTransition);
+  const tapeFrames = tape.frames.length;
+
+  // Split the race at decade boundaries so spotlight cards can pause the race
+  // between chapters: [startPeriod, endPeriod) segments with tape ranges.
+  const decadeStarts = [0];
+  for (const d of ['1970', '1980', '1990', '2000', '2010', '2020']) {
+    const pi = tape.periodLabels.indexOf(d);
+    if (pi > 0) decadeStarts.push(pi);
+  }
+  decadeStarts.sort((a, b) => a - b);
+  const segments: Array<{ startPeriod: number; endPeriod: number; startFrame: number; endFrame: number }> = [];
+  for (let i = 0; i < decadeStarts.length; i++) {
+    const sp = decadeStarts[i];
+    const ep = i + 1 < decadeStarts.length ? decadeStarts[i + 1] : periods;
+    if (ep > sp) {
+      segments.push({
+        startPeriod: sp,
+        endPeriod: ep,
+        startFrame: Math.min(sp * fpt, Math.max(0, tapeFrames - 1)),
+        endFrame: Math.min(ep * fpt - 1, Math.max(0, tapeFrames - 1)),
+      });
+    }
+  }
+  if (segments.length === 0 && tapeFrames > 0) {
+    segments.push({ startPeriod: 0, endPeriod: periods, startFrame: 0, endFrame: tapeFrames - 1 });
+  }
+
+  const spotlights = buildDecadeSpotlights(tape, dataset);
+  // One spotlight after each segment except the last, keyed to the decade the
+  // next segment opens on.
+  const segSpotlights = segments.slice(0, -1).map((_, i) => {
+    const nextDecade = tape.periodLabels[segments[i + 1].startPeriod];
+    return spotlights.find((s) => s.atLabel === nextDecade);
+  });
+
+  const fixedSeconds = titleSeconds + introSeconds + endingSeconds + sourceCardSeconds;
+  const spotlightTotal = segSpotlights.filter(Boolean).length * spotlightSeconds;
+  let raceSeconds = targetDuration - fixedSeconds - spotlightTotal;
+  // Documentary pace: never faster than 2s/period, never slower than 6s/period.
+  raceSeconds = Math.min(Math.max(raceSeconds, periods * 2), periods * 6);
+  const total = fixedSeconds + spotlightTotal + raceSeconds;
 
   const highlightFrames = (story.highlights ?? []).map((h) => {
     const periodIndex = Math.max(0, tape.periodLabels.indexOf(h.atLabel) + 1);
@@ -1058,6 +1165,58 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
 
   const theme = { ...DEFAULT_THEME, ...(options.theme ?? {}) };
 
+  const racePropsBase = {
+    tapeRef: 'frames.json',
+    topN: tape.topN,
+    periodLabels: tape.periodLabels,
+    highlights: highlightFrames,
+    notes: tape.notes,
+    summary: {
+      heading: dataset.metric,
+      value: topBar?.value ?? null,
+      entityName: topEntity?.name ?? '',
+      entityId: topEntity?.id ?? '',
+      year: tape.periodLabels[tape.periodLabels.length - 1] ?? '',
+      unit: dataset.unit,
+      entities: summaryEntities,
+    },
+  };
+
+  const scenes: VideoSpec['scenes'] = [
+    { id: 'scene_title', type: 'title', duration: titleSeconds, title: story.title, subtitle: story.subtitle },
+    { id: 'scene_intro', type: 'intro', duration: introSeconds, title: story.hook, subtitle: story.setup },
+  ];
+  segments.forEach((seg, i) => {
+    const segFrames = Math.max(1, seg.endFrame - seg.startFrame + 1);
+    const segSeconds = Number((raceSeconds * (segFrames / Math.max(1, tapeFrames))).toFixed(2));
+    scenes.push({
+      id: `scene_race_${i + 1}`,
+      type: 'bar_race',
+      duration: segSeconds,
+      datasetRef: dataset.datasetId,
+      props: { ...racePropsBase, tapeRange: [seg.startFrame, seg.endFrame] },
+    });
+    const spot = segSpotlights[i];
+    if (spot) {
+      scenes.push({
+        id: `scene_spotlight_${spot.atLabel}`,
+        type: 'fact_box',
+        duration: spotlightSeconds,
+        title: spot.headline,
+        props: {
+          kicker: spot.kicker,
+          atLabel: spot.atLabel,
+          body: spot.body,
+          entityIds: spot.entityIds,
+        },
+      });
+    }
+  });
+  scenes.push(
+    { id: 'scene_ending', type: 'ending', duration: endingSeconds, title: story.ending },
+    { id: 'scene_sources', type: 'source_card', duration: sourceCardSeconds, title: 'Sources', props: { sourcesLine: story.sourcesLine } },
+  );
+
   return {
     version: '1.0',
     metadata: {
@@ -1069,34 +1228,7 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
     canvas: { width: tape.width, height: tape.height, fps: tape.fps },
     theme: theme as unknown as VideoSpec['theme'],
     datasetRef: dataset.datasetId,
-    scenes: [
-      { id: 'scene_title', type: 'title', duration: titleSeconds, title: story.title, subtitle: story.subtitle },
-      { id: 'scene_intro', type: 'intro', duration: introSeconds, title: story.hook, subtitle: story.setup },
-      {
-        id: 'scene_race',
-        type: 'bar_race',
-        duration: Number(raceSeconds.toFixed(2)),
-        datasetRef: dataset.datasetId,
-        props: {
-          tapeRef: 'frames.json',
-          topN: tape.topN,
-          periodLabels: tape.periodLabels,
-          highlights: highlightFrames,
-          notes: tape.notes,
-          summary: {
-            heading: dataset.metric,
-            value: topBar?.value ?? null,
-            entityName: topEntity?.name ?? '',
-            entityId: topEntity?.id ?? '',
-            year: tape.periodLabels[tape.periodLabels.length - 1] ?? '',
-            unit: dataset.unit,
-            entities: summaryEntities,
-          },
-        },
-      },
-      { id: 'scene_ending', type: 'ending', duration: endingSeconds, title: story.ending },
-      { id: 'scene_sources', type: 'source_card', duration: sourceCardSeconds, title: 'Sources', props: { sourcesLine: story.sourcesLine } },
-    ],
+    scenes,
     assets: [],
     sources: Array.from(new Map(dataset.observations.map((o) => [o.source.url, o.source])).values()),
   };

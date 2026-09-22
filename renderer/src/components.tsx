@@ -118,49 +118,53 @@ export interface RankingRowProps {
   unit: string;
   y: number;
   rowHeight: number;
+  /** X where the bar starts (page margin applied by the parent). */
+  x0: number;
   maxBarWidth: number;
   appear: number;
   flagBaseUrl: string;
 }
 
 /**
- * One full-bleed ranking bar, in the classic data-race style:
- * the bar runs from the left edge, the entity name sits in white bold type
- * inside the bar (right-aligned near the bar end), the flag image is attached
- * to the bar end, and the value is set in dark type just past the flag.
+ * One ranking bar in the polished race style:
+ * rank number in the left margin, pill-shaped bar with a soft shadow, entity
+ * name in white bold LEFT-aligned inside the bar, flag attached to the bar
+ * end, value in dark type just past the flag. When the name cannot fit inside
+ * even at the minimum readable size it is set outside past the value - it is
+ * always rendered exactly once, never dropped.
  */
 export const RankingRow: React.FC<RankingRowProps> = ({
   entity,
   value,
   widthFrac,
+  rank,
   held,
   unit,
   y,
   rowHeight,
+  x0,
   maxBarWidth,
   appear,
   flagBaseUrl,
 }) => {
-  const barHeight = rowHeight - 5;
-  // Never let a bar get so thin the white name becomes unreadable.
-  const barW = Math.max(96, widthFrac * maxBarWidth);
-  const baseFont = rowHeight * 0.5;
-  const flagSize = Math.min(rowHeight * 0.82, 52);
-  const valueFont = rowHeight * 0.44;
+  const barHeight = rowHeight - 16;
+  const barW = Math.max(110, widthFrac * maxBarWidth);
+  const baseFont = Math.max(20, rowHeight * 0.44);
+  const flagSize = Math.min(rowHeight * 0.72, 46);
+  const valueFont = Math.max(19, rowHeight * 0.4);
 
   // Does the name fit inside the bar at a readable size? Estimate width with
-  // a 0.58 average glyph ratio for bold type. If it can't fit even at the
-  // minimum readable size, the name moves outside the bar (past the value)
-  // in dark type instead of being clipped or shrunk to illegibility.
-  const MIN_INSIDE_FONT = 22;
+  // a 0.58 average glyph ratio for bold type.
+  const MIN_INSIDE_FONT = 20;
   const estimateWidth = (fontSize: number) => entity.name.length * fontSize * 0.58;
-  const insideAvailable = barW - 28; // 14px padding on each side
+  const insideAvailable = barW - 44; // 24px left pad + 20px right pad
   let insideFont = baseFont;
   if (estimateWidth(baseFont) > insideAvailable) {
-    insideFont = Math.max(MIN_INSIDE_FONT, (insideAvailable / Math.max(1, entity.name.length)) * 1.72);
+    insideFont = (insideAvailable / Math.max(1, entity.name.length)) * 1.72;
   }
-  const nameFitsInside = estimateWidth(insideFont) <= insideAvailable && insideFont >= MIN_INSIDE_FONT;
+  const nameFitsInside = insideFont >= MIN_INSIDE_FONT;
   const nameFont = nameFitsInside ? Math.min(baseFont, insideFont) : baseFont;
+  const rankLabel = String(Math.max(1, Math.round(rank)));
 
   return (
     <div
@@ -171,37 +175,59 @@ export const RankingRow: React.FC<RankingRowProps> = ({
         height: rowHeight,
         width: '100%',
         opacity: appear,
-        transform: `translateY(${(1 - appear) * 12}px)`,
+        transform: `translateY(${(1 - appear) * 14}px)`,
       }}
     >
+      {/* rank number in the left margin */}
+      <div
+        style={{
+          position: 'absolute',
+          left: x0 - 46,
+          top: 0,
+          bottom: 0,
+          width: 36,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          fontSize: Math.max(18, rowHeight * 0.36),
+          fontWeight: 800,
+          color: '#9ca3af',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {rankLabel}
+      </div>
+
       {/* bar */}
       <div
         style={{
           position: 'absolute',
-          left: 0,
+          left: x0,
           top: (rowHeight - barHeight) / 2,
           height: barHeight,
           width: barW,
           background: entity.color,
+          borderRadius: barHeight / 2,
+          boxShadow: '0 2px 10px rgba(17,24,39,0.14)',
           opacity: held ? 0.55 : 1,
         }}
       >
-        {/* name: white bold, right-aligned inside the bar (only when it fits) */}
+        {/* name: white bold, left-aligned inside the bar (only when it fits) */}
         {nameFitsInside ? (
           <div
             style={{
               position: 'absolute',
-              right: 14,
+              left: 22,
               top: 0,
               bottom: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-end',
               whiteSpace: 'nowrap',
               color: '#ffffff',
               fontWeight: 800,
               fontSize: nameFont,
               letterSpacing: '-0.01em',
+              textShadow: '0 1px 2px rgba(0,0,0,0.18)',
             }}
           >
             {entity.name}
@@ -213,7 +239,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
       <div
         style={{
           position: 'absolute',
-          left: barW - 2,
+          left: x0 + barW + 12,
           top: 0,
           bottom: 0,
           display: 'flex',
@@ -227,6 +253,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
             style={{
               height: flagSize,
               marginRight: 12,
+              borderRadius: 4,
               boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
             }}
           />
@@ -250,7 +277,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
           {formatRaceValue(value, unit)}
         </div>
 
-        {/* name outside the bar when too narrow to hold it */}
+        {/* name outside the bar when too narrow to hold it - always rendered */}
         {!nameFitsInside ? (
           <div
             style={{
@@ -292,7 +319,6 @@ export function formatNarrativeNumbers(text: string): string {
 // ---------------------------------------------------------------------------
 
 export interface EraPanelProps {
-  yearLabel: string;
   title?: string;
   body?: string;
   featured: FrameTapeEntity[];
@@ -300,46 +326,144 @@ export interface EraPanelProps {
   appear: number;
 }
 
-/** The right-hand panel from the reference layout. */
-export const EraPanel: React.FC<EraPanelProps> = ({ yearLabel, title, body, featured, flagBaseUrl, appear }) => (
-  <div style={{ position: 'absolute', left: 968, top: 228, width: 292, opacity: appear }}>
-    <div
-      style={{
-        fontSize: 138,
-        fontWeight: 800,
-        color: '#b4b4b4',
-        letterSpacing: '-0.04em',
-        lineHeight: 1,
-        fontVariantNumeric: 'tabular-nums',
-      }}
-    >
-      {yearLabel}
-    </div>
+/**
+ * The right-hand panel: a bordered card with a soft shadow so it reads as a
+ * distinct surface instead of text floating in empty space.
+ */
+export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagBaseUrl, appear }) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: 960,
+      top: 150,
+      width: 272,
+      background: '#ffffff',
+      border: '1px solid #e5e7eb',
+      borderRadius: 18,
+      boxShadow: '0 10px 28px rgba(17,24,39,0.09)',
+      padding: '22px 24px 24px',
+      opacity: appear,
+      transform: `translateY(${(1 - appear) * 16}px)`,
+    }}
+  >
+    <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.24em', color: '#9ca3af', marginBottom: 12 }}>SPOTLIGHT</div>
     {title ? (
-      <div style={{ marginTop: 10, fontSize: 34, fontWeight: 800, color: '#111111', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-        {title}
-      </div>
+      <div style={{ fontSize: 30, fontWeight: 800, color: '#111111', lineHeight: 1.18, letterSpacing: '-0.02em' }}>{title}</div>
     ) : null}
     {body ? (
-      <div style={{ marginTop: 14, fontSize: 23, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.42 }}>{formatNarrativeNumbers(body)}</div>
+      <div style={{ marginTop: 12, fontSize: 20, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.45 }}>{formatNarrativeNumbers(body)}</div>
     ) : null}
     {featured.length > 0 ? (
-      <div style={{ marginTop: 22, display: 'flex', gap: 14 }}>
+      <div style={{ marginTop: 20, display: 'flex', gap: 12 }}>
         {featured.slice(0, 2).map((entity) =>
           entity.flagCode || entity.flagDataUri ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={entity.id}
               src={entity.flagDataUri ?? `${flagBaseUrl}/w160/${entity.flagCode}.png`}
-              style={{ height: 92, boxShadow: '0 2px 8px rgba(0,0,0,0.22)' }}
+              style={{ height: 68, borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.22)' }}
             />
           ) : (
-            <LogoBadge key={entity.id} name={entity.name} color={entity.color} size={92} />
+            <LogoBadge key={entity.id} name={entity.name} color={entity.color} size={68} />
           ),
         )}
       </div>
     ) : null}
   </div>
+);
+
+/**
+ * The race header: video title on the left, the giant current-year counter on
+ * the right, separated from the race by a hairline. Gives the scene its frame.
+ */
+export const RaceHeader: React.FC<{ title: string; yearLabel: string; appear: number }> = ({ title, yearLabel, appear }) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      height: 96,
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0 48px',
+      background: '#ffffff',
+      borderBottom: '1px solid #e5e7eb',
+      opacity: appear,
+    }}
+  >
+    <div style={{ fontSize: 27, fontWeight: 800, color: '#111827', letterSpacing: '-0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 760 }}>
+      {title}
+    </div>
+    <div style={{ marginLeft: 'auto', fontSize: 68, fontWeight: 800, color: '#111827', letterSpacing: '-0.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+      {yearLabel}
+    </div>
+  </div>
+);
+
+/** Thin progress track along the bottom of the race scene. */
+export const RaceProgress: React.FC<{ progress: number; caption: string; appear: number }> = ({ progress, caption, appear }) => (
+  <div style={{ position: 'absolute', left: 48, right: 48, bottom: 26, opacity: appear }}>
+    <div style={{ height: 6, background: '#eef0f3', borderRadius: 3, overflow: 'hidden' }}>
+      <div style={{ width: `${Math.max(0, Math.min(100, progress * 100))}%`, height: '100%', background: '#e11d2e', borderRadius: 3 }} />
+    </div>
+    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 600, color: '#9ca3af' }}>
+      <span>{caption}</span>
+      <span>{Math.round(Math.max(0, Math.min(1, progress)) * 100)}%</span>
+    </div>
+  </div>
+);
+
+export interface SpotlightCardProps {
+  kicker: string;
+  yearLabel: string;
+  headline: string;
+  body: string;
+  featured: FrameTapeEntity[];
+  flagBaseUrl: string;
+  appear: number;
+}
+
+/** Full-scene decade-spotlight card: the race pauses and a key moment is told. */
+export const SpotlightCard: React.FC<SpotlightCardProps> = ({ kicker, yearLabel, headline, body, featured, flagBaseUrl, appear }) => (
+  <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: '#ffffff' }}>
+    <div
+      style={{
+        width: 880,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 28,
+        boxShadow: '0 24px 64px rgba(17,24,39,0.12)',
+        padding: '54px 64px 58px',
+        opacity: appear,
+        transform: `translateY(${(1 - appear) * 24}px)`,
+        textAlign: 'center',
+      }}
+    >
+      <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '0.3em', color: '#e11d2e', marginBottom: 18 }}>{kicker}</div>
+      <div style={{ fontSize: 120, fontWeight: 800, color: '#111827', letterSpacing: '-0.04em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+        {yearLabel}
+      </div>
+      <div style={{ marginTop: 22, fontSize: 46, fontWeight: 800, color: '#111827', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{headline}</div>
+      <div style={{ marginTop: 18, fontSize: 25, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.5 }}>{formatNarrativeNumbers(body)}</div>
+      {featured.length > 0 ? (
+        <div style={{ marginTop: 30, display: 'flex', gap: 16, justifyContent: 'center' }}>
+          {featured.slice(0, 3).map((entity) =>
+            entity.flagCode || entity.flagDataUri ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={entity.id}
+                src={entity.flagDataUri ?? `${flagBaseUrl}/w160/${entity.flagCode}.png`}
+                style={{ height: 96, borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.22)' }}
+              />
+            ) : (
+              <LogoBadge key={entity.id} name={entity.name} color={entity.color} size={96} />
+            ),
+          )}
+        </div>
+      ) : null}
+    </div>
+  </AbsoluteFill>
 );
 
 /** Share gauge: the leader's slice of the visible total. */

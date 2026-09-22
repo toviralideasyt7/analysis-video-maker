@@ -4,12 +4,12 @@
     "title": "World population by country",
     "subtitle": "1960 to 2024 population counts",
     "language": "en",
-    "durationSeconds": 71.33
+    "durationSeconds": 480
   },
   "canvas": {
     "width": 1280,
     "height": 720,
-    "fps": 60
+    "fps": 30
   },
   "theme": {
     "background": "#ffffff",
@@ -26,21 +26,21 @@
     {
       "id": "scene_title",
       "type": "title",
-      "duration": 6,
+      "duration": 8,
       "title": "World population by country",
       "subtitle": "1960 to 2024 population counts"
     },
     {
       "id": "scene_intro",
       "type": "intro",
-      "duration": 8,
+      "duration": 25,
       "title": "Tracking annual population counts from 1960 to 2024 reveals shifts in global leadership among nations.",
       "subtitle": "During this period, countries such as China and India held the highest population counts."
     },
     {
-      "id": "scene_race",
+      "id": "scene_race_1",
       "type": "bar_race",
-      "duration": 43.33,
+      "duration": 51.69,
       "datasetRef": "dataset_world-population-by-country-20260921094702",
       "props": {
         "tapeRef": "frames.json",
@@ -170,19 +170,959 @@
               "flagCode": "us"
             }
           ]
-        }
+        },
+        "tapeRange": [
+          0,
+          199
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1970",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 1970s",
+      "props": {
+        "kicker": "THE 1970S",
+        "atLabel": "1970",
+        "body": "As the 1970s began, China led the world with 818,315,000. Pakistan was the previous decade's biggest climber, rising 5 places into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 51.69,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          200,
+          399
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1980",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 1980s",
+      "props": {
+        "kicker": "THE 1980S",
+        "atLabel": "1980",
+        "body": "As the 1980s began, China led the world with 981,235,000. Indonesia was the previous decade's biggest climber, rising 1 place into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 51.69,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          400,
+          599
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1990",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 1990s",
+      "props": {
+        "kicker": "THE 1990S",
+        "atLabel": "1990",
+        "body": "As the 1990s began, China led the world with 1,135,185,000. Nigeria was the previous decade's biggest climber, rising 5 places into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_4",
+      "type": "bar_race",
+      "duration": 51.69,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          600,
+          799
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2000",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 2000s",
+      "props": {
+        "kicker": "THE 2000S",
+        "atLabel": "2000",
+        "body": "As the 2000s began, China led the world with 1,262,645,000. Pakistan was the previous decade's biggest climber, rising 2 places into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_5",
+      "type": "bar_race",
+      "duration": 51.69,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          800,
+          999
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, China led the world with 1,337,705,000. Nigeria was the previous decade's biggest climber, rising 3 places into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_6",
+      "type": "bar_race",
+      "duration": 51.69,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          1000,
+          1199
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As the 2020s began, China led the world with 1,411,100,000. Mexico was the previous decade's biggest climber, rising 5 places into the top 10.",
+        "entityIds": [
+          "china",
+          "india",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_7",
+      "type": "bar_race",
+      "duration": 25.85,
+      "datasetRef": "dataset_world-population-by-country-20260921094702",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1960",
+          "1961",
+          "1962",
+          "1963",
+          "1964",
+          "1965",
+          "1966",
+          "1967",
+          "1968",
+          "1969",
+          "1970",
+          "1971",
+          "1972",
+          "1973",
+          "1974",
+          "1975",
+          "1976",
+          "1977",
+          "1978",
+          "1979",
+          "1980",
+          "1981",
+          "1982",
+          "1983",
+          "1984",
+          "1985",
+          "1986",
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1960",
+            "entityId": "China",
+            "headline": "China leads in 1960",
+            "detail": "China recorded a population of 667070000 in 1960.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "China reached 667070000 people in 1960.",
+              "dateLabel": "1960",
+              "wordmark": "China"
+            }
+          },
+          {
+            "atFrame": 1272,
+            "atLabel": "2023",
+            "entityId": "India",
+            "headline": "India leads in 2023",
+            "detail": "India recorded a population of 1438069596 in 2023.",
+            "factBox": {
+              "heading": "Population Count",
+              "body": "India reached 1438069596 people in 2023.",
+              "dateLabel": "2023",
+              "wordmark": "India"
+            }
+          }
+        ],
+        "notes": [
+          "80 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Population",
+          "value": 1450292481.25,
+          "entityName": "India",
+          "entityId": "india",
+          "year": "2024",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "india",
+              "name": "India",
+              "color": "#dc2626",
+              "flagCode": "in"
+            },
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#f59e0b",
+              "flagCode": "us"
+            }
+          ]
+        },
+        "tapeRange": [
+          1200,
+          1299
+        ]
       }
     },
     {
       "id": "scene_ending",
       "type": "ending",
-      "duration": 6,
+      "duration": 15,
       "title": "Global population leadership shifted from China to India over the recorded decades."
     },
     {
       "id": "scene_sources",
       "type": "source_card",
-      "duration": 8,
+      "duration": 12,
       "title": "Sources",
       "props": {
         "sourcesLine": "Data: provided dataset"
