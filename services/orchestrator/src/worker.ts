@@ -116,7 +116,9 @@ async function listReleaseVideos(env: Env): Promise<Array<{ filename: string; ti
         title: a.name.replace(/\.mp4$/i, '').replace(/[-_]/g, ' '),
         sizeBytes: a.size,
         createdAt: a.created_at,
-        url: a.browser_download_url,
+        // Serve through the worker proxy below: the repo is private so the
+        // raw browser_download_url 404s for browsers without a GitHub login.
+        url: `/api/renders/file/${encodeURIComponent(a.name)}`,
       }))
       .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   } catch {
@@ -148,6 +150,75 @@ app.get('/api/renders', async (c) => {
   return c.json({ renders });
 });
 
+// Streams a release asset through the worker. Needed because the repo is
+// private: the raw browser_download_url 404s for any browser that isn't
+// logged into GitHub as the repo owner. Range requests are honored (by
+// slicing when upstream doesn't) so in-browser video seeking keeps working.
+async function proxyReleaseAsset(env: Env, filename: string, range: string | undefined): Promise<Response> {
+  const notFound = () => new Response(JSON.stringify({ error: 'not found' }), { status: 404 });
+  const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
+  const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
+  const token = env.GITHUB_TOKEN;
+  if (!token) return notFound();
+  const apiHeaders = {
+    'Accept': 'application/vnd.github+json',
+    'Authorization': `Bearer ${token}`,
+    'User-Agent': 'avm-orchestrator-worker',
+  };
+  let release: { assets?: Array<{ name: string; size: number; url: string }> };
+  try {
+    const relRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/tags/videos-20260922`, { headers: apiHeaders });
+    if (!relRes.ok) return notFound();
+    release = await relRes.json();
+  } catch {
+    return notFound();
+  }
+  const asset = (release.assets ?? []).find((a) => a.name === filename);
+  if (!asset) return notFound();
+
+  const dlHeaders: Record<string, string> = {
+    'Accept': 'application/octet-stream',
+    'Authorization': `Bearer ${token}`,
+    'User-Agent': 'avm-orchestrator-worker',
+  };
+  if (range) dlHeaders['Range'] = range;
+  let dl: Response;
+  try {
+    dl = await fetch(asset.url, { headers: dlHeaders });
+  } catch {
+    return notFound();
+  }
+  if (!dl.ok || !dl.body) return notFound();
+
+  const outHeaders: Record<string, string> = {
+    'Content-Type': 'video/mp4',
+    'Accept-Ranges': 'bytes',
+  };
+  if (dl.status === 206) {
+    for (const h of ['Content-Length', 'Content-Range']) {
+      const v = dl.headers.get(h);
+      if (v) outHeaders[h] = v;
+    }
+    return new Response(dl.body, { status: 206, headers: outHeaders });
+  }
+  if (range) {
+    // Upstream ignored the range: slice the bytes ourselves.
+    const m = /bytes=(\d+)-(\d*)/.exec(range);
+    const buf = await dl.arrayBuffer();
+    const size = buf.byteLength;
+    const start = m ? Number(m[1]) : 0;
+    const end = m && m[2] ? Math.min(Number(m[2]), size - 1) : size - 1;
+    if (start >= size) {
+      return new Response('range not satisfiable', { status: 416, headers: { 'Content-Range': `bytes */${size}` } });
+    }
+    outHeaders['Content-Length'] = String(end - start + 1);
+    outHeaders['Content-Range'] = `bytes ${start}-${end}/${size}`;
+    return new Response(buf.slice(start, end + 1), { status: 206, headers: outHeaders });
+  }
+  outHeaders['Content-Length'] = String(asset.size);
+  return new Response(dl.body, { headers: outHeaders });
+}
+
 app.get('/api/renders/file/:filename', async (c) => {
   const filename = c.req.param('filename');
   if (!filename || filename.includes('/') || filename.includes('\\') || filename.includes('..')) {
@@ -156,8 +227,10 @@ app.get('/api/renders/file/:filename', async (c) => {
   if (!filename.toLowerCase().endsWith('.mp4')) return c.json({ error: 'not a video' }, 400);
   
   const bucket = c.env.VIDEOS_BUCKET;
-  if (!bucket) return c.json({ error: 'not found' }, 404);
-  
+  // No R2 bucket: proxy the asset from the private GitHub release instead so
+  // browsers don't need a GitHub login (raw release URLs 404 for them).
+  if (!bucket) return proxyReleaseAsset(c.env, filename, c.req.header('range'));
+
   const range = c.req.header('range');
   let obj;
   const headers: Record<string, string> = {
