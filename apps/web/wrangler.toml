@@ -1,0 +1,17 @@
+# Cloudflare Pages configuration for the research dashboard.
+#
+# Deploy with:
+#   npm run build -w @avm/web
+#   npx wrangler pages deploy apps/web/dist --project-name analysis-video-maker
+#
+# The dashboard is a static SPA; it talks to the orchestrator over VITE_API_BASE
+# at build time. No secrets belong in this file - the Pages API token lives in
+# GitHub secrets / your local environment.
+
+name = "analysis-video-maker"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "apps/web/dist"
+
+[vars]
+# Point this at the deployed orchestrator once you have one.
+VITE_API_BASE = "http://localhost:8787"

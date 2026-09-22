@@ -1,0 +1,57 @@
+# Render.com blueprint.
+#
+# Render hosts ONLY the research/orchestration API. It never renders video:
+# long-running renders belong to GitHub Actions (see .github/workflows/render-video.yml),
+# because a free Render service has no durable disk and sleeps.
+#
+# Secrets marked `sync: false` are set in the Render dashboard, never in this file.
+
+services:
+  - type: web
+    name: analysis-video-maker-orchestrator
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci --omit=dev || npm ci
+    startCommand: npm run serve -w @avm/orchestrator
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: LOG_LEVEL
+        value: info
+      - key: PROJECTS_DIR
+        value: /tmp/avm-projects
+      - key: RENDER_CACHE_DIR
+        value: /tmp/avm-cache
+      # AI providers
+      - key: NARA_BASE_URL
+        value: https://router.bynara.id/v1
+      - key: NARA_API_KEY
+        sync: false
+      - key: GEMINI_WORKER_1
+        sync: false
+      - key: GEMINI_WORKER_2
+        sync: false
+      - key: GEMINI_MODELS
+        value: gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash,gemini-3.5-flash-thinking
+      # Search / fetch
+      - key: MONID_BASE_URL
+        value: https://api.monid.ai/v1
+      - key: MONID_API_KEY
+        sync: false
+      # Dataset sources
+      - key: KAGGLE_USERNAME
+        sync: false
+      - key: KAGGLE_KEY
+        sync: false
+      # Dispatch
+      - key: GITHUB_OWNER
+        sync: false
+      - key: GITHUB_REPO
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false

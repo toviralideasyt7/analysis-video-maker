@@ -1,0 +1,45 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# rust
+target/
+
+# env + secrets
+.env
+.env.*
+!.env.example
+*.pem
+kaggle.json
+secrets/
+
+# media / large artifacts (never store renders in git)
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.wav
+*.mp3
+renders/
+.cache/
+projects/
+
+# editor / os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# run logs
+*.log
+# local verification logs
+.cargo-test.log
+.cargo-build.log
+.research-run.log
+.render.log
+.connectors.log

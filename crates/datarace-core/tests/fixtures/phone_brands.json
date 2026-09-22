@@ -1,0 +1,5 @@
+[
+  { "brand": "Nokia", "year": 2007, "value": 38.05, "unit": "percent" },
+  { "brand": "Samsung", "year": 2007, "value": 14.2, "unit": "percent" },
+  { "brand": "Nokia", "year": 2008, "value": 38.6, "unit": "percent" }
+]

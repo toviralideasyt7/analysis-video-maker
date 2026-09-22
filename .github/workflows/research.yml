@@ -1,0 +1,104 @@
+name: research
+
+# Runs the research pipeline on a GitHub runner, using the same AI providers the
+# local runs use. The resulting bundle is uploaded as an artifact so it can be
+# approved and then rendered by render-video.yml.
+#
+# Requires repo secrets: NARA_API_KEY, MONID_API_KEY (optional: GEMINI_*, KAGGLE_*).
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: Topic to research
+        required: true
+        default: "World Population by Country 1960-2024"
+      worldBankIndicator:
+        description: Optional World Bank indicator id
+        required: false
+        default: "SP.POP.TOTL"
+      topN:
+        description: Entities shown in the race
+        required: false
+        default: "10"
+      framesPerTransition:
+        description: Frames per period transition
+        required: false
+        default: "20"
+      skipAi:
+        description: "true to run without any AI calls"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
+      NARA_BASE_URL: ${{ vars.NARA_BASE_URL || 'https://router.bynara.id/v1' }}
+      GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
+      GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+      GEMINI_MODELS: ${{ vars.GEMINI_MODELS }}
+      MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      DATARACE_BIN: ${{ github.workspace }}/target/release/datarace
+      DATARACE_FFPROBE: /usr/bin/ffprobe
+      LOG_LEVEL: info
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - run: npm ci
+
+      - name: Build the Rust core
+        run: cargo build --release --workspace
+
+      - name: Run the research pipeline
+        run: |
+          set -euo pipefail
+          ARGS=("${{ inputs.topic }}" --topn "${{ inputs.topN }}" --frames "${{ inputs.framesPerTransition }}")
+          if [ -n "${{ inputs.worldBankIndicator }}" ]; then
+            ARGS+=(--indicator "${{ inputs.worldBankIndicator }}")
+          fi
+          if [ "${{ inputs.skipAi }}" = "true" ]; then
+            ARGS+=(--skip-ai)
+          fi
+          npx tsx services/orchestrator/src/scripts/demo-research.ts "${ARGS[@]}"
+
+      - name: Validate every produced bundle
+        run: |
+          set -euo pipefail
+          for dir in projects/*/; do
+            echo "validating $dir"
+            npx tsx tools/validate-spec.ts "$dir"
+            ./target/release/datarace validate --in "$dir/dataset.json" --strict --out "$dir/quality.ci.json"
+          done
+
+      - name: AI QA review of the bundle
+        if: ${{ inputs.skipAi != 'true' }}
+        run: |
+          set -euo pipefail
+          for dir in projects/*/; do
+            npx tsx services/orchestrator/src/scripts/ai-qa.ts --project "$dir"
+          done
+
+      - name: Upload the research bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-bundle
+          path: projects/
+          retention-days: 14
+          if-no-files-found: error

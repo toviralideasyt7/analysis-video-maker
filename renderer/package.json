@@ -1,0 +1,29 @@
+{
+  "name": "@avm/renderer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "render": "tsx src/render.ts",
+    "studio": "remotion studio src/index.ts",
+    "thumbnail": "tsx src/render.ts --thumbnail"
+  },
+  "dependencies": {
+    "@avm/shared": "*",
+    "@remotion/bundler": "4.0.245",
+    "@remotion/cli": "4.0.245",
+    "@remotion/renderer": "4.0.245",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.245"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
