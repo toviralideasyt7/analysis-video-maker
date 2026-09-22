@@ -94,7 +94,7 @@ app.get('/api/projects/:id', async (c) => {
 // The worker lists them via the GitHub API so new renders appear automatically.
 
 async function listReleaseVideos(env: Env): Promise<Array<{ filename: string; title: string; sizeBytes: number; createdAt: string; url: string }>> {
-  const owner = env.GITHUB_OWNER ?? 'sujitbhai7710';
+  const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
   const token = env.GITHUB_TOKEN;
   if (!token) return [];
@@ -214,7 +214,7 @@ app.post('/api/projects/:id/render', async (c) => {
     return c.json({ error: 'project not found' }, 404);
   }
 
-  const owner = c.env.GITHUB_OWNER ?? 'sujitbhai7710';
+  const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
   const token = c.env.GITHUB_TOKEN;
   if (!token) {
