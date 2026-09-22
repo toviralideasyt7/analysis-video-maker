@@ -114,5 +114,5 @@ jobs:
           if [ -n "${INPUT_PATH:-}" ]; then
             npx tsx tools/notify-control.mts --stage rendering --inputPath "$INPUT_PATH"
           else
-            npx tsx tools/notify-control.mts --stage failed --error "research produced no input file"
+            npx tsx tools/notify-control.mts --stage failed --status failed --error "research produced no input file"
           fi
