@@ -57,6 +57,14 @@ async function main(): Promise<void> {
   const barCounts = frameTape.frames.map((f) => f.bars.length);
   const maxBarsPerFrame = barCounts.length > 0 ? Math.max(...barCounts) : 0;
   const minBarsPerFrame = barCounts.length > 0 ? Math.min(...barCounts) : 0;
+  // The renderer maps tape frames PROPORTIONALLY across the scene's render frames and
+  // interpolates between them, so tape fps differing from canvas fps is expected and
+  // correct. Timing is right when the bar_race scene duration matches the tape's own
+  // clock (durationInFrames / tape fps) - that is the check that matters, not fps equality.
+  const tapeRaceSeconds = frameTape.fps > 0 ? frameTape.durationInFrames / frameTape.fps : 0;
+  const raceScene = videoSpec.scenes.find((s) => s.type === 'bar_race');
+  const raceSceneDuration = raceScene ? raceScene.duration : 0;
+  const raceTimingOk = Math.abs(raceSceneDuration - tapeRaceSeconds) < 0.15;
   const verdict = await aiQaReview(
     {
       datasetSummary: {
@@ -92,6 +100,13 @@ async function main(): Promise<void> {
         rosterSemantics:
           'entities is the union of every entity that ever enters the top-N across all periods; ' +
           'it may exceed topN. Only a frame showing more than topN bars is a ranking error.',
+        fpsSemantics:
+          'the renderer maps tape frames proportionally across the scene render frames and ' +
+          'interpolates, so tape fps differing from canvas fps is EXPECTED. Timing is correct ' +
+          'when the bar_race scene duration matches the tape clock (durationInFrames / tape fps).',
+        tapeRaceSeconds: Number(tapeRaceSeconds.toFixed(2)),
+        raceSceneDurationSeconds: raceSceneDuration,
+        raceTimingOk,
         notes: frameTape.notes,
       },
       verificationContext: {

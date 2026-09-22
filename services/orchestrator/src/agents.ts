@@ -985,6 +985,11 @@ HOW TO READ THE FRAME TAPE (bar-race semantics - get this right):
   maxBarsPerFrame against topN. If maxBarsPerFrame <= topN, the ranking display is fine no
   matter how large the roster is.
 - A title like "Top 10" must match the tape's topN - not the roster size.
+- FPS: the renderer maps tape frames PROPORTIONALLY across the scene's render frames and
+  interpolates between them, so tape fps differing from canvas fps is EXPECTED and correct.
+  Timing is right when the bar_race scene duration matches the tape's own clock
+  (durationInFrames / tape fps) - trust the deterministic raceTimingOk field for this.
+  Never flag an fps difference as a conflict on its own.
 - A verified count of zero means the values come from a single authoritative publisher -
   not a defect on its own.
 
@@ -1031,9 +1036,11 @@ ${verdict.problems.map((p, i) => `${i + 1}. ${p}`).join('\n')}
 You are now the defense. For EACH problem above, re-examine it against the evidence below
 and decide whether it is PROVEN or must be DROPPED. Dig into the numbers again - do not
 just repeat your first answer. Drop a problem unless you can point to the exact fields
-and values that contradict each other. Remember the bar-race rule: the entity roster is
+and values that contradict each other. Remember the bar-race rules: the entity roster is
 the union across all periods and may exceed topN - that alone proves nothing; only
-maxBarsPerFrame > topN is a ranking error.
+maxBarsPerFrame > topN is a ranking error. And tape fps differing from canvas fps proves
+nothing either - the renderer interpolates proportionally; only raceTimingOk=false (scene
+duration vs tape clock mismatch) is a real timing defect.
 
 EVIDENCE (same bundle):
 DATASET SUMMARY:
