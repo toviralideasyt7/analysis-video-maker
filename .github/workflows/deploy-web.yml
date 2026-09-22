@@ -36,4 +36,8 @@ jobs:
           # deploying a directory that is not the repo root, which silently broke the
           # /api/* proxy in production. Observed: /api/login returned the static page.
           wranglerVersion: '3.114.17'
-          command: pages deploy cloudflare/pages --project-name=${{ vars.PAGES_PROJECT || 'race-video-studio' }}
+          # Run from inside the studio folder: wrangler resolves the Functions
+          # bundle relative to the working directory, not the deploy target, so
+          # deploying a subdirectory from the repo root silently drops it.
+          workingDirectory: cloudflare/pages
+          command: pages deploy . --project-name=${{ vars.PAGES_PROJECT || 'race-video-studio' }}
