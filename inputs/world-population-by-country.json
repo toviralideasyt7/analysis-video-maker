@@ -10,7 +10,7 @@
   "fps": 60
  },
  "settings": {
-  "topN": 12,
+  "topN": 10,
   "secondsPerYear": 71.875,
   "scalePower": 0.72,
   "introSeconds": 5,
@@ -9544,29 +9544,19 @@
  ],
  "facts": [
   {
-   "atDate": "2000",
-   "heading": "Rapid population growth begins",
-   "body": "Qatar stands far ahead of every other country, with its population increasing more than fivefold since 2000.",
+   "atDate": "1990",
+   "heading": "WHERE IT BEGAN",
+   "body": "Vatican led in 1990 with 100.",
    "tiles": [
-    "qatar"
+    "Vatican"
    ]
   },
   {
    "atDate": "2024",
-   "heading": "Global population milestone reached",
-   "body": "The global population is expected to continue growing over the coming fifty or sixty years, reaching a peak of around 10.3 billion people in the mid-2080s, up from 8.2 billion in 2024.",
+   "heading": "WHERE IT STANDS",
+   "body": "Vatican tops the 2024 table at 100.",
    "tiles": [
-    "vatican",
-    "singapore"
-   ]
-  },
-  {
-   "atDate": "2020",
-   "heading": "Pandemic demographic impacts",
-   "body": "Global demographic growth rates temporarily adjusted downward during the worldwide disruptions of 2020.",
-   "tiles": [
-    "malta",
-    "luxembourg"
+    "Vatican"
    ]
   }
  ],
