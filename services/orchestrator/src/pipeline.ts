@@ -327,6 +327,76 @@ export function publisherKey(o: Observation): string {
   return `${publisher}||${host}`;
 }
 
+export interface PrimarySourcePick {
+  /** publisherKey of the source */
+  key: string;
+  publisher: string;
+  url: string;
+  /** distinct entity|date cells this source covers */
+  cells: number;
+  observations: number;
+  meanConfidence: number;
+}
+
+export interface SourceRanking {
+  primary: PrimarySourcePick;
+  ranked: PrimarySourcePick[];
+}
+
+/**
+ * Single-source rule (standing user rule, 2026-09-23): a dataset's time
+ * series must come from ONE source - one consistent snapshot/methodology.
+ * Merging values collected from different sources (or the same topic
+ * re-pulled on different days) into a single series is what corrupted the
+ * empires dataset: mixed methodologies produced phantom values such as a
+ * French empire in 2016. Other sources are still used to *verify* the
+ * primary source's values, but their values never enter the dataset.
+ *
+ * The primary source is the one covering the most distinct entity|date
+ * cells; ties break on mean confidence, then first-seen order.
+ */
+export function selectPrimarySource(observations: Observation[]): SourceRanking {
+  const byKey = new Map<
+    string,
+    { publisher: string; url: string; cells: Set<string>; observations: number; confidenceSum: number; firstSeen: number }
+  >();
+  observations.forEach((o, idx) => {
+    const key = publisherKey(o);
+    let entry = byKey.get(key);
+    if (!entry) {
+      entry = {
+        publisher: o.source.publisher ?? '',
+        url: o.source.url ?? '',
+        cells: new Set(),
+        observations: 0,
+        confidenceSum: 0,
+        firstSeen: idx,
+      };
+      byKey.set(key, entry);
+    }
+    entry.cells.add(`${canonicalEntityKey(o.entity.name)}|${o.date}`);
+    entry.observations += 1;
+    entry.confidenceSum += typeof o.confidence === 'number' ? o.confidence : 0;
+  });
+  const withOrder = [...byKey.entries()].map(([key, e]) => ({ key, ...e }));
+  withOrder.sort((a, b) => {
+    if (b.cells.size !== a.cells.size) return b.cells.size - a.cells.size;
+    const meanA = a.observations > 0 ? a.confidenceSum / a.observations : 0;
+    const meanB = b.observations > 0 ? b.confidenceSum / b.observations : 0;
+    if (meanB !== meanA) return meanB - meanA;
+    return a.firstSeen - b.firstSeen;
+  });
+  const ranked: PrimarySourcePick[] = withOrder.map((e) => ({
+    key: e.key,
+    publisher: e.publisher,
+    url: e.url,
+    cells: e.cells.size,
+    observations: e.observations,
+    meanConfidence: e.observations > 0 ? e.confidenceSum / e.observations : 0,
+  }));
+  return { primary: ranked[0], ranked };
+}
+
 export function sourceRef(input: {  url: string;
   publisher: string;
   title?: string;
@@ -522,6 +592,10 @@ export interface VerificationResult {
   conflicts: Conflict[];
   /** Human-readable notes for the run log: unit mismatches, outliers, what was checked. */
   notes: string[];
+  /** Set when singleSource mode picked one source for the dataset. */
+  primarySource?: PrimarySourcePick;
+  /** Cell count dropped in singleSource mode for having no primary-source value. */
+  droppedCells?: number;
 }
 
 /**
@@ -538,6 +612,8 @@ export interface VerificationResult {
  *     the same domain, or two rows from the same API endpoint, are one source.
  *   - a value that jumps 100x+ between consecutive periods is flagged in the
  *     notes (it stays in the dataset, it just never auto-verifies on a jump).
+ *   - singleSource: true collapses the dataset to ONE source (selectPrimarySource);
+ *     other sources only verify, their values never merge into the series.
  */
 export interface SanitizeResult {
   observations: Observation[];
@@ -574,12 +650,29 @@ export function sanitizeObservations(observations: Observation[]): SanitizeResul
 
 export function verifyAcrossSources(
   observations: Observation[],
-  options: { tolerance?: number; metric?: string; outlierRatio?: number } = {},
+  options: { tolerance?: number; metric?: string; outlierRatio?: number; singleSource?: boolean } = {},
 ): VerificationResult {
   const tolerance = options.tolerance ?? 0.05;
   const outlierRatio = options.outlierRatio ?? 100;
   const metric = options.metric ?? 'value';
   const notes: string[] = [];
+  // Single-source mode: the dataset is built from ONE source only (see
+  // selectPrimarySource). Other sources are compared against the primary
+  // source's values for VERIFIED status and conflict detection, but their
+  // values never enter the dataset - no merged series, ever. Cells the
+  // primary source does not cover are dropped, not backfilled. A disputed
+  // primary value is kept (the single source stands) and the dispute is
+  // recorded as a conflict + note for the reviewer.
+  const singleSource = options.singleSource === true && observations.length > 0;
+  const ranking = singleSource ? selectPrimarySource(observations) : null;
+  const primary = ranking?.primary ?? null;
+  let droppedCells = 0;
+  if (primary && ranking) {
+    notes.push(
+      `single-source: dataset values come from ONE source - ${primary.publisher || 'unknown publisher'} (${primary.url || 'no url'}), ` +
+        `covering ${primary.cells} cells; ${ranking.ranked.length - 1} other source(s) used for verification only, never merged`,
+    );
+  }
 
   // Unit-mismatch scan first: same entity/date reported in genuinely different
   // base units (count vs percent) cannot be compared - say so explicitly.
@@ -619,8 +712,17 @@ export function verifyAcrossSources(
   };
 
   for (const [key, group] of groups) {
+    // Single-source mode: the decided observation is always the primary
+    // source's. A cell the primary source does not cover is dropped, never
+    // backfilled from another source - the series stays one source.
+    const primaryObs = primary ? group.find((o) => publisherKey(o) === primary.key) : undefined;
+    if (primary && !primaryObs) {
+      droppedCells += 1;
+      continue;
+    }
+    const cell = primaryObs ?? group[0];
     if (group.length === 1) {
-      decided.push(canonicalize(group[0]));
+      decided.push(canonicalize(cell));
       continue;
     }
     comparedCells += 1;
@@ -636,16 +738,17 @@ export function verifyAcrossSources(
     const publishers = new Set(group.map((o) => publisherKey(o)));
 
     if (spread <= tolerance && publishers.size >= 2) {
-      // Two INDEPENDENT publishers agree -> verified. The first observation is kept.
+      // Two INDEPENDENT publishers agree -> verified. The primary source's
+      // observation is kept (in single-source mode); otherwise the first.
       verifiedCells += 1;
-      const [primary, ...rest] = group;
+      const rest = group.filter((o) => o !== cell);
       decided.push({
-        ...canonicalize(primary),
+        ...canonicalize(cell),
         status: 'VERIFIED',
         confidence: Math.min(0.98, 0.75 + 0.05 * publishers.size),
         evidence: {
-          ...(primary.evidence ?? {}),
-          datasetUrl: primary.source.url,
+          ...(cell.evidence ?? {}),
+          datasetUrl: cell.source.url,
           datasetVersion: `agree:${rest.length + 1}`,
         },
       });
@@ -655,7 +758,7 @@ export function verifyAcrossSources(
     if (publishers.size < 2) {
       // Same source repeated (e.g. two pages on one domain): keep the first,
       // do not pretend this is corroboration.
-      decided.push(canonicalize(group[0]));
+      decided.push(canonicalize(cell));
       continue;
     }
 
@@ -675,7 +778,17 @@ export function verifyAcrossSources(
       reason: `${publishers.size} independent publishers disagree by ${(spread * 100).toFixed(1)}% (min ${min}, max ${max})`,
       resolved: false,
     });
-    for (const o of group) decided.push({ ...canonicalize(o), status: 'CONFLICTING' });
+    if (primary && primaryObs) {
+      // Single-source rule: the primary source's value stands - the dispute is
+      // recorded above, never merged in as a second observation.
+      decided.push(canonicalize(primaryObs));
+      notes.push(
+        `disputed: ${primaryObs.entity.name} @ ${primaryObs.date} - primary ${primary.publisher || 'source'} reports ${primaryObs.value}, ` +
+          `${publishers.size - 1} other publisher(s) disagree; primary value kept (see conflicts)`,
+      );
+    } else {
+      for (const o of group) decided.push({ ...canonicalize(o), status: 'CONFLICTING' });
+    }
     void key;
   }
 
@@ -705,8 +818,15 @@ export function verifyAcrossSources(
   }
 
   // Observations with no value still belong in the dataset, marked UNKNOWN.
+  // In single-source mode only the primary source's nulls are kept.
   for (const o of observations) {
-    if (o.value === null) decided.push(canonicalize(o));
+    if (o.value === null && (!primary || publisherKey(o) === primary.key)) decided.push(canonicalize(o));
+  }
+
+  if (primary && droppedCells > 0) {
+    notes.push(
+      `single-source: dropped ${droppedCells} cell(s) with no value from the primary source (not backfilled from other sources)`,
+    );
   }
 
   logger.info('verification complete', {
@@ -716,7 +836,7 @@ export function verifyAcrossSources(
     conflicts: conflicts.length,
     notes: notes.length,
   });
-  return { observations: decided, conflicts, notes };
+  return { observations: decided, conflicts, notes, primarySource: primary ?? undefined, droppedCells };
 }
 
 /**
@@ -727,6 +847,13 @@ export function verificationSummary(result: VerificationResult): string[] {
   const lines: string[] = [];
   const byStatus = new Map<string, number>();
   for (const o of result.observations) byStatus.set(o.status, (byStatus.get(o.status) ?? 0) + 1);
+  if (result.primarySource) {
+    const p = result.primarySource;
+    lines.push(
+      `primary source: ${p.publisher || 'unknown publisher'} (${p.url || 'no url'}) - all ${result.observations.length} dataset values come from this one source` +
+        (result.droppedCells ? `; ${result.droppedCells} cell(s) dropped for having no primary-source value` : ''),
+    );
+  }
   lines.push(
     `verification: ${result.observations.length} observations ` +
     `(VERIFIED ${byStatus.get('VERIFIED') ?? 0}, SUPPORTED ${byStatus.get('SUPPORTED') ?? 0}, ` +

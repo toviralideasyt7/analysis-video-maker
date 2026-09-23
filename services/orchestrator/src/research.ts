@@ -936,7 +936,11 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // the comparison cells.
   const sanitized = sanitizeObservations(observations);
   for (const problem of sanitized.problems.slice(0, 20)) state.notes.push(`sanitize: ${problem}`);
-  const verified = verifyAcrossSources(sanitized.observations, { metric: plan.metric });
+  // Standing user rule (2026-09-23): the dataset's time series comes from ONE
+  // source only. Other sources verify the primary source's values but their
+  // values are never merged into the series - mixing sources/days is what
+  // corrupted the empires dataset.
+  const verified = verifyAcrossSources(sanitized.observations, { metric: plan.metric, singleSource: true });
   // Surface what was actually checked: the summary (counts per status,
   // conflicts) plus the unit-mismatch and outlier notes. Without this the
   // verification detail exists only in memory and the reviewer sees nothing.

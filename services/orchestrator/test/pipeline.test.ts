@@ -13,6 +13,7 @@ import {
   majorityUnit,
   parseScaledNumber,
   scoreCandidates,
+  selectPrimarySource,
   sourceQualityScore,
   trimSparseHead,
   typescriptQualityReport,
@@ -191,6 +192,98 @@ describe('cross-source verification', () => {
     ]);
     expect(result.conflicts).toHaveLength(0);
     expect(result.observations.find((o) => o.value !== null)?.status).toBe('VERIFIED');
+  });
+});
+
+describe('single-source datasets', () => {
+  it('picks the source covering the most entity/date cells as primary', () => {
+    const picked = selectPrimarySource([
+      obs('India', '2000', 100, 'https://a.test', 'A'),
+      obs('India', '2001', 110, 'https://a.test', 'A'),
+      obs('India', '2000', 101, 'https://b.test', 'B'),
+    ]);
+    expect(picked.primary.publisher).toBe('A');
+    expect(picked.primary.cells).toBe(2);
+    expect(picked.ranked).toHaveLength(2);
+  });
+
+  it('never merges values from different sources into one series', () => {
+    // A covers 2000+2001, B only 2001 with a wildly different value.
+    const result = verifyAcrossSources(
+      [
+        obs('India', '2000', 100, 'https://a.test', 'A'),
+        obs('India', '2001', 110, 'https://a.test', 'A'),
+        obs('India', '2001', 999, 'https://b.test', 'B'),
+      ],
+      { singleSource: true },
+    );
+    const values = result.observations
+      .filter((o) => o.value !== null)
+      .map((o) => o.value)
+      .sort((a, b) => (a as number) - (b as number));
+    expect(values).toEqual([100, 110]);
+    for (const o of result.observations) {
+      expect(o.source.publisher).toBe('A');
+    }
+    // The dispute is recorded, not merged in as a second observation.
+    expect(result.conflicts).toHaveLength(1);
+    expect(result.observations.every((o) => o.status !== 'CONFLICTING')).toBe(true);
+  });
+
+  it('drops cells the primary source does not cover instead of backfilling', () => {
+    const result = verifyAcrossSources(
+      [
+        obs('India', '2000', 100, 'https://a.test', 'A'),
+        obs('China', '2000', 200, 'https://a.test', 'A'),
+        obs('China', '2001', 210, 'https://b.test', 'B'),
+      ],
+      { singleSource: true },
+    );
+    // A is primary (2 cells vs B's 1). China's 2001 value from B is dropped.
+    expect(result.observations.map((o) => `${o.entity.name}@${o.date}`).sort()).toEqual(['China@2000', 'India@2000']);
+    expect(result.droppedCells).toBe(1);
+  });
+
+  it('still raises agreement with an independent source to VERIFIED', () => {
+    const result = verifyAcrossSources(
+      [
+        obs('India', '2000', 100, 'https://a.test', 'A'),
+        obs('India', '2001', 110, 'https://a.test', 'A'),
+        obs('India', '2000', 101, 'https://b.test', 'B'),
+      ],
+      { singleSource: true },
+    );
+    const india2000 = result.observations.find((o) => o.entity.name === 'India' && o.date === '2000');
+    expect(india2000?.status).toBe('VERIFIED');
+    expect(india2000?.value).toBe(100); // the primary source's value, not B's
+    expect(result.observations).toHaveLength(2);
+  });
+
+  it('keeps a disputed primary value in the series and records the dispute', () => {
+    const result = verifyAcrossSources(
+      [
+        obs('India', '2000', 100, 'https://a.test', 'A'),
+        obs('India', '2001', 110, 'https://a.test', 'A'),
+        obs('India', '2000', 140, 'https://b.test', 'B'),
+      ],
+      { singleSource: true },
+    );
+    expect(result.conflicts).toHaveLength(1);
+    const kept = result.observations.filter((o) => o.value !== null);
+    expect(kept).toHaveLength(2);
+    expect(kept.find((o) => o.date === '2000')?.value).toBe(100);
+    expect(kept.every((o) => o.status !== 'CONFLICTING')).toBe(true);
+    expect(result.notes.some((n) => n.includes('disputed'))).toBe(true);
+  });
+
+  it('names the primary source in the verification summary', () => {
+    const result = verifyAcrossSources(
+      [obs('India', '2000', 100, 'https://a.test', 'A'), obs('India', '2000', 101, 'https://b.test', 'B')],
+      { singleSource: true },
+    );
+    const lines = verificationSummary(result);
+    expect(lines[0]).toContain('primary source:');
+    expect(lines[0]).toContain('A');
   });
 });
 
