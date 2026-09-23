@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "title": "GDP per capita PPP by country",
+  "subtitle": "1990 - 2025",
+  "hook": "GDP per capita PPP by country, 1990 to 2025.",
+  "setup": "The full race, year by year — watch the rankings shift from 1990 to 2025.",
+  "sequence": [
+    {
+      "atLabel": "1990",
+      "text": "1990: United Arab Emirates bursts into the ranking at #1 with 88.5K USD."
+    },
+    {
+      "atLabel": "2001",
+      "text": "2001: Qatar takes the lead with 92.3K USD."
+    },
+    {
+      "atLabel": "2004",
+      "text": "2004: Norway surges from #10 to #7."
+    },
+    {
+      "atLabel": "2015",
+      "text": "2015: Luxembourg takes the lead with 107.9K USD."
+    },
+    {
+      "atLabel": "2019",
+      "text": "2019: Denmark bursts into the ranking at #10 with 62.7K USD."
+    }
+  ],
+  "highlights": [],
+  "ending": "United Arab Emirates starts first; Singapore ends first.",
+  "sourcesLine": "Data: World Bank",
+  "generatedBy": {
+    "agent": "deterministic-story",
+    "at": "2026-09-23T14:42:07.430Z"
+  }
+}

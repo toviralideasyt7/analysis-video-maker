@@ -1,0 +1,442 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "GDP per capita PPP by country",
+    "subtitle": "1990 - 2025",
+    "language": "en",
+    "durationSeconds": 306
+  },
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_gdp-per-capita-ppp-by-country-20260923144038",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "GDP per capita PPP by country",
+      "subtitle": "1990 - 2025"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "GDP per capita PPP by country, 1990 to 2025.",
+      "subtitle": "The full race, year by year — watch the rankings shift from 1990 to 2025."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_gdp-per-capita-ppp-by-country-20260923144038",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "524 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "GDP per capita PPP by country",
+          "value": 163014.22976585967,
+          "entityName": "Singapore",
+          "entityId": "singapore",
+          "year": "2025",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "singapore",
+              "name": "Singapore",
+              "color": "#059669",
+              "flagCode": "sg"
+            },
+            {
+              "id": "luxembourg",
+              "name": "Luxembourg",
+              "color": "#dc2626",
+              "flagCode": "lu"
+            },
+            {
+              "id": "ireland",
+              "name": "Ireland",
+              "color": "#4338ca",
+              "flagCode": "ie"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          299
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2000",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "United Arab Emirates rules the 2000s",
+      "props": {
+        "kicker": "THE 2000S",
+        "atLabel": "2000",
+        "body": "As the 2000s began, United Arab Emirates led the world with 92.9K USD. Norway was the previous decade's biggest climber, rising 6 places into the top 10.",
+        "entityIds": [
+          "united-arab-emirates",
+          "qatar",
+          "kuwait"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_gdp-per-capita-ppp-by-country-20260923144038",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "524 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "GDP per capita PPP by country",
+          "value": 163014.22976585967,
+          "entityName": "Singapore",
+          "entityId": "singapore",
+          "year": "2025",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "singapore",
+              "name": "Singapore",
+              "color": "#059669",
+              "flagCode": "sg"
+            },
+            {
+              "id": "luxembourg",
+              "name": "Luxembourg",
+              "color": "#dc2626",
+              "flagCode": "lu"
+            },
+            {
+              "id": "ireland",
+              "name": "Ireland",
+              "color": "#4338ca",
+              "flagCode": "ie"
+            }
+          ]
+        },
+        "tapeRange": [
+          300,
+          599
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Qatar rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, Qatar led the world with 152.1K USD. Norway was the previous decade's biggest climber, rising 3 places into the top 10.",
+        "entityIds": [
+          "qatar",
+          "luxembourg",
+          "united-arab-emirates"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_gdp-per-capita-ppp-by-country-20260923144038",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "524 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "GDP per capita PPP by country",
+          "value": 163014.22976585967,
+          "entityName": "Singapore",
+          "entityId": "singapore",
+          "year": "2025",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "singapore",
+              "name": "Singapore",
+              "color": "#059669",
+              "flagCode": "sg"
+            },
+            {
+              "id": "luxembourg",
+              "name": "Luxembourg",
+              "color": "#dc2626",
+              "flagCode": "lu"
+            },
+            {
+              "id": "ireland",
+              "name": "Ireland",
+              "color": "#4338ca",
+              "flagCode": "ie"
+            }
+          ]
+        },
+        "tapeRange": [
+          600,
+          899
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Singapore rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2025, Singapore leads the world with 163.0K USD.",
+        "entityIds": [
+          "singapore",
+          "luxembourg",
+          "ireland"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_4",
+      "type": "bar_race",
+      "duration": 36,
+      "datasetRef": "dataset_gdp-per-capita-ppp-by-country-20260923144038",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "524 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "GDP per capita PPP by country",
+          "value": 163014.22976585967,
+          "entityName": "Singapore",
+          "entityId": "singapore",
+          "year": "2025",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "singapore",
+              "name": "Singapore",
+              "color": "#059669",
+              "flagCode": "sg"
+            },
+            {
+              "id": "luxembourg",
+              "name": "Luxembourg",
+              "color": "#dc2626",
+              "flagCode": "lu"
+            },
+            {
+              "id": "ireland",
+              "name": "Ireland",
+              "color": "#4338ca",
+              "flagCode": "ie"
+            }
+          ]
+        },
+        "tapeRange": [
+          900,
+          1079
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "United Arab Emirates starts first; Singapore ends first."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.PP.CD?format=json&per_page=20000&date=1990:2026",
+      "publisher": "World Bank",
+      "title": "NY.GDP.PCAP.PP.CD",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-23T14:42:03.960Z",
+      "identifier": "wb_ny-gdp-pcap-pp-cd-all"
+    }
+  ]
+}
