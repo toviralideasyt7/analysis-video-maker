@@ -17,6 +17,10 @@ on:
         description: Studio project id — the bundle is committed to bundles/<projectId>/
         required: false
         default: ""
+      prompt:
+        description: Natural-language video request (agent mode). The agent picks the source, years and entities itself.
+        required: false
+        default: ""
       fromYear:
         description: First year of the time range (e.g. 1960)
         required: false
@@ -79,6 +83,8 @@ jobs:
         run: cargo build --release --workspace
 
       - name: Run the research pipeline
+        env:
+          AVM_PROMPT: ${{ inputs.prompt }}
         run: |
           set -euo pipefail
           ARGS=("${{ inputs.topic }}" --topn "${{ inputs.topN }}" --frames "${{ inputs.framesPerTransition }}")
@@ -87,6 +93,9 @@ jobs:
           fi
           if [ -n "${{ inputs.fromYear }}" ] && [ -n "${{ inputs.toYear }}" ]; then
             ARGS+=(--from "${{ inputs.fromYear }}" --to "${{ inputs.toYear }}")
+          fi
+          if [ -n "$AVM_PROMPT" ]; then
+            ARGS+=(--prompt "$AVM_PROMPT")
           fi
           if [ "${{ inputs.skipAi }}" = "true" ]; then
             ARGS+=(--skip-ai)

@@ -1,0 +1,54 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "internet-explorer",
+      "type": "logo",
+      "query": "Internet Explorer logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "chrome",
+      "type": "logo",
+      "query": "Chrome logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "safari",
+      "type": "logo",
+      "query": "Safari logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "firefox",
+      "type": "logo",
+      "query": "Firefox logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "opera",
+      "type": "logo",
+      "query": "Opera logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "edge",
+      "type": "logo",
+      "query": "Edge logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "netscape",
+      "type": "logo",
+      "query": "Netscape logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "samsung-internet",
+      "type": "logo",
+      "query": "Samsung Internet logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

@@ -6,7 +6,7 @@
  * third-party logos - entity identity is rendered as a monogram badge.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AbsoluteFill, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { DEFAULT_FLAG_BASE } from './types';
 import { compactNumber, formatValue, type Theme } from './theme';
@@ -101,6 +101,34 @@ export const LogoBadge: React.FC<{ name: string; color: string; size?: number; i
     >
       {initials || name.slice(0, 2).toUpperCase()}
     </div>
+  );
+};
+
+/**
+ * Flag image with a monogram fallback. Flag CDNs can hiccup (or be blocked);
+ * a broken-image glyph on a YouTube video is worse than no flag at all, so a
+ * failed load swaps to the entity's LogoBadge.
+ */
+export const FlagImage: React.FC<{
+  entity: FrameTapeEntity;
+  size: number;
+  variant?: 'w80' | 'w160';
+  style?: React.CSSProperties;
+  invertBadge?: boolean;
+  baseUrl?: string;
+}> = ({ entity, size, variant = 'w160', style, invertBadge = false, baseUrl = DEFAULT_FLAG_BASE }) => {
+  const [failed, setFailed] = useState(false);
+  const srcUrl = entity.flagDataUri ?? (entity.flagCode ? `${baseUrl}/${variant}/${entity.flagCode}.png` : undefined);
+  if (!srcUrl || failed) {
+    return <LogoBadge name={entity.name} color={entity.color} size={size} invert={invertBadge} />;
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={srcUrl}
+      onError={() => setFailed(true)}
+      style={{ height: size, borderRadius: 4, ...style }}
+    />
   );
 };
 
@@ -208,10 +236,25 @@ export const RankingRow: React.FC<RankingRowProps> = ({
           width: barW,
           background: entity.color,
           borderRadius: barHeight / 2,
-          boxShadow: '0 2px 10px rgba(17,24,39,0.14)',
+          boxShadow: '0 4px 16px rgba(17,24,39,0.20), 0 1px 4px rgba(17,24,39,0.14)',
           opacity: held ? 0.55 : 1,
+          overflow: 'hidden',
         }}
       >
+        {/* premium gloss: bright top sheen fading into a soft bottom shade */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 'inherit',
+            background:
+              'linear-gradient(180deg, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.10) 42%, rgba(255,255,255,0) 62%, rgba(0,0,0,0.12) 100%)',
+            pointerEvents: 'none',
+          }}
+        />
         {/* name: white bold, left-aligned inside the bar (only when it fits) */}
         {nameFitsInside ? (
           <div
@@ -227,7 +270,8 @@ export const RankingRow: React.FC<RankingRowProps> = ({
               fontWeight: 800,
               fontSize: nameFont,
               letterSpacing: '-0.01em',
-              textShadow: '0 1px 2px rgba(0,0,0,0.18)',
+              textShadow: '0 1px 3px rgba(0,0,0,0.28)',
+              zIndex: 1,
             }}
           >
             {entity.name}
@@ -246,22 +290,9 @@ export const RankingRow: React.FC<RankingRowProps> = ({
           alignItems: 'center',
         }}
       >
-        {entity.flagCode || entity.flagDataUri ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={entity.flagDataUri ?? `${flagBaseUrl}/w80/${entity.flagCode}.png`}
-            style={{
-              height: flagSize,
-              marginRight: 12,
-              borderRadius: 4,
-              boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
-            }}
-          />
-        ) : (
-          <div style={{ marginRight: 12 }}>
-            <LogoBadge name={entity.name} color={entity.color} size={flagSize} invert />
-          </div>
-        )}
+        <div style={{ marginRight: 12 }}>
+          <FlagImage entity={entity} size={flagSize} variant="w80" invertBadge baseUrl={flagBaseUrl} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.25)' }} />
+        </div>
 
         {/* value in dark type past the flag */}
         <div
@@ -302,6 +333,10 @@ export function formatRaceValue(value: number, unit: string): string {
   if (unit === 'percent') return `${value.toFixed(2)}%`;
   if (unit === 'currency') return `$${Math.round(value).toLocaleString('en-US')}`;
   if (unit === 'count') return Math.round(value).toLocaleString('en-US');
+  // Units that read better with a suffix ("35.3M km²" not "35.3M").
+  const suffix: Record<string, string> = { 'km²': ' km²', 'km2': ' km²' };
+  const s = suffix[unit];
+  if (s) return `${compactNumber(value)}${s}`;
   return compactNumber(value);
 }
 
@@ -330,47 +365,63 @@ export interface EraPanelProps {
  * The right-hand panel: a bordered card with a soft shadow so it reads as a
  * distinct surface instead of text floating in empty space.
  */
-export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagBaseUrl, appear }) => (
-  <div
-    style={{
-      position: 'absolute',
-      left: 960,
-      top: 150,
-      width: 272,
-      background: '#ffffff',
-      border: '1px solid #e5e7eb',
-      borderRadius: 18,
-      boxShadow: '0 10px 28px rgba(17,24,39,0.09)',
-      padding: '22px 24px 24px',
-      opacity: appear,
-      transform: `translateY(${(1 - appear) * 16}px)`,
-    }}
-  >
-    <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.24em', color: '#9ca3af', marginBottom: 12 }}>SPOTLIGHT</div>
-    {title ? (
-      <div style={{ fontSize: 30, fontWeight: 800, color: '#111111', lineHeight: 1.18, letterSpacing: '-0.02em' }}>{title}</div>
-    ) : null}
-    {body ? (
-      <div style={{ marginTop: 12, fontSize: 20, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.45 }}>{formatNarrativeNumbers(body)}</div>
-    ) : null}
-    {featured.length > 0 ? (
-      <div style={{ marginTop: 20, display: 'flex', gap: 12 }}>
-        {featured.slice(0, 2).map((entity) =>
-          entity.flagCode || entity.flagDataUri ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagBaseUrl, appear }) => {
+  const accent = featured[0]?.color ?? '#e11d2e';
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: 960,
+        top: 150,
+        width: 272,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderLeft: `6px solid ${accent}`,
+        borderRadius: 18,
+        boxShadow: '0 16px 40px rgba(17,24,39,0.14)',
+        padding: '24px 24px 26px',
+        opacity: appear,
+        transform: `translateY(${(1 - appear) * 16}px)`,
+      }}
+    >
+      <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.24em', color: accent, marginBottom: 12 }}>SPOTLIGHT</div>
+      {title ? (
+        <div style={{ fontSize: 32, fontWeight: 800, color: '#111111', lineHeight: 1.15, letterSpacing: '-0.02em' }}>{title}</div>
+      ) : null}
+      {body ? (
+        <div style={{ marginTop: 12, fontSize: 20, fontWeight: 500, color: '#4b5563', lineHeight: 1.45 }}>
+          {formatNarrativeNumbers(body)}
+        </div>
+      ) : null}
+      {featured.length > 0 ? (
+        <div style={{ marginTop: 20, display: 'flex', gap: 12, alignItems: 'center' }}>
+          {featured.slice(0, 2).map((entity) => (
+            <div
               key={entity.id}
-              src={entity.flagDataUri ?? `${flagBaseUrl}/w160/${entity.flagCode}.png`}
-              style={{ height: 68, borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.22)' }}
-            />
-          ) : (
-            <LogoBadge key={entity.id} name={entity.name} color={entity.color} size={68} />
-          ),
-        )}
-      </div>
-    ) : null}
-  </div>
-);
+              style={{
+                borderRadius: 10,
+                padding: 3,
+                background: `linear-gradient(135deg, ${entity.color}, ${entity.color}88)`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+              }}
+            >
+              <FlagImage
+                entity={entity}
+                size={62}
+                variant="w160"
+                baseUrl={flagBaseUrl}
+                style={{ borderRadius: 7, display: 'block', background: '#fff' }}
+              />
+            </div>
+          ))}
+          {featured[0] ? (
+            <div style={{ fontSize: 17, fontWeight: 800, color: '#111827', lineHeight: 1.25 }}>{featured[0].name}</div>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 /**
  * The race header: video title on the left, the giant current-year counter on
@@ -448,18 +499,16 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({ kicker, yearLabel,
       <div style={{ marginTop: 18, fontSize: 25, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.5 }}>{formatNarrativeNumbers(body)}</div>
       {featured.length > 0 ? (
         <div style={{ marginTop: 30, display: 'flex', gap: 16, justifyContent: 'center' }}>
-          {featured.slice(0, 3).map((entity) =>
-            entity.flagCode || entity.flagDataUri ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={entity.id}
-                src={entity.flagDataUri ?? `${flagBaseUrl}/w160/${entity.flagCode}.png`}
-                style={{ height: 96, borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.22)' }}
-              />
-            ) : (
-              <LogoBadge key={entity.id} name={entity.name} color={entity.color} size={96} />
-            ),
-          )}
+          {featured.slice(0, 3).map((entity) => (
+            <FlagImage
+              key={entity.id}
+              entity={entity}
+              size={96}
+              variant="w160"
+              baseUrl={flagBaseUrl}
+              style={{ borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.22)' }}
+            />
+          ))}
         </div>
       ) : null}
     </div>

@@ -35,6 +35,7 @@ import {
   sourceQualityScore,
   sanitizeObservations,
   stripCorporateSuffix,
+  trimSparseHead,
   typescriptQualityReport,
   verificationSummary,
   verifyAcrossSources,
@@ -79,6 +80,13 @@ export interface ResearchOptions {
   uploads?: UploadedFile[];
   skipAi?: boolean;
   maxSearches?: number;
+  /** Agent mode: the plan came from a natural-language prompt, not a form. */
+  agentMode?: boolean;
+  agentEntityKind?: 'country' | 'custom';
+  /** Agent mode: the unit the agent decided for the metric (beats name sniffing). */
+  agentUnit?: string;
+  /** Direct-URL mode: the dataset comes from this table, not web research. */
+  preloadedTable?: import('./agent').PreloadedTable;
 }
 
 /** Plan used when no model is reachable: still declares the metric ambiguity. */
@@ -233,7 +241,7 @@ export function detectColumns(
   sampleRows: string[][] = [],
 ): { entity?: string; date?: string; value?: string; valueGuessed: boolean } {
   const lower = columns.map((c) => c.toLowerCase());
-  const entityIndex = lower.findIndex((c) => ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'geo', 'geography', 'state', 'nation', 'brand', 'company', 'item', 'product', 'label'].includes(c));
+  const entityIndex = lower.findIndex((c) => ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'geo', 'geography', 'state', 'nation', 'brand', 'company', 'item', 'product', 'label', 'browser', 'empire', 'dynasty', 'kingdom', 'platform', 'app', 'language', 'team', 'club', 'city', 'player', 'athlete', 'artist', 'song', 'movie', 'film', 'title', 'subject', 'category', 'competitor', 'candidate', 'party', 'university', 'school'].includes(c));
   const dateIndex = lower.findIndex((c) => ['year', 'date', 'time', 'period', 'month', 'quarter', 'day', 'datetime', 'fiscal year'].includes(c));
   const entity = entityIndex >= 0 ? columns[entityIndex] : undefined;
   const date = dateIndex >= 0 ? columns[dateIndex] : undefined;
@@ -273,7 +281,28 @@ export function detectColumns(
     /(value|population|total|amount|count|number|sales|users|spend|gdp|production|share|percent|rate|emission|revenue|profit|income|deaths|cases|capacity|output|volume|headcount|customers)/i.test(c),
   );
   const value = preferred ?? numericCandidates[0];
-  return { entity, date, value, valueGuessed: preferred === undefined };
+  // Generic fallback for race kinds we never heard of: the entity column is
+  // the text-heavy column that is not the date and not the value.
+  let entityName = entity;
+  if (!entityName) {
+    const textScores = new Map<string, number>();
+    for (const column of columns) {
+      if (!column || column === date || column === value) continue;
+      const idx = columns.indexOf(column);
+      let text = 0;
+      let total = 0;
+      for (const row of sample) {
+        const cell = (row[idx] ?? '').trim();
+        if (cell.length === 0) continue;
+        total += 1;
+        if (parseScaledNumber(cell).value === null) text += 1;
+      }
+      textScores.set(column, total > 0 ? text / total : 0);
+    }
+    const best = [...textScores.entries()].filter(([, s]) => s >= 0.5).sort((a, b) => b[1] - a[1])[0];
+    if (best) entityName = best[0];
+  }
+  return { entity: entityName, date, value, valueGuessed: preferred === undefined };
 }
 
 export interface ExtractedDraft {
@@ -366,16 +395,16 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
   return { drafts, problems };
 }
 
-/** Dates we accept without asking: year, year-month, full date, quarter, month names. */
+/** Dates we accept without asking: year, year-month, full date, quarter, month names. Negative years (BCE) allowed. */
 function looksLikeDate(date: string): boolean {
   const d = date.trim();
-  if (/^\d{4}(-\d{2}(-\d{2})?)?$/.test(d)) return true;
-  if (/^\d{4}-Q[1-4]$/.test(d)) return true;
-  if (/^Q[1-4]\s*\d{4}$/i.test(d)) return true;
-  if (/^\d{4}\/\d{1,2}(\/\d{1,2})?$/.test(d)) return true;
-  if (/^\d{1,2}\/\d{4}$/.test(d)) return true;
-  if (/^(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+\d{4}$/i.test(d)) return true;
-  if (/^\d{4}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*$/i.test(d)) return true;
+  if (/^-?\d{1,5}(-\d{2}(-\d{2})?)?$/.test(d)) return true;
+  if (/^-?\d{1,5}-Q[1-4]$/.test(d)) return true;
+  if (/^Q[1-4]\s*-?\d{1,5}$/i.test(d)) return true;
+  if (/^-?\d{1,5}\/\d{1,2}(\/\d{1,2})?$/.test(d)) return true;
+  if (/^\d{1,2}\/-?\d{1,5}$/.test(d)) return true;
+  if (/^(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+-?\d{1,5}$/i.test(d)) return true;
+  if (/^-?\d{1,5}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*$/i.test(d)) return true;
   return false;
 }
 
@@ -618,18 +647,57 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   state.dataPlan = plan;
   store.checkpoint(state, 'PLAN_COMPLETE');
 
+  // Agent mode: the prompt already decided the entity kind (countries vs
+  // platforms/browsers/empires/...). The table's own span beats any default.
+  if (options.agentMode) {
+    if (options.agentEntityKind) plan.entityType = options.agentEntityKind;
+    const t = options.preloadedTable;
+    if (t && !options.timeRange && t.yearMin !== undefined && t.yearMax !== undefined && t.yearMax > t.yearMin) {
+      plan.timeRange = { start: String(t.yearMin), end: String(t.yearMax) };
+    }
+    state.notes.push(`agent mode: entityKind=${plan.entityType}, range=${plan.timeRange.start}-${plan.timeRange.end}`);
+  }
+
   // --- 2. Sources ---------------------------------------------------------
   store.setStatus(state, 'RESEARCHING');
-  const harvest = store.reached(state, 'SOURCES_COMPLETE')
-    ? { candidates: state.sources, errors: [] as string[] }
-    : await harvestSources(plan, options, ctx);
+  // Direct-URL mode: no web harvesting — the table IS the source.
+  const harvest: SourceHarvest = options.preloadedTable
+    ? { candidates: [], errors: [] }
+    : store.reached(state, 'SOURCES_COMPLETE')
+      ? { candidates: state.sources, errors: [] as string[] }
+      : await harvestSources(plan, options, ctx);
   errors.push(...harvest.errors);
   state.sources = harvest.candidates;
+  if (options.preloadedTable) {
+    const t = options.preloadedTable;
+    state.sources = [{
+      candidateId: candidateIdFor(t.sourceUrl),
+      sourceName: t.sourceName,
+      publisher: t.sourceName,
+      url: t.sourceUrl,
+      kind: 'dataset',
+      accessMethod: 'download',
+      retrievedAt: new Date().toISOString(),
+      license: 'UNKNOWN',
+      machineReadable: true,
+      authority: 0.8,
+      directness: 1,
+      coverage: 0.8,
+      methodologyTransparency: 0.6,
+      recency: 0.8,
+      consistency: 0.8,
+      qualityScore: 0.8,
+      accepts: true,
+      primary: true,
+      discoveredBy: 'agent-direct-url',
+    }];
+    state.notes.push(`agent direct URL: ${t.sourceUrl} (${t.rows.length} rows)`);
+  }
 
   // The AI agent reads the leading candidate pages (through Monid fetch) and
   // decides which source is actually best, instead of trusting titles.
   let selection: SourceSelection = { picked: [], rejected: [], dataUrls: [], inspected: [], problems: [] };
-  if (!options.skipAi && !store.reached(state, 'SOURCES_COMPLETE')) {
+  if (!options.skipAi && !options.preloadedTable && !store.reached(state, 'SOURCES_COMPLETE')) {
     try {
       selection = await selectBestSources(state.sources, plan, ctx, { inspectLimit: 6 });
       state.notes.push(`source picker inspected ${selection.inspected.filter((i) => i.ok).length}/${selection.inspected.length} pages and verified ${selection.dataUrls.length} data URLs`);
@@ -651,18 +719,37 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   const collected: Observation[] = [];
   const extractionNotes: string[] = [];
 
-  const wbIndicator = options.worldBankIndicator
-    ? { id: options.worldBankIndicator, name: options.worldBankIndicator }
-    : await findWorldBankIndicator(plan.metric).catch(() => null);
+  // Direct-URL mode: the user handed us the dataset, so don't go looking
+  // for a World Bank indicator to mix in with it.
+  const wbIndicator = options.preloadedTable
+    ? null
+    : options.worldBankIndicator
+      ? { id: options.worldBankIndicator, name: options.worldBankIndicator }
+      : await findWorldBankIndicator(plan.metric).catch(() => null);
   const wantedIndicator = wbIndicator?.id ?? null;
-  const wantedIndicatorUnit = wbIndicator ? worldBankUnitFromName(wbIndicator.name) : 'count';
+  const wantedIndicatorUnit = options.agentUnit ?? (wbIndicator ? worldBankUnitFromName(wbIndicator.name) : 'count');
 
   // Each distinct data URL is extracted exactly once. The picker data-URL loop
   // and the CSV-candidate sweep below can otherwise hit the same file twice,
   // wasting budget and duplicating every observation from it.
   const extractedUrls = new Set<string>();
 
-  if (options.owidSlug) {
+  // Agent direct-URL mode: the table is normalized straight into
+  // observations. The URL is marked extracted so the CSV sweep below
+  // doesn't pull it a second time.
+  if (options.preloadedTable) {
+    const t = options.preloadedTable;
+    const candidate = state.sources[0];
+    const { drafts: tableDrafts, problems } = draftsFromTable(t.columns, t.rows, t.unit);
+    extractionNotes.push(...problems);
+    const drafts = await canonicalizeDrafts(tableDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' });
+    const normalized = await normalizeDrafts(drafts, t.unit);
+    collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+    extractedUrls.add(candidate.url);
+    extractionNotes.push(`direct table ${t.sourceUrl}: ${normalized.length} observations (unit: ${t.unit})`);
+  }
+
+  if (options.owidSlug && !options.preloadedTable) {
     try {
       const owid = await owidFetch(options.owidSlug);
       // The metadata sidecar carries the unit (percent, index, count...);
@@ -864,16 +951,30 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // ...), not a hardcoded 'count' - the old label lied on GDP/share datasets.
   const datasetUnit = majorityUnit(verified.observations);
   extractionNotes.push(`dataset unit: ${datasetUnit} (majority of valued observations)`);
+  // Trim a sparse head: a bar race that opens with 1-3 bars (e.g. poverty
+  // data 1963-1980, where only a handful of countries reported per year)
+  // looks broken on video. Start the race at the first period with enough
+  // reporting entities to fill the chart; the trim is reported in the notes
+  // so the reviewer sees the full observed range vs the video range.
+  const raceObservations = trimSparseHead(verified.observations, options.topN ?? 10);
+  if (raceObservations.trimmedFrom) {
+    extractionNotes.push(
+      `video range starts ${raceObservations.trimmedFrom} (observed ${actualRange.start}-${actualRange.end}; ` +
+      `${raceObservations.droppedPeriods} early year(s) had too few reporting entities for a race)`,
+    );
+  }
   const dataset = buildDataset({
     projectId: state.projectId,
     datasetId: `dataset_${state.projectId}`,
     name: plan.topic,
     metric: plan.metric,
     unit: datasetUnit,
-    timeRange: actualRange,
+    timeRange: raceObservations.trimmedFrom
+      ? { start: raceObservations.trimmedFrom, end: actualRange.end }
+      : actualRange,
     frequency: plan.frequency,
     missingDataPolicy: plan.missingDataPolicy,
-    observations: verified.observations,
+    observations: raceObservations.observations,
     conflicts: verified.conflicts,
   });
   store.checkpoint(state, 'VERIFICATION_COMPLETE');

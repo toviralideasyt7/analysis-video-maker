@@ -6,7 +6,7 @@
  * project artifact.
  */
 
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, appendFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -256,8 +256,13 @@ export function findRustBinary(): string | null {
         return resolvedBin;
       }
     } else {
-      resolvedBin = candidate; // bare name -> let the OS resolve it
-      return resolvedBin;
+      // Bare name: only claim it when the OS can actually spawn it, otherwise
+      // rustAvailable() lies and the real spawn fails with ENOENT downstream.
+      const probe = spawnSync(candidate, ['--version'], { stdio: 'ignore' });
+      if (!probe.error) {
+        resolvedBin = candidate;
+        return resolvedBin;
+      }
     }
   }
   resolvedBin = null;

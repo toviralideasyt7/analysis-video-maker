@@ -1,0 +1,76 @@
+{
+  "checks": [
+    {
+      "details": [],
+      "name": "schema",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "type",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "date",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "unit",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "entity",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "duplicate",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "range",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "source",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "temporal",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "ranking",
+      "passed": true,
+      "violations": 0
+    },
+    {
+      "details": [],
+      "name": "citation",
+      "passed": true,
+      "violations": 0
+    }
+  ],
+  "entities": 121,
+  "generatedAt": "2026-09-23T09:52:09.689791630+00:00",
+  "observations": 31324,
+  "passed": true,
+  "violations": 0,
+  "engine": "rust"
+}

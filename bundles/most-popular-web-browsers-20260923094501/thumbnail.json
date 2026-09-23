@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "MOST POPULAR",
+  "subtitle": "WEB BROWSERS",
+  "entities": [
+    "Chrome",
+    "Safari",
+    "Edge"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

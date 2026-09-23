@@ -1,0 +1,89 @@
+{
+  "projectId": "most-popular-web-browsers-20260923094501",
+  "title": "Most popular web browsers",
+  "topic": "Most popular web browsers",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-23T09:45:01.613Z",
+  "updatedAt": "2026-09-23T09:45:01.890Z",
+  "sources": [
+    {
+      "candidateId": "picked_http-localhost-8971-browsers-csv",
+      "sourceName": "localhost",
+      "publisher": "localhost",
+      "url": "http://localhost:8971/browsers.csv",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-23T09:45:01.758Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-23T09:45:01.755Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-23T09:45:01.758Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-23T09:45:01.799Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-23T09:45:01.799Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-23T09:45:01.814Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-23T09:45:01.827Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-23T09:45:01.861Z"
+    },
+    {
+      "projectId": "most-popular-web-browsers-20260923094501",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-23T09:45:01.871Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=2000-2026",
+    "agent direct URL: http://localhost:8971/browsers.csv (146 rows)",
+    "direct table http://localhost:8971/browsers.csv: 146 observations (unit: percent)",
+    "http://localhost:8971/browsers.csv: skipped, already extracted",
+    "verification: 146 observations (VERIFIED 0, SUPPORTED 146, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 146 valued cells confirmed by 2+ independent publishers; 146 rest on a single publisher (SUPPORTED, not independently verified)"
+  ]
+}

@@ -86,7 +86,7 @@ pub fn normalize_unit(raw: &str) -> UnitInfo {
         "ktco2" => mk(raw, "tco2", "emissions", 1e3, true),
         "mtco2" => mk(raw, "tco2", "emissions", 1e6, true),
         "ha" | "hectare" | "hectares" => mk(raw, "ha", "area", 1.0, true),
-        "km2" | "square kilometre" | "square kilometer" => {
+        "km2" | "km²" | "sq km" | "sqkm" | "square kilometre" | "square kilometer" => {
             mk(raw, "km2", "area", 1.0, true)
         }
         "years" | "year" | "yrs" => mk(raw, "years", "time", 1.0, true),

@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": "picked_https-ourworldindata-org-grapher-population-zip-v-1-csvtype-",
+    "sourceName": "ourworldindata.org",
+    "publisher": "ourworldindata.org",
+    "url": "https://ourworldindata.org/grapher/population.zip?v=1&csvType=full&useColumnShortNames=false",
+    "kind": "dataset",
+    "accessMethod": "download",
+    "retrievedAt": "2026-09-23T09:50:38.209Z",
+    "license": "UNKNOWN",
+    "machineReadable": true,
+    "authority": 0.8,
+    "directness": 1,
+    "coverage": 0.8,
+    "methodologyTransparency": 0.6,
+    "recency": 0.8,
+    "consistency": 0.8,
+    "qualityScore": 0.8,
+    "accepts": true,
+    "primary": true,
+    "discoveredBy": "agent-direct-url"
+  }
+]

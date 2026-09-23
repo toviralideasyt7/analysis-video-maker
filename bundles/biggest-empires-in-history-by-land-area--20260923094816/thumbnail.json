@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "BIGGEST EMPIRES IN HISTORY BY LAND AREA",
+  "subtitle": "FROM 1 AD TO 2026. DATA:",
+  "entities": [
+    "Second French colonial empire",
+    "United States",
+    "Second Portuguese Empire"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

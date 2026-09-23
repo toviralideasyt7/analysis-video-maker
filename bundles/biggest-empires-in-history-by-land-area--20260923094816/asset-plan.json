@@ -1,0 +1,690 @@
+{
+  "flags": [
+    {
+      "entityId": "united-states",
+      "type": "flag",
+      "code": "us"
+    }
+  ],
+  "logos": [
+    {
+      "entityId": "british-empire",
+      "type": "logo",
+      "query": "British Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "spanish-empire",
+      "type": "logo",
+      "query": "Spanish Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "second-french-colonial-empire",
+      "type": "logo",
+      "query": "Second French colonial empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "abbasid-caliphate",
+      "type": "logo",
+      "query": "Abbasid Caliphate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "russian-empire",
+      "type": "logo",
+      "query": "Russian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "qing-dynasty",
+      "type": "logo",
+      "query": "Qing dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mongol-empire",
+      "type": "logo",
+      "query": "Mongol Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "second-portuguese-empire",
+      "type": "logo",
+      "query": "Second Portuguese Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xiongnu-empire",
+      "type": "logo",
+      "query": "Xiongnu Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ottoman-empire",
+      "type": "logo",
+      "query": "Ottoman Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "united-states",
+      "type": "logo",
+      "query": "United States logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "roman-empire",
+      "type": "logo",
+      "query": "Roman Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-xiongnu",
+      "type": "logo",
+      "query": "Western Xiongnu logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ming-dynasty",
+      "type": "logo",
+      "query": "Ming dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "jochi-khanate",
+      "type": "logo",
+      "query": "Jochi Khanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-yuan-dynasty",
+      "type": "logo",
+      "query": "Northern Yuan dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "chagatai-khanate",
+      "type": "logo",
+      "query": "Chagatai Khanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tang-dynasty",
+      "type": "logo",
+      "query": "Tang dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sasanian-empire",
+      "type": "logo",
+      "query": "Sasanian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "first-french-colonial-empire",
+      "type": "logo",
+      "query": "First French colonial empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kingdom-of-aksum",
+      "type": "logo",
+      "query": "Kingdom of Aksum logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mughal-empire",
+      "type": "logo",
+      "query": "Mughal Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eastern-han-dynasty",
+      "type": "logo",
+      "query": "Eastern Han dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yuan-dynasty",
+      "type": "logo",
+      "query": "Yuan dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "fatimid-caliphate",
+      "type": "logo",
+      "query": "Fatimid Caliphate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "delhi-sultanate",
+      "type": "logo",
+      "query": "Delhi Sultanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "indo-scythian-kingdom",
+      "type": "logo",
+      "query": "Indo-Scythian Kingdom logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tibetan-empire",
+      "type": "logo",
+      "query": "Tibetan Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "umayyad-caliphate",
+      "type": "logo",
+      "query": "Umayyad Caliphate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "danish-empire",
+      "type": "logo",
+      "query": "Danish Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "srivijaya",
+      "type": "logo",
+      "query": "Srivijaya logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ghaznavid-empire",
+      "type": "logo",
+      "query": "Ghaznavid Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "third-portuguese-empire",
+      "type": "logo",
+      "query": "Third Portuguese Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kievan-rus",
+      "type": "logo",
+      "query": "Kievan Rus' logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-xiongnu",
+      "type": "logo",
+      "query": "Northern Xiongnu logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "holy-roman-empire",
+      "type": "logo",
+      "query": "Holy Roman Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "hunnic-empire",
+      "type": "logo",
+      "query": "Hunnic Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "parthian-empire",
+      "type": "logo",
+      "query": "Parthian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "great-seljuk-empire",
+      "type": "logo",
+      "query": "Great Seljuk Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eastern-turkic-khaganate",
+      "type": "logo",
+      "query": "Eastern Turkic Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "rouran-khaganate",
+      "type": "logo",
+      "query": "Rouran Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xianbei-state",
+      "type": "logo",
+      "query": "Xianbei state logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "empire-of-brazil",
+      "type": "logo",
+      "query": "Empire of Brazil logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "timurid-empire",
+      "type": "logo",
+      "query": "Timurid Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mamluk-sultanate",
+      "type": "logo",
+      "query": "Mamluk Sultanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "liao-dynasty",
+      "type": "logo",
+      "query": "Liao dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-song-dynasty",
+      "type": "logo",
+      "query": "Northern Song dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "samanid-empire",
+      "type": "logo",
+      "query": "Samanid Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "safavid-empire",
+      "type": "logo",
+      "query": "Safavid Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "khmer-empire",
+      "type": "logo",
+      "query": "Khmer Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "dutch-empire",
+      "type": "logo",
+      "query": "Dutch Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "dzungar-khanate",
+      "type": "logo",
+      "query": "Dzungar Khanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "francia",
+      "type": "logo",
+      "query": "Francia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "first-turkic-khaganate",
+      "type": "logo",
+      "query": "First Turkic Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ghurid-dynasty",
+      "type": "logo",
+      "query": "Ghurid dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mali-empire",
+      "type": "logo",
+      "query": "Mali Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ilkhanate",
+      "type": "logo",
+      "query": "Ilkhanate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "italian-empire",
+      "type": "logo",
+      "query": "Italian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-turkic-khaganate",
+      "type": "logo",
+      "query": "Western Turkic Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eastern-jin-dynasty",
+      "type": "logo",
+      "query": "Eastern Jin dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kingdom-of-armenia",
+      "type": "logo",
+      "query": "Kingdom of Armenia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "southern-song-dynasty",
+      "type": "logo",
+      "query": "Southern Song dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "uyghur-khaganate",
+      "type": "logo",
+      "query": "Uyghur Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-wei",
+      "type": "logo",
+      "query": "Northern Wei logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "jin-dynasty-1115-1234",
+      "type": "logo",
+      "query": "Jin dynasty (1115–1234) logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "avar-khaganate",
+      "type": "logo",
+      "query": "Avar Khaganate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "buyid-dynasty",
+      "type": "logo",
+      "query": "Buyid dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "gurjara-pratihara-dynasty",
+      "type": "logo",
+      "query": "Gurjara-Pratihara dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "belgian-colonial-empire",
+      "type": "logo",
+      "query": "Belgian colonial empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "rashidun-caliphate",
+      "type": "logo",
+      "query": "Rashidun Caliphate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "inca-empire",
+      "type": "logo",
+      "query": "Inca Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-roman-empire",
+      "type": "logo",
+      "query": "Western Roman Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-jin-dynasty",
+      "type": "logo",
+      "query": "Western Jin dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "pushyabhuti-dynasty",
+      "type": "logo",
+      "query": "Pushyabhuti dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "visigothic-kingdom",
+      "type": "logo",
+      "query": "Visigothic Kingdom logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "german-colonial-empire",
+      "type": "logo",
+      "query": "German colonial empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sui-dynasty",
+      "type": "logo",
+      "query": "Sui dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bulgarian-empire",
+      "type": "logo",
+      "query": "Bulgarian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "maratha-empire",
+      "type": "logo",
+      "query": "Maratha Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "liu-song-dynasty",
+      "type": "logo",
+      "query": "Liu Song dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xin-dynasty",
+      "type": "logo",
+      "query": "Xin dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "liang-dynasty",
+      "type": "logo",
+      "query": "Liang dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-xia",
+      "type": "logo",
+      "query": "Western Xia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "huns",
+      "type": "logo",
+      "query": "Huns logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "cao-wei",
+      "type": "logo",
+      "query": "Cao Wei logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "later-zhao",
+      "type": "logo",
+      "query": "Later Zhao logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "emirate-of-córdoba",
+      "type": "logo",
+      "query": "Emirate of Córdoba logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kingdom-of-france-middle-ages",
+      "type": "logo",
+      "query": "Kingdom of France (Middle Ages) logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "songhai-empire",
+      "type": "logo",
+      "query": "Songhai Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "former-qin",
+      "type": "logo",
+      "query": "Former Qin logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "satavahana-dynasty",
+      "type": "logo",
+      "query": "Satavahana dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eastern-wu",
+      "type": "logo",
+      "query": "Eastern Wu logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "almoravid-dynasty",
+      "type": "logo",
+      "query": "Almoravid dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-satraps",
+      "type": "logo",
+      "query": "Western Satraps logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-qi",
+      "type": "logo",
+      "query": "Northern Qi logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "northern-zhou",
+      "type": "logo",
+      "query": "Northern Zhou logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "caliphate-of-córdoba",
+      "type": "logo",
+      "query": "Caliphate of Córdoba logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "former-zhao",
+      "type": "logo",
+      "query": "Former Zhao logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tahirid-dynasty",
+      "type": "logo",
+      "query": "Tahirid dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "shu-han",
+      "type": "logo",
+      "query": "Shu Han logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "first-mexican-empire",
+      "type": "logo",
+      "query": "First Mexican Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "latin-empire",
+      "type": "logo",
+      "query": "Latin Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "first-french-empire",
+      "type": "logo",
+      "query": "First French Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "western-han-dynasty",
+      "type": "logo",
+      "query": "Western Han dynasty logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "first-portuguese-empire",
+      "type": "logo",
+      "query": "First Portuguese Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ashanti-empire",
+      "type": "logo",
+      "query": "Ashanti Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "austro-hungarian-empire",
+      "type": "logo",
+      "query": "Austro-Hungarian Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bornu-empire",
+      "type": "logo",
+      "query": "Bornu Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "polish-lithuanian-commonwealth",
+      "type": "logo",
+      "query": "Polish–Lithuanian Commonwealth logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "qajar-empire",
+      "type": "logo",
+      "query": "Qajar Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sikh-empire",
+      "type": "logo",
+      "query": "Sikh Empire logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sokoto-caliphate",
+      "type": "logo",
+      "query": "Sokoto Caliphate logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "zulu-empire",
+      "type": "logo",
+      "query": "Zulu Empire logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

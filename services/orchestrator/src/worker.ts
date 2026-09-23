@@ -139,7 +139,7 @@ app.post('/api/hooks/render-complete', async (c) => {
   const given = c.req.header('x-hook-secret') ?? '';
   if (given !== expected) return c.json({ error: 'bad hook secret' }, 403);
   const body = (await c.req.json().catch(() => ({}))) as {
-    projectId?: string; status?: string; runId?: number | null; assetName?: string; error?: string;
+    projectId?: string; status?: string; runId?: number | null; assetName?: string; artifactUrl?: string; error?: string;
   };
   if (!body.projectId) return c.json({ error: 'projectId is required' }, 400);
   const store = new KVProjectStore(c.env.PROJECTS_KV);
@@ -153,11 +153,19 @@ app.post('/api/hooks/render-complete', async (c) => {
   project.status = succeeded ? 'COMPLETED' : 'FAILED';
   project.updatedAt = new Date().toISOString();
   const prevJob = (project.renderJob ?? {}) as Record<string, unknown>;
+  // Prefer the direct temp-host URL the workflow reports (plays straight in
+  // the <video> tag with zero worker proxying); fall back to the release
+  // proxy path when the workflow only sent an asset name.
+  const directUrl = typeof body.artifactUrl === 'string' && /^https?:\/\//i.test(body.artifactUrl.trim())
+    ? body.artifactUrl.trim()
+    : null;
   project.renderJob = {
     ...prevJob,
     status: succeeded ? 'completed' : 'failed',
     githubRunId: body.runId ?? prevJob.githubRunId ?? null,
-    artifactUrl: succeeded && body.assetName ? `/api/renders/file/${encodeURIComponent(body.assetName)}` : prevJob.artifactUrl ?? null,
+    artifactUrl: succeeded
+      ? (directUrl ?? (body.assetName ? `/api/renders/file/${encodeURIComponent(body.assetName)}` : prevJob.artifactUrl ?? null))
+      : prevJob.artifactUrl ?? null,
     notes: [...((prevJob.notes as string[] | undefined) ?? []), body.error ?? (succeeded ? 'Render completed' : 'Render workflow failed')],
   };
   await store.save(project);
@@ -213,7 +221,7 @@ app.delete('/api/projects/:id', async (c) => {
 // Videos are published as GitHub release assets by the render-video workflow.
 // The worker lists them via the GitHub API so new renders appear automatically.
 
-async function listReleaseVideos(env: Env): Promise<Array<{ filename: string; title: string; sizeBytes: number; createdAt: string; url: string }>> {
+async function listReleaseVideos(env: Env, directByAsset: Map<string, string> = new Map()): Promise<Array<{ filename: string; title: string; sizeBytes: number; createdAt: string; url: string }>> {
   const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
   const token = env.GITHUB_TOKEN;
@@ -238,7 +246,9 @@ async function listReleaseVideos(env: Env): Promise<Array<{ filename: string; ti
         createdAt: a.created_at,
         // Serve through the worker proxy below: the repo is private so the
         // raw browser_download_url 404s for browsers without a GitHub login.
-        url: `/api/renders/file/${encodeURIComponent(a.name)}`,
+        // When the project reported a direct temp-host URL, use it instead —
+        // zero worker proxying, effectively unlimited watching.
+        url: directByAsset.get(a.name) ?? `/api/renders/file/${encodeURIComponent(a.name)}`,
       }))
       .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   } catch {
@@ -266,7 +276,22 @@ app.get('/api/renders', async (c) => {
     return c.json({ renders });
   }
   // Fallback: list videos from the GitHub release.
-  const renders = await listReleaseVideos(c.env);
+  // Prefer each project's direct temp-host URL when the workflow reported
+  // one: the <video> tag then streams straight from the file host with zero
+  // worker proxying (unlimited watching). Release proxy stays as fallback.
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  const directByAsset = new Map<string, string>();
+  try {
+    const projects = await store.list();
+    for (const p of projects) {
+      const job = (p.renderJob ?? {}) as Record<string, unknown>;
+      const url = typeof job.artifactUrl === 'string' ? job.artifactUrl : '';
+      if (p.status === 'COMPLETED' && /^https?:\/\//i.test(url)) {
+        directByAsset.set(`${p.projectId}-final.mp4`, url);
+      }
+    }
+  } catch { /* listing projects is best-effort here */ }
+  const renders = await listReleaseVideos(c.env, directByAsset);
   return c.json({ renders });
 });
 
@@ -413,8 +438,9 @@ app.post('/api/projects/:id/research', async (c) => {
 
   const body = (await c.req.json().catch(() => ({}))) as {
     worldBankIndicator?: string; topN?: number | string; skipAi?: boolean;
-    fromYear?: string | number; toYear?: string | number;
+    fromYear?: string | number; toYear?: string | number; prompt?: string;
   };
+  const prompt = typeof body.prompt === 'string' ? body.prompt.trim().slice(0, 2000) : '';
 
   const dispatchRes = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/actions/workflows/research.yml/dispatches`,
@@ -431,6 +457,7 @@ app.post('/api/projects/:id/research', async (c) => {
         inputs: {
           topic: project.topic,
           projectId: id,
+          prompt,
           worldBankIndicator: String(body.worldBankIndicator ?? ''),
           topN: String(body.topN ?? 10),
           framesPerTransition: '20',
@@ -449,12 +476,21 @@ app.post('/api/projects/:id/research', async (c) => {
 
   project.status = 'RESEARCHING';
   project.updatedAt = new Date().toISOString();
+  // Agent mode: the user described the video in plain words. Remember the
+  // prompt and auto-start the render as soon as research lands.
+  if (prompt) {
+    (project as Record<string, unknown>).prompt = prompt;
+    (project as Record<string, unknown>).autoRender = true;
+  }
   await store.save(project);
 
   return c.json({
     accepted: true,
     status: 'RESEARCHING',
-    message: 'Research dispatched. This page updates automatically when the data bundle lands.',
+    autoRender: !!prompt,
+    message: prompt
+      ? 'Research dispatched. The video will start rendering automatically when research finishes.'
+      : 'Research dispatched. This page updates automatically when the data bundle lands.',
     workflowRunUrl: `https://github.com/${owner}/${repo}/actions/workflows/research.yml`,
   });
 });
@@ -500,25 +536,32 @@ app.get('/api/projects/:id/research/status', async (c) => {
     await store.save(project);
   }
 
-  return c.json({ status: project.status, bundleReady });
+  // Agent mode: research just landed and the user asked for a hands-off run —
+  // fire the render immediately so prompt -> video needs zero clicks.
+  const wantsAutoRender = (project as Record<string, unknown>).autoRender === true;
+  let autoRenderDispatched = false;
+  if (project.status === 'READY' && wantsAutoRender) {
+    const result = await dispatchRenderWorkflow(c.env, id);
+    if (result.ok) {
+      (project as Record<string, unknown>).autoRender = false;
+      project.status = 'RENDERING';
+      project.updatedAt = new Date().toISOString();
+      await store.save(project);
+      autoRenderDispatched = true;
+    }
+  }
+
+  return c.json({ status: project.status, bundleReady, autoRenderDispatched });
 });
 
 // --- Render: dispatch the GitHub Actions render-video workflow ---
-app.post('/api/projects/:id/render', async (c) => {
-  const id = c.req.param('id');
-  const store = new KVProjectStore(c.env.PROJECTS_KV);
-  let project;
-  try {
-    project = await store.load(id);
-  } catch {
-    return c.json({ error: 'project not found' }, 404);
-  }
-
-  const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
-  const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
-  const token = c.env.GITHUB_TOKEN;
+// Shared by the manual Render button and the agent auto-render below.
+async function dispatchRenderWorkflow(env: Env, id: string): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
+  const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
+  const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
+  const token = env.GITHUB_TOKEN;
   if (!token) {
-    return c.json({ error: 'GitHub token not configured on worker (GITHUB_TOKEN secret missing)' }, 500);
+    return { ok: false, status: 500, error: 'GitHub token not configured on worker (GITHUB_TOKEN secret missing)' };
   }
 
   // The render-video workflow reads the bundle from bundles/<projectId>/ in the repo.
@@ -533,9 +576,11 @@ app.post('/api/projects/:id/render', async (c) => {
     bundleExists = check.ok;
   } catch { bundleExists = false; }
   if (!bundleExists) {
-    return c.json({
+    return {
+      ok: false,
+      status: 409,
       error: `No renderable bundle for this project yet (bundles/${id}/ not found in the repo). Run the research workflow first so a bundle is committed, then render.`,
-    }, 409);
+    };
   }
 
   const dispatchRes = await fetch(
@@ -561,8 +606,25 @@ app.post('/api/projects/:id/render', async (c) => {
 
   if (!dispatchRes.ok) {
     const errText = await dispatchRes.text();
-    return c.json({ error: `GitHub dispatch failed: ${dispatchRes.status} ${errText.slice(0, 200)}` }, 502);
+    return { ok: false, status: 502, error: `GitHub dispatch failed: ${dispatchRes.status} ${errText.slice(0, 200)}` };
   }
+  return { ok: true };
+}
+
+app.post('/api/projects/:id/render', async (c) => {
+  const id = c.req.param('id');
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  let project;
+  try {
+    project = await store.load(id);
+  } catch {
+    return c.json({ error: 'project not found' }, 404);
+  }
+
+  const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
+  const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
+  const result = await dispatchRenderWorkflow(c.env, id);
+  if (!result.ok) return c.json({ error: result.error }, result.status as 409 | 500 | 502);
 
   // Mark project as rendering
   project.status = 'RENDERING';

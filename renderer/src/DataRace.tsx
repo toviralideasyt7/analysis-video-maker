@@ -11,7 +11,7 @@
 import React, { useMemo } from 'react';
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import type { Dataset } from '@avm/shared';
-import { makeTheme, compactNumber } from './theme';
+import { makeTheme } from './theme';
 import type { FrameTape, FrameTapeEntity } from './frameTape';
 import { DEFAULT_FLAG_BASE, type RenderInput } from './types';
 import {
@@ -21,7 +21,6 @@ import {
   RaceHeader,
   RaceProgress,
   RankingRow,
-  SourceCard,
   SpotlightCard,
   TitleBlock,
 } from './components';
@@ -194,7 +193,11 @@ const BarRace: React.FC<{
   const raceBottom = 648;
   const rowHeight = (raceBottom - raceTop) / Math.max(1, barCount);
   const barX0 = 96;
-  const maxBarWidth = 740; // leader's bar end; flag + value sit past it, card starts at x=960
+  // The spotlight card lives at x=960. While it is visible the race compresses
+  // smoothly so bar-end labels (flag + value + outside names) never slide
+  // underneath the card. cardAppear is computed below; keep the *base* width
+  // here and derive the live width after the card logic.
+  const baseMaxBarWidth = 740; // leader's bar end; flag + value sit past it, card starts at x=960
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -271,6 +274,9 @@ const BarRace: React.FC<{
   }, [activeHighlight, rows, entityById]);
 
   const panelAppear = cardAppear;
+  // Live race width: compress smoothly while the spotlight card is on screen
+  // so bar-end labels never run underneath it (card at x=960, width 272).
+  const maxBarWidth = baseMaxBarWidth - 150 * panelAppear;
   const chromeAppear = interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   // Progress across the whole race (all segments), not just this one.
   const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
@@ -343,7 +349,6 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
     })),
   );
 
-  const sourceScene = offsets.find((o) => o.type === 'source_card');
   const endingScene = offsets.find((o) => o.type === 'ending');
   const introScene = offsets.find((o) => o.type === 'intro');
   const titleScene = offsets.find((o) => o.type === 'title');
@@ -383,9 +388,20 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
               titleSize={46}
               subtitleSize={26}
             />
-            <div style={{ marginTop: 34, fontSize: 20, color: theme.secondaryText }}>
-              {input.dataset.stats.entities} entities · {input.dataset.stats.observations} observations · {input.dataset.stats.verified} verified ·{' '}
-              {input.dataset.stats.unknown} unknown · {input.dataset.stats.conflicting} conflicting
+            <div style={{ marginTop: 36 }}>
+              <span
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                  letterSpacing: '0.18em',
+                  color: theme.background,
+                  background: theme.accent,
+                  padding: '12px 30px',
+                  borderRadius: 999,
+                }}
+              >
+                {input.dataset.timeRange.start} – {input.dataset.timeRange.end}
+              </span>
             </div>
           </AbsoluteFill>
         </Sequence>
@@ -438,25 +454,25 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
               appear={interpolate(frame - endingScene.from, [0, 14], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
               titleSize={44}
             />
-            <div style={{ marginTop: 26, fontSize: 22, color: theme.secondaryText }}>
-              {input.dataset.timeRange.start} – {input.dataset.timeRange.end} · {compactNumber(input.dataset.stats.observations)} data points
+            <div style={{ marginTop: 30 }}>
+              <span
+                style={{
+                  fontSize: 22,
+                  fontWeight: 800,
+                  letterSpacing: '0.18em',
+                  color: theme.background,
+                  background: theme.accent,
+                  padding: '11px 28px',
+                  borderRadius: 999,
+                }}
+              >
+                {input.dataset.timeRange.start} – {input.dataset.timeRange.end}
+              </span>
             </div>
           </AbsoluteFill>
         </Sequence>
       ) : null}
 
-      {sourceScene ? (
-        <Sequence from={sourceScene.from} durationInFrames={sourceScene.durationInFrames}>
-          <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <SourceCard
-              sourcesLine={String(sourceScene.scene.props?.sourcesLine ?? '')}
-              sources={input.videoSpec.sources.map((s) => ({ url: s.url, publisher: s.publisher }))}
-              theme={theme}
-              appear={interpolate(frame - sourceScene.from, [0, 14], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}
-            />
-          </AbsoluteFill>
-        </Sequence>
-      ) : null}
     </Canvas>
   );
 };

@@ -1,0 +1,102 @@
+{
+  "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+  "title": "Biggest empires in history by land area from 1 AD to 2026. Data:",
+  "topic": "Biggest empires in history by land area from 1 AD to 2026. Data:",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-23T09:48:16.877Z",
+  "updatedAt": "2026-09-23T09:48:27.582Z",
+  "sources": [
+    {
+      "candidateId": "picked_http-localhost-8971-empires-csv",
+      "sourceName": "empires",
+      "publisher": "empires",
+      "url": "http://localhost:8971/empires.csv",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-23T09:48:16.986Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-23T09:48:16.985Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-23T09:48:16.986Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-23T09:48:17.225Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-23T09:48:17.226Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-23T09:48:17.344Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-23T09:48:23.234Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-23T09:48:26.284Z"
+    },
+    {
+      "projectId": "biggest-empires-in-history-by-land-area--20260923094816",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-23T09:48:26.632Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=1-2026",
+    "agent direct URL: http://localhost:8971/empires.csv (6988 rows)",
+    "value column \"Area_km2\" was chosen by fallback (first free column) - verify it is the metric column",
+    "direct table http://localhost:8971/empires.csv: 6988 observations (unit: km²)",
+    "http://localhost:8971/empires.csv: skipped, already extracted",
+    "verification: 6988 observations (VERIFIED 0, SUPPORTED 6988, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 6988 valued cells confirmed by 2+ independent publishers; 6988 rest on a single publisher (SUPPORTED, not independently verified)",
+    "outlier: abbasid-caliphate jumps up 254.0x between 1256 (43701) and 750 (11100000) - possible unit/extraction error",
+    "outlier: kingdom-of-aksum jumps up 100.8x between 956 (8197) and 96 (826667) - possible unit/extraction error",
+    "outlier: kingdom-of-armenia jumps up 191.0x between 426 (3614) and 46 (690361) - possible unit/extraction error",
+    "outlier: northern-xiongnu jumps up 107.3x between 496 (13636) and 51 (1462500) - possible unit/extraction error",
+    "outlier: western-xiongnu jumps up 112.2x between 496 (29167) and 51 (3273958) - possible unit/extraction error",
+    "outlier: xiongnu-empire jumps up 112.3x between 496 (53254) and 51 (5977811) - possible unit/extraction error",
+    "outlier: abbasid-caliphate jumps up 254.0x between 1256 (43701) and 750 (11100000) - possible unit/extraction error",
+    "outlier: kingdom-of-aksum jumps up 100.8x between 956 (8197) and 96 (826667) - possible unit/extraction error",
+    "outlier: kingdom-of-armenia jumps up 191.0x between 426 (3614) and 46 (690361) - possible unit/extraction error",
+    "outlier: northern-xiongnu jumps up 107.3x between 496 (13636) and 51 (1462500) - possible unit/extraction error",
+    "outlier: western-xiongnu jumps up 112.2x between 496 (29167) and 51 (3273958) - possible unit/extraction error",
+    "outlier: xiongnu-empire jumps up 112.3x between 496 (53254) and 51 (5977811) - possible unit/extraction error"
+  ]
+}

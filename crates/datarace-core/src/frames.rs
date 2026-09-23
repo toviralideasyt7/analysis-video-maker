@@ -97,6 +97,10 @@ pub struct FrameOptions {
     pub height: u32,
     pub mover_threshold: i64,
     pub policy: InterpolationPolicy,
+    /// Max consecutive missing periods an entity's last value is carried
+    /// across. `None` = unlimited (legacy). Entities gone longer simply
+    /// stop appearing until they report again.
+    pub max_carry: Option<usize>,
 }
 
 impl Default for FrameOptions {
@@ -109,6 +113,7 @@ impl Default for FrameOptions {
             height: 720,
             mover_threshold: 2,
             policy: InterpolationPolicy::CarryForward,
+            max_carry: None,
         }
     }
 }
@@ -126,6 +131,39 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
             .or_default()
             .insert(row.period_label.clone(), (row.value, row.rank));
         names.insert(row.entity_id.clone(), row.entity.clone());
+    }
+
+    // Filled series: for each entity, walk periods in order and carry the last
+    // *observed* value forward across gaps of any length. The old code only
+    // carried within a single adjacent transition, so an entity missing from
+    // two consecutive survey years (e.g. Indonesia in 1988-1989) vanished from
+    // the boundary frame while the transition frames still showed its carried
+    // bar — and the spotlight leader (ranked on raw observations) disagreed
+    // with the bars on screen. Values before an entity's first observation are
+    // never fabricated: the entity simply does not appear yet.
+    let mut filled: BTreeMap<String, BTreeMap<String, (f64, bool)>> = BTreeMap::new();
+    for (id, series) in &by_entity {
+        let mut last: Option<f64> = None;
+        let mut missing_run: usize = 0;
+        let mut filled_series: BTreeMap<String, (f64, bool)> = BTreeMap::new();
+        for label in &period_labels {
+            if let Some((v, _)) = series.get(label) {
+                filled_series.insert(label.clone(), (*v, false));
+                last = Some(*v);
+                missing_run = 0;
+            } else if let Some(prev) = last {
+                missing_run += 1;
+                // A long-dead entity (Netscape in 2026) should not haunt the
+                // chart forever: stop carrying once the gap exceeds the cap.
+                let within_cap = opts.max_carry.map(|m| missing_run <= m).unwrap_or(true);
+                if within_cap {
+                    filled_series.insert(label.clone(), (prev, true));
+                } else {
+                    last = None;
+                }
+            }
+        }
+        filled.insert(id.clone(), filled_series);
     }
 
     // Meta from the canonical ranking order (most prominent first).
@@ -160,8 +198,14 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
     // Ranks at a given period label, used as the reference for rank changes.
     // Comparing against the *previous period* (not the previous frame) is what
     // makes `rank_delta` / `is_mover` meaningful for the viewer.
+    //
+    // IMPORTANT: ranks are computed from the *filled* series (see below), so
+    // the leader named in spotlight cards always matches the bars the viewer
+    // sees at that period. Ranking raw observations here while the frames
+    // carry values forward produced "1988: Ghana leads" over bars showing
+    // Indonesia on top.
     let ranks_at = |label: &str| -> BTreeMap<String, usize> {
-        let mut vals: Vec<(&String, f64)> = by_entity
+        let mut vals: Vec<(&String, f64)> = filled
             .iter()
             .filter_map(|(id, series)| series.get(label).map(|(v, _)| (id, *v)))
             .collect();
@@ -207,11 +251,13 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
         for k in 0..opts.frames_per_transition {
             let t = k as f64 / opts.frames_per_transition as f64;
             let mut vals: Vec<(String, f64, bool)> = Vec::new();
-            for (id, series) in &by_entity {
+            for (id, series) in &filled {
                 let a = series.get(from);
                 let b = series.get(to);
                 let (value, held) = match (a, b) {
-                    (Some(x), Some(y)) => (x.0 + (y.0 - x.0) * t, false),
+                    // Both ends filled: interpolate. If either end is itself
+                    // a carried value, the in-between frames are held too.
+                    (Some(x), Some(y)) => (x.0 + (y.0 - x.0) * t, x.1 || y.1),
                     (Some(x), None) => match opts.policy {
                         InterpolationPolicy::CarryForward => (x.0, true),
                         InterpolationPolicy::Strict => continue,

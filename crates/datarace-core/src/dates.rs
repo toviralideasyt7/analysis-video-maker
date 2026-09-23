@@ -19,35 +19,35 @@ fn rx(pat: &str) -> Regex {
 
 fn re_year() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"^(-?\d{1,4})$"))
+    R.get_or_init(|| rx(r"^(-?\d{1,5})$"))
 }
 fn re_ym() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"^(\d{4})[-/.](\d{1,2})$"))
+    R.get_or_init(|| rx(r"^(-?\d{1,5})[-/.](\d{1,2})$"))
 }
 fn re_my() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"^(\d{1,2})[-/.](\d{4})$"))
+    R.get_or_init(|| rx(r"^(\d{1,2})[-/.](-?\d{1,5})$"))
 }
 fn re_q_ym() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"(?i)^(\d{4})[-/ ]?[qQ](\d)$"))
+    R.get_or_init(|| rx(r"(?i)^(-?\d{1,5})[-/ ]?[qQ](\d)$"))
 }
 fn re_q_my() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"(?i)^[qQ](\d)[-/ ]?(\d{4})$"))
+    R.get_or_init(|| rx(r"(?i)^[qQ](\d)[-/ ]?(-?\d{1,5})$"))
 }
 fn re_ymd() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})"))
+    R.get_or_init(|| rx(r"^(-?\d{1,5})[-/.](\d{1,2})[-/.](\d{1,2})"))
 }
 fn re_monthname() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"(?i)^([a-z]{3,9})[ ,\-]+(\d{4})$"))
+    R.get_or_init(|| rx(r"(?i)^([a-z]{3,9})[ ,\-]+(-?\d{1,5})$"))
 }
 fn re_monthname_first() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
-    R.get_or_init(|| rx(r"(?i)^(\d{4})[ ,\-]+([a-z]{3,9})$"))
+    R.get_or_init(|| rx(r"(?i)^(-?\d{1,5})[ ,\-]+([a-z]{3,9})$"))
 }
 
 fn month_from_name(name: &str) -> Option<u32> {
@@ -173,12 +173,41 @@ pub fn today_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()
 }
 
-/// Human label used by the renderer, e.g. `2020`, `05/2020`, `Q2 2020`.
+/// Parse the leading year out of an ISO-ish string produced by `parse_date`.
+fn iso_year(iso: &str) -> Option<i64> {
+    let s = iso.trim();
+    let (neg, rest) = match s.strip_prefix('-') {
+        Some(r) => (true, r),
+        None => (false, s),
+    };
+    let digits: String = rest.chars().take_while(|c| c.is_ascii_digit()).collect();
+    if digits.is_empty() {
+        return None;
+    }
+    let y: i64 = digits.parse().ok()?;
+    Some(if neg { -y } else { y })
+}
+
+/// Format an astronomical year the OWID way: -N -> "N BC", 0 -> "0".
+fn fmt_year(y: Option<i64>) -> String {
+    match y {
+        Some(y) if y > 0 => y.to_string(),
+        Some(0) => "0".to_string(),
+        Some(y) => format!("{} BC", -y),
+        None => String::new(),
+    }
+}
+
+/// Human label used by the renderer, e.g. `2020`, `05/2020`, `Q2 2020`,
+/// `500 BC` for negative years.
 pub fn display_label(iso: &str, freq: Frequency) -> String {
     match freq {
-        Frequency::Annual => iso.get(0..4).unwrap_or(iso).to_string(),
+        Frequency::Annual => {
+            let s = fmt_year(iso_year(iso));
+            if s.is_empty() { iso.to_string() } else { s }
+        }
         Frequency::Quarterly => {
-            let y = iso.get(0..4).unwrap_or("");
+            let y = fmt_year(iso_year(iso));
             let q = match iso.find('Q') { Some(i) => iso.get(i + 1..).unwrap_or(""), None => "" };
             if q.is_empty() {
                 iso.to_string()
@@ -187,8 +216,8 @@ pub fn display_label(iso: &str, freq: Frequency) -> String {
             }
         }
         Frequency::Monthly => {
-            let y = iso.get(0..4).unwrap_or("");
-            let m = iso.get(5..7).unwrap_or("");
+            let y = fmt_year(iso_year(iso));
+            let m = iso.split(|c| c == '-' || c == '/' || c == '.').nth(1).filter(|s| s.len() == 2 && s.chars().all(|c| c.is_ascii_digit())).unwrap_or("");
             if m.is_empty() {
                 iso.to_string()
             } else {

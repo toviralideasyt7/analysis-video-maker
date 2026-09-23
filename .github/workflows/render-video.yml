@@ -153,8 +153,29 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      # Upload the final MP4 to the GitHub release so the frontend Video Library
-      # can serve it directly (release assets support large files, no Pages 25MB cap).
+      # Upload the final MP4 to a temporary file host and capture the direct
+      # download URL. The studio plays this URL straight in the <video> tag —
+      # no worker proxy in the streaming path, so watching costs zero worker
+      # requests and is effectively unlimited. 0x0.st keeps files ~30+ days,
+      # which is plenty since finished videos go to YouTube within days.
+      - name: Publish MP4 to temporary file host
+        id: temphost
+        if: success()
+        run: |
+          set -uo pipefail
+          MP4="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
+          URL=""
+          if [ -f "$MP4" ]; then
+            URL="$(curl -fsS --max-time 180 -F "file=@${MP4}" https://0x0.st 2>/dev/null || true)"
+            if [ -z "$URL" ]; then
+              echo "0x0.st failed, trying catbox.moe"
+              URL="$(curl -fsS --max-time 180 -F "reqtype=fileupload" -F "fileToUpload=@${MP4}" https://catbox.moe/user/api.php 2>/dev/null || true)"
+            fi
+          fi
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+          echo "temp video url: ${URL:-<none>}"
+
+      # Upload the final MP4 to the GitHub release as a permanent backup.
       - name: Publish MP4 to GitHub release
         if: success()
         env:
@@ -208,6 +229,6 @@ jobs:
           curl -fsS --max-time 30 -X POST "$HOOK_URL" \
             -H "Content-Type: application/json" \
             -H "x-hook-secret: $AVM_HOOK_SECRET" \
-            -d "{\"projectId\": \"${{ inputs.projectId }}\", \"status\": \"$STATUS\", \"runId\": ${{ github.run_id }}, \"assetName\": \"${{ inputs.projectId }}-final.mp4\"}" \
+            -d "{\"projectId\": \"${{ inputs.projectId }}\", \"status\": \"$STATUS\", \"runId\": ${{ github.run_id }}, \"assetName\": \"${{ inputs.projectId }}-final.mp4\", \"artifactUrl\": \"${{ steps.temphost.outputs.url }}\"}" \
             && echo "orchestrator notified: $STATUS" \
             || echo "hook notify failed (non-fatal)"

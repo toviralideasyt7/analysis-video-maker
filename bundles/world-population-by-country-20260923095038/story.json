@@ -1,0 +1,1060 @@
+{
+  "version": "1.0",
+  "title": "World population by country",
+  "subtitle": "10000 BC - 2023",
+  "hook": "World population by country, 10000 BC to 2023.",
+  "setup": "The full race, year by year — watch the rankings shift from 10000 BC to 2023.",
+  "sequence": [
+    {
+      "atLabel": "10000 BC",
+      "text": "10000 BC: Mexico leads."
+    },
+    {
+      "atLabel": "9000 BC",
+      "text": "9000 BC: Mexico leads."
+    },
+    {
+      "atLabel": "8000 BC",
+      "text": "8000 BC: Mexico leads."
+    },
+    {
+      "atLabel": "7000 BC",
+      "text": "7000 BC: Mexico leads."
+    },
+    {
+      "atLabel": "6000 BC",
+      "text": "6000 BC: Mexico leads."
+    },
+    {
+      "atLabel": "5000 BC",
+      "text": "5000 BC: China leads."
+    },
+    {
+      "atLabel": "4000 BC",
+      "text": "4000 BC: India leads."
+    },
+    {
+      "atLabel": "3000 BC",
+      "text": "3000 BC: India leads."
+    },
+    {
+      "atLabel": "2000 BC",
+      "text": "2000 BC: India leads."
+    },
+    {
+      "atLabel": "1000 BC",
+      "text": "1000 BC: India leads."
+    },
+    {
+      "atLabel": "0",
+      "text": "0: India leads."
+    },
+    {
+      "atLabel": "100",
+      "text": "100: India leads."
+    },
+    {
+      "atLabel": "200",
+      "text": "200: India leads."
+    },
+    {
+      "atLabel": "300",
+      "text": "300: India leads."
+    },
+    {
+      "atLabel": "400",
+      "text": "400: India leads."
+    },
+    {
+      "atLabel": "500",
+      "text": "500: India leads."
+    },
+    {
+      "atLabel": "600",
+      "text": "600: India leads."
+    },
+    {
+      "atLabel": "700",
+      "text": "700: India leads."
+    },
+    {
+      "atLabel": "800",
+      "text": "800: India leads."
+    },
+    {
+      "atLabel": "900",
+      "text": "900: India leads."
+    },
+    {
+      "atLabel": "1000",
+      "text": "1000: India leads."
+    },
+    {
+      "atLabel": "1100",
+      "text": "1100: India leads."
+    },
+    {
+      "atLabel": "1200",
+      "text": "1200: India leads."
+    },
+    {
+      "atLabel": "1300",
+      "text": "1300: India leads."
+    },
+    {
+      "atLabel": "1400",
+      "text": "1400: India leads."
+    },
+    {
+      "atLabel": "1500",
+      "text": "1500: India leads."
+    },
+    {
+      "atLabel": "1600",
+      "text": "1600: India leads."
+    },
+    {
+      "atLabel": "1700",
+      "text": "1700: India leads."
+    },
+    {
+      "atLabel": "1710",
+      "text": "1710: India leads."
+    },
+    {
+      "atLabel": "1720",
+      "text": "1720: India leads."
+    },
+    {
+      "atLabel": "1730",
+      "text": "1730: India leads."
+    },
+    {
+      "atLabel": "1740",
+      "text": "1740: India leads."
+    },
+    {
+      "atLabel": "1750",
+      "text": "1750: India leads."
+    },
+    {
+      "atLabel": "1760",
+      "text": "1760: China leads."
+    },
+    {
+      "atLabel": "1770",
+      "text": "1770: China leads."
+    },
+    {
+      "atLabel": "1780",
+      "text": "1780: China leads."
+    },
+    {
+      "atLabel": "1790",
+      "text": "1790: China leads."
+    },
+    {
+      "atLabel": "1800",
+      "text": "1800: China leads."
+    },
+    {
+      "atLabel": "1801",
+      "text": "1801: China leads."
+    },
+    {
+      "atLabel": "1802",
+      "text": "1802: China leads."
+    },
+    {
+      "atLabel": "1803",
+      "text": "1803: China leads."
+    },
+    {
+      "atLabel": "1804",
+      "text": "1804: China leads."
+    },
+    {
+      "atLabel": "1805",
+      "text": "1805: China leads."
+    },
+    {
+      "atLabel": "1806",
+      "text": "1806: China leads."
+    },
+    {
+      "atLabel": "1807",
+      "text": "1807: China leads."
+    },
+    {
+      "atLabel": "1808",
+      "text": "1808: China leads."
+    },
+    {
+      "atLabel": "1809",
+      "text": "1809: China leads."
+    },
+    {
+      "atLabel": "1810",
+      "text": "1810: China leads."
+    },
+    {
+      "atLabel": "1811",
+      "text": "1811: China leads."
+    },
+    {
+      "atLabel": "1812",
+      "text": "1812: China leads."
+    },
+    {
+      "atLabel": "1813",
+      "text": "1813: China leads."
+    },
+    {
+      "atLabel": "1814",
+      "text": "1814: China leads."
+    },
+    {
+      "atLabel": "1815",
+      "text": "1815: China leads."
+    },
+    {
+      "atLabel": "1816",
+      "text": "1816: China leads."
+    },
+    {
+      "atLabel": "1817",
+      "text": "1817: China leads."
+    },
+    {
+      "atLabel": "1818",
+      "text": "1818: China leads."
+    },
+    {
+      "atLabel": "1819",
+      "text": "1819: China leads."
+    },
+    {
+      "atLabel": "1820",
+      "text": "1820: China leads."
+    },
+    {
+      "atLabel": "1821",
+      "text": "1821: China leads."
+    },
+    {
+      "atLabel": "1822",
+      "text": "1822: China leads."
+    },
+    {
+      "atLabel": "1823",
+      "text": "1823: China leads."
+    },
+    {
+      "atLabel": "1824",
+      "text": "1824: China leads."
+    },
+    {
+      "atLabel": "1825",
+      "text": "1825: China leads."
+    },
+    {
+      "atLabel": "1826",
+      "text": "1826: China leads."
+    },
+    {
+      "atLabel": "1827",
+      "text": "1827: China leads."
+    },
+    {
+      "atLabel": "1828",
+      "text": "1828: China leads."
+    },
+    {
+      "atLabel": "1829",
+      "text": "1829: China leads."
+    },
+    {
+      "atLabel": "1830",
+      "text": "1830: China leads."
+    },
+    {
+      "atLabel": "1831",
+      "text": "1831: China leads."
+    },
+    {
+      "atLabel": "1832",
+      "text": "1832: China leads."
+    },
+    {
+      "atLabel": "1833",
+      "text": "1833: China leads."
+    },
+    {
+      "atLabel": "1834",
+      "text": "1834: China leads."
+    },
+    {
+      "atLabel": "1835",
+      "text": "1835: China leads."
+    },
+    {
+      "atLabel": "1836",
+      "text": "1836: China leads."
+    },
+    {
+      "atLabel": "1837",
+      "text": "1837: China leads."
+    },
+    {
+      "atLabel": "1838",
+      "text": "1838: China leads."
+    },
+    {
+      "atLabel": "1839",
+      "text": "1839: China leads."
+    },
+    {
+      "atLabel": "1840",
+      "text": "1840: China leads."
+    },
+    {
+      "atLabel": "1841",
+      "text": "1841: China leads."
+    },
+    {
+      "atLabel": "1842",
+      "text": "1842: China leads."
+    },
+    {
+      "atLabel": "1843",
+      "text": "1843: China leads."
+    },
+    {
+      "atLabel": "1844",
+      "text": "1844: China leads."
+    },
+    {
+      "atLabel": "1845",
+      "text": "1845: China leads."
+    },
+    {
+      "atLabel": "1846",
+      "text": "1846: China leads."
+    },
+    {
+      "atLabel": "1847",
+      "text": "1847: China leads."
+    },
+    {
+      "atLabel": "1848",
+      "text": "1848: China leads."
+    },
+    {
+      "atLabel": "1849",
+      "text": "1849: China leads."
+    },
+    {
+      "atLabel": "1850",
+      "text": "1850: China leads."
+    },
+    {
+      "atLabel": "1851",
+      "text": "1851: China leads."
+    },
+    {
+      "atLabel": "1852",
+      "text": "1852: China leads."
+    },
+    {
+      "atLabel": "1853",
+      "text": "1853: China leads."
+    },
+    {
+      "atLabel": "1854",
+      "text": "1854: China leads."
+    },
+    {
+      "atLabel": "1855",
+      "text": "1855: China leads."
+    },
+    {
+      "atLabel": "1856",
+      "text": "1856: China leads."
+    },
+    {
+      "atLabel": "1857",
+      "text": "1857: China leads."
+    },
+    {
+      "atLabel": "1858",
+      "text": "1858: China leads."
+    },
+    {
+      "atLabel": "1859",
+      "text": "1859: China leads."
+    },
+    {
+      "atLabel": "1860",
+      "text": "1860: China leads."
+    },
+    {
+      "atLabel": "1861",
+      "text": "1861: China leads."
+    },
+    {
+      "atLabel": "1862",
+      "text": "1862: China leads."
+    },
+    {
+      "atLabel": "1863",
+      "text": "1863: China leads."
+    },
+    {
+      "atLabel": "1864",
+      "text": "1864: China leads."
+    },
+    {
+      "atLabel": "1865",
+      "text": "1865: China leads."
+    },
+    {
+      "atLabel": "1866",
+      "text": "1866: China leads."
+    },
+    {
+      "atLabel": "1867",
+      "text": "1867: China leads."
+    },
+    {
+      "atLabel": "1868",
+      "text": "1868: China leads."
+    },
+    {
+      "atLabel": "1869",
+      "text": "1869: China leads."
+    },
+    {
+      "atLabel": "1870",
+      "text": "1870: China leads."
+    },
+    {
+      "atLabel": "1871",
+      "text": "1871: China leads."
+    },
+    {
+      "atLabel": "1872",
+      "text": "1872: China leads."
+    },
+    {
+      "atLabel": "1873",
+      "text": "1873: China leads."
+    },
+    {
+      "atLabel": "1874",
+      "text": "1874: China leads."
+    },
+    {
+      "atLabel": "1875",
+      "text": "1875: China leads."
+    },
+    {
+      "atLabel": "1876",
+      "text": "1876: China leads."
+    },
+    {
+      "atLabel": "1877",
+      "text": "1877: China leads."
+    },
+    {
+      "atLabel": "1878",
+      "text": "1878: China leads."
+    },
+    {
+      "atLabel": "1879",
+      "text": "1879: China leads."
+    },
+    {
+      "atLabel": "1880",
+      "text": "1880: China leads."
+    },
+    {
+      "atLabel": "1881",
+      "text": "1881: China leads."
+    },
+    {
+      "atLabel": "1882",
+      "text": "1882: China leads."
+    },
+    {
+      "atLabel": "1883",
+      "text": "1883: China leads."
+    },
+    {
+      "atLabel": "1884",
+      "text": "1884: China leads."
+    },
+    {
+      "atLabel": "1885",
+      "text": "1885: China leads."
+    },
+    {
+      "atLabel": "1886",
+      "text": "1886: China leads."
+    },
+    {
+      "atLabel": "1887",
+      "text": "1887: China leads."
+    },
+    {
+      "atLabel": "1888",
+      "text": "1888: China leads."
+    },
+    {
+      "atLabel": "1889",
+      "text": "1889: China leads."
+    },
+    {
+      "atLabel": "1890",
+      "text": "1890: China leads."
+    },
+    {
+      "atLabel": "1891",
+      "text": "1891: China leads."
+    },
+    {
+      "atLabel": "1892",
+      "text": "1892: China leads."
+    },
+    {
+      "atLabel": "1893",
+      "text": "1893: China leads."
+    },
+    {
+      "atLabel": "1894",
+      "text": "1894: China leads."
+    },
+    {
+      "atLabel": "1895",
+      "text": "1895: China leads."
+    },
+    {
+      "atLabel": "1896",
+      "text": "1896: China leads."
+    },
+    {
+      "atLabel": "1897",
+      "text": "1897: China leads."
+    },
+    {
+      "atLabel": "1898",
+      "text": "1898: China leads."
+    },
+    {
+      "atLabel": "1899",
+      "text": "1899: China leads."
+    },
+    {
+      "atLabel": "1900",
+      "text": "1900: China leads."
+    },
+    {
+      "atLabel": "1901",
+      "text": "1901: China leads."
+    },
+    {
+      "atLabel": "1902",
+      "text": "1902: China leads."
+    },
+    {
+      "atLabel": "1903",
+      "text": "1903: China leads."
+    },
+    {
+      "atLabel": "1904",
+      "text": "1904: China leads."
+    },
+    {
+      "atLabel": "1905",
+      "text": "1905: China leads."
+    },
+    {
+      "atLabel": "1906",
+      "text": "1906: China leads."
+    },
+    {
+      "atLabel": "1907",
+      "text": "1907: China leads."
+    },
+    {
+      "atLabel": "1908",
+      "text": "1908: China leads."
+    },
+    {
+      "atLabel": "1909",
+      "text": "1909: China leads."
+    },
+    {
+      "atLabel": "1910",
+      "text": "1910: China leads."
+    },
+    {
+      "atLabel": "1911",
+      "text": "1911: China leads."
+    },
+    {
+      "atLabel": "1912",
+      "text": "1912: China leads."
+    },
+    {
+      "atLabel": "1913",
+      "text": "1913: China leads."
+    },
+    {
+      "atLabel": "1914",
+      "text": "1914: China leads."
+    },
+    {
+      "atLabel": "1915",
+      "text": "1915: China leads."
+    },
+    {
+      "atLabel": "1916",
+      "text": "1916: China leads."
+    },
+    {
+      "atLabel": "1917",
+      "text": "1917: China leads."
+    },
+    {
+      "atLabel": "1918",
+      "text": "1918: China leads."
+    },
+    {
+      "atLabel": "1919",
+      "text": "1919: China leads."
+    },
+    {
+      "atLabel": "1920",
+      "text": "1920: China leads."
+    },
+    {
+      "atLabel": "1921",
+      "text": "1921: China leads."
+    },
+    {
+      "atLabel": "1922",
+      "text": "1922: China leads."
+    },
+    {
+      "atLabel": "1923",
+      "text": "1923: China leads."
+    },
+    {
+      "atLabel": "1924",
+      "text": "1924: China leads."
+    },
+    {
+      "atLabel": "1925",
+      "text": "1925: China leads."
+    },
+    {
+      "atLabel": "1926",
+      "text": "1926: China leads."
+    },
+    {
+      "atLabel": "1927",
+      "text": "1927: China leads."
+    },
+    {
+      "atLabel": "1928",
+      "text": "1928: China leads."
+    },
+    {
+      "atLabel": "1929",
+      "text": "1929: China leads."
+    },
+    {
+      "atLabel": "1930",
+      "text": "1930: China leads."
+    },
+    {
+      "atLabel": "1931",
+      "text": "1931: China leads."
+    },
+    {
+      "atLabel": "1932",
+      "text": "1932: China leads."
+    },
+    {
+      "atLabel": "1933",
+      "text": "1933: China leads."
+    },
+    {
+      "atLabel": "1934",
+      "text": "1934: China leads."
+    },
+    {
+      "atLabel": "1935",
+      "text": "1935: China leads."
+    },
+    {
+      "atLabel": "1936",
+      "text": "1936: China leads."
+    },
+    {
+      "atLabel": "1937",
+      "text": "1937: China leads."
+    },
+    {
+      "atLabel": "1938",
+      "text": "1938: China leads."
+    },
+    {
+      "atLabel": "1939",
+      "text": "1939: China leads."
+    },
+    {
+      "atLabel": "1940",
+      "text": "1940: China leads."
+    },
+    {
+      "atLabel": "1941",
+      "text": "1941: China leads."
+    },
+    {
+      "atLabel": "1942",
+      "text": "1942: China leads."
+    },
+    {
+      "atLabel": "1943",
+      "text": "1943: China leads."
+    },
+    {
+      "atLabel": "1944",
+      "text": "1944: China leads."
+    },
+    {
+      "atLabel": "1945",
+      "text": "1945: China leads."
+    },
+    {
+      "atLabel": "1946",
+      "text": "1946: China leads."
+    },
+    {
+      "atLabel": "1947",
+      "text": "1947: China leads."
+    },
+    {
+      "atLabel": "1948",
+      "text": "1948: China leads."
+    },
+    {
+      "atLabel": "1949",
+      "text": "1949: China leads."
+    },
+    {
+      "atLabel": "1950",
+      "text": "1950: China leads."
+    },
+    {
+      "atLabel": "1951",
+      "text": "1951: China leads."
+    },
+    {
+      "atLabel": "1952",
+      "text": "1952: China leads."
+    },
+    {
+      "atLabel": "1953",
+      "text": "1953: China leads."
+    },
+    {
+      "atLabel": "1954",
+      "text": "1954: China leads."
+    },
+    {
+      "atLabel": "1955",
+      "text": "1955: China leads."
+    },
+    {
+      "atLabel": "1956",
+      "text": "1956: China leads."
+    },
+    {
+      "atLabel": "1957",
+      "text": "1957: China leads."
+    },
+    {
+      "atLabel": "1958",
+      "text": "1958: China leads."
+    },
+    {
+      "atLabel": "1959",
+      "text": "1959: China leads."
+    },
+    {
+      "atLabel": "1960",
+      "text": "1960: China leads."
+    },
+    {
+      "atLabel": "1961",
+      "text": "1961: China leads."
+    },
+    {
+      "atLabel": "1962",
+      "text": "1962: China leads."
+    },
+    {
+      "atLabel": "1963",
+      "text": "1963: China leads."
+    },
+    {
+      "atLabel": "1964",
+      "text": "1964: China leads."
+    },
+    {
+      "atLabel": "1965",
+      "text": "1965: China leads."
+    },
+    {
+      "atLabel": "1966",
+      "text": "1966: China leads."
+    },
+    {
+      "atLabel": "1967",
+      "text": "1967: China leads."
+    },
+    {
+      "atLabel": "1968",
+      "text": "1968: China leads."
+    },
+    {
+      "atLabel": "1969",
+      "text": "1969: China leads."
+    },
+    {
+      "atLabel": "1970",
+      "text": "1970: China leads."
+    },
+    {
+      "atLabel": "1971",
+      "text": "1971: China leads."
+    },
+    {
+      "atLabel": "1972",
+      "text": "1972: China leads."
+    },
+    {
+      "atLabel": "1973",
+      "text": "1973: China leads."
+    },
+    {
+      "atLabel": "1974",
+      "text": "1974: China leads."
+    },
+    {
+      "atLabel": "1975",
+      "text": "1975: China leads."
+    },
+    {
+      "atLabel": "1976",
+      "text": "1976: China leads."
+    },
+    {
+      "atLabel": "1977",
+      "text": "1977: China leads."
+    },
+    {
+      "atLabel": "1978",
+      "text": "1978: China leads."
+    },
+    {
+      "atLabel": "1979",
+      "text": "1979: China leads."
+    },
+    {
+      "atLabel": "1980",
+      "text": "1980: China leads."
+    },
+    {
+      "atLabel": "1981",
+      "text": "1981: China leads."
+    },
+    {
+      "atLabel": "1982",
+      "text": "1982: China leads."
+    },
+    {
+      "atLabel": "1983",
+      "text": "1983: China leads."
+    },
+    {
+      "atLabel": "1984",
+      "text": "1984: China leads."
+    },
+    {
+      "atLabel": "1985",
+      "text": "1985: China leads."
+    },
+    {
+      "atLabel": "1986",
+      "text": "1986: China leads."
+    },
+    {
+      "atLabel": "1987",
+      "text": "1987: China leads."
+    },
+    {
+      "atLabel": "1988",
+      "text": "1988: China leads."
+    },
+    {
+      "atLabel": "1989",
+      "text": "1989: China leads."
+    },
+    {
+      "atLabel": "1990",
+      "text": "1990: China leads."
+    },
+    {
+      "atLabel": "1991",
+      "text": "1991: China leads."
+    },
+    {
+      "atLabel": "1992",
+      "text": "1992: China leads."
+    },
+    {
+      "atLabel": "1993",
+      "text": "1993: China leads."
+    },
+    {
+      "atLabel": "1994",
+      "text": "1994: China leads."
+    },
+    {
+      "atLabel": "1995",
+      "text": "1995: China leads."
+    },
+    {
+      "atLabel": "1996",
+      "text": "1996: China leads."
+    },
+    {
+      "atLabel": "1997",
+      "text": "1997: China leads."
+    },
+    {
+      "atLabel": "1998",
+      "text": "1998: China leads."
+    },
+    {
+      "atLabel": "1999",
+      "text": "1999: China leads."
+    },
+    {
+      "atLabel": "2000",
+      "text": "2000: China leads."
+    },
+    {
+      "atLabel": "2001",
+      "text": "2001: China leads."
+    },
+    {
+      "atLabel": "2002",
+      "text": "2002: China leads."
+    },
+    {
+      "atLabel": "2003",
+      "text": "2003: China leads."
+    },
+    {
+      "atLabel": "2004",
+      "text": "2004: China leads."
+    },
+    {
+      "atLabel": "2005",
+      "text": "2005: China leads."
+    },
+    {
+      "atLabel": "2006",
+      "text": "2006: China leads."
+    },
+    {
+      "atLabel": "2007",
+      "text": "2007: China leads."
+    },
+    {
+      "atLabel": "2008",
+      "text": "2008: China leads."
+    },
+    {
+      "atLabel": "2009",
+      "text": "2009: China leads."
+    },
+    {
+      "atLabel": "2010",
+      "text": "2010: China leads."
+    },
+    {
+      "atLabel": "2011",
+      "text": "2011: China leads."
+    },
+    {
+      "atLabel": "2012",
+      "text": "2012: China leads."
+    },
+    {
+      "atLabel": "2013",
+      "text": "2013: China leads."
+    },
+    {
+      "atLabel": "2014",
+      "text": "2014: China leads."
+    },
+    {
+      "atLabel": "2015",
+      "text": "2015: China leads."
+    },
+    {
+      "atLabel": "2016",
+      "text": "2016: China leads."
+    },
+    {
+      "atLabel": "2017",
+      "text": "2017: China leads."
+    },
+    {
+      "atLabel": "2018",
+      "text": "2018: China leads."
+    },
+    {
+      "atLabel": "2019",
+      "text": "2019: China leads."
+    },
+    {
+      "atLabel": "2020",
+      "text": "2020: China leads."
+    },
+    {
+      "atLabel": "2021",
+      "text": "2021: China leads."
+    },
+    {
+      "atLabel": "2022",
+      "text": "2022: India leads."
+    },
+    {
+      "atLabel": "2023",
+      "text": "2023: no data leads."
+    }
+  ],
+  "highlights": [],
+  "ending": "Mexico starts first; India ends first.",
+  "sourcesLine": "Data: ourworldindata.org",
+  "generatedBy": {
+    "agent": "deterministic-story",
+    "at": "2026-09-23T09:52:13.949Z"
+  }
+}

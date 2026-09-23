@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "topic": "Most popular web browsers",
+  "metric": "Most popular web browsers",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Measured quantity",
+      "description": "the primary measurable quantity for this topic",
+      "measurableDefinition": "a numeric value with an explicit unit per entity per period",
+      "recommended": true
+    },
+    {
+      "id": "b",
+      "label": "Alternative proxy",
+      "description": "a different but defensible proxy for the same claim",
+      "measurableDefinition": "a different numeric proxy, stated explicitly"
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "2000",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [],
+  "preferredSources": [
+    "World Bank Open Data",
+    "Our World in Data",
+    "UNdata",
+    "OECD"
+  ],
+  "knownRisks": [
+    "the topic uses an ambiguous superlative; the metric definition must be confirmed before publishing"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10,
+  "generatedBy": {
+    "agent": "deterministic-planner",
+    "at": "2026-09-23T09:45:01.755Z"
+  }
+}

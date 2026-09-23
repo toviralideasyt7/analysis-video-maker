@@ -676,10 +676,13 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [indicator, setIndicator] = useState('');
-  const [topN, setTopN] = useState('10');
-  const [fromYear, setFromYear] = useState('');
-  const [toYear, setToYear] = useState('');
+  const [prompt, setPrompt] = useState('');
+
+  const EXAMPLES = [
+    'Race video: countries by poverty rate, widest data range available',
+    'Most popular web browsers from 2000 to 2026',
+    'Most popular social media platforms from 2004 to 2026',
+  ];
 
   // While research runs, poll the backend until the data bundle lands in the
   // repo — then refresh so the project flips to READY by itself.
@@ -689,8 +692,8 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
     let timer: ReturnType<typeof setTimeout>;
     const check = async () => {
       try {
-        const res = (await api.researchStatus(project.projectId)) as { bundleReady?: boolean };
-        if (res.bundleReady) {
+        const res = (await api.researchStatus(project.projectId)) as { bundleReady?: boolean; status?: string };
+        if (res.bundleReady || String(res.status ?? '').toUpperCase() !== 'RESEARCHING') {
           if (alive) onRefresh();
           return;
         }
@@ -707,15 +710,11 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
   }, [project.projectId, statusUpper, onRefresh]);
 
   const start = async () => {
-    if (busy) return;
+    if (busy || !prompt.trim()) return;
     setBusy(true);
     setError(null);
     try {
-      await api.research(project.projectId, {
-        ...(indicator.trim() ? { worldBankIndicator: indicator.trim() } : {}),
-        topN: Number(topN) > 0 ? Number(topN) : 10,
-        ...(fromYear.trim() && toYear.trim() ? { fromYear: fromYear.trim(), toYear: toYear.trim() } : {}),
-      });
+      await api.research(project.projectId, { prompt: prompt.trim() });
       setShowForm(false);
       onRefresh();
     } catch (err) {
@@ -731,57 +730,45 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
         {error ? <ErrorBanner message={error} onRetry={() => setError(null)} /> : null}
         {!showForm ? (
           <button type="button" className="btn-primary" onClick={() => setShowForm(true)}>
-            <Sparkles size={16} aria-hidden="true" /> Start research
+            <Sparkles size={16} aria-hidden="true" /> Make a video
           </button>
         ) : (
           <div className="card space-y-3 p-4">
             <p className="text-sm text-muted">
-              Research runs on GitHub Actions and takes a while — the data bundle is committed automatically when it finishes.
+              Describe the video you want in plain words. The agent finds the best data source
+              (widest year range wins), builds the dataset, and starts rendering automatically —
+              no fields to fill.
             </p>
             <label className="block text-sm">
-              <span className="form-label">World Bank indicator (optional)</span>
-              <input
+              <span className="form-label">What should the video show?</span>
+              <textarea
                 className="form-input"
-                value={indicator}
-                onChange={(e) => setIndicator(e.target.value)}
-                placeholder="e.g. NY.GDP.MKTP.CD — leave empty for web research"
+                rows={3}
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="e.g. Race video: countries by poverty rate from all data sources, widest range available"
               />
             </label>
-            <label className="block text-sm">
-              <span className="form-label">Entities in the race</span>
-              <input
-                className="form-input"
-                value={topN}
-                onChange={(e) => setTopN(e.target.value)}
-                inputMode="numeric"
-              />
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="block text-sm">
-                <span className="form-label">From year</span>
-                <input
-                  className="form-input"
-                  value={fromYear}
-                  onChange={(e) => setFromYear(e.target.value)}
-                  placeholder="e.g. 1960"
-                  inputMode="numeric"
-                />
-              </label>
-              <label className="block text-sm">
-                <span className="form-label">To year</span>
-                <input
-                  className="form-input"
-                  value={toYear}
-                  onChange={(e) => setToYear(e.target.value)}
-                  placeholder="e.g. 2024"
-                  inputMode="numeric"
-                />
-              </label>
+            <div className="flex flex-wrap gap-2">
+              {EXAMPLES.map((ex) => (
+                <button
+                  key={ex}
+                  type="button"
+                  className="btn-secondary text-xs"
+                  onClick={() => setPrompt(ex)}
+                  disabled={busy}
+                >
+                  {ex}
+                </button>
+              ))}
             </div>
+            <p className="text-xs text-muted">
+              Tip: you can paste a direct data link (CSV / JSON / data page URL) — the agent will fetch and use it.
+            </p>
             <div className="flex gap-2">
-              <button type="button" className="btn-primary" onClick={start} disabled={busy}>
+              <button type="button" className="btn-primary" onClick={start} disabled={busy || !prompt.trim()}>
                 {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Sparkles size={16} aria-hidden="true" />}
-                {busy ? 'Dispatching…' : 'Run research'}
+                {busy ? 'Starting…' : 'Make video'}
               </button>
               <button type="button" className="btn-secondary" onClick={() => setShowForm(false)} disabled={busy}>
                 Cancel
@@ -800,7 +787,7 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
           <Loader2 size={18} aria-hidden="true" className="animate-spin shrink-0" />
           <div>
             <div className="font-semibold text-white">Research in progress…</div>
-            <p className="text-sm text-muted">Running on GitHub Actions. This page updates automatically when the data bundle lands — you can leave and come back.</p>
+            <p className="text-sm text-muted">The agent is hunting down the best dataset. When it lands, the video renders automatically — you can leave and come back.</p>
           </div>
         </div>
       </div>

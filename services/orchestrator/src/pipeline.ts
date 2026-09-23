@@ -141,10 +141,10 @@ export function buildObservation(draft: ObservationDraft): Observation {
 }
 
 export function inferFrequency(date: string): Frequency {
-  if (/^\d{4}-\d{2}-\d{2}/.test(date)) return 'daily';
-  if (/^\d{4}-\d{2}$/.test(date)) return 'monthly';
-  if (/^\d{4}-Q[1-4]$/i.test(date)) return 'quarterly';
-  if (/^\d{4}$/.test(date)) return 'annual';
+  if (/^-?\d{1,5}-\d{2}-\d{2}/.test(date)) return 'daily';
+  if (/^-?\d{1,5}-\d{2}$/.test(date)) return 'monthly';
+  if (/^-?\d{1,5}-Q[1-4]$/i.test(date)) return 'quarterly';
+  if (/^-?\d{1,5}$/.test(date)) return 'annual';
   return 'unknown';
 }
 
@@ -356,13 +356,73 @@ export function sourceRef(input: {  url: string;
  * caught exactly this, so the dataset now reports what it observed.
  */
 export function observedTimeRange(observations: Observation[], fallback: { start: string; end: string }): { start: string; end: string } {
-  const dates = observations
-    .map((o) => o.date)
-    .filter((d) => /^\d{4}/.test(d))
-    .sort();
-  if (dates.length === 0) return fallback;
-  const label = (iso: string): string => (o => o)(iso.slice(0, 4));
-  return { start: label(dates[0]), end: label(dates[dates.length - 1]) };
+  const yearOf = (d: string): number | null => {
+    const m = /^(-?\d{1,5})/.exec(d.trim());
+    return m ? Number(m[1]) : null;
+  };
+  const years = observations
+    .map((o) => yearOf(o.date))
+    .filter((y): y is number => y !== null)
+    .sort((a, b) => a - b);
+  if (years.length === 0) return fallback;
+  const label = (y: number): string => (y > 0 ? String(y) : y === 0 ? '0' : `${-y} BC`);
+  return { start: label(years[0]), end: label(years[years.length - 1]) };
+}
+
+/**
+ * Trim a sparse head off the observations before the dataset is built.
+ *
+ * A bar race that opens with 1-3 bars (e.g. poverty data 1963-1980, where
+ * only a handful of countries reported per year) looks broken on video.
+ * Returns the observations starting at the first period with enough distinct
+ * reporting entities to fill the chart (`topN`, capped by the entity count),
+ * plus trim metadata. When no period reaches the bar the observations are
+ * returned untouched — a thin dataset is better than an empty one.
+ */
+export function trimSparseHead(
+  observations: Observation[],
+  topN: number,
+): { observations: Observation[]; trimmedFrom: string | null; droppedPeriods: number } {
+  // Leading year of an ISO-ish date, BCE-aware ("-10000" -> -10000).
+  const yearOf = (date: string): number | null => {
+    const m = /^(-?\d{1,5})/.exec(date.trim());
+    return m ? Number(m[1]) : null;
+  };
+  const fmtYear = (y: number): string => (y > 0 ? String(y) : y === 0 ? '0' : `${-y} BC`);
+  const usable = observations.filter(
+    (o) =>
+      o.status !== 'CONFLICTING' &&
+      o.status !== 'REJECTED' &&
+      Number.isFinite(o.value) &&
+      yearOf(o.date) !== null,
+  );
+  const entityCount = new Set(usable.map((o) => o.entity.id)).size;
+  const needed = Math.max(2, Math.min(topN, entityCount));
+  const perPeriod = new Map<number, Set<string>>();
+  for (const o of usable) {
+    const year = yearOf(o.date);
+    if (year === null) continue;
+    let set = perPeriod.get(year);
+    if (!set) {
+      set = new Set<string>();
+      perPeriod.set(year, set);
+    }
+    set.add(o.entity.id);
+  }
+  const years = [...perPeriod.keys()].sort((a, b) => a - b);
+  const firstFull = years.find((y) => (perPeriod.get(y)?.size ?? 0) >= needed);
+  if (firstFull === undefined || firstFull === years[0]) {
+    return { observations, trimmedFrom: null, droppedPeriods: 0 };
+  }
+  const droppedPeriods = years.filter((y) => y < firstFull).length;
+  return {
+    observations: observations.filter((o) => {
+      const y = yearOf(o.date);
+      return y !== null && y >= firstFull;
+    }),
+    trimmedFrom: fmtYear(firstFull),
+    droppedPeriods,
+  };
 }
 export function datasetStats(observations: Observation[]): Dataset['stats'] {
   const stats: Dataset['stats'] = {
@@ -757,7 +817,7 @@ export function typescriptQualityReport(dataset: Dataset, maxDate: string): Data
   );
   push(
     'date',
-    obs.filter((o) => !/^\d{4}(-\d{2}(-\d{2})?|(-Q[1-4]))?$/.test(o.date)).map((o) => `${o.observationId} date ${o.date} is not normalised`),
+    obs.filter((o) => !/^-?\d{1,5}(-\d{2}(-\d{2})?|(-Q[1-4]))?$/.test(o.date)).map((o) => `${o.observationId} date ${o.date} is not normalised`),
   );
   push(
     'unit',
@@ -917,6 +977,8 @@ export interface FrameOptions {
   height: number;
   moverThreshold: number;
   policy: 'strict' | 'carryForward';
+  /** Max consecutive missing periods a last value is carried across. Undefined = unlimited. */
+  maxCarryPeriods?: number;
 }
 
 export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
@@ -927,6 +989,9 @@ export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
   height: 720,
   moverThreshold: 2,
   policy: 'carryForward',
+  // A long-dead entity should not haunt the chart: stop carrying a value
+  // across gaps longer than 10 periods (Netscape in 2026 was the trigger).
+  maxCarryPeriods: 10,
 };
 
 export async function buildFrameTape(dataset: Dataset, options: Partial<FrameOptions> = {}): Promise<FrameTape> {
@@ -964,6 +1029,7 @@ export async function buildFrameTape(dataset: Dataset, options: Partial<FrameOpt
       String(opts.moverThreshold),
       '--policy',
       opts.policy,
+      ...(opts.maxCarryPeriods !== undefined ? ['--max-carry', String(opts.maxCarryPeriods)] : []),
     ],
     { timeoutMs: 300_000 },
   ).then(async () => {
@@ -1037,10 +1103,17 @@ interface DecadeSpot {
 function buildDecadeSpotlights(tape: FrameTape, dataset: Dataset): DecadeSpot[] {
   const out: DecadeSpot[] = [];
   const fpt = Math.max(1, tape.framesPerTransition);
-  for (const decade of ['1970', '1980', '1990', '2000', '2010', '2020']) {
+  const decades = ['1970', '1980', '1990', '2000', '2010', '2020'];
+  const lastLabel = tape.periodLabels[tape.periodLabels.length - 1] ?? '';
+  for (const decade of decades) {
     const pi = tape.periodLabels.indexOf(decade);
     if (pi < 0) continue;
-    const fi = Math.min(pi * fpt, tape.frames.length - 1);
+    // The final decade card must agree with the video's ending: the leader is
+    // whoever tops the last period (e.g. India in 2023, not China in 2020).
+    const isFinal = decade === decades[decades.length - 1];
+    const fi = isFinal
+      ? tape.frames.length - 1
+      : Math.min(pi * fpt, tape.frames.length - 1);
     const frame = tape.frames[fi];
     if (!frame) continue;
     const top = [...frame.bars].sort((a, b) => a.rank - b.rank).slice(0, 3);
@@ -1060,13 +1133,16 @@ function buildDecadeSpotlights(tape: FrameTape, dataset: Dataset): DecadeSpot[] 
     const climberEnt = climber ? ent(climber.id) : undefined;
     const climberGain = climber?.gain ?? 0;
     const decadeName = `${decade.slice(0, 3)}0s`;
+    const leadIn = isFinal
+      ? `As of ${lastLabel}, ${leaderName} leads the world with ${leaderVal}.`
+      : `As the ${decadeName} began, ${leaderName} led the world with ${leaderVal}.`;
     out.push({
       atLabel: decade,
       kicker: `THE ${decadeName.toUpperCase()}`,
       headline: `${leaderName} rules the ${decadeName}`,
-      body: climberEnt
-        ? `As the ${decadeName} began, ${leaderName} led the world with ${leaderVal}. ${climberEnt.name} was the previous decade's biggest climber, rising ${climberGain} place${climberGain === 1 ? '' : 's'} into the top ${tape.topN}.`
-        : `As the ${decadeName} began, ${leaderName} led the world with ${leaderVal}.`,
+      body: climberEnt && !isFinal
+        ? `${leadIn} ${climberEnt.name} was the previous decade's biggest climber, rising ${climberGain} place${climberGain === 1 ? '' : 's'} into the top ${tape.topN}.`
+        : leadIn,
       entityIds: top.map((b) => b.entityId),
     });
   }
@@ -1140,7 +1216,7 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
     return spotlights.find((s) => s.atLabel === nextDecade);
   });
 
-  const fixedSeconds = titleSeconds + introSeconds + endingSeconds + sourceCardSeconds;
+  const fixedSeconds = titleSeconds + introSeconds + endingSeconds;
   const spotlightTotal = segSpotlights.filter(Boolean).length * spotlightSeconds;
   let raceSeconds = targetDuration - fixedSeconds - spotlightTotal;
   // Documentary pace: never faster than 2s/period, never slower than 6s/period.
@@ -1214,7 +1290,6 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
   });
   scenes.push(
     { id: 'scene_ending', type: 'ending', duration: endingSeconds, title: story.ending },
-    { id: 'scene_sources', type: 'source_card', duration: sourceCardSeconds, title: 'Sources', props: { sourcesLine: story.sourcesLine } },
   );
 
   return {
@@ -1282,7 +1357,9 @@ export function deterministicStory(dataset: Dataset, tape: FrameTape): Story {
     title: dataset.name,
     subtitle: `${dataset.timeRange.start} - ${dataset.timeRange.end}`,
     hook: `${dataset.metric}, ${dataset.timeRange.start} to ${dataset.timeRange.end}.`,
-    setup: `${dataset.stats.entities} entities, ${dataset.stats.observations} observations, ${dataset.stats.verified} verified by independent agreement.`,
+    // YouTube-facing copy: what the video shows, never pipeline internals
+    // (no entity/observation/verification counts — those read as debug output).
+    setup: `The full race, year by year — watch the rankings shift from ${dataset.timeRange.start} to ${dataset.timeRange.end}.`,
     sequence: labels.map((l) => ({ atLabel: l, text: `${l}: ${leaderAt(tape.frames.find((f) => f.isPeriodBoundary && f.label === l))} leads.` })),
     highlights,
     ending: `${leaderAt(first)} starts first; ${leaderAt(last)} ends first.`,

@@ -42,20 +42,52 @@ async function main(): Promise<void> {
   };
 
   process.stdout.write(`rust core: ${rustAvailable() ? 'available' : 'MISSING (frame tape will fail)'}\n`);
-  process.stdout.write(`topic: ${topic}\n`);
 
   const from = flags.get('from');
   const to = flags.get('to');
-  const result = await researchTopic({
-    topic,
-    timeRange: from && to ? { start: from, end: to } : undefined,
-    owidSlug: flags.get('owid'),
-    worldBankIndicator: flags.get('indicator'),
-    topN: numeric('topn') ?? 10,
-    framesPerTransition: numeric('frames') ?? 30,
-    skipAi: flags.get('skip-ai') === 'true',
-    entityCount: numeric('entities'),
-  });
+  const prompt = flags.get('prompt');
+
+  let options: Parameters<typeof researchTopic>[0];
+  if (prompt) {
+    // Agent mode: the prompt decides everything — source, years, entities.
+    process.stdout.write(`agent prompt: ${prompt}\n`);
+    const { decideAgentPlan } = await import('../agent');
+    const decision = await decideAgentPlan(prompt);
+    const tableSummary = decision.table
+      ? { rows: decision.table.rows.length, columns: decision.table.columns, span: `${decision.table.yearMin}-${decision.table.yearMax}` }
+      : undefined;
+    process.stdout.write(`agent decision: ${JSON.stringify({ ...decision, table: tableSummary }, null, 2)}\n`);
+    options = {
+      topic: decision.topic,
+      timeRange:
+        decision.yearFrom !== undefined && decision.yearTo !== undefined
+          ? { start: String(decision.yearFrom), end: String(decision.yearTo) }
+          : undefined,
+      worldBankIndicator: decision.worldBankIndicator,
+      owidSlug: decision.owidSlug,
+      topN: decision.topN,
+      framesPerTransition: numeric('frames') ?? 20,
+      skipAi: flags.get('skip-ai') === 'true',
+      agentMode: true,
+      agentEntityKind: decision.entityKind,
+      agentUnit: decision.unit,
+      preloadedTable: decision.table,
+    };
+  } else {
+    process.stdout.write(`topic: ${topic}\n`);
+    options = {
+      topic,
+      timeRange: from && to ? { start: from, end: to } : undefined,
+      owidSlug: flags.get('owid'),
+      worldBankIndicator: flags.get('indicator'),
+      topN: numeric('topn') ?? 10,
+      framesPerTransition: numeric('frames') ?? 30,
+      skipAi: flags.get('skip-ai') === 'true',
+      entityCount: numeric('entities'),
+    };
+  }
+
+  const result = await researchTopic(options);
 
   const dir = result.store.dir(result.state.projectId);
   process.stdout.write(`\nproject: ${result.state.projectId}\nstatus:  ${result.state.status}\npath:    ${dir}\n`);

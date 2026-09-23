@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "topic": "World population by country",
+  "metric": "World population by country",
+  "metricAmbiguous": false,
+  "interpretations": [],
+  "entityType": "country",
+  "timeRange": {
+    "start": "0",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [],
+  "preferredSources": [
+    "World Bank Open Data",
+    "Our World in Data",
+    "UNdata",
+    "OECD"
+  ],
+  "knownRisks": [],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10,
+  "generatedBy": {
+    "agent": "deterministic-planner",
+    "at": "2026-09-23T09:50:38.206Z"
+  }
+}

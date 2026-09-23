@@ -321,6 +321,10 @@ and do not invent numbers. If a period has no leader, say nothing about it.
 The topic field is the subject of the video: the title and subtitle must name
 that subject, never a generic phrase like "data race", and never a raw
 ISO timestamp.
+The video is published on YouTube for a general audience: the hook, setup,
+sequence and ending are viewer-facing copy. NEVER mention pipeline internals —
+no entity counts, no observation counts, no verification counts, no mention of
+publishers, sources or methodology. Describe what the race shows, not how it was built.
 
 FACTS:
 ${JSON.stringify(facts, null, 2)}

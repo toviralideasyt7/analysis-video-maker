@@ -1,0 +1,123 @@
+{
+  "projectId": "world-population-by-country-20260923095038",
+  "title": "World population by country",
+  "topic": "World population by country",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-23T09:50:38.092Z",
+  "updatedAt": "2026-09-23T09:52:14.893Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-ourworldindata-org-grapher-population-zip-v-1-csvtype-",
+      "sourceName": "ourworldindata.org",
+      "publisher": "ourworldindata.org",
+      "url": "https://ourworldindata.org/grapher/population.zip?v=1&csvType=full&useColumnShortNames=false",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-23T09:50:38.209Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-23T09:50:38.206Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-23T09:50:38.209Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-23T09:50:39.202Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-23T09:50:39.203Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-23T09:50:39.550Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-23T09:52:09.710Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-23T09:52:13.951Z"
+    },
+    {
+      "projectId": "world-population-by-country-20260923095038",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-23T09:52:14.284Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=country, range=0-2026",
+    "agent direct URL: https://ourworldindata.org/grapher/population.zip?v=1&csvType=full&useColumnShortNames=false (58824 rows)",
+    "direct table https://ourworldindata.org/grapher/population.zip?v=1&csvType=full&useColumnShortNames=false: 31561 observations (unit: people)",
+    "verification: 31324 observations (VERIFIED 0, SUPPORTED 31324, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 31324 valued cells confirmed by 2+ independent publishers; 31324 rest on a single publisher (SUPPORTED, not independently verified)",
+    "outlier: angola jumps down 140.3x between 1999 (15667235) and 200 (111681) - possible unit/extraction error",
+    "outlier: angola jumps up 145.0x between 200 (111681) and 2000 (16194873) - possible unit/extraction error",
+    "outlier: angola jumps down 246.8x between 2023 (36749909) and 300 (148908) - possible unit/extraction error",
+    "outlier: argentina jumps down 306.6x between 1999 (36794687) and 200 (120000) - possible unit/extraction error",
+    "outlier: argentina jumps up 310.1x between 200 (120000) and 2000 (37213986) - possible unit/extraction error",
+    "outlier: argentina jumps down 350.3x between 2023 (45538402) and 300 (130000) - possible unit/extraction error",
+    "outlier: austria jumps up 307.7x between -9000 (1625) and 0 (500000) - possible unit/extraction error",
+    "outlier: bangladesh jumps down 204.0x between -1000 (1958400) and -10000 (9600) - possible unit/extraction error",
+    "outlier: bangladesh jumps up 122.4x between -10000 (9600) and -2000 (1175040) - possible unit/extraction error",
+    "outlier: belgium jumps down 112.6x between -1000 (100000) and -10000 (888) - possible unit/extraction error",
+    "outlier: belgium jumps up 225.1x between -9000 (1333) and 0 (300085) - possible unit/extraction error",
+    "outlier: bulgaria jumps down 234.1x between -1000 (272727) and -10000 (1165) - possible unit/extraction error",
+    "outlier: bulgaria jumps up 127.7x between -10000 (1165) and -2000 (148760) - possible unit/extraction error",
+    "outlier: bulgaria jumps up 234.1x between -9000 (2136) and 0 (500000) - possible unit/extraction error",
+    "outlier: burundi jumps down 288.5x between 1999 (6337155) and 200 (21963) - possible unit/extraction error",
+    "outlier: angola jumps down 140.3x between 1999 (15667235) and 200 (111681) - possible unit/extraction error",
+    "outlier: angola jumps up 145.0x between 200 (111681) and 2000 (16194873) - possible unit/extraction error",
+    "outlier: angola jumps down 246.8x between 2023 (36749909) and 300 (148908) - possible unit/extraction error",
+    "outlier: argentina jumps down 306.6x between 1999 (36794687) and 200 (120000) - possible unit/extraction error",
+    "outlier: argentina jumps up 310.1x between 200 (120000) and 2000 (37213986) - possible unit/extraction error",
+    "outlier: argentina jumps down 350.3x between 2023 (45538402) and 300 (130000) - possible unit/extraction error",
+    "outlier: austria jumps up 307.7x between -9000 (1625) and 0 (500000) - possible unit/extraction error",
+    "outlier: bangladesh jumps down 204.0x between -1000 (1958400) and -10000 (9600) - possible unit/extraction error",
+    "outlier: bangladesh jumps up 122.4x between -10000 (9600) and -2000 (1175040) - possible unit/extraction error",
+    "outlier: belgium jumps down 112.6x between -1000 (100000) and -10000 (888) - possible unit/extraction error",
+    "outlier: belgium jumps up 225.1x between -9000 (1333) and 0 (300085) - possible unit/extraction error",
+    "outlier: bulgaria jumps down 234.1x between -1000 (272727) and -10000 (1165) - possible unit/extraction error",
+    "outlier: bulgaria jumps up 127.7x between -10000 (1165) and -2000 (148760) - possible unit/extraction error",
+    "outlier: bulgaria jumps up 234.1x between -9000 (2136) and 0 (500000) - possible unit/extraction error",
+    "outlier: burundi jumps down 288.5x between 1999 (6337155) and 200 (21963) - possible unit/extraction error",
+    "outlier: burundi jumps up 294.6x between 200 (21963) and 2000 (6470196) - possible unit/extraction error",
+    "outlier: burundi jumps down 428.5x between 2023 (13689455) and 300 (31946) - possible unit/extraction error",
+    "outlier: cameroon jumps down 102.2x between 2023 (28372690) and 300 (277533) - possible unit/extraction error",
+    "outlier: canada jumps down 518.9x between 1999 (30599458) and 200 (58970) - possible unit/extraction error",
+    "outlier: canada jumps up 523.9x between 200 (58970) and 2000 (30891800) - possible unit/extraction error"
+  ]
+}

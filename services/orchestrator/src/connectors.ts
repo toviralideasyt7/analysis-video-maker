@@ -173,32 +173,40 @@ export async function worldBankFetch(
   const url = `${base}/country/${codes}/indicator/${indicator}?format=json&per_page=20000&date=${start}:${end}`;
   // World Bank caps a page well below 20000 for wide queries, so every page
   // is followed. Reading only page 1 silently dropped most countries.
+  // Wide year spans are also split into ~15-year chunks: a single page for
+  // 60+ years x 200+ countries exceeds the HTTP client's response cap and
+  // arrives as truncated JSON.
   const rows: WorldBankRow[] = [];
-  let page = 1;
-  let pages = 1;
-  do {
-    const pageUrl = `${url}&page=${page}`;
-    const payload = await getJson<unknown[]>(pageUrl, { timeoutMs: 90_000 });
-    if (!Array.isArray(payload) || payload.length < 2) {
-      throw new Error(`World Bank returned an unexpected payload for ${indicator} (page ${page})`);
-    }
-    const meta = payload[0] as { total?: number; page?: number; pages?: number };
-    pages = meta.pages ?? 1;
-    for (const item of (payload[1] as Array<Record<string, unknown>>) ?? []) {
-      const country = (item.country ?? {}) as { id?: string; value?: string };
-      const indicatorNode = (item.indicator ?? {}) as { id?: string; value?: string };
-      rows.push({
-        countryIso3: String(country.id ?? ''),
-        countryName: String(country.value ?? ''),
-        indicatorId: String(indicatorNode.id ?? indicator),
-        date: String(item.date ?? ''),
-        value: typeof item.value === 'number' ? item.value : null,
-      });
-    }
-    page += 1;
-  } while (page <= pages);
-  if (pages > 1) {
-    logger.info('World Bank pagination followed', { indicator, pages, rows: rows.length });
+  const CHUNK_YEARS = 15;
+  for (let chunkStart = start; chunkStart <= end; chunkStart += CHUNK_YEARS) {
+    const chunkEnd = Math.min(end, chunkStart + CHUNK_YEARS - 1);
+    const chunkUrl = `${base}/country/${codes}/indicator/${indicator}?format=json&per_page=20000&date=${chunkStart}:${chunkEnd}`;
+    let page = 1;
+    let pages = 1;
+    do {
+      const pageUrl = `${chunkUrl}&page=${page}`;
+      const payload = await getJson<unknown[]>(pageUrl, { timeoutMs: 90_000 });
+      if (!Array.isArray(payload) || payload.length < 2) {
+        throw new Error(`World Bank returned an unexpected payload for ${indicator} (page ${page})`);
+      }
+      const meta = payload[0] as { total?: number; page?: number; pages?: number };
+      pages = meta.pages ?? 1;
+      for (const item of (payload[1] as Array<Record<string, unknown>>) ?? []) {
+        const country = (item.country ?? {}) as { id?: string; value?: string };
+        const indicatorNode = (item.indicator ?? {}) as { id?: string; value?: string };
+        rows.push({
+          countryIso3: String(country.id ?? ''),
+          countryName: String(country.value ?? ''),
+          indicatorId: String(indicatorNode.id ?? indicator),
+          date: String(item.date ?? ''),
+          value: typeof item.value === 'number' ? item.value : null,
+        });
+      }
+      page += 1;
+    } while (page <= pages);
+  }
+  if (rows.length > 20000) {
+    logger.info('World Bank chunked fetch complete', { indicator, rows: rows.length });
   }
   const definition = definitionFor('World Bank Open Data');
   return {

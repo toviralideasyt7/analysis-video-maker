@@ -1,0 +1,3971 @@
+{
+  "datasetId": "dataset_most-popular-web-browsers-20260923094501",
+  "projectId": "most-popular-web-browsers-20260923094501",
+  "name": "Most popular web browsers",
+  "metric": "Most popular web browsers",
+  "unit": "percent",
+  "timeRange": {
+    "start": "2000",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "missingDataPolicy": "STRICT",
+  "version": 1,
+  "frozen": false,
+  "observations": [
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2000",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2000",
+      "frequency": "annual",
+      "value": 81.53,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Netscape_2000",
+      "entity": {
+        "id": "netscape",
+        "name": "Netscape"
+      },
+      "date": "2000",
+      "frequency": "annual",
+      "value": 15.99,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2000",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2000",
+      "frequency": "annual",
+      "value": 0.13,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2001",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2001",
+      "frequency": "annual",
+      "value": 88.51,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Netscape_2001",
+      "entity": {
+        "id": "netscape",
+        "name": "Netscape"
+      },
+      "date": "2001",
+      "frequency": "annual",
+      "value": 7.64,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2001",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2001",
+      "frequency": "annual",
+      "value": 0.29,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2002",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2002",
+      "frequency": "annual",
+      "value": 93.03,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Netscape_2002",
+      "entity": {
+        "id": "netscape",
+        "name": "Netscape"
+      },
+      "date": "2002",
+      "frequency": "annual",
+      "value": 4.81,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2002",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2002",
+      "frequency": "annual",
+      "value": 0.78,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2003",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2003",
+      "frequency": "annual",
+      "value": 94.31,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Netscape_2003",
+      "entity": {
+        "id": "netscape",
+        "name": "Netscape"
+      },
+      "date": "2003",
+      "frequency": "annual",
+      "value": 3.79,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2003",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2003",
+      "frequency": "annual",
+      "value": 0.66,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2004",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2004",
+      "frequency": "annual",
+      "value": 93.25,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2004",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2004",
+      "frequency": "annual",
+      "value": 3.44,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2004",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2004",
+      "frequency": "annual",
+      "value": 0.72,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2004",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2004",
+      "frequency": "annual",
+      "value": 0.59,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2005",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2005",
+      "frequency": "annual",
+      "value": 89.12,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2005",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2005",
+      "frequency": "annual",
+      "value": 7.19,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2005",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2005",
+      "frequency": "annual",
+      "value": 1.35,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2005",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2005",
+      "frequency": "annual",
+      "value": 0.61,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2006",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2006",
+      "frequency": "annual",
+      "value": 86.23,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2006",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2006",
+      "frequency": "annual",
+      "value": 9.37,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2006",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2006",
+      "frequency": "annual",
+      "value": 2.09,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2006",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2006",
+      "frequency": "annual",
+      "value": 0.65,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2007",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2007",
+      "frequency": "annual",
+      "value": 82.36,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2007",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2007",
+      "frequency": "annual",
+      "value": 12.82,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2007",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2007",
+      "frequency": "annual",
+      "value": 3,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2007",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2007",
+      "frequency": "annual",
+      "value": 0.64,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2008",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2008",
+      "frequency": "annual",
+      "value": 76.92,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2008",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2008",
+      "frequency": "annual",
+      "value": 17.21,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2008",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2008",
+      "frequency": "annual",
+      "value": 3.75,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2008",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2008",
+      "frequency": "annual",
+      "value": 0.83,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2008",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2008",
+      "frequency": "annual",
+      "value": 0.7,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2009",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 59.69,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2009",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 29.88,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2009",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 3.34,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2009",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 2.99,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2009",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 2.91,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2010",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 50.34,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2010",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 30.43,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2010",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 9.59,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2010",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 4.87,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2010",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 2.58,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2011",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 40.24,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2011",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 26.42,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2011",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 19.89,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2011",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 6.38,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2011",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 3.09,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2012",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 29.65,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2012",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 29.31,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2012",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 21.27,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2012",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 9.04,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2012",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 3.67,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2013",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 34.67,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2013",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 23.15,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2013",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 16.59,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2013",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 10.95,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2013",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 3.66,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2014",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 38.88,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2014",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 15.51,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2014",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 13.74,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2014",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 13.2,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2014",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 4.01,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2015",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 44.93,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2015",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 13.05,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2015",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 11.19,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2015",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 10.47,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2015",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 5.03,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2015",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 0.57,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2016",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 49.12,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2016",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 13.33,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2016",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 7.96,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2016",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 6.2,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2016",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 5.47,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2016",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 2.59,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2016",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 1.43,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2017",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 54.02,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2017",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 14.51,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2017",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 6.17,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2017",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 3.93,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2017",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 3.85,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2017",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 3.3,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2017",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 1.86,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2018",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 59.28,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2018",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 14.43,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2018",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 5.19,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2018",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 3.5,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2018",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 2.99,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2018",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 2.77,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2018",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 1.96,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2019",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 63.34,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2019",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 15.87,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2019",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 4.57,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2019",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 3.45,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2019",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 2.57,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2019",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 2.23,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2019",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 2.14,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2020",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 64.61,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2020",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 17.85,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2020",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 4.21,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2020",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 3.35,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2020",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 2.85,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2020",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 2,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2020",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 1.34,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2021",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 64.46,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2021",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 18.9,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2021",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 3.81,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2021",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 3.62,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2021",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 3.11,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2021",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 2.24,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2021",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 0.62,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2022",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 64.81,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2022",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 18.92,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2022",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 4.28,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2022",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 3.37,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2022",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 2.84,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2022",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 2.22,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2022",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 0.37,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2023",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 63.85,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2023",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 19.74,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2023",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 5.11,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2023",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2.96,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2023",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2.78,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2023",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2.47,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2023",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 0.2,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2024",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 65.81,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2024",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 18.21,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2024",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 5.19,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2024",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 2.79,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2024",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 2.49,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2024",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 2.29,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2024",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 0.15,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2025",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 68.8,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2025",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 15.98,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2025",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 5.02,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2025",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 2.38,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2025",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 2.04,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2025",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1.92,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2025",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 0.16,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Chrome_2026",
+      "entity": {
+        "id": "chrome",
+        "name": "Chrome"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 68.63,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Safari_2026",
+      "entity": {
+        "id": "safari",
+        "name": "Safari"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 16.5,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Edge_2026",
+      "entity": {
+        "id": "edge",
+        "name": "Edge"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 5.43,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Firefox_2026",
+      "entity": {
+        "id": "firefox",
+        "name": "Firefox"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 2.66,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Samsung_Internet_2026",
+      "entity": {
+        "id": "samsung-internet",
+        "name": "Samsung Internet"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 2.03,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Opera_2026",
+      "entity": {
+        "id": "opera",
+        "name": "Opera"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1.84,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_http_localhost_8971_browsers_csv_Internet_Explorer_2026",
+      "entity": {
+        "id": "internet-explorer",
+        "name": "Internet Explorer"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 0.02,
+      "unit": "percent",
+      "geography": "global",
+      "source": {
+        "url": "http://localhost:8971/browsers.csv",
+        "publisher": "localhost",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-23T09:45:01.758Z",
+        "identifier": "picked_http-localhost-8971-browsers-csv"
+      },
+      "evidence": {
+        "datasetUrl": "http://localhost:8971/browsers.csv",
+        "datasetVersion": "picked_http-localhost-8971-browsers-csv",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    }
+  ],
+  "conflicts": [],
+  "stats": {
+    "observations": 146,
+    "entities": 8,
+    "verified": 0,
+    "supported": 146,
+    "estimated": 0,
+    "unknown": 0,
+    "conflicting": 0,
+    "rejected": 0
+  },
+  "createdAt": "2026-09-23T09:45:01.814Z"
+}

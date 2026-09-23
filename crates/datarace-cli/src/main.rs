@@ -28,7 +28,7 @@ COMMANDS
 
   frames    --in <dataset.json> [--out <file>] [--top N]
             [--frames-per-transition N] [--fps N] [--width N] [--height N]
-            [--policy strict|carryForward] [--mover N]
+            [--policy strict|carryForward] [--mover N] [--max-carry N]
             Per-frame bar-race tape consumed by the renderer.
 
   validate  --in <dataset.json> [--out <file>] [--max-date YYYY-MM-DD] [--strict]
@@ -264,6 +264,7 @@ fn run() -> Result<()> {
                 height: args.get_u32("height", 720),
                 mover_threshold: args.get_i64("mover", 2),
                 policy,
+                max_carry: args.get("max-carry").and_then(|s| s.parse::<usize>().ok()),
             };
             let tape = build_frame_tape(&ds, &opts);
             emit(out.as_deref(), &serde_json::to_value(&tape)?)?;

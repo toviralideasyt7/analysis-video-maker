@@ -14,6 +14,7 @@ import {
   parseScaledNumber,
   scoreCandidates,
   sourceQualityScore,
+  trimSparseHead,
   typescriptQualityReport,
   verifyAcrossSources,
   verificationSummary,
@@ -295,7 +296,7 @@ describe('video spec', () => {
     const spec = buildVideoSpec({ dataset, story, tape: t });
     const summed = spec.scenes.reduce((sum, s) => sum + s.duration, 0);
     expect(Math.abs(summed - spec.metadata.durationSeconds)).toBeLessThan(0.05);
-    expect(spec.scenes.map((s) => s.type)).toEqual(['title', 'intro', 'bar_race', 'ending', 'source_card']);
+    expect(spec.scenes.map((s) => s.type)).toEqual(['title', 'intro', 'bar_race', 'ending']);
     expect(spec.canvas.width).toBe(1280);
     expect(spec.metadata.language).toBe('en');
   });
@@ -317,5 +318,24 @@ describe('video spec', () => {
     expect(DEFAULT_FRAME_OPTIONS.width).toBe(1280);
     expect(DEFAULT_FRAME_OPTIONS.fps).toBe(30);
     expect(DEFAULT_FRAME_OPTIONS.policy).toBe('carryForward');
+  });
+
+  it('trims a sparse head before the chart can fill', () => {
+    const observations: Observation[] = [
+      obs('United States', '1963-01-01', 1.6),
+      obs('United States', '1964-01-01', 1.5),
+      ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((c, i) => obs(c, '1981-01-01', 80 - i)),
+    ];
+    const trimmed = trimSparseHead(observations, 10);
+    expect(trimmed.trimmedFrom).toBe('1981');
+    expect(trimmed.droppedPeriods).toBe(2);
+    expect(trimmed.observations.every((o) => o.date.slice(0, 4) >= '1981')).toBe(true);
+  });
+
+  it('leaves a well-covered range untouched', () => {
+    const observations: Observation[] = ['A', 'B', 'C'].map((c, i) => obs(c, '2000-01-01', 10 - i));
+    const trimmed = trimSparseHead(observations, 10);
+    expect(trimmed.trimmedFrom).toBeNull();
+    expect(trimmed.observations).toHaveLength(3);
   });
 });

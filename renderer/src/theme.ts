@@ -43,7 +43,6 @@ export function makeTheme(overrides: Record<string, string | number> | undefined
 export function formatValue(value: number, unit: string): string {
   if (!Number.isFinite(value)) return '-';
   if (unit === 'percent') return `${value.toFixed(2)}%`;
-  if (unit === 'count') return compactNumber(value);
   return compactNumber(value);
 }
 
