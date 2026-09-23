@@ -97,9 +97,12 @@ pub struct FrameOptions {
     pub height: u32,
     pub mover_threshold: i64,
     pub policy: InterpolationPolicy,
-    /// Max consecutive missing periods an entity's last value is carried
-    /// across. `None` = unlimited (legacy). Entities gone longer simply
-    /// stop appearing until they report again.
+    /// Max consecutive trailing periods (past the entity's last observation)
+    /// an entity's last value is carried across. `None` = unlimited (legacy).
+    /// Gaps *within* the observed lifespan are always carried; only the
+    /// trailing run past the final observation is capped, so long-dead
+    /// entities stop haunting the chart. The caller sizes this in years
+    /// (~10 years of screen time), not raw periods.
     pub max_carry: Option<usize>,
 }
 
@@ -146,20 +149,35 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
         let mut last: Option<f64> = None;
         let mut missing_run: usize = 0;
         let mut filled_series: BTreeMap<String, (f64, bool)> = BTreeMap::new();
-        for label in &period_labels {
+        // Index of the entity's last observed period: past this point the
+        // entity may be dead, so the carry cap applies. Gaps *within* the
+        // observed lifespan are carried across freely — sparse historical
+        // data must not make entities flicker in and out between observations.
+        let last_obs_idx = series
+            .keys()
+            .next_back()
+            .and_then(|k| period_labels.iter().position(|l| l == k));
+        for (idx, label) in period_labels.iter().enumerate() {
             if let Some((v, _)) = series.get(label) {
                 filled_series.insert(label.clone(), (*v, false));
                 last = Some(*v);
                 missing_run = 0;
             } else if let Some(prev) = last {
-                missing_run += 1;
-                // A long-dead entity (Netscape in 2026) should not haunt the
-                // chart forever: stop carrying once the gap exceeds the cap.
-                let within_cap = opts.max_carry.map(|m| missing_run <= m).unwrap_or(true);
-                if within_cap {
+                let trailing = last_obs_idx.map(|li| idx > li).unwrap_or(true);
+                if !trailing {
                     filled_series.insert(label.clone(), (prev, true));
                 } else {
-                    last = None;
+                    missing_run += 1;
+                    // A long-dead entity (Netscape in 2026, the Second French
+                    // colonial empire in 2021) should not haunt the chart
+                    // forever: stop carrying once the trailing gap exceeds
+                    // the cap (~10 years of screen time, set by the caller).
+                    let within_cap = opts.max_carry.map(|m| missing_run <= m).unwrap_or(true);
+                    if within_cap {
+                        filled_series.insert(label.clone(), (prev, true));
+                    } else {
+                        last = None;
+                    }
                 }
             }
         }

@@ -977,7 +977,7 @@ export interface FrameOptions {
   height: number;
   moverThreshold: number;
   policy: 'strict' | 'carryForward';
-  /** Max consecutive missing periods a last value is carried across. Undefined = unlimited. */
+  /** Max trailing periods past an entity's last observation its value is carried. Undefined = unlimited. */
   maxCarryPeriods?: number;
 }
 
@@ -989,13 +989,31 @@ export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
   height: 720,
   moverThreshold: 2,
   policy: 'carryForward',
-  // A long-dead entity should not haunt the chart: stop carrying a value
-  // across gaps longer than 10 periods (Netscape in 2026 was the trigger).
+  // A long-dead entity should not haunt the chart: the trailing carry past
+  // the final observation is capped at ~10 years (buildFrameTape sizes it
+  // from the dataset's years/period). Gaps within the observed lifespan are
+  // always carried so sparse historical data doesn't flicker.
   maxCarryPeriods: 10,
 };
 
 export async function buildFrameTape(dataset: Dataset, options: Partial<FrameOptions> = {}): Promise<FrameTape> {
   const opts: FrameOptions = { ...DEFAULT_FRAME_OPTIONS, ...options };
+  // The carry cap is in YEARS, not periods: with multi-year periods, "10
+  // periods" carried a long-dead empire half a century into the future (the
+  // Second French colonial empire was still #1 in 2021 on a value from 1976).
+  // Tape periods are the distinct observation dates, so derive years/period
+  // from the dataset and cap the carry at ~10 years of screen time.
+  if (options.maxCarryPeriods === undefined) {
+    const years = new Set<number>();
+    for (const o of dataset.observations) {
+      const m = /^(\d{1,4})/.exec(String(o.date ?? ''));
+      if (m) years.add(parseInt(m[1], 10));
+    }
+    const sorted = [...years].sort((a, b) => a - b);
+    const span = sorted.length > 1 ? sorted[sorted.length - 1] - sorted[0] : 1;
+    const yearsPerPeriod = Math.max(1, span / Math.max(1, sorted.length - 1));
+    opts.maxCarryPeriods = Math.max(1, Math.round(10 / yearsPerPeriod));
+  }
   if (!rustAvailable()) {
     throw new Error('the datarace binary is required for frame-tape generation; build it with `cargo build --release`');
   }
@@ -1084,7 +1102,12 @@ export interface VideoSpecOptions {
 function formatSpecValue(value: number, unit: string): string {
   if (!Number.isFinite(value)) return '-';
   if (unit === 'percent') return `${value.toFixed(2)}%`;
-  return Math.round(value).toLocaleString('en-US');
+  const abs = Math.abs(value);
+  const scaled =
+    abs >= 1_000_000 ? `${(value / 1_000_000).toFixed(1)}M`
+    : abs >= 1_000 ? `${(value / 1_000).toFixed(1)}K`
+    : `${Math.round(value)}`;
+  return unit ? `${scaled} ${unit}` : scaled;
 }
 
 interface DecadeSpot {
@@ -1159,6 +1182,38 @@ export const DEFAULT_THEME = {
   barTrack: '#eef0f3',
   fontFamily: 'Inter',
 } as const;
+
+/**
+ * Estimate the final video duration in seconds from content, using the same
+ * math as buildVideoSpec. Used to size the story: the side facts card shows
+ * roughly one fact per minute of video (a 4-minute video gets 4 facts).
+ */
+export function estimateDurationSeconds(
+  tape: FrameTape,
+  dataset: Dataset,
+  options: VideoSpecOptions = {},
+): number {
+  const titleSeconds = options.titleSeconds ?? 8;
+  const introSeconds = options.introSeconds ?? 25;
+  const endingSeconds = options.endingSeconds ?? 15;
+  const spotlightSeconds = options.spotlightSeconds ?? 14;
+  const targetDuration = options.targetDurationSeconds ?? 480;
+  const periods = tape.periodLabels.length;
+  const spotlightTotal = buildDecadeSpotlights(tape, dataset).length * spotlightSeconds;
+  const fixedSeconds = titleSeconds + introSeconds + endingSeconds;
+  let raceSeconds = targetDuration - fixedSeconds - spotlightTotal;
+  // Documentary pace: never faster than 2s/period, never slower than 6s/period.
+  raceSeconds = Math.min(Math.max(raceSeconds, periods * 2), periods * 6);
+  return fixedSeconds + spotlightTotal + raceSeconds;
+}
+
+/**
+ * How many side-card facts the story should contain: roughly one per minute
+ * of video, clamped to a sane range.
+ */
+export function factCountForTape(tape: FrameTape, dataset: Dataset): number {
+  return Math.min(8, Math.max(2, Math.round(estimateDurationSeconds(tape, dataset) / 60)));
+}
 
 /**
  * Compose a VideoSpec from a verified dataset, the story and the frame tape.
@@ -1333,6 +1388,109 @@ export function buildThumbnailSpec(input: { dataset: Dataset; story: Story; tape
  * Deterministic fallback story. It only ever states facts that exist in the
  * dataset and the frame tape.
  */
+export interface TapeEvent {
+  label: string;
+  kind: 'newcomer' | 'jump' | 'overtake';
+  entityId: string;
+  name: string;
+  rank: number;
+  value: number;
+  fromRank?: number;
+}
+
+/**
+ * Interesting, data-grounded events per period boundary: newcomers entering
+ * the topN for the first time, big rank jumps (>=3 places), lead changes and
+ * record values. The story (LLM or deterministic) turns these into the side
+ * facts card — never "X leads" narration, which the bars already show.
+ */
+export function tapeEvents(tape: FrameTape): TapeEvent[] {
+  const events: TapeEvent[] = [];
+  const nameOf = (id: string) => tape.entities.find((e) => e.id === id)?.name ?? id;
+  const valueOf = (label: string, id: string): number => {
+    const f = tape.frames.find((fr) => fr.isPeriodBoundary && fr.label === label);
+    return f?.bars.find((b) => b.entityId === id)?.value ?? 0;
+  };
+  const topAt = (label: string): Array<{ id: string; rank: number }> => {
+    const f = tape.frames.find((fr) => fr.isPeriodBoundary && fr.label === label);
+    return (f?.bars ?? [])
+      .slice()
+      .sort((a, b) => a.rank - b.rank)
+      .slice(0, tape.topN)
+      .map((b, i) => ({ id: b.entityId, rank: i + 1 }));
+  };
+  const seen = new Set<string>();
+  let prevRanks = new Map<string, number>();
+  let prevLeader: string | undefined;
+  for (const label of tape.periodLabels) {
+    const top = topAt(label);
+    const rankNow = new Map(top.map((t) => [t.id, t.rank]));
+    for (const { id, rank } of top) {
+      if (!seen.has(id)) {
+        seen.add(id);
+        events.push({ label, kind: 'newcomer', entityId: id, name: nameOf(id), rank, value: valueOf(label, id) });
+      }
+      const pr = prevRanks.get(id);
+      if (pr !== undefined && pr - rank >= 3) {
+        events.push({ label, kind: 'jump', entityId: id, name: nameOf(id), rank, value: valueOf(label, id), fromRank: pr });
+      }
+    }
+    const leader = top[0]?.id;
+    if (leader && prevLeader && leader !== prevLeader) {
+      events.push({ label, kind: 'overtake', entityId: leader, name: nameOf(leader), rank: 1, value: valueOf(label, leader) });
+    }
+    if (leader) prevLeader = leader;
+    prevRanks = rankNow;
+  }
+  return events;
+}
+
+/**
+ * Deterministic side-card facts: pick factCountForTape() events spread across
+ * the timeline, preferring newcomers, then big jumps, then overtakes. Each
+ * fact is one interesting sentence about what is happening — never
+ * "X leads." narration, which the bars already show.
+ */
+function deterministicFacts(
+  tape: FrameTape,
+  dataset: Dataset,
+): Array<{ atLabel: string; text: string }> {
+  const count = factCountForTape(tape, dataset);
+  const events = tapeEvents(tape);
+  if (events.length === 0) return [];
+  // How interesting is an event? A lead change beats any debut; a high-rank
+  // debut beats a low-rank one; a big climb beats a small one.
+  const interest = (e: TapeEvent): number =>
+    e.kind === 'overtake' ? 100 + (10 - e.rank)
+    : e.kind === 'newcomer' ? 50 + (10 - e.rank)
+    : 30 + ((e.fromRank ?? e.rank) - e.rank);
+  // Spread picks across the timeline: split the label range into `count`
+  // buckets and take the most interesting event from each bucket.
+  const labels = tape.periodLabels;
+  const idxOf = (label: string) => Math.max(0, labels.indexOf(label));
+  const out: Array<{ atLabel: string; text: string }> = [];
+  for (let b = 0; b < count; b++) {
+    const lo = Math.floor((b * labels.length) / count);
+    const hi = Math.floor(((b + 1) * labels.length) / count);
+    const inBucket = events.filter((e) => {
+      const i = idxOf(e.label);
+      return i >= lo && i < hi && !out.some((o) => o.atLabel === e.label);
+    });
+    inBucket.sort((a, b2) => interest(b2) - interest(a));
+    const ev = inBucket[0];
+    if (!ev) continue;
+    const val = formatSpecValue(ev.value, dataset.unit);
+    const text =
+      ev.kind === 'newcomer'
+        ? `${ev.label}: ${ev.name} bursts into the ranking at #${ev.rank} with ${val}.`
+        : ev.kind === 'jump'
+          ? `${ev.label}: ${ev.name} surges from #${ev.fromRank} to #${ev.rank}.`
+          : `${ev.label}: ${ev.name} takes the lead with ${val}.`;
+    out.push({ atLabel: ev.label, text });
+  }
+  return out;
+}
+
 export function deterministicStory(dataset: Dataset, tape: FrameTape): Story {
   const labels = tape.periodLabels;
   const first = tape.frames[0];
@@ -1360,7 +1518,7 @@ export function deterministicStory(dataset: Dataset, tape: FrameTape): Story {
     // YouTube-facing copy: what the video shows, never pipeline internals
     // (no entity/observation/verification counts — those read as debug output).
     setup: `The full race, year by year — watch the rankings shift from ${dataset.timeRange.start} to ${dataset.timeRange.end}.`,
-    sequence: labels.map((l) => ({ atLabel: l, text: `${l}: ${leaderAt(tape.frames.find((f) => f.isPeriodBoundary && f.label === l))} leads.` })),
+    sequence: deterministicFacts(tape, dataset),
     highlights,
     ending: `${leaderAt(first)} starts first; ${leaderAt(last)} ends first.`,
     sourcesLine: `Data: ${Array.from(new Set(dataset.observations.map((o) => o.source.publisher))).join(', ')}`,

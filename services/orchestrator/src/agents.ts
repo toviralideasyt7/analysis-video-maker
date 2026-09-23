@@ -17,7 +17,9 @@ import {
   buildThumbnailSpec,
   buildVideoSpec,
   deterministicStory,
+  factCountForTape,
   sourceRef,
+  tapeEvents,
   verifyAcrossSources,
   type FrameTape,
   type FrameOptions,
@@ -300,6 +302,10 @@ Reply with JSON only:
 export async function draftStory(dataset: Dataset, tape: FrameTape, ctx: AgentContext): Promise<Story> {
   const fallback = deterministicStory(dataset, tape);
   try {
+    // The side facts card shows roughly one fact per minute of video — never
+    // a per-period "X leads." narration, which the bars already show.
+    const factCount = factCountForTape(tape, dataset);
+    const events = tapeEvents(tape);
     const facts = {
       topic: dataset.name,
       metric: dataset.metric,
@@ -310,6 +316,17 @@ export async function draftStory(dataset: Dataset, tape: FrameTape, ctx: AgentCo
         .filter((f) => f.isPeriodBoundary)
         .map((f) => ({ label: f.label, leader: tape.entities.find((e) => e.id === f.bars[0]?.entityId)?.name ?? null, value: f.bars[0]?.value ?? null })),
       movers: tape.frames[tape.frames.length - 1]?.bars.filter((b) => b.isMover).map((b) => b.entityId) ?? [],
+      // Data-grounded story beats: newcomers bursting into the topN, big rank
+      // jumps and lead changes. Use ONLY these for "suddenly appears" facts.
+      events: events.slice(0, 40).map((e) => ({
+        atLabel: e.label,
+        kind: e.kind,
+        name: e.name,
+        rank: e.rank,
+        fromRank: e.fromRank ?? null,
+        value: Math.round(e.value * 100) / 100,
+      })),
+      factCount,
       verified: dataset.stats.verified,
       unknown: dataset.stats.unknown,
       conflicting: dataset.stats.conflicting,
@@ -325,6 +342,19 @@ The video is published on YouTube for a general audience: the hook, setup,
 sequence and ending are viewer-facing copy. NEVER mention pipeline internals —
 no entity counts, no observation counts, no verification counts, no mention of
 publishers, sources or methodology. Describe what the race shows, not how it was built.
+
+The "sequence" array feeds the side facts card shown during the race. Rules:
+- Write EXACTLY ${factCount} facts (about one per minute of video).
+- NEVER narrate who is leading ("2001: X leads.") — the bars already show
+  that and it reads as noise. Each fact must be genuinely interesting: a
+  newcomer suddenly appearing in the ranking, a dramatic climb or collapse,
+  a record value, an entity vanishing for good.
+- Ground every fact ONLY in the FACTS json above (use the "events" list for
+  newcomer/jump/overtake facts; leaders+values for record facts). One
+  sentence each, plain YouTube-friendly language.
+- Spread the ${factCount} facts across the whole timeline (early, middle and
+  late periods) — never cluster them, never two facts on adjacent periods.
+- atLabel must be an exact period label from periodLabels.
 
 FACTS:
 ${JSON.stringify(facts, null, 2)}

@@ -310,11 +310,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -342,7 +342,7 @@
         },
         "tapeRange": [
           0,
-          4139
+          6209
         ]
       }
     },
@@ -354,7 +354,7 @@
       "props": {
         "kicker": "THE 1970S",
         "atLabel": "1970",
-        "body": "As the 1970s began, China led the world with 823,308,964. Pakistan was the previous decade's biggest climber, rising 5 places into the top 10.",
+        "body": "As the 1970s began, China led the world with 823.3M count. Pakistan was the previous decade's biggest climber, rising 5 places into the top 10.",
         "entityIds": [
           "china",
           "india",
@@ -635,11 +635,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -666,8 +666,8 @@
           ]
         },
         "tapeRange": [
-          4140,
-          4339
+          6210,
+          6509
         ]
       }
     },
@@ -679,7 +679,7 @@
       "props": {
         "kicker": "THE 1980S",
         "atLabel": "1980",
-        "body": "As the 1980s began, China led the world with 983,163,540. Indonesia was the previous decade's biggest climber, rising 1 place into the top 10.",
+        "body": "As the 1980s began, China led the world with 983.2M count. Indonesia was the previous decade's biggest climber, rising 1 place into the top 10.",
         "entityIds": [
           "china",
           "india",
@@ -960,11 +960,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -991,8 +991,8 @@
           ]
         },
         "tapeRange": [
-          4340,
-          4539
+          6510,
+          6809
         ]
       }
     },
@@ -1004,7 +1004,7 @@
       "props": {
         "kicker": "THE 1990S",
         "atLabel": "1990",
-        "body": "As the 1990s began, China led the world with 1,153,582,725. Nigeria was the previous decade's biggest climber, rising 5 places into the top 10.",
+        "body": "As the 1990s began, China led the world with 1153.6M count. Nigeria was the previous decade's biggest climber, rising 5 places into the top 10.",
         "entityIds": [
           "china",
           "india",
@@ -1285,11 +1285,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -1316,8 +1316,8 @@
           ]
         },
         "tapeRange": [
-          4540,
-          4739
+          6810,
+          7109
         ]
       }
     },
@@ -1329,7 +1329,7 @@
       "props": {
         "kicker": "THE 2000S",
         "atLabel": "2000",
-        "body": "As the 2000s began, China led the world with 1,269,581,174. Pakistan was the previous decade's biggest climber, rising 2 places into the top 10.",
+        "body": "As the 2000s began, China led the world with 1269.6M count. Pakistan was the previous decade's biggest climber, rising 2 places into the top 10.",
         "entityIds": [
           "china",
           "india",
@@ -1610,11 +1610,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -1641,8 +1641,8 @@
           ]
         },
         "tapeRange": [
-          4740,
-          4939
+          7110,
+          7409
         ]
       }
     },
@@ -1654,7 +1654,7 @@
       "props": {
         "kicker": "THE 2010S",
         "atLabel": "2010",
-        "body": "As the 2010s began, China led the world with 1,351,561,505. Nigeria was the previous decade's biggest climber, rising 3 places into the top 10.",
+        "body": "As the 2010s began, China led the world with 1351.6M count. Nigeria was the previous decade's biggest climber, rising 3 places into the top 10.",
         "entityIds": [
           "china",
           "india",
@@ -1935,11 +1935,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -1966,8 +1966,8 @@
           ]
         },
         "tapeRange": [
-          4940,
-          5139
+          7410,
+          7709
         ]
       }
     },
@@ -1979,7 +1979,7 @@
       "props": {
         "kicker": "THE 2020S",
         "atLabel": "2020",
-        "body": "As of 2023, India leads the world with 1,437,437,278.",
+        "body": "As of 2023, India leads the world with 1437.6M count.",
         "entityIds": [
           "india",
           "china",
@@ -2260,11 +2260,11 @@
         ],
         "highlights": [],
         "notes": [
-          "1373 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "1147 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
           "heading": "World population by country",
-          "value": 1437437277.6,
+          "value": 1437648050.7333333,
           "entityName": "India",
           "entityId": "india",
           "year": "2023",
@@ -2291,8 +2291,8 @@
           ]
         },
         "tapeRange": [
-          5140,
-          5219
+          7710,
+          7829
         ]
       }
     },

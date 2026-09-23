@@ -368,7 +368,9 @@ export interface EraPanelProps {
 
 /**
  * The right-hand panel: a bordered card with a soft shadow so it reads as a
- * distinct surface instead of text floating in empty space.
+ * distinct surface instead of text floating in empty space. It sits LOW on
+ * the right (below the main bar zone) so it never overlaps the leader's
+ * value label at the top.
  */
 export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagBaseUrl, appear }) => {
   const accent = featured[0]?.color ?? '#e11d2e';
@@ -377,7 +379,7 @@ export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagB
       style={{
         position: 'absolute',
         left: 960,
-        top: 150,
+        top: 400,
         width: 272,
         background: '#ffffff',
         border: '1px solid #e5e7eb',

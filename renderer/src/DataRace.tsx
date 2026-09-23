@@ -191,7 +191,11 @@ const BarRace: React.FC<{
   // Layout: header occupies the top 96px; bars live between y=112 and y=648.
   const raceTop = 112;
   const raceBottom = 648;
-  const rowHeight = (raceBottom - raceTop) / Math.max(1, barCount);
+  // Row height is CONSTANT for the whole video, based on the tape's topN:
+  // bars must never resize as entities enter or leave. Early periods show
+  // fewer rows with vacant space below instead of ballooning the first rows
+  // big and then shrinking them when newcomers arrive.
+  const rowHeight = (raceBottom - raceTop) / Math.max(1, tape.topN || barCount);
   const barX0 = 96;
   // The spotlight card lives at x=960. The race width is CONSTANT on purpose:
   // it used to be `740 - 150 * panelAppear`, so every time the spotlight card
