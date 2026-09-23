@@ -74,6 +74,10 @@ ZONE_X1 = 955           # right edge of the bar scan zone: the EraPanel
                         # (fact box) starts at x=960 and spotlights the top-2
                         # entities in their brand colors -- scanning to x=1000
                         # let panel pixels outvote tiny bars in the bottom rows
+C3C_X1 = 135            # right edge for the C3c rank-order scan: country
+                        # flags sit at the bar end (x~140+) and their colors
+                        # can match other entities' brands; the bar's left
+                        # 39px is flag-free and enough to identify its color.
 BAR_X1 = 960            # bars/labels must stay left of the spotlight card
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
@@ -580,7 +584,7 @@ class VideoQA:
         entities can share one color and tie; callers must treat a
         near-max score as "present", not demand an outright win.
         """
-        zone = img[RACE_TOP:RACE_BOT, BAR_X0:ZONE_X1]
+        zone = img[RACE_TOP:RACE_BOT, BAR_X0:C3C_X1]
         hsv = cv2.cvtColor(zone, cv2.COLOR_BGR2HSV)
         row_h = self.row_h(n)
         scores = {}
