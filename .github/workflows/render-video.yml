@@ -142,6 +142,17 @@ jobs:
             --expect-size 1280x720 \
             --out "projects/${PROJECT_ID}/renders/probe.json"
 
+      # Fails the workflow on violations (exit 1) so a visually broken render
+      # can never be published. Warnings are reported but never fail.
+      - name: Video QA gate (bars, layout, transitions)
+        run: |
+          set -euo pipefail
+          pip install --quiet opencv-python-headless numpy pillow
+          python3 tools/video-qa/check-video.py \
+            "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
+            --frames "bundles/${PROJECT_ID}" \
+            --out "projects/${PROJECT_ID}/renders/videoqa-report.json"
+
       - name: Upload the render artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -150,6 +161,7 @@ jobs:
             projects/${{ inputs.projectId }}/renders/*.mp4
             projects/${{ inputs.projectId }}/renders/*.jpg
             projects/${{ inputs.projectId }}/renders/probe.json
+            projects/${{ inputs.projectId }}/renders/videoqa-report.json
           if-no-files-found: error
           retention-days: 14
 
