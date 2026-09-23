@@ -403,16 +403,21 @@ app.post('/api/projects/:id/render', async (c) => {
   }
 
   // The render-video workflow reads the bundle from bundles/<projectId>/ in the repo.
-  // Use the project's own bundle when it exists; fall back to the template bundle.
-  const TEMPLATE_BUNDLE = 'world-population-by-country-20260921094702';
-  let bundleProjectId = TEMPLATE_BUNDLE;
+  // Never silently fall back to another bundle: rendering the wrong video for
+  // a project (and overwriting its release asset) is worse than refusing.
+  let bundleExists = false;
   try {
     const check = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/bundles/${id}`,
       { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': `Bearer ${token}`, 'User-Agent': 'avm-orchestrator-worker' } }
     );
-    if (check.ok) bundleProjectId = id;
-  } catch { /* fall back to template */ }
+    bundleExists = check.ok;
+  } catch { bundleExists = false; }
+  if (!bundleExists) {
+    return c.json({
+      error: `No renderable bundle for this project yet (bundles/${id}/ not found in the repo). Run the research workflow first so a bundle is committed, then render.`,
+    }, 409);
+  }
 
   const dispatchRes = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/actions/workflows/render-video.yml/dispatches`,
@@ -427,7 +432,7 @@ app.post('/api/projects/:id/render', async (c) => {
       body: JSON.stringify({
         ref: 'main',
         inputs: {
-          projectId: bundleProjectId,
+          projectId: id,
           renderScale: '0.5',
           skipAiQa: 'true',
         },
