@@ -678,6 +678,8 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
   const [showForm, setShowForm] = useState(false);
   const [indicator, setIndicator] = useState('');
   const [topN, setTopN] = useState('10');
+  const [fromYear, setFromYear] = useState('');
+  const [toYear, setToYear] = useState('');
 
   // While research runs, poll the backend until the data bundle lands in the
   // repo — then refresh so the project flips to READY by itself.
@@ -712,6 +714,7 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
       await api.research(project.projectId, {
         ...(indicator.trim() ? { worldBankIndicator: indicator.trim() } : {}),
         topN: Number(topN) > 0 ? Number(topN) : 10,
+        ...(fromYear.trim() && toYear.trim() ? { fromYear: fromYear.trim(), toYear: toYear.trim() } : {}),
       });
       setShowForm(false);
       onRefresh();
@@ -753,6 +756,28 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
                 inputMode="numeric"
               />
             </label>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="block text-sm">
+                <span className="form-label">From year</span>
+                <input
+                  className="form-input"
+                  value={fromYear}
+                  onChange={(e) => setFromYear(e.target.value)}
+                  placeholder="e.g. 1960"
+                  inputMode="numeric"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="form-label">To year</span>
+                <input
+                  className="form-input"
+                  value={toYear}
+                  onChange={(e) => setToYear(e.target.value)}
+                  placeholder="e.g. 2024"
+                  inputMode="numeric"
+                />
+              </label>
+            </div>
             <div className="flex gap-2">
               <button type="button" className="btn-primary" onClick={start} disabled={busy}>
                 {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Sparkles size={16} aria-hidden="true" />}

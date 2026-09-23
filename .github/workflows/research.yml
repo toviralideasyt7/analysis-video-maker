@@ -17,6 +17,14 @@ on:
         description: Studio project id — the bundle is committed to bundles/<projectId>/
         required: false
         default: ""
+      fromYear:
+        description: First year of the time range (e.g. 1960)
+        required: false
+        default: ""
+      toYear:
+        description: Last year of the time range (e.g. 2024)
+        required: false
+        default: ""
       worldBankIndicator:
         description: Optional World Bank indicator id
         required: false
@@ -76,6 +84,9 @@ jobs:
           ARGS=("${{ inputs.topic }}" --topn "${{ inputs.topN }}" --frames "${{ inputs.framesPerTransition }}")
           if [ -n "${{ inputs.worldBankIndicator }}" ]; then
             ARGS+=(--indicator "${{ inputs.worldBankIndicator }}")
+          fi
+          if [ -n "${{ inputs.fromYear }}" ] && [ -n "${{ inputs.toYear }}" ]; then
+            ARGS+=(--from "${{ inputs.fromYear }}" --to "${{ inputs.toYear }}")
           fi
           if [ "${{ inputs.skipAi }}" = "true" ]; then
             ARGS+=(--skip-ai)

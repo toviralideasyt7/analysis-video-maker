@@ -413,6 +413,7 @@ app.post('/api/projects/:id/research', async (c) => {
 
   const body = (await c.req.json().catch(() => ({}))) as {
     worldBankIndicator?: string; topN?: number | string; skipAi?: boolean;
+    fromYear?: string | number; toYear?: string | number;
   };
 
   const dispatchRes = await fetch(
@@ -433,6 +434,8 @@ app.post('/api/projects/:id/research', async (c) => {
           worldBankIndicator: String(body.worldBankIndicator ?? ''),
           topN: String(body.topN ?? 10),
           framesPerTransition: '20',
+          fromYear: String(body.fromYear ?? ''),
+          toYear: String(body.toYear ?? ''),
           skipAi: body.skipAi ? 'true' : 'false',
         },
       }),
