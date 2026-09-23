@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "metadata": {
-    "title": "Biggest empires in history by land area from 1 AD to 2026.",
+    "title": "Biggest empires in history by land area from 1 AD to 1975.",
     "subtitle": "1 - 1975",
     "language": "en",
     "durationSeconds": 1206
@@ -27,7 +27,7 @@
       "id": "scene_title",
       "type": "title",
       "duration": 8,
-      "title": "Biggest empires in history by land area from 1 AD to 2026.",
+      "title": "Biggest empires in history by land area from 1 AD to 1975.",
       "subtitle": "1 - 1975"
     },
     {
