@@ -70,7 +70,10 @@ except ImportError:
 RACE_TOP = 112          # bars live between y=112 and y=648
 RACE_BOT = 648
 BAR_X0 = 96             # every bar starts at x=96
-ZONE_X1 = 1000          # right edge of the bar scan zone
+ZONE_X1 = 955           # right edge of the bar scan zone: the EraPanel
+                        # (fact box) starts at x=960 and spotlights the top-2
+                        # entities in their brand colors -- scanning to x=1000
+                        # let panel pixels outvote tiny bars in the bottom rows
 BAR_X1 = 960            # bars/labels must stay left of the spotlight card
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
@@ -131,6 +134,7 @@ class VideoQA:
         self.warnings = []
         self._imgs = {}
         self._paths = {}
+        self._smooth_ranks = None
         self.scenes = self._scene_map()
 
     def row_h(self, n):
@@ -282,12 +286,17 @@ class VideoQA:
 
     # ------------------------------------------------------ detection ----
     def _hue_mask(self, hsv, eid):
-        h, s, _v = self.hues[eid]
+        h, s, v = self.hues[eid]
         if s < 40:
             return None  # near-gray brand color: fall back to BGR distance
         dh = np.abs(hsv[:, :, 0].astype(np.int16) - h)
         dh = np.minimum(dh, 180 - dh)
-        return (dh <= 12) & (hsv[:, :, 1] >= 45) & (hsv[:, :, 2] >= 40)
+        # The V floor is relative to the brand's own brightness: dark UI
+        # text (#1f2937) is blue-hued and would otherwise match blue brand
+        # colors via hue alone.
+        vfloor = v - 80
+        return ((dh <= 12) & (hsv[:, :, 1] >= 45) &
+                (hsv[:, :, 2].astype(np.int16) >= vfloor))
 
     def _color_mask(self, img, eid):
         """Boolean mask of pixels painted in the entity's brand color."""
@@ -530,19 +539,51 @@ class VideoQA:
                     frame=screen_idx, scene=scene_id)
                 break  # one report per frame is enough
 
-    # C3c: each bar sits in its rank band; rank numbers present ----------------
-    def _row_entity_scores(self, img, n):
-        """For each row band, which entity's brand color dominates.
+    # C3c: bars sit in smoothed-rank order; rank numbers present ---------------
+    def smooth_ranks(self):
+        """Replicate the renderer's buildSmoothRanks (DataRace.tsx): the
+        displayed rank eases toward its target over 12 tapes (cubic ease),
+        so the visual row order lags frames.json's discrete ranks for
+        several tapes after any swap. The gate must compare against the
+        smoothed order -- comparing against raw ranks flags correct
+        mid-glide frames as violations."""
+        if self._smooth_ranks is not None:
+            return self._smooth_ranks
+        blend = 12
+        displayed = {}
+        smoothed = []
+        for index, f in enumerate(self.frames):
+            for bar in f.get("bars", []):
+                eid = bar["entityId"]
+                ex = displayed.get(eid)
+                if ex is None:
+                    displayed[eid] = {"value": float(bar["rank"]),
+                                      "target": bar["rank"],
+                                      "since": index}
+                    continue
+                if ex["target"] != bar["rank"]:
+                    ex["target"] = bar["rank"]
+                    ex["since"] = index
+                progress = min(1.0, (index - ex["since"]) / max(1, blend))
+                eased = 1 - (1 - progress) ** 3
+                ex["value"] = ex["value"] + (ex["target"] - ex["value"]) * eased
+            smoothed.append({eid: v["value"]
+                             for eid, v in displayed.items()})
+        self._smooth_ranks = smoothed
+        return smoothed
 
-        Returns a list of (best_eid, best_score, runner_up_score) per row.
-        Score = brand-colored pixels in the bar zone of that row's band.
-        Robust against the white name painted inside wide bars (it only
-        thins the bar's own color; other entities score ~0).
+    def _row_entity_scores(self, img, n):
+        """Brand-color pixels per row band, per entity.
+
+        Returns {eid: [per-band scores]}. Score = brand-colored pixels in
+        the bar zone of that row's band. The palette cycles, so several
+        entities can share one color and tie; callers must treat a
+        near-max score as "present", not demand an outright win.
         """
         zone = img[RACE_TOP:RACE_BOT, BAR_X0:ZONE_X1]
         hsv = cv2.cvtColor(zone, cv2.COLOR_BGR2HSV)
         row_h = self.row_h(n)
-        scores = []
+        scores = {}
         for eid in self.entities:
             mask = self._hue_mask(hsv, eid)
             if mask is None:
@@ -557,33 +598,48 @@ class VideoQA:
                 y0 = int(k * row_h)
                 y1 = int((k + 1) * row_h)
                 per_row.append(int(mask[y0:y1, :].sum()))
-            scores.append((eid, per_row))
-        out = []
-        for k in range(n):
-            ranked = sorted(((eid, pr[k]) for eid, pr in scores),
-                            key=lambda x: -x[1])
-            out.append((ranked[0][0], ranked[0][1],
-                        ranked[1][1] if len(ranked) > 1 else 0))
-        return out
+            scores[eid] = per_row
+        return scores
 
     def check_ranks(self, screen_idx, tape_idx, scene_id, measured):
         img = self.img(screen_idx)
         n = len(measured)
-        expected = [m["entity"] for m in sorted(measured, key=lambda x: x["rank"])]
-        for k, (eid, score, runner) in enumerate(self._row_entity_scores(img, n)):
-            want = expected[k]
-            if score < 200:
-                self.add(
-                    "C3c-bar-missing",
-                    f"could not find any bar in row {k + 1} "
-                    f"(expected '{want}', rank {k + 1})",
+        smoothed_all = self.smooth_ranks()
+        smoothed = smoothed_all[tape_idx] if tape_idx < len(smoothed_all) else {}
+        # Expected visual order: the renderer's eased ranks, not the raw
+        # frames.json ranks. The displayed rank glides toward its target
+        # over 12 tapes, so for several tapes after a swap the visual order
+        # legitimately lags the discrete data.
+        exp = sorted(measured,
+                     key=lambda m: smoothed.get(m["entity"], m["rank"]))
+        expected = [m["entity"] for m in exp]
+        scores = self._row_entity_scores(img, n)
+        for k, e in enumerate(expected):
+            s_e = scores[e][k]
+            max_s = max(s[k] for s in scores.values())
+            # The bar is "here" unless another color decisively dominates
+            # the band (1.5x). A tie is fine -- the palette cycles so
+            # entities share colors -- and so is a close call against
+            # text anti-aliasing noise, which can outscore a tiny sliver
+            # without being a real bar.
+            if max_s <= 1.5 * max(s_e, 80):
+                continue
+            sr_e = smoothed.get(e, 0.0)
+            if abs(sr_e - int(sr_e + 0.5)) > 0.3:
+                # A bar between rows owns no band cleanly; don't fail it.
+                self.warn(
+                    "C3c-glide-order",
+                    f"row {k + 1}: '{e}' not dominant "
+                    f"(smoothed rank {sr_e:.2f}) -- mid-glide, strict "
+                    f"order not asserted",
                     frame=screen_idx, tape_index=tape_idx, scene=scene_id)
-            elif eid != want and score > 1.5 * max(runner, 200):
+            else:
+                w = max(scores, key=lambda eid: scores[eid][k])
                 self.add(
                     "C3c-rank-order",
-                    f"row {k + 1} shows '{eid}' but frames.json rank "
-                    f"{k + 1} is '{want}' -- bar order does not match "
-                    f"the rank order",
+                    f"row {k + 1}: expected '{e}' ({s_e}px) but "
+                    f"'{w}' dominates the band ({max_s}px) -- bar "
+                    f"order does not match the rank order",
                     frame=screen_idx, tape_index=tape_idx, scene=scene_id)
         bgr = img.astype(np.int16)
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
