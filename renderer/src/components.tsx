@@ -176,7 +176,12 @@ export const RankingRow: React.FC<RankingRowProps> = ({
   flagBaseUrl,
 }) => {
   const barHeight = rowHeight - 16;
-  const barW = Math.max(110, widthFrac * maxBarWidth);
+  // Bar width is strictly proportional to value: widthFrac is value/maxValue
+  // from the frame tape. The minimum is a stub only (4px) so the pill still
+  // renders - a large clamp (this used to be 110px) makes every small bar
+  // identical width and destroys the visual ranking. Names that cannot fit
+  // inside a narrow bar are rendered outside past the value (see below).
+  const barW = Math.max(4, widthFrac * maxBarWidth);
   const baseFont = Math.max(20, rowHeight * 0.44);
   const flagSize = Math.min(rowHeight * 0.72, 46);
   const valueFont = Math.max(19, rowHeight * 0.4);

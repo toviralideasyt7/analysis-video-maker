@@ -193,11 +193,15 @@ const BarRace: React.FC<{
   const raceBottom = 648;
   const rowHeight = (raceBottom - raceTop) / Math.max(1, barCount);
   const barX0 = 96;
-  // The spotlight card lives at x=960. While it is visible the race compresses
-  // smoothly so bar-end labels (flag + value + outside names) never slide
-  // underneath the card. cardAppear is computed below; keep the *base* width
-  // here and derive the live width after the card logic.
-  const baseMaxBarWidth = 740; // leader's bar end; flag + value sit past it, card starts at x=960
+  // The spotlight card lives at x=960. The race width is CONSTANT on purpose:
+  // it used to be `740 - 150 * panelAppear`, so every time the spotlight card
+  // faded in or out (once per story segment - i.e. nearly every year) ALL bars
+  // visibly shrank and grew back even though no value changed. That read as
+  // the bars "refreshing"/resetting on every year tick. 600 keeps the
+  // leader's flag + value labels clear of the card (x=960) at all times
+  // (worst case: 96 + 600 + 12 + 46 + 12 + ~180px value < 960), so the card
+  // can fade freely without moving a single bar.
+  const maxBarWidth = 600;
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -274,9 +278,6 @@ const BarRace: React.FC<{
   }, [activeHighlight, rows, entityById]);
 
   const panelAppear = cardAppear;
-  // Live race width: compress smoothly while the spotlight card is on screen
-  // so bar-end labels never run underneath it (card at x=960, width 272).
-  const maxBarWidth = baseMaxBarWidth - 150 * panelAppear;
   const chromeAppear = interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   // Progress across the whole race (all segments), not just this one.
   const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
