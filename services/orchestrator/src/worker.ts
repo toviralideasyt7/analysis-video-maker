@@ -30,6 +30,11 @@ interface Env {
   GITHUB_OWNER?: string;
   GITHUB_REPO?: string;
   GITHUB_TOKEN?: string;
+  // Password gate: when set, all /api/* routes (except /api/health and
+  // /api/login) require a session token from POST /api/login.
+  APP_PASSWORD?: string;
+  // Shared secret the render-video workflow uses to report completion.
+  HOOK_SECRET?: string;
 }
 
 function getLimits(env: Env): WorkerLimits {
@@ -50,11 +55,114 @@ app.use('*', cors({
     if (allowed.length === 0) return origin; // allow all if not configured
     return allowed.includes(origin) ? origin : allowed[0];
   },
+  allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.get('/api/health', (c) =>
   c.json({ ok: true, at: new Date().toISOString(), worker: true })
 );
+
+// --- Password gate -------------------------------------------------
+// Restores the password protection the original studio had: the frontend
+// shows a password screen, POSTs to /api/login, and sends the returned
+// session token as `Authorization: Bearer <token>` (or `?token=` for
+// <video> tags, which cannot set headers). Sessions live in the same KV
+// namespace under `session:` keys, isolated from `project:` keys.
+
+const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
+
+function sessionKey(token: string): string {
+  return `session:${token}`;
+}
+
+function extractToken(c: { req: { header(name: string): string | undefined; query(name: string): string | undefined } }): string | null {
+  const auth = c.req.header('Authorization') ?? c.req.header('authorization');
+  if (auth && auth.toLowerCase().startsWith('bearer ')) return auth.slice(7).trim() || null;
+  const q = c.req.query('token');
+  return q ? q.trim() || null : null;
+}
+
+async function validSession(env: Env, token: string | null): Promise<boolean> {
+  if (!token) return false;
+  try {
+    const raw = await env.PROJECTS_KV.get(sessionKey(token));
+    if (!raw) return false;
+    const sess = JSON.parse(raw) as { expiresAt?: number };
+    if (!sess.expiresAt || sess.expiresAt < Date.now()) {
+      await env.PROJECTS_KV.delete(sessionKey(token)).catch(() => undefined);
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+app.post('/api/login', async (c) => {
+  const expected = c.env.APP_PASSWORD;
+  if (!expected) {
+    return c.json({ error: 'Password protection is not configured on the server (APP_PASSWORD secret missing)' }, 503);
+  }
+  const body = (await c.req.json().catch(() => ({}))) as { password?: string };
+  if (typeof body.password !== 'string' || body.password !== expected) {
+    return c.json({ error: 'Wrong password' }, 401);
+  }
+  const token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
+  const expiresAt = Date.now() + SESSION_TTL_SECONDS * 1000;
+  await c.env.PROJECTS_KV.put(sessionKey(token), JSON.stringify({ createdAt: new Date().toISOString(), expiresAt }));
+  return c.json({ ok: true, token, expiresAt: new Date(expiresAt).toISOString() });
+});
+
+app.post('/api/logout', async (c) => {
+  const token = extractToken(c);
+  if (token) await c.env.PROJECTS_KV.delete(sessionKey(token)).catch(() => undefined);
+  return c.json({ ok: true });
+});
+
+// Everything under /api/* needs a session, except the health check, the
+// login itself, and the CI hook (which carries its own secret).
+const PUBLIC_API_PATHS = new Set(['/api/health', '/api/login']);
+app.use('/api/*', async (c, next) => {
+  const path = c.req.path;
+  if (PUBLIC_API_PATHS.has(path) || path.startsWith('/api/hooks/')) return next();
+  if (await validSession(c.env, extractToken(c))) return next();
+  return c.json({ error: 'Unauthorized — please log in' }, 401);
+});
+
+// --- Render completion hook ----------------------------------------
+// Called by the render-video workflow (if: always()) when a render
+// finishes, so projects stop showing RENDERING forever. Authenticated
+// with the HOOK_SECRET shared secret, not a user session.
+app.post('/api/hooks/render-complete', async (c) => {
+  const expected = c.env.HOOK_SECRET;
+  if (!expected) return c.json({ error: 'hook not configured' }, 503);
+  const given = c.req.header('x-hook-secret') ?? '';
+  if (given !== expected) return c.json({ error: 'bad hook secret' }, 403);
+  const body = (await c.req.json().catch(() => ({}))) as {
+    projectId?: string; status?: string; runId?: number | null; assetName?: string; error?: string;
+  };
+  if (!body.projectId) return c.json({ error: 'projectId is required' }, 400);
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  let project;
+  try {
+    project = await store.load(body.projectId);
+  } catch {
+    return c.json({ error: 'project not found' }, 404);
+  }
+  const succeeded = body.status === 'success';
+  project.status = succeeded ? 'COMPLETED' : 'FAILED';
+  project.updatedAt = new Date().toISOString();
+  const prevJob = (project.renderJob ?? {}) as Record<string, unknown>;
+  project.renderJob = {
+    ...prevJob,
+    status: succeeded ? 'completed' : 'failed',
+    githubRunId: body.runId ?? prevJob.githubRunId ?? null,
+    artifactUrl: succeeded && body.assetName ? `/api/renders/file/${encodeURIComponent(body.assetName)}` : prevJob.artifactUrl ?? null,
+    notes: [...((prevJob.notes as string[] | undefined) ?? []), body.error ?? (succeeded ? 'Render completed' : 'Render workflow failed')],
+  };
+  await store.save(project);
+  return c.json({ ok: true, projectId: project.projectId, status: project.status });
+});
 
 // --- Projects (KV-backed) ---
 
@@ -345,6 +453,32 @@ app.post('/api/projects/:id/render', async (c) => {
       workflowRunUrl: `https://github.com/${owner}/${repo}/actions/workflows/render-video.yml`,
     },
   });
+});
+
+// Polled by the frontend while a project is RENDERING. When the workflow
+// reports back via /api/hooks/render-complete the status flips to
+// COMPLETED/FAILED and the finished video URL is included.
+app.get('/api/projects/:id/render/status', async (c) => {
+  const id = c.req.param('id');
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  let project;
+  try {
+    project = await store.load(id);
+  } catch {
+    return c.json({ error: 'project not found' }, 404);
+  }
+  const renderJob = (project.renderJob ?? null) as Record<string, unknown> | null;
+  let videoUrl: string | null = null;
+  if (project.status === 'COMPLETED' && renderJob?.artifactUrl) {
+    videoUrl = String(renderJob.artifactUrl);
+  } else if (project.status === 'COMPLETED') {
+    // Fall back to the release asset the workflow publishes.
+    const asset = `${id}-final.mp4`;
+    const videos = await listReleaseVideos(c.env);
+    const match = videos.find((v) => v.filename === asset);
+    if (match) videoUrl = match.url;
+  }
+  return c.json({ renderJob, status: project.status, videoUrl });
 });
 
 export default app;

@@ -10,6 +10,7 @@ import {
   FolderKanban,
   Home,
   Loader2,
+  Lock,
   Play,
   Plus,
   RefreshCw,
@@ -21,7 +22,7 @@ import {
   WifiOff,
   X,
 } from 'lucide-react';
-import { api, type ProjectSummary } from './api';
+import { api, authedUrl, getToken, setToken, type ProjectSummary } from './api';
 import {
   DataPlanView,
   DatasetView,
@@ -161,7 +162,8 @@ function ErrorBanner({ message, onRetry }: { message: string; onRetry?: () => vo
 /* ------------------------------------------------------------------ */
 
 function videoSrc(url: string): string {
-  return url.startsWith('http') ? url : `${API_BASE}${url}`;
+  const absolute = url.startsWith('http') ? url : `${API_BASE}${url}`;
+  return authedUrl(absolute);
 }
 
 function VideoPlayerModal({ video, onClose }: { video: RenderItem; onClose: () => void }): React.ReactElement {
@@ -668,6 +670,36 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [renderState, setRenderState] = useState<{ status: string; videoUrl: string | null } | null>(null);
+
+  const statusUpper = String(renderState?.status ?? project.status ?? '').toUpperCase();
+  const isRendering = statusUpper === 'RENDERING';
+  const isDone = statusUpper === 'COMPLETED';
+  const isFailed = statusUpper === 'FAILED';
+
+  // While a render is in flight, poll the backend until the workflow
+  // reports back (success or failure) so the status never gets stuck.
+  useEffect(() => {
+    if (String(project.status ?? '').toUpperCase() !== 'RENDERING') return;
+    let stop = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const poll = async () => {
+      try {
+        const res = await api.renderStatus(project.projectId);
+        if (stop) return;
+        setRenderState({ status: res.status, videoUrl: res.videoUrl });
+        if (String(res.status).toUpperCase() === 'RENDERING') {
+          timer = setTimeout(poll, 20000);
+        } else {
+          onRefresh();
+        }
+      } catch {
+        if (!stop) timer = setTimeout(poll, 30000);
+      }
+    };
+    void poll();
+    return () => { stop = true; if (timer) clearTimeout(timer); };
+  }, [project.projectId, project.status, onRefresh]);
 
   const trigger = async () => {
     setBusy(true);
@@ -676,6 +708,7 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
     try {
       const res = await api.render(project.projectId);
       setNote(res.dispatch?.message ?? 'Render dispatched. Watch the Videos tab — the video appears when the workflow finishes.');
+      setRenderState({ status: 'RENDERING', videoUrl: null });
       onRefresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to trigger render');
@@ -688,20 +721,104 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
     <div className="card space-y-4 p-6">
       <h2 className="text-lg font-bold text-white">Render video</h2>
       <p className="text-sm text-muted">
-        This dispatches the GitHub Actions render workflow. Rendering takes a few minutes;
+        This dispatches the GitHub Actions render workflow. Rendering takes a while;
         the finished video shows up in the Video Library automatically.
       </p>
       {error ? <ErrorBanner message={error} /> : null}
-      {note ? (
+      {note && !isRendering ? (
         <div className="success-banner" role="status">
           <CheckCircle2 size={18} aria-hidden="true" className="shrink-0" />
           <span>{note}</span>
         </div>
       ) : null}
-      <button type="button" className="btn-primary" onClick={trigger} disabled={busy}>
-        {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Clapperboard size={16} aria-hidden="true" />}
-        {busy ? 'Dispatching…' : 'Render on GitHub'}
-      </button>
+
+      {isRendering ? (
+        <div className="render-progress" role="status">
+          <Loader2 size={18} aria-hidden="true" className="animate-spin text-accent" />
+          <div>
+            <div className="font-semibold text-white">Rendering in progress…</div>
+            <p className="text-sm text-muted">This page updates automatically when the render finishes. You can leave and come back.</p>
+          </div>
+        </div>
+      ) : null}
+
+      {isDone && renderState?.videoUrl ? (
+        <div className="space-y-3">
+          <div className="success-banner" role="status">
+            <CheckCircle2 size={18} aria-hidden="true" className="shrink-0" />
+            <span>Render complete — your video is ready.</span>
+          </div>
+          <video src={videoSrc(renderState.videoUrl)} controls playsInline preload="metadata" className="w-full rounded-xl bg-black" style={{ maxHeight: '50vh' }} />
+          <a href={videoSrc(renderState.videoUrl)} download={`${project.projectId}-final.mp4`} className="btn-secondary w-fit">
+            <Download size={14} aria-hidden="true" /> Download MP4
+          </a>
+        </div>
+      ) : null}
+
+      {isFailed ? (
+        <ErrorBanner message="The render workflow failed. You can try rendering again." onRetry={trigger} />
+      ) : null}
+
+      {!isRendering ? (
+        <button type="button" className="btn-primary" onClick={trigger} disabled={busy}>
+          {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Clapperboard size={16} aria-hidden="true" />}
+          {busy ? 'Dispatching…' : isDone || isFailed ? 'Render again' : 'Render on GitHub'}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Password gate                                                       */
+/* ------------------------------------------------------------------ */
+
+function PasswordGate({ onUnlock }: { onUnlock: () => void }): React.ReactElement {
+  const [password, setPassword] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!password || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await api.login(password);
+      setToken(res.token);
+      setPassword('');
+      onUnlock();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="gate-wrap">
+      <form onSubmit={submit} className="card gate-card" aria-label="Studio login">
+        <div className="gate-icon" aria-hidden="true"><Lock size={22} /></div>
+        <h1 className="text-xl font-extrabold text-white">Race Video Studio</h1>
+        <p className="text-sm text-muted">This studio is password protected. Enter the password to continue.</p>
+        {error ? <ErrorBanner message={error} /> : null}
+        <label htmlFor="gate-password" className="form-label">Password</label>
+        <input
+          id="gate-password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Studio password"
+          className="input"
+          autoFocus
+          autoComplete="current-password"
+          required
+        />
+        <button type="submit" className="btn-primary w-full" disabled={busy || password.length === 0}>
+          {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Lock size={16} aria-hidden="true" />}
+          {busy ? 'Unlocking…' : 'Unlock studio'}
+        </button>
+      </form>
     </div>
   );
 }
@@ -723,6 +840,7 @@ export default function App(): React.ReactElement {
   const [projectsState, setProjectsState] = useState<'loading' | 'error' | 'ready'>('loading');
   const [videos, setVideos] = useState<RenderItem[]>([]);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [authed, setAuthed] = useState<boolean>(() => getToken() !== null);
   const backend = useBackendStatus();
 
   const loadProjects = useCallback(async () => {
@@ -765,6 +883,26 @@ export default function App(): React.ReactElement {
     window.scrollTo({ top: 0 });
   };
 
+  const logout = async () => {
+    try { await api.logout(); } catch { /* best effort */ }
+    setToken(null);
+    setAuthed(false);
+  };
+
+  useEffect(() => {
+    const onUnauthorized = () => setAuthed(false);
+    window.addEventListener('avm:unauthorized', onUnauthorized);
+    return () => window.removeEventListener('avm:unauthorized', onUnauthorized);
+  }, []);
+
+  if (!authed) {
+    return (
+      <div className="app-shell">
+        <PasswordGate onUnlock={() => setAuthed(true)} />
+      </div>
+    );
+  }
+
   return (
     <div className="app-shell">
       <a href="#main" className="skip-link">Skip to main content</a>
@@ -789,6 +927,9 @@ export default function App(): React.ReactElement {
         </nav>
         <div className="sidebar-foot">
           <BackendPill state={backend} />
+          <button type="button" onClick={logout} className="logout-btn" aria-label="Lock studio">
+            <Lock size={14} aria-hidden="true" /> Lock
+          </button>
         </div>
       </aside>
 

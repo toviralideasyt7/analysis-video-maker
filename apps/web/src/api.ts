@@ -8,11 +8,51 @@ import type { DataQualityReport, Dataset, Story, SourceCandidate, ThumbnailSpec,
 
 const BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? 'http://localhost:8787';
 
+const TOKEN_KEY = 'avm_session_token';
+
+export function getToken(): string | null {
+  try {
+    return localStorage.getItem(TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setToken(token: string | null): void {
+  try {
+    if (token) localStorage.setItem(TOKEN_KEY, token);
+    else localStorage.removeItem(TOKEN_KEY);
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+/** Append the session token to a URL so <video> tags (which can't set
+ *  headers) stay authorized. Query is placed before any #fragment. */
+export function authedUrl(url: string): string {
+  const token = getToken();
+  if (!token) return url;
+  const hashIdx = url.indexOf('#');
+  const base = hashIdx >= 0 ? url.slice(0, hashIdx) : url;
+  const hash = hashIdx >= 0 ? url.slice(hashIdx) : '';
+  const sep = base.includes('?') ? '&' : '?';
+  return `${base}${sep}token=${encodeURIComponent(token)}${hash}`;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getToken();
   const response = await fetch(`${BASE}${path}`, {
     ...init,
-    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers ?? {}),
+    },
   });
+  if (response.status === 401) {
+    setToken(null);
+    window.dispatchEvent(new CustomEvent('avm:unauthorized'));
+  }
   const text = await response.text();
   const body = text ? JSON.parse(text) : {};
   if (!response.ok) {
@@ -89,6 +129,14 @@ export interface ProjectState {
 
 export const api = {
   health: () => request<{ ok: boolean; rustCore: boolean; projects: number }>('/api/health'),
+  login: (password: string) =>
+    request<{ ok: boolean; token: string; expiresAt: string }>('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    }),
+  logout: () => request<{ ok: boolean }>('/api/logout', { method: 'POST' }),
+  renderStatus: (id: string) =>
+    request<{ renderJob: unknown; status: string; videoUrl: string | null }>(`/api/projects/${id}/render/status`),
   registry: () => request<{ registry: Array<Record<string, unknown>> }>('/api/sources'),
   listProjects: () => request<{ projects: ProjectSummary[] }>('/api/projects'),
   getProject: (id: string) => request<{ project: ProjectState }>(`/api/projects/${id}`),

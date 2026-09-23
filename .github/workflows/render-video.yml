@@ -192,3 +192,22 @@ jobs:
         if: always()
         run: |
           echo "project=${PROJECT_ID} status=${{ job.status }}"
+
+      # Tell the orchestrator worker the render finished (success or failure)
+      # so the studio stops showing the project as RENDERING forever. The
+      # worker marks the project COMPLETED/FAILED and links the finished MP4.
+      - name: Notify orchestrator of completion
+        if: always() && env.AVM_HOOK_SECRET != '' && inputs.projectId != ''
+        env:
+          AVM_HOOK_SECRET: ${{ secrets.AVM_HOOK_SECRET }}
+          HOOK_URL: https://avm-orchestrator.${{ vars.CLOUDFLARE_WORKERS_SUBDOMAIN }}.workers.dev/api/hooks/render-complete
+        run: |
+          set -uo pipefail
+          STATUS="failure"
+          if [ "${{ job.status }}" = "success" ]; then STATUS="success"; fi
+          curl -fsS --max-time 30 -X POST "$HOOK_URL" \
+            -H "Content-Type: application/json" \
+            -H "x-hook-secret: $AVM_HOOK_SECRET" \
+            -d "{\"projectId\": \"${{ inputs.projectId }}\", \"status\": \"$STATUS\", \"runId\": ${{ github.run_id }}, \"assetName\": \"${{ inputs.projectId }}-final.mp4\"}" \
+            && echo "orchestrator notified: $STATUS" \
+            || echo "hook notify failed (non-fatal)"
