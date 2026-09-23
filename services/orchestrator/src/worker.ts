@@ -197,6 +197,18 @@ app.get('/api/projects/:id', async (c) => {
   }
 });
 
+app.delete('/api/projects/:id', async (c) => {
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  const id = c.req.param('id');
+  try {
+    await store.load(id);
+  } catch {
+    return c.json({ error: 'not found' }, 404);
+  }
+  await store.remove(id);
+  return c.json({ ok: true, deleted: id });
+});
+
 // --- Renders ---
 // Videos are published as GitHub release assets by the render-video workflow.
 // The worker lists them via the GitHub API so new renders appear automatically.
