@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "TOP 10 LARGEST ECONOMIES",
+  "subtitle": "BY GDP 1960-2024",
+  "entities": [
+    "United States",
+    "China",
+    "Germany"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

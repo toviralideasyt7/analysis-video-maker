@@ -1,0 +1,276 @@
+{
+  "version": "1.0",
+  "title": "Top 10 Largest Economies by GDP 1960-2024",
+  "subtitle": "1960 - 2024",
+  "hook": "Top 10 Largest Economies by GDP 1960-2024, 1960 to 2024.",
+  "setup": "109 entities, 6271 observations, 0 verified by independent agreement.",
+  "sequence": [
+    {
+      "atLabel": "1960",
+      "text": "1960: United States leads."
+    },
+    {
+      "atLabel": "1961",
+      "text": "1961: United States leads."
+    },
+    {
+      "atLabel": "1962",
+      "text": "1962: United States leads."
+    },
+    {
+      "atLabel": "1963",
+      "text": "1963: United States leads."
+    },
+    {
+      "atLabel": "1964",
+      "text": "1964: United States leads."
+    },
+    {
+      "atLabel": "1965",
+      "text": "1965: United States leads."
+    },
+    {
+      "atLabel": "1966",
+      "text": "1966: United States leads."
+    },
+    {
+      "atLabel": "1967",
+      "text": "1967: United States leads."
+    },
+    {
+      "atLabel": "1968",
+      "text": "1968: United States leads."
+    },
+    {
+      "atLabel": "1969",
+      "text": "1969: United States leads."
+    },
+    {
+      "atLabel": "1970",
+      "text": "1970: United States leads."
+    },
+    {
+      "atLabel": "1971",
+      "text": "1971: United States leads."
+    },
+    {
+      "atLabel": "1972",
+      "text": "1972: United States leads."
+    },
+    {
+      "atLabel": "1973",
+      "text": "1973: United States leads."
+    },
+    {
+      "atLabel": "1974",
+      "text": "1974: United States leads."
+    },
+    {
+      "atLabel": "1975",
+      "text": "1975: United States leads."
+    },
+    {
+      "atLabel": "1976",
+      "text": "1976: United States leads."
+    },
+    {
+      "atLabel": "1977",
+      "text": "1977: United States leads."
+    },
+    {
+      "atLabel": "1978",
+      "text": "1978: United States leads."
+    },
+    {
+      "atLabel": "1979",
+      "text": "1979: United States leads."
+    },
+    {
+      "atLabel": "1980",
+      "text": "1980: United States leads."
+    },
+    {
+      "atLabel": "1981",
+      "text": "1981: United States leads."
+    },
+    {
+      "atLabel": "1982",
+      "text": "1982: United States leads."
+    },
+    {
+      "atLabel": "1983",
+      "text": "1983: United States leads."
+    },
+    {
+      "atLabel": "1984",
+      "text": "1984: United States leads."
+    },
+    {
+      "atLabel": "1985",
+      "text": "1985: United States leads."
+    },
+    {
+      "atLabel": "1986",
+      "text": "1986: United States leads."
+    },
+    {
+      "atLabel": "1987",
+      "text": "1987: United States leads."
+    },
+    {
+      "atLabel": "1988",
+      "text": "1988: United States leads."
+    },
+    {
+      "atLabel": "1989",
+      "text": "1989: United States leads."
+    },
+    {
+      "atLabel": "1990",
+      "text": "1990: United States leads."
+    },
+    {
+      "atLabel": "1991",
+      "text": "1991: United States leads."
+    },
+    {
+      "atLabel": "1992",
+      "text": "1992: United States leads."
+    },
+    {
+      "atLabel": "1993",
+      "text": "1993: United States leads."
+    },
+    {
+      "atLabel": "1994",
+      "text": "1994: United States leads."
+    },
+    {
+      "atLabel": "1995",
+      "text": "1995: United States leads."
+    },
+    {
+      "atLabel": "1996",
+      "text": "1996: United States leads."
+    },
+    {
+      "atLabel": "1997",
+      "text": "1997: United States leads."
+    },
+    {
+      "atLabel": "1998",
+      "text": "1998: United States leads."
+    },
+    {
+      "atLabel": "1999",
+      "text": "1999: United States leads."
+    },
+    {
+      "atLabel": "2000",
+      "text": "2000: United States leads."
+    },
+    {
+      "atLabel": "2001",
+      "text": "2001: United States leads."
+    },
+    {
+      "atLabel": "2002",
+      "text": "2002: United States leads."
+    },
+    {
+      "atLabel": "2003",
+      "text": "2003: United States leads."
+    },
+    {
+      "atLabel": "2004",
+      "text": "2004: United States leads."
+    },
+    {
+      "atLabel": "2005",
+      "text": "2005: United States leads."
+    },
+    {
+      "atLabel": "2006",
+      "text": "2006: United States leads."
+    },
+    {
+      "atLabel": "2007",
+      "text": "2007: United States leads."
+    },
+    {
+      "atLabel": "2008",
+      "text": "2008: United States leads."
+    },
+    {
+      "atLabel": "2009",
+      "text": "2009: United States leads."
+    },
+    {
+      "atLabel": "2010",
+      "text": "2010: United States leads."
+    },
+    {
+      "atLabel": "2011",
+      "text": "2011: United States leads."
+    },
+    {
+      "atLabel": "2012",
+      "text": "2012: United States leads."
+    },
+    {
+      "atLabel": "2013",
+      "text": "2013: United States leads."
+    },
+    {
+      "atLabel": "2014",
+      "text": "2014: United States leads."
+    },
+    {
+      "atLabel": "2015",
+      "text": "2015: United States leads."
+    },
+    {
+      "atLabel": "2016",
+      "text": "2016: United States leads."
+    },
+    {
+      "atLabel": "2017",
+      "text": "2017: United States leads."
+    },
+    {
+      "atLabel": "2018",
+      "text": "2018: United States leads."
+    },
+    {
+      "atLabel": "2019",
+      "text": "2019: United States leads."
+    },
+    {
+      "atLabel": "2020",
+      "text": "2020: United States leads."
+    },
+    {
+      "atLabel": "2021",
+      "text": "2021: United States leads."
+    },
+    {
+      "atLabel": "2022",
+      "text": "2022: United States leads."
+    },
+    {
+      "atLabel": "2023",
+      "text": "2023: United States leads."
+    },
+    {
+      "atLabel": "2024",
+      "text": "2024: no data leads."
+    }
+  ],
+  "highlights": [],
+  "ending": "United States starts first; United States ends first.",
+  "sourcesLine": "Data: World Bank",
+  "generatedBy": {
+    "agent": "deterministic-story",
+    "at": "2026-09-23T04:16:59.629Z"
+  }
+}

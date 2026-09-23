@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "topic": "Top 10 Largest Economies by GDP 1960-2024",
+  "metric": "Top 10 Largest Economies by GDP 1960-2024",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Measured quantity",
+      "description": "the primary measurable quantity for this topic",
+      "measurableDefinition": "a numeric value with an explicit unit per entity per period",
+      "recommended": true
+    },
+    {
+      "id": "b",
+      "label": "Alternative proxy",
+      "description": "a different but defensible proxy for the same claim",
+      "measurableDefinition": "a different numeric proxy, stated explicitly"
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1960",
+    "end": "2024"
+  },
+  "frequency": "annual",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [],
+  "preferredSources": [
+    "World Bank Open Data",
+    "Our World in Data",
+    "UNdata",
+    "OECD"
+  ],
+  "knownRisks": [
+    "the topic uses an ambiguous superlative; the metric definition must be confirmed before publishing"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10,
+  "generatedBy": {
+    "agent": "deterministic-planner",
+    "at": "2026-09-23T04:13:34.855Z"
+  }
+}
