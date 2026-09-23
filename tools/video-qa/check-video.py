@@ -133,6 +133,14 @@ class VideoQA:
         self._paths = {}
         self.scenes = self._scene_map()
 
+    def row_h(self, n):
+        """Row height matching the renderer (DataRace.tsx): constant across
+        the whole video, based on the tape's topN. Frames showing fewer than
+        topN bars leave vacant space below instead of stretching rows, so the
+        QA bands must use topN too - n-based bands misalign every row."""
+        top_n = self.tape.get("topN") or n
+        return (RACE_BOT - RACE_TOP) / max(1, top_n)
+
     # ------------------------------------------------------- scenes ------
     def _scene_map(self):
         """Screen-frame ranges for every scene, from video-spec.json."""
@@ -362,7 +370,7 @@ class VideoQA:
         img = self.img(screen_idx)
         rows = self.frame_rows(tape_idx)
         n = len(rows)
-        row_h = (RACE_BOT - RACE_TOP) / max(1, n)
+        row_h = self.row_h(n)
         out = []
         for k, (eid, value, rank) in enumerate(rows):
             ymid = RACE_TOP + (k + 0.5) * row_h
@@ -533,7 +541,7 @@ class VideoQA:
         """
         zone = img[RACE_TOP:RACE_BOT, BAR_X0:ZONE_X1]
         hsv = cv2.cvtColor(zone, cv2.COLOR_BGR2HSV)
-        row_h = (RACE_BOT - RACE_TOP) / max(1, n)
+        row_h = self.row_h(n)
         scores = []
         for eid in self.entities:
             mask = self._hue_mask(hsv, eid)
@@ -580,11 +588,17 @@ class VideoQA:
         bgr = img.astype(np.int16)
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
         gray = ((mx - mn) < 30) & (mx >= 110) & (mx <= 215)
-        row_h = (RACE_BOT - RACE_TOP) / max(1, n)
+        row_h = self.row_h(n)
         for k, m in enumerate(sorted(measured, key=lambda x: x["ymid"])):
             y0 = int(RACE_TOP + k * row_h)
             y1 = int(RACE_TOP + (k + 1) * row_h)
-            box = gray[y0:y1, MARGIN_X0:MARGIN_X1]
+            # The numeral rides with its bar, which glides between rows during
+            # transitions (fractional ranks), so at a sampled frame it can sit
+            # up to half a row off its band. Search a half-row-taller window:
+            # a present numeral is still ~40+ px, a truly missing one ~0.
+            wy0 = max(0, int(y0 - row_h / 2))
+            wy1 = int(y1 + row_h / 2)
+            box = gray[wy0:wy1, MARGIN_X0:MARGIN_X1]
             # threshold 25: a present numeral is ~40+ px even at 10 rows;
             # a truly missing one is ~0
             if int(box.sum()) < 25:
