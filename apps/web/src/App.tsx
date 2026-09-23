@@ -652,6 +652,7 @@ function ProjectDetail({ projectId, onBack }: { projectId: string; onBack: () =>
       </div>
 
       <div role="tabpanel">
+        <ResearchControls project={project} onRefresh={load} />
         {tab === 'Overview' && <Overview project={project} />}
         {tab === 'Data Plan' && <DataPlanView plan={project.dataPlan} />}
         {tab === 'Sources' && <SourcesView sources={project.sources} />}
@@ -664,6 +665,135 @@ function ProjectDetail({ projectId, onBack }: { projectId: string; onBack: () =>
       </div>
     </div>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/* Research controls: move a project out of DRAFT                       */
+/* ------------------------------------------------------------------ */
+
+function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () => void }): React.ReactElement | null {
+  const statusUpper = String(project.status ?? '').toUpperCase();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [indicator, setIndicator] = useState('');
+  const [topN, setTopN] = useState('10');
+
+  // While research runs, poll the backend until the data bundle lands in the
+  // repo — then refresh so the project flips to READY by itself.
+  useEffect(() => {
+    if (statusUpper !== 'RESEARCHING') return;
+    let alive = true;
+    let timer: ReturnType<typeof setTimeout>;
+    const check = async () => {
+      try {
+        const res = (await api.researchStatus(project.projectId)) as { bundleReady?: boolean };
+        if (res.bundleReady) {
+          if (alive) onRefresh();
+          return;
+        }
+      } catch {
+        /* keep polling */
+      }
+      if (alive) timer = setTimeout(check, 30000);
+    };
+    timer = setTimeout(check, 15000);
+    return () => {
+      alive = false;
+      clearTimeout(timer);
+    };
+  }, [project.projectId, statusUpper, onRefresh]);
+
+  const start = async () => {
+    if (busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await api.research(project.projectId, {
+        ...(indicator.trim() ? { worldBankIndicator: indicator.trim() } : {}),
+        topN: Number(topN) > 0 ? Number(topN) : 10,
+      });
+      setShowForm(false);
+      onRefresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to start research');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (statusUpper === 'DRAFT') {
+    return (
+      <div className="mb-6 space-y-3">
+        {error ? <ErrorBanner message={error} onRetry={() => setError(null)} /> : null}
+        {!showForm ? (
+          <button type="button" className="btn-primary" onClick={() => setShowForm(true)}>
+            <Sparkles size={16} aria-hidden="true" /> Start research
+          </button>
+        ) : (
+          <div className="card space-y-3 p-4">
+            <p className="text-sm text-muted">
+              Research runs on GitHub Actions and takes a while — the data bundle is committed automatically when it finishes.
+            </p>
+            <label className="block text-sm">
+              <span className="form-label">World Bank indicator (optional)</span>
+              <input
+                className="form-input"
+                value={indicator}
+                onChange={(e) => setIndicator(e.target.value)}
+                placeholder="e.g. NY.GDP.MKTP.CD — leave empty for web research"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="form-label">Entities in the race</span>
+              <input
+                className="form-input"
+                value={topN}
+                onChange={(e) => setTopN(e.target.value)}
+                inputMode="numeric"
+              />
+            </label>
+            <div className="flex gap-2">
+              <button type="button" className="btn-primary" onClick={start} disabled={busy}>
+                {busy ? <Loader2 size={16} aria-hidden="true" className="animate-spin" /> : <Sparkles size={16} aria-hidden="true" />}
+                {busy ? 'Dispatching…' : 'Run research'}
+              </button>
+              <button type="button" className="btn-secondary" onClick={() => setShowForm(false)} disabled={busy}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (statusUpper === 'RESEARCHING') {
+    return (
+      <div className="mb-6" role="status">
+        <div className="render-progress">
+          <Loader2 size={18} aria-hidden="true" className="animate-spin shrink-0" />
+          <div>
+            <div className="font-semibold text-white">Research in progress…</div>
+            <p className="text-sm text-muted">Running on GitHub Actions. This page updates automatically when the data bundle lands — you can leave and come back.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (statusUpper === 'READY') {
+    return (
+      <div className="mb-6">
+        <div className="success-banner" role="status">
+          <CheckCircle2 size={18} aria-hidden="true" className="shrink-0" />
+          <span>Research complete — review the data, then head to the Render tab.</span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void }): React.ReactElement {

@@ -13,6 +13,10 @@ on:
         description: Topic to research
         required: true
         default: "World Population by Country 1960-2024"
+      projectId:
+        description: Studio project id — the bundle is committed to bundles/<projectId>/
+        required: false
+        default: ""
       worldBankIndicator:
         description: Optional World Bank indicator id
         required: false
@@ -31,7 +35,7 @@ on:
         default: "false"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   research:
@@ -78,6 +82,24 @@ jobs:
           fi
           npx tsx services/orchestrator/src/scripts/demo-research.ts "${ARGS[@]}"
 
+      # The runner names the project dir itself (topic + timestamp). When the
+      # studio dispatched this run it passed its own project id — rename the
+      # bundle to it so the Render tab picks it up without manual juggling.
+      - name: Name the bundle after the studio project
+        if: ${{ inputs.projectId != '' }}
+        run: |
+          set -euo pipefail
+          dirs=(projects/*/)
+          if [ "${#dirs[@]}" -ne 1 ]; then
+            echo "expected exactly one project dir, found ${#dirs[@]}"
+            exit 1
+          fi
+          src="${dirs[0]%/}"
+          if [ "$src" != "projects/${{ inputs.projectId }}" ]; then
+            mv "$src" "projects/${{ inputs.projectId }}"
+          fi
+          ls "projects/${{ inputs.projectId }}"
+
       - name: Validate every produced bundle
         run: |
           set -euo pipefail
@@ -102,3 +124,22 @@ jobs:
           path: projects/
           retention-days: 14
           if-no-files-found: error
+
+      # Commit the bundle into the repo so the studio's Render button works
+      # straight after research — no manual download/commit step in between.
+      - name: Commit research bundle to the repo
+        if: ${{ inputs.projectId != '' }}
+        run: |
+          set -euo pipefail
+          git config user.name "avm-research-bot"
+          git config user.email "avm-research-bot@users.noreply.github.com"
+          rm -rf "bundles/${{ inputs.projectId }}"
+          mkdir -p bundles
+          cp -r "projects/${{ inputs.projectId }}" "bundles/${{ inputs.projectId }}"
+          git add "bundles/${{ inputs.projectId }}"
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "research: bundle for ${{ inputs.projectId }}"
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi

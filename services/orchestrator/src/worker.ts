@@ -377,11 +377,115 @@ app.get('/api/renders/file/:filename', async (c) => {
 // the worker supports project CRUD and video serving. Research can be
 // triggered via the GitHub Actions workflow.
 
+// --- Research: dispatch the GitHub Actions research workflow ---
+// This is what moves a project out of DRAFT: the workflow runs the full
+// research pipeline (plan -> sources -> dataset -> story -> VideoSpec) and
+// commits the resulting bundle to bundles/<projectId>/ in the repo itself,
+// so the Render tab works right after.
 app.post('/api/projects/:id/research', async (c) => {
+  const id = c.req.param('id');
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  let project;
+  try {
+    project = await store.load(id);
+  } catch {
+    return c.json({ error: 'project not found' }, 404);
+  }
+
+  const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
+  const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
+  const token = c.env.GITHUB_TOKEN;
+  if (!token) {
+    return c.json({ error: 'GitHub token not configured on worker (GITHUB_TOKEN secret missing)' }, 500);
+  }
+
+  const body = (await c.req.json().catch(() => ({}))) as {
+    worldBankIndicator?: string; topN?: number | string; skipAi?: boolean;
+  };
+
+  const dispatchRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/actions/workflows/research.yml/dispatches`,
+    {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'avm-orchestrator-worker',
+      },
+      body: JSON.stringify({
+        ref: 'main',
+        inputs: {
+          topic: project.topic,
+          projectId: id,
+          worldBankIndicator: String(body.worldBankIndicator ?? ''),
+          topN: String(body.topN ?? 10),
+          framesPerTransition: '20',
+          skipAi: body.skipAi ? 'true' : 'false',
+        },
+      }),
+    }
+  );
+
+  if (!dispatchRes.ok) {
+    const errText = await dispatchRes.text();
+    return c.json({ error: `GitHub dispatch failed: ${dispatchRes.status} ${errText.slice(0, 200)}` }, 502);
+  }
+
+  project.status = 'RESEARCHING';
+  project.updatedAt = new Date().toISOString();
+  await store.save(project);
+
   return c.json({
-    error: 'Research runs on the full backend. Use the GitHub Actions research workflow or run locally.',
-    hint: 'POST to /api/projects/:id/research on your Render deployment, or dispatch the research.yml workflow.'
-  }, 501);
+    accepted: true,
+    status: 'RESEARCHING',
+    message: 'Research dispatched. This page updates automatically when the data bundle lands.',
+    workflowRunUrl: `https://github.com/${owner}/${repo}/actions/workflows/research.yml`,
+  });
+});
+
+// Polled by the frontend while a project is RESEARCHING. Research is done
+// when its bundle lands in the repo (the research workflow commits
+// bundles/<projectId>/ itself on success); the status then flips to READY.
+app.get('/api/projects/:id/research/status', async (c) => {
+  const id = c.req.param('id');
+  const store = new KVProjectStore(c.env.PROJECTS_KV);
+  let project;
+  try {
+    project = await store.load(id);
+  } catch {
+    return c.json({ error: 'project not found' }, 404);
+  }
+
+  const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
+  const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
+  const token = c.env.GITHUB_TOKEN;
+  let bundleReady = false;
+  if (token) {
+    try {
+      const check = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/bundles/${id}`,
+        {
+          headers: {
+            'Accept': 'application/vnd.github+json',
+            'Authorization': `Bearer ${token}`,
+            'User-Agent': 'avm-orchestrator-worker',
+          },
+        }
+      );
+      bundleReady = check.ok;
+    } catch {
+      bundleReady = false;
+    }
+  }
+
+  if (bundleReady && project.status === 'RESEARCHING') {
+    project.status = 'READY';
+    project.updatedAt = new Date().toISOString();
+    await store.save(project);
+  }
+
+  return c.json({ status: project.status, bundleReady });
 });
 
 // --- Render: dispatch the GitHub Actions render-video workflow ---
