@@ -27,8 +27,8 @@ async function main(): Promise<void> {
   const spec = JSON.parse(readFileSync(join(projectDir, 'video-spec.json'), 'utf8')) as VideoSpec;
   const dataset = JSON.parse(readFileSync(join(projectDir, 'dataset.json'), 'utf8')) as Dataset;
 
-  const title = (spec as any).title ?? spec.topic ?? 'Data Race';
-  const topic = spec.topic ?? title;
+  const title = spec.metadata.title ?? 'Data Race';
+  const topic = (spec as any).topic ?? title;
   const entities: string[] = Array.isArray((dataset as any).entities)
     ? (dataset as any).entities.slice(0, 12).map((e: any) => e.name ?? e.id ?? String(e))
     : [];
@@ -54,8 +54,8 @@ Rules:
 
 Return ONLY valid JSON with keys: "title", "description", "tags" (array of strings). No markdown, no commentary.`;
 
-  const raw = await ai.completeRole('writer', {
-    messages: [{ role: 'user', content: prompt }],
+  const raw = await ai.completeRole('story', {
+    prompt,
     maxTokens: 1200,
     temperature: 0.8,
   });

@@ -206,7 +206,7 @@ jobs:
 
       - name: Generate YouTube metadata (AI title, description, tags)
         env:
-NARA_API_KEY: <redacted>
+          NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
           NARA_BASE_URL: ${{ vars.NARA_BASE_URL || 'https://router.bynara.id/v1' }}
           GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
           GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
