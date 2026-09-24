@@ -115,6 +115,38 @@ jobs:
             --thumbnail-only \
             --out "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
 
+      # Background music: download the channel's copyright-free playlist once
+      # (cached between runs), then pick a random track per render.
+      - name: Cache background music
+        id: music-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/music
+          key: bgmusic-PLKKtUxVbXouw-v1
+
+      - name: Download background music tracks
+        if: steps.music-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          pip install --quiet yt-dlp
+          mkdir -p ~/music
+          for id in 8nqhDZ7aqus MkNeIUgNPQ8 Ssvu2yncgWU etOKeFgm5LQ gDI8KBGrrWo hAeyTgeHOI8 hEScrJr7IV0; do
+            if [ ! -f ~/music/$id.mp3 ]; then
+              yt-dlp --extractor-args "youtube:player_client=android" -x --audio-format mp3 \
+                --audio-quality 128K -o "$HOME/music/%(id)s.%(ext)s" \
+                "https://www.youtube.com/watch?v=$id" || echo "track $id failed, skipping"
+            fi
+          done
+          ls ~/music/*.mp3
+
+      - name: Pick random music track
+        id: music
+        run: |
+          set -euo pipefail
+          TRACK=$(ls ~/music/*.mp3 | shuf -n 1)
+          echo "track=${TRACK}" >> "$GITHUB_OUTPUT"
+          echo "picked: ${TRACK}"
+
       # The GitHub-hosted Ubuntu image does not ship ffmpeg, so install it only
       # when it is missing. The same binary is then used for the probe below.
       - name: Ensure ffmpeg is available
@@ -133,6 +165,25 @@ jobs:
           IN="projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
           OUT="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
           ffmpeg -y -i "$IN" -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p -movflags +faststart -an "$OUT"
+
+      # Mix the randomly picked background track under the video at low
+      # volume, looping/trimming it to the video length.
+      - name: Mix background music
+        run: |
+          set -euo pipefail
+          IN="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
+          TRACK="${{ steps.music.outputs.track }}"
+          if [ -n "$TRACK" ] && [ -f "$TRACK" ]; then
+            DUR=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$IN")
+            ffmpeg -y -i "$IN" -stream_loop -1 -i "$TRACK" \
+              -filter_complex "[1:a]volume=0.12,atrim=0:${DUR}[bg]" \
+              -map 0:v -map "[bg]" -c:v copy -c:a aac -b:a 128k -shortest \
+              -movflags +faststart "projects/${PROJECT_ID}/renders/${PROJECT_ID}-music.mp4"
+            mv "projects/${PROJECT_ID}/renders/${PROJECT_ID}-music.mp4" "$IN"
+            echo "mixed ${TRACK} into ${IN}"
+          else
+            echo "no music track available, keeping silent video"
+          fi
 
       - name: Validate the rendered MP4
         run: |
@@ -153,6 +204,35 @@ jobs:
             --frames "bundles/${PROJECT_ID}" \
             --out "projects/${PROJECT_ID}/renders/videoqa-report.json"
 
+      - name: Generate YouTube metadata (AI title, description, tags)
+        env:
+NARA_API_KEY: <redacted>
+          NARA_BASE_URL: ${{ vars.NARA_BASE_URL || 'https://router.bynara.id/v1' }}
+          GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
+          GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+        run: |
+          set -euo pipefail
+          npx tsx services/orchestrator/src/scripts/generate-metadata.ts \
+            --project "projects/${PROJECT_ID}" \
+            --out "projects/${PROJECT_ID}/renders/metadata.json" || echo "metadata generation failed (non-fatal)"
+
+      - name: Generate YouTube thumbnail
+        run: |
+          set -euo pipefail
+          pip install --quiet pillow
+          TITLE=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('title','Data Race'))")
+          YEARS=$(python3 -c "
+          import json
+          d=json.load(open('projects/${PROJECT_ID}/dataset.json'))
+          ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
+          print(f'{min(ys)} - {max(ys)}' if ys else '')")
+          KICKER=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('topic','').upper()[:60])")
+          python3 tools/make-thumbnail.py \
+            --video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
+            --title "$TITLE" --subtitle "$YEARS" --kicker "$KICKER" \
+            --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg" \
+            || echo "thumbnail generation failed (non-fatal)"
+
       - name: Upload the render artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -160,6 +240,7 @@ jobs:
           path: |
             projects/${{ inputs.projectId }}/renders/*.mp4
             projects/${{ inputs.projectId }}/renders/*.jpg
+            projects/${{ inputs.projectId }}/renders/metadata.json
             projects/${{ inputs.projectId }}/renders/probe.json
             projects/${{ inputs.projectId }}/renders/videoqa-report.json
           if-no-files-found: error
@@ -205,6 +286,37 @@ jobs:
           fi
           gh release upload videos-20260922 "$MP4" --clobber
           echo "Uploaded $ASSET_NAME to release videos-20260922"
+          # Also publish the thumbnail + metadata JSON alongside the video.
+          for f in "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg" \
+                   "projects/${PROJECT_ID}/renders/metadata.json"; do
+            [ -f "$f" ] || continue
+            ANAME="${PROJECT_ID}-$(basename "$f")"
+            if gh release view videos-20260922 --json assets -q ".assets[].name" | grep -qx "$ANAME"; then
+              gh release delete-asset videos-20260922 "$ANAME" --yes
+            fi
+            gh release upload videos-20260922 "$f" --clobber
+            echo "Uploaded $ANAME to release videos-20260922"
+          done
+
+      # Upload to YouTube with the AI-generated title, description, tags and
+      # thumbnail. Runs only when the YouTube OAuth secrets are configured.
+      - name: Upload to YouTube
+        if: success() && env.YOUTUBE_REFRESH_TOKEN != ''
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YT_PRIVACY: ${{ vars.YT_PRIVACY || 'public' }}
+        run: |
+          set -euo pipefail
+          ARGS=(--video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
+                --metadata "projects/${PROJECT_ID}/renders/metadata.json"
+                --privacy "${YT_PRIVACY}")
+          if [ -f "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg" ]; then
+            ARGS+=(--thumbnail "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg")
+          fi
+          python3 tools/youtube-upload.py "${ARGS[@]}" | tee "projects/${PROJECT_ID}/renders/youtube-url.txt" \
+            || echo "youtube upload failed (non-fatal)"
 
       # Optional: push the finished asset to Cloudflare R2 (S3 compatible).
       - name: Publish to object storage
