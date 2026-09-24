@@ -115,35 +115,14 @@ jobs:
             --thumbnail-only \
             --out "${GITHUB_WORKSPACE}/projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
 
-      # Background music: download the channel's copyright-free playlist once
-      # (cached between runs), then pick a random track per render.
-      - name: Cache background music
-        id: music-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/music
-          key: bgmusic-PLKKtUxVbXouw-v1
-
-      - name: Download background music tracks
-        if: steps.music-cache.outputs.cache-hit != 'true'
-        run: |
-          set -euo pipefail
-          pip install --quiet yt-dlp
-          mkdir -p ~/music
-          for id in 8nqhDZ7aqus MkNeIUgNPQ8 Ssvu2yncgWU etOKeFgm5LQ gDI8KBGrrWo hAeyTgeHOI8 hEScrJr7IV0; do
-            if [ ! -f ~/music/$id.mp3 ]; then
-              yt-dlp --extractor-args "youtube:player_client=android" -x --audio-format mp3 \
-                --audio-quality 128K -o "$HOME/music/%(id)s.%(ext)s" \
-                "https://www.youtube.com/watch?v=$id" || echo "track $id failed, skipping"
-            fi
-          done
-          ls ~/music/*.mp3
-
+      # Background music: 5 copyright-free tracks from the channel's playlist
+      # live in assets/music/ (committed, so no download/bot-block risk).
+      # A random track is picked per render.
       - name: Pick random music track
         id: music
         run: |
           set -euo pipefail
-          TRACK=$(ls ~/music/*.mp3 | shuf -n 1)
+          TRACK=$(ls "${GITHUB_WORKSPACE}/assets/music/"*.mp3 | shuf -n 1)
           echo "track=${TRACK}" >> "$GITHUB_OUTPUT"
           echo "picked: ${TRACK}"
 
