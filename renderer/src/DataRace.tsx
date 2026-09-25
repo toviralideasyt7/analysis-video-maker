@@ -385,7 +385,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
           <AbsoluteFill style={{ justifyContent: 'center', padding: '0 110px', background: theme.background }}>
             <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '0.22em', color: theme.accent, marginBottom: 22 }}>WHAT THIS SHOWS</div>
             <TitleBlock
-              title={introScene.scene.title ?? ''}
+              title={introScene.scene.title || spec.metadata.title || ''}
               subtitle={introScene.scene.subtitle}
               theme={theme}
               align="left"

@@ -1442,7 +1442,15 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
 
   const scenes: VideoSpec['scenes'] = [
     { id: 'scene_title', type: 'title', duration: titleSeconds, title: story.title, subtitle: story.subtitle },
-    { id: 'scene_intro', type: 'intro', duration: introSeconds, title: story.hook, subtitle: story.setup },
+    {
+      id: 'scene_intro',
+      type: 'intro',
+      duration: introSeconds,
+      // Never leave the intro blank: fall back to the video title when the
+      // story hook/setup are missing (e.g. story step skipped).
+      title: story.hook || story.title || dataset.name,
+      subtitle: story.setup || story.subtitle || '',
+    },
   ];
   segments.forEach((seg, i) => {
     const segFrames = Math.max(1, seg.endFrame - seg.startFrame + 1);

@@ -27,7 +27,9 @@
       "id": "scene_title",
       "type": "title",
       "duration": 8,
-      "datasetRef": "dataset_best-selling-game-consoles-20260925"
+      "datasetRef": "dataset_best-selling-game-consoles-20260925",
+      "title": "Best-Selling Game Consoles",
+      "subtitle": "1984 - 2026"
     },
     {
       "id": "scene_intro",
@@ -37,7 +39,9 @@
       "props": {
         "title": "Best-Selling Game Consoles",
         "subtitle": "Cumulative units sold, 1984\u20132026"
-      }
+      },
+      "title": "Four decades of console wars, ranked by total units sold",
+      "subtitle": "From the NES to the Switch: which console sold the most?"
     },
     {
       "id": "scene_race_1",
