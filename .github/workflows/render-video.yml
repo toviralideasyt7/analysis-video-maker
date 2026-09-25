@@ -255,7 +255,10 @@ jobs:
           set -euo pipefail
           IN="projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
           OUT="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
-          ffmpeg -y -i "$IN" -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p -movflags +faststart -an "$OUT"
+          # The chunks are already H.264 from Remotion; a lossy re-encode here
+          # shifts bar colors just enough to break the QA's HSV detection.
+          # Copy the stream and only add the faststart flag.
+          ffmpeg -y -i "$IN" -c:v copy -movflags +faststart -an "$OUT"
 
       - name: Mix background music
         run: |
