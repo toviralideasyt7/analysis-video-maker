@@ -111,7 +111,9 @@ jobs:
           TOTAL=$(python3 -c "
           import json
           s = json.load(open('projects/${PROJECT_ID}/video-spec.json'))
-          print(int(s['metadata']['durationSeconds'] * s['canvas']['fps']))
+          # The renderer hardcodes 60fps (Root.tsx calculateMetadata), ignoring
+          # the spec's canvas.fps. Chunk ranges must use 60.
+          print(int(s['metadata']['durationSeconds'] * 60))
           ")
           echo "total=${TOTAL}" >> "$GITHUB_OUTPUT"
           echo "total frames: ${TOTAL}"

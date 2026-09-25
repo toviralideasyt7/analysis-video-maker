@@ -195,11 +195,18 @@ async function main(): Promise<void> {
   // Frame-range support for parallel chunk rendering: each matrix job renders
   // a slice [frameStart, frameEnd] of the composition. Remotion renders
   // deterministic frames, so chunks concatenate seamlessly.
-  const frameRange = args.frameStart !== undefined || args.frameEnd !== undefined
-    ? [args.frameStart ?? 0, args.frameEnd ?? composition.durationInFrames - 1] as [number, number]
-    : undefined;
-  if (frameRange) {
-    process.stdout.write(`  chunk frame range: ${frameRange[0]}-${frameRange[1]}\n`);
+  // Clamp to the actual composition duration: the spec-derived frame count
+  // can be off by one due to rounding, and an out-of-range end would produce
+  // a short chunk that breaks the QA frame extraction.
+  let frameRange: [number, number] | undefined;
+  if (args.frameStart !== undefined || args.frameEnd !== undefined) {
+    const start = Math.max(0, args.frameStart ?? 0);
+    const end = Math.min(composition.durationInFrames - 1, args.frameEnd ?? composition.durationInFrames - 1);
+    if (start > end) {
+      throw new Error(`empty frame range: ${start}-${end} (composition has ${composition.durationInFrames} frames)`);
+    }
+    frameRange = [start, end];
+    process.stdout.write(`  chunk frame range: ${frameRange[0]}-${frameRange[1]} (${frameRange[1] - frameRange[0] + 1} frames)\n`);
   }
   await renderMedia({
     composition,
