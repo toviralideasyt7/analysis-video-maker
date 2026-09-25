@@ -400,51 +400,49 @@ export type AgentRole =
   | 'video'
   | 'qa';
 
+/**
+ * Model priority per role.
+ *
+ * Order: Gemini first (via GEMINI_WORKER_* proxies). If Gemini is not
+ * configured or fails, fall through the NARA router models in this order:
+ *   1. agnes-3-flash      (cheap, vision, top quality)
+ *   2. agnes-2.5-flash    (cheap, vision)
+ *   3. nemotron-3-ultra-free (free, 1M context)
+ *   4. other free models one by one (nemotron-3-super-free,
+ *      nemotron-3.5-lightning-free, ling-3.0-flash-sante-free,
+ *      ling-3.0-flash-fin-free, space-bunny-alpha)
+ *   5. nex-n2.5-pro (legacy paid fallback)
+ *
+ * If every model fails, the client throws a clear error naming the role —
+ * the caller surfaces it instead of silently degrading.
+ */
+const NARA_FALLBACK: ModelSpec[] = [
+  { provider: 'nara', model: 'agnes-3-flash' },
+  { provider: 'nara', model: 'agnes-2.5-flash' },
+  { provider: 'nara', model: 'nemotron-3-ultra-free' },
+  { provider: 'nara', model: 'nemotron-3-super-free' },
+  { provider: 'nara', model: 'nemotron-3.5-lightning-free' },
+  { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
+  { provider: 'nara', model: 'ling-3.0-flash-fin-free' },
+  { provider: 'nara', model: 'space-bunny-alpha' },
+  { provider: 'nara', model: 'nex-n2.5-pro' },
+];
+
+const GEMINI_FIRST: ModelSpec[] = [
+  { provider: 'gemini', model: 'gemini-3.7-flash' },
+  { provider: 'gemini', model: 'gemini-3.6-flash' },
+];
+
 export const ROLE_MODELS: Record<AgentRole, ModelSpec[]> = {
-  // `nex-n2.5-pro`, `nemotron-3-ultra-free` and `ling-3.0-flash-sante-free` are
-  // the models this Nara account actually serves (verified by probing every
-  // listed model). The premium names are kept last so an upgraded plan can use
-  // them without a code change, but they never block a run.
-  planner: [
-    { provider: 'gemini', model: 'gemini-3.7-flash' },
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-    { provider: 'gemini', model: 'gemini-3.6-flash' },
-  ],
-  queryScout: [
-    { provider: 'gemini', model: 'gemini-3.7-flash' },
-    { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
-    { provider: 'nara', model: 'nemotron-3-ultra-free' },
-  ],
-  sourcePicker: [
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-    { provider: 'gemini', model: 'gemini-3.5-flash-thinking' },
-    { provider: 'nara', model: 'nemotron-3-ultra-free' },
-    { provider: 'nara', model: 'claude-opus-5' },
-  ],
-  extractor: [
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-    { provider: 'gemini', model: 'gemini-3.6-flash' },
-    { provider: 'nara', model: 'nemotron-3-ultra-free' },
-  ],
-  factCheck: [
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-    { provider: 'gemini', model: 'gemini-3.6-flash' },
-  ],
-  dataJudge: [
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-    { provider: 'nara', model: 'nemotron-3-ultra-free' },
-    { provider: 'gemini', model: 'gemini-3.5-flash-thinking' },
-    { provider: 'nara', model: 'claude-opus-5' },
-  ],
-  story: [
-    { provider: 'gemini', model: 'gemini-3.7-flash' },
-    { provider: 'nara', model: 'nex-n2.5-pro' },
-  ],
-  video: [{ provider: 'gemini', model: 'gemini-3.7-flash' }],
-  qa: [
-    { provider: 'gemini', model: 'gemini-3.6-flash' },
-    { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
-  ],
+  planner: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  queryScout: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  sourcePicker: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  extractor: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  factCheck: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  dataJudge: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  story: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  video: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  qa: [...GEMINI_FIRST, ...NARA_FALLBACK],
 };
 export interface AIClient {
   /** Names of the configured providers, for logging and the health endpoint. */

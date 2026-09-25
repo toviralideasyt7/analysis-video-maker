@@ -815,9 +815,22 @@ function ResearchControls({ project, onRefresh }: { project: any; onRefresh: () 
           <Loader2 size={18} aria-hidden="true" className="animate-spin shrink-0" />
           <div>
             <div className="font-semibold text-white">Research in progress…</div>
-            <p className="text-sm text-muted">The agent is hunting down the best dataset. When it lands, the video renders automatically — you can leave and come back.</p>
+            <p className="text-sm text-muted">The agent is hunting down the best dataset. When it lands, the video renders automatically — you can leave and come back. If research fails, the error shows here.</p>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (statusUpper === 'FAILED') {
+    const detail = (project as any)?.error as string | undefined;
+    return (
+      <div className="mb-6 space-y-2" role="alert">
+        <ErrorBanner
+          message={detail ? `Research failed: ${detail}` : 'Research failed. Check the GitHub Actions research run for the log, then try again.'}
+          onRetry={() => onRefresh()}
+        />
+        <p className="text-xs text-muted">Tip: open the research workflow run on GitHub Actions — the failing step and its error are listed there.</p>
       </div>
     );
   }
@@ -840,7 +853,8 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
-  const [renderState, setRenderState] = useState<{ status: string; videoUrl: string | null } | null>(null);
+  const [renderState, setRenderState] = useState<{ status: string; videoUrl: string | null; detail?: string | null } | null>(null);
+  const [pollMins, setPollMins] = useState(0);
 
   const statusUpper = String(renderState?.status ?? project.status ?? '').toUpperCase();
   const isRendering = statusUpper === 'RENDERING';
@@ -849,15 +863,19 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
 
   // While a render is in flight, poll the backend until the workflow
   // reports back (success or failure) so the status never gets stuck.
+  // Shows elapsed time; after 120 min suggests checking GitHub Actions.
   useEffect(() => {
     if (String(project.status ?? '').toUpperCase() !== 'RENDERING') return;
     let stop = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    const startedAt = Date.now();
     const poll = async () => {
       try {
         const res = await api.renderStatus(project.projectId);
         if (stop) return;
-        setRenderState({ status: res.status, videoUrl: res.videoUrl });
+        const detail = (res.renderJob as any)?.error ?? (res.renderJob as any)?.conclusion ?? null;
+        setRenderState({ status: res.status, videoUrl: res.videoUrl, detail });
+        setPollMins(Math.round((Date.now() - startedAt) / 60000));
         if (String(res.status).toUpperCase() === 'RENDERING') {
           timer = setTimeout(poll, 20000);
         } else {
@@ -916,7 +934,11 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
           <Loader2 size={18} aria-hidden="true" className="animate-spin text-accent" />
           <div>
             <div className="font-semibold text-white">Rendering in progress…</div>
-            <p className="text-sm text-muted">This page updates automatically when the render finishes. You can leave and come back.</p>
+            <p className="text-sm text-muted">
+              {pollMins > 0 ? `Elapsed: ~${pollMins} min. ` : ''}
+              This page updates automatically when the render finishes. You can leave and come back.
+              {pollMins >= 120 ? ' Taking longer than usual — check the GitHub Actions run.' : ''}
+            </p>
           </div>
         </div>
       ) : null}
@@ -935,7 +957,15 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
       ) : null}
 
       {isFailed ? (
-        <ErrorBanner message="The render workflow failed. You can try rendering again." onRetry={trigger} />
+        <div className="space-y-2">
+          <ErrorBanner
+            message={renderState?.detail
+              ? `The render workflow failed: ${renderState.detail}`
+              : 'The render workflow failed. You can try rendering again.'}
+            onRetry={trigger}
+          />
+          <p className="text-xs text-muted">Tip: open the GitHub Actions run for the full log — the failure step and error are listed there.</p>
+        </div>
       ) : null}
 
       {!isRendering ? (

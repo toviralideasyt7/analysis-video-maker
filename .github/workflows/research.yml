@@ -82,6 +82,12 @@ jobs:
       - name: Build the Rust core
         run: cargo build --release --workspace
 
+      - name: AI health check (fail fast if no model answers)
+        run: |
+          set -euo pipefail
+          npx tsx services/orchestrator/src/scripts/ai-health.ts \
+            || { echo "::error::No AI model is responding — check GEMINI_WORKER_* vars and NARA_API_KEY secret"; exit 1; }
+
       - name: Run the research pipeline
         env:
           AVM_PROMPT: ${{ inputs.prompt }}

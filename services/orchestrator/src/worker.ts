@@ -536,6 +536,39 @@ app.get('/api/projects/:id/research/status', async (c) => {
     await store.save(project);
   }
 
+  // If the research workflow itself failed, surface that instead of leaving
+  // the project stuck on RESEARCHING forever (frontend would poll forever).
+  let researchError: string | null = null;
+  if (!bundleReady && project.status === 'RESEARCHING' && token) {
+    try {
+      const runsRes = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/actions/workflows/research.yml/runs?per_page=5&event=workflow_dispatch`,
+        {
+          headers: {
+            'Accept': 'application/vnd.github+json',
+            'Authorization': `Bearer ${token}`,
+            'User-Agent': 'avm-orchestrator-worker',
+          },
+        }
+      );
+      if (runsRes.ok) {
+        const runs = (await runsRes.json()) as { workflow_runs?: { name?: string; conclusion?: string | null; display_title?: string; html_url?: string }[] };
+        const failed = (runs.workflow_runs ?? []).find(
+          (r) => r.conclusion === 'failure' && (r.display_title ?? '').includes(id)
+        );
+        if (failed) {
+          project.status = 'FAILED';
+          researchError = `Research workflow failed (${failed.display_title ?? 'run'}). See ${failed.html_url ?? 'GitHub Actions'} for the log.`;
+          (project as Record<string, unknown>).error = researchError;
+          project.updatedAt = new Date().toISOString();
+          await store.save(project);
+        }
+      }
+    } catch {
+      // leave RESEARCHING; next poll retries
+    }
+  }
+
   // Agent mode: research just landed and the user asked for a hands-off run —
   // fire the render immediately so prompt -> video needs zero clicks.
   const wantsAutoRender = (project as Record<string, unknown>).autoRender === true;
@@ -551,7 +584,7 @@ app.get('/api/projects/:id/research/status', async (c) => {
     }
   }
 
-  return c.json({ status: project.status, bundleReady, autoRenderDispatched });
+  return c.json({ status: project.status, bundleReady, autoRenderDispatched, error: researchError ?? (project as Record<string, unknown>).error ?? null });
 });
 
 // --- Render: dispatch the GitHub Actions render-video workflow ---
