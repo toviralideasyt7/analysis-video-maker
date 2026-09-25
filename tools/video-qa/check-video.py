@@ -525,13 +525,25 @@ class VideoQA:
                         break
 
     # C3b: no label text crossing row boundaries ------------------------------
-    def check_labels(self, screen_idx, scene_id, measured):
+    def check_labels(self, screen_idx, tape_idx, scene_id, measured):
         img = self.img(screen_idx)
         bgr = img.astype(np.int16)
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
         dark_text = (mx < 90) & ((mx - mn) < 40)
         rows = sorted(measured, key=lambda m: m["ymid"])
+        # Smoothed ranks at this tape: when two adjacent rows are mid-swap
+        # their smoothed ranks are close together and the bars (with their
+        # labels) legitimately pass through each other for ~0.2s. Flagging
+        # label pixels crossing the midpoint boundary then is a false
+        # positive -- C3b only applies when rows sit at rest.
+        smoothed = self.smooth_ranks()
+        sdict = smoothed[min(tape_idx, len(smoothed) - 1)] if smoothed else {}
         for r0, r1 in zip(rows, rows[1:]):
+            sr0 = sdict.get(r0["entity"])
+            sr1 = sdict.get(r1["entity"])
+            if (sr0 is not None and sr1 is not None
+                    and abs(sr0 - sr1) < 0.75):
+                continue  # mid-swap: crossing labels are expected, not a bug
             yb = int((r0["ymid"] + r1["ymid"]) / 2)
             strip = dark_text[max(0, yb - 5):yb + 5, BAR_X0:BAR_X1]
             if int(strip.sum()) > 500:
@@ -686,7 +698,7 @@ class VideoQA:
             _img, measured = self.measure_frame(screen_idx, tape_idx)
             full.append((screen_idx, tape_idx, scene_id, measured))
             self.check_proportional(screen_idx, tape_idx, scene_id, measured)
-            self.check_labels(screen_idx, scene_id, measured)
+            self.check_labels(screen_idx, tape_idx, scene_id, measured)
             self.check_ranks(screen_idx, tape_idx, scene_id, measured)
         c2_full = []
         for screen_idx, tape_idx, scene_id in c2cands:
