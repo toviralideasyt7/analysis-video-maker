@@ -27,6 +27,8 @@ interface Args {
   thumbnailOnly: boolean;
   stillFrame?: number;
   skipQualityGate: boolean;
+  frameStart?: number;
+  frameEnd?: number;
 }
 
 function parseArgs(argv: string[]): Args {
@@ -38,6 +40,8 @@ function parseArgs(argv: string[]): Args {
     else if (a === '--thumbnail' || a === '--thumbnail-only') args.thumbnailOnly = true;
     else if (a === '--still-frame') args.stillFrame = Number(argv[++i]);
     else if (a === '--skip-quality-gate') args.skipQualityGate = true;
+    else if (a === '--frame-start') args.frameStart = Number(argv[++i]);
+    else if (a === '--frame-end') args.frameEnd = Number(argv[++i]);
   }
   return args;
 }
@@ -188,6 +192,15 @@ async function main(): Promise<void> {
   }
 
   process.stdout.write(`rendering ${composition.durationInFrames} frames @ ${composition.fps}fps (${spec.metadata.durationSeconds}s)\n`);
+  // Frame-range support for parallel chunk rendering: each matrix job renders
+  // a slice [frameStart, frameEnd] of the composition. Remotion renders
+  // deterministic frames, so chunks concatenate seamlessly.
+  const frameRange = args.frameStart !== undefined || args.frameEnd !== undefined
+    ? [args.frameStart ?? 0, args.frameEnd ?? composition.durationInFrames - 1] as [number, number]
+    : undefined;
+  if (frameRange) {
+    process.stdout.write(`  chunk frame range: ${frameRange[0]}-${frameRange[1]}\n`);
+  }
   await renderMedia({
     composition,
     serveUrl: bundleLocation,
@@ -196,6 +209,7 @@ async function main(): Promise<void> {
     inputProps: props,
     concurrency: CONCURRENCY,
     videoBitrate: '8M',
+    ...(frameRange ? { frameRange } : {}),
     onProgress: ({ renderedFrames, encodedFrames }) => {
       if (renderedFrames % 150 === 0) process.stdout.write(`  ${renderedFrames}/${composition.durationInFrames} frames (${encodedFrames} encoded)\n`);
     },
