@@ -59,7 +59,7 @@ def build_spec(project_id, title, subtitle, start_year, end_year,
                 "subtitle": f"Cumulative units sold, {start_year}–{end_year}",
             },
         },
-        race_scene("scene_race_1", (0, s1_end), 60),
+        race_scene("scene_race_1", (0, s1_end), 54),
         fact_box(
             "scene_spotlight_ps2",
             "2000",
@@ -67,7 +67,7 @@ def build_spec(project_id, title, subtitle, start_year, end_year,
             "Sony's PlayStation 2 arrives in 2000 and goes on to become the "
             "best-selling game console of all time at over 160 million units.",
         ),
-        race_scene("scene_race_2", (s1_end, s2_end), 60),
+        race_scene("scene_race_2", (s1_end, s2_end), 54),
         fact_box(
             "scene_spotlight_wii",
             "2006",
@@ -75,7 +75,7 @@ def build_spec(project_id, title, subtitle, start_year, end_year,
             "The Wii's motion controls bring gaming to a whole new audience, "
             "selling over 100 million units.",
         ),
-        race_scene("scene_race_3", (s2_end, total - 1), 42),
+        race_scene("scene_race_3", (s2_end, total - 1), 54),
         {
             "id": "scene_ending",
             "type": "ending",

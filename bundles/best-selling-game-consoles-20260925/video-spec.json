@@ -42,7 +42,7 @@
     {
       "id": "scene_race_1",
       "type": "bar_race",
-      "duration": 60,
+      "duration": 54,
       "datasetRef": "dataset_best-selling-game-consoles-20260925",
       "props": {
         "tapeRef": "frames.json",
@@ -115,7 +115,7 @@
     {
       "id": "scene_race_2",
       "type": "bar_race",
-      "duration": 60,
+      "duration": 54,
       "datasetRef": "dataset_best-selling-game-consoles-20260925",
       "props": {
         "tapeRef": "frames.json",
@@ -188,7 +188,7 @@
     {
       "id": "scene_race_3",
       "type": "bar_race",
-      "duration": 42,
+      "duration": 54,
       "datasetRef": "dataset_best-selling-game-consoles-20260925",
       "props": {
         "tapeRef": "frames.json",
