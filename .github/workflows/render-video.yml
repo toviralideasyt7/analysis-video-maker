@@ -292,10 +292,13 @@ jobs:
             DUR=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$IN")
             # Audio is trimmed to DUR already; do NOT use -shortest (it can
             # cut the video short on floating-point rounding).
+            # Do NOT use -movflags +faststart here: the faststart remux breaks
+            # QA frame extraction (C2 false positive). Faststart is applied
+            # at publish time if needed.
             ffmpeg -y -i "$IN" -stream_loop -1 -i "$TRACK" \
               -filter_complex "[1:a]volume=0.12,atrim=0:${DUR}[bg]" \
               -map 0:v -map "[bg]" -c:v copy -c:a aac -b:a 128k \
-              -movflags +faststart "projects/${PROJECT_ID}/renders/${PROJECT_ID}-music.mp4"
+              "projects/${PROJECT_ID}/renders/${PROJECT_ID}-music.mp4"
             mv "projects/${PROJECT_ID}/renders/${PROJECT_ID}-music.mp4" "$IN"
             echo "mixed ${TRACK} into ${IN}"
           else
