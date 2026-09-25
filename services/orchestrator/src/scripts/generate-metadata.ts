@@ -51,8 +51,9 @@ Rules:
 - Title: under 70 characters, curiosity gap, big numbers, NO clickbait lies (must stay true to the facts above).
 - Description: 3-5 sentences, keyword-rich, first 2 lines must hook the viewer; include the year range and 3-4 entity names naturally; end with 2-3 hashtags.
 - Tags: 12-18 tags, mix of broad ("data visualization", "bar chart race") and specific (topic words, entity names, year range).
+- Thumbnail hook: 2-4 ALL-CAPS punchy words for the thumbnail image that create curiosity WITHOUT repeating the title (e.g. title "Best-Selling Game Consoles of All Time" -> hook "NOBODY BEATS THIS"). Must be true to the facts.
 
-Return ONLY valid JSON with keys: "title", "description", "tags" (array of strings). No markdown, no commentary.`;
+Return ONLY valid JSON with keys: "title", "description", "tags" (array of strings), "thumbnailHook". No markdown, no commentary.`;
 
   const raw = await ai.completeRole('story', {
     prompt,
@@ -62,11 +63,12 @@ Return ONLY valid JSON with keys: "title", "description", "tags" (array of strin
   const text = raw.text ?? '';
   const m = text.match(/\{[\s\S]*\}/);
   if (!m) throw new Error(`model did not return JSON: ${text.slice(0, 200)}`);
-  const meta = JSON.parse(m[0]) as { title: string; description: string; tags: string[] };
+  const meta = JSON.parse(m[0]) as { title: string; description: string; tags: string[]; thumbnailHook?: string };
   if (!meta.title || !meta.description || !Array.isArray(meta.tags)) {
     throw new Error(`bad metadata shape: ${text.slice(0, 200)}`);
   }
   meta.tags = meta.tags.map((t) => String(t).trim()).filter(Boolean).slice(0, 20);
+  if (!meta.thumbnailHook) meta.thumbnailHook = title.toUpperCase().split(/\s+/).slice(0, 3).join(' ');
 
   const out = resolve(arg('out') ?? join(projectDir, 'renders', 'metadata.json'));
   mkdirSync(dirname(out), { recursive: true });

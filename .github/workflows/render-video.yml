@@ -347,16 +347,16 @@ jobs:
         run: |
           set -euo pipefail
           pip install --quiet pillow
-          TITLE=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('title','Data Race'))")
+          HOOK=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/renders/metadata.json')).get('thumbnailHook','DATA RACE'))" 2>/dev/null || echo "DATA RACE")
           YEARS=$(python3 -c "
           import json
           d=json.load(open('projects/${PROJECT_ID}/dataset.json'))
           ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
           print(f'{min(ys)} - {max(ys)}' if ys else '')")
-          KICKER=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('topic','').upper()[:60])")
+          TOPIC=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('metadata',{}).get('title',''))")
           python3 tools/make-thumbnail.py \
             --video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            --title "$TITLE" --subtitle "$YEARS" --kicker "$KICKER" \
+            --hook "$HOOK" --years "$YEARS" --topic "$TOPIC" \
             --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg" \
             || echo "thumbnail generation failed (non-fatal)"
 
