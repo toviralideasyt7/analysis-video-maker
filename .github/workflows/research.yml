@@ -59,6 +59,7 @@ jobs:
       GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
       GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
       GEMINI_MODELS: ${{ vars.GEMINI_MODELS }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       MONID_API_KEY: ${{ secrets.MONID_API_KEY }}
       KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
       KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}

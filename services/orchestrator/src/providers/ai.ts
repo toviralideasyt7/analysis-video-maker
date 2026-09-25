@@ -76,6 +76,17 @@ class Pacer {
 
 const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
 
+/** fetch with a hard timeout — a hung upstream fails fast instead of blocking the chain. */
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = 60000): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Gemini web-proxy workers (no API key required)
 // ---------------------------------------------------------------------------
@@ -170,7 +181,7 @@ export class GeminiProxyProvider implements AIProvider {
       const started = Date.now();
       try {
         const response = await pacer.run(() =>
-          fetch(`${worker.replace(/\/$/, '')}/v1/chat/completions`, {
+          fetchWithTimeout(`${worker.replace(/\/$/, '')}/v1/chat/completions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -295,7 +306,7 @@ export class OpenAICompatProvider implements AIProvider {
 
     const started = Date.now();
     const response = await this.pacer.run(() =>
-      fetch(`${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
+      fetchWithTimeout(`${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.config.apiKey}` },
         body: JSON.stringify({ model, messages, ...(req.maxTokens ? { max_tokens: req.maxTokens } : {}) }),
@@ -313,7 +324,7 @@ export class OpenAICompatProvider implements AIProvider {
           logger.warn('retrying provider request', { provider: this.name, model, status: response.status, waitMs });
           await new Promise((r) => setTimeout(r, waitMs));
           const retry = await this.pacer.run(() =>
-            fetch(`${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
+            fetchWithTimeout(`${this.config.baseUrl.replace(/\/$/, '')}/chat/completions`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.config.apiKey}` },
               body: JSON.stringify({ model, messages, ...(req.maxTokens ? { max_tokens: req.maxTokens } : {}) }),
@@ -354,6 +365,79 @@ export class OpenAICompatProvider implements AIProvider {
 }
 
 // ---------------------------------------------------------------------------
+// Official Google Gemini API (generativelanguage.googleapis.com)
+// ---------------------------------------------------------------------------
+
+export interface GeminiOfficialConfig {
+  apiKey: string;
+  cacheRoot?: string;
+}
+
+export class GeminiOfficialProvider implements AIProvider {
+  readonly name = 'gemini-official';
+  private readonly cache: DiskCache;
+  private readonly usage = new JsonlLog('usage.jsonl');
+  private readonly pacer = new Pacer(1500);
+
+  constructor(private readonly config: GeminiOfficialConfig) {
+    this.cache = new DiskCache('ai', config.cacheRoot);
+  }
+
+  async generate(req: AIRequest): Promise<AIResponse> {
+    return this.generateWithModel('gemini-2.5-flash', req);
+  }
+
+  /** Run a request on a specific official model (e.g. gemini-2.5-flash). */
+  async generateWithModel(model: string, req: AIRequest): Promise<AIResponse> {
+    if (!this.config.apiKey) throw new AIError('gemini-official: missing API key');
+
+    const parts: Array<{ text: string }> = [];
+    if (req.system) parts.push({ text: `System: ${req.system}` });
+    parts.push({ text: req.prompt });
+
+    const cacheKey = sha256(JSON.stringify({ provider: this.name, model, parts }));
+    const hit = this.cache.get<AIResponse>(cacheKey);
+    if (hit) return { ...hit, cached: true };
+
+    const started = Date.now();
+    const body: Record<string, unknown> = { contents: [{ parts }] };
+    if (req.maxTokens || req.temperature !== undefined) {
+      body.generationConfig = {
+        ...(req.maxTokens ? { maxOutputTokens: req.maxTokens } : {}),
+        ...(req.temperature !== undefined ? { temperature: req.temperature } : {}),
+      };
+    }
+    const doFetch = () =>
+      fetchWithTimeout(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${this.config.apiKey}`,
+        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
+      );
+    const response = await this.pacer.run(doFetch);
+    const text = await response.text();
+    if (!response.ok) {
+      this.usage.append({ at: new Date().toISOString(), provider: this.name, model, operation: 'generate', ok: false, durationMs: Date.now() - started, status: response.status });
+      throw new AIError(`gemini-official returned ${response.status}: ${text.slice(0, 200)}`, response.status, RETRYABLE_STATUS.has(response.status));
+    }
+    const parsed = JSON.parse(text) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      usageMetadata?: { totalTokenCount?: number };
+    };
+    const outText = (parsed.candidates?.[0]?.content?.parts ?? []).map((p) => p.text ?? '').join('');
+    const result: AIResponse = {
+      text: outText,
+      provider: this.name,
+      model,
+      cached: false,
+      durationMs: Date.now() - started,
+      usage: { tokens: parsed.usageMetadata?.totalTokenCount },
+    };
+    this.cache.set(cacheKey, result);
+    this.usage.append({ at: new Date().toISOString(), provider: this.name, model, operation: 'generate', ok: true, durationMs: result.durationMs, tokens: result.usage?.tokens });
+    return result;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Mock provider (tests, offline runs)
 // ---------------------------------------------------------------------------
 
@@ -373,7 +457,7 @@ export class MockProvider implements AIProvider {
 // Role routing
 // ---------------------------------------------------------------------------
 
-export type ModelProvider = 'gemini' | 'nara' | 'mock';
+export type ModelProvider = 'gemini' | 'gemini-official' | 'nara' | 'mock';
 
 export interface ModelSpec {
   provider: ModelProvider;
@@ -403,46 +487,50 @@ export type AgentRole =
 /**
  * Model priority per role.
  *
- * Order: Gemini first (via GEMINI_WORKER_* proxies). If Gemini is not
- * configured or fails, fall through the NARA router models in this order:
- *   1. agnes-3-flash      (cheap, vision, top quality)
- *   2. agnes-2.5-flash    (cheap, vision)
- *   3. nemotron-3-ultra-free (free, 1M context)
- *   4. other free models one by one (nemotron-3-super-free,
- *      nemotron-3.5-lightning-free, ling-3.0-flash-sante-free,
- *      ling-3.0-flash-fin-free, space-bunny-alpha)
- *   5. nex-n2.5-pro (legacy paid fallback)
+ * Order (user-specified):
+ *   1. Gemini proxy workers (GEMINI_WORKER_1/2) — primary when healthy
+ *   2. NARA router free models — agnes-3-flash, agnes-2.5-flash,
+ *      nemotron-3-ultra-free, jev, then the remaining free models
+ *      (nemotron-3-super-free, nemotron-3.5-lightning-free,
+ *      ling-3.0-flash-sante-free, ling-3.0-flash-fin-free, space-bunny-alpha)
+ *   3. Official Google Gemini API (GEMINI_API_KEY) — final fallback
  *
- * If every model fails, the client throws a clear error naming the role —
- * the caller surfaces it instead of silently degrading.
+ * If every model fails, the client throws a clear error naming the role.
  */
-const NARA_FALLBACK: ModelSpec[] = [
+const GEMINI_PROXY: ModelSpec[] = [
+  { provider: 'gemini', model: 'gemini-3.7-flash' },
+  { provider: 'gemini', model: 'gemini-3.6-flash' },
+];
+
+const NARA_FREE: ModelSpec[] = [
   { provider: 'nara', model: 'agnes-3-flash' },
   { provider: 'nara', model: 'agnes-2.5-flash' },
   { provider: 'nara', model: 'nemotron-3-ultra-free' },
+  { provider: 'nara', model: 'jev' },
   { provider: 'nara', model: 'nemotron-3-super-free' },
   { provider: 'nara', model: 'nemotron-3.5-lightning-free' },
   { provider: 'nara', model: 'ling-3.0-flash-sante-free' },
   { provider: 'nara', model: 'ling-3.0-flash-fin-free' },
   { provider: 'nara', model: 'space-bunny-alpha' },
-  { provider: 'nara', model: 'nex-n2.5-pro' },
 ];
 
-const GEMINI_FIRST: ModelSpec[] = [
-  { provider: 'gemini', model: 'gemini-3.7-flash' },
-  { provider: 'gemini', model: 'gemini-3.6-flash' },
+const GEMINI_OFFICIAL: ModelSpec[] = [
+  { provider: 'gemini-official', model: 'gemini-2.5-flash' },
+  { provider: 'gemini-official', model: 'gemini-2.5-flash-lite' },
 ];
+
+const FULL_CHAIN: ModelSpec[] = [...GEMINI_PROXY, ...NARA_FREE, ...GEMINI_OFFICIAL];
 
 export const ROLE_MODELS: Record<AgentRole, ModelSpec[]> = {
-  planner: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  queryScout: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  sourcePicker: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  extractor: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  factCheck: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  dataJudge: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  story: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  video: [...GEMINI_FIRST, ...NARA_FALLBACK],
-  qa: [...GEMINI_FIRST, ...NARA_FALLBACK],
+  planner: FULL_CHAIN,
+  queryScout: FULL_CHAIN,
+  sourcePicker: FULL_CHAIN,
+  extractor: FULL_CHAIN,
+  factCheck: FULL_CHAIN,
+  dataJudge: FULL_CHAIN,
+  story: FULL_CHAIN,
+  video: FULL_CHAIN,
+  qa: FULL_CHAIN,
 };
 export interface AIClient {
   /** Names of the configured providers, for logging and the health endpoint. */
@@ -547,6 +635,7 @@ class RoutingClient implements AIClient {
     if (!provider) throw new AIError(`${spec.provider} provider is not configured`);
     if (provider instanceof GeminiProxyProvider) return provider.generateWithModel(spec.model, req);
     if (provider instanceof OpenAICompatProvider) return provider.generateWithModel(spec.model, req);
+    if (provider instanceof GeminiOfficialProvider) return provider.generateWithModel(spec.model, req);
     return provider.generate(req);
   }
 
@@ -617,6 +706,14 @@ export function createAIClient(options: AIClientOptions = {}): AIClient {
       });
     } else {
       logger.warn('NARA_API_KEY is not set; the Nara reasoning models are unavailable');
+    }
+  }
+  if (!providers['gemini-official']) {
+    const geminiKey = env('GEMINI_API_KEY');
+    if (geminiKey) {
+      providers['gemini-official'] = new GeminiOfficialProvider({ apiKey: geminiKey, cacheRoot: options.cacheRoot });
+    } else {
+      logger.warn('GEMINI_API_KEY is not set; the official Gemini API fallback is unavailable');
     }
   }
 
