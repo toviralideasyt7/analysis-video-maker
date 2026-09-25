@@ -255,10 +255,11 @@ jobs:
           set -euo pipefail
           IN="projects/${PROJECT_ID}/renders/${PROJECT_ID}.mp4"
           OUT="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
-          # The chunks are already H.264 from Remotion; a lossy re-encode here
-          # shifts bar colors just enough to break the QA's HSV detection.
-          # Copy the stream and only add the faststart flag.
-          ffmpeg -y -i "$IN" -c:v copy -movflags +faststart -an "$OUT"
+          # The chunks are already H.264 from Remotion. Do NOT re-encode
+          # (lossy, breaks QA colors) and do NOT remux with -c:v copy
+          # (faststart remux somehow breaks QA frame extraction).
+          # The concat output is used directly.
+          cp "$IN" "$OUT"
 
       - name: Mix background music
         run: |
