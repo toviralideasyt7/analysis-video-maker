@@ -526,6 +526,15 @@ function NewProject({ onCreated }: { onCreated: (id: string) => void }): React.R
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const templates = [
+    { label: '🚗 Top car producers', topic: 'Top 15 Car Producing Countries 1950-2025' },
+    { label: '💰 Richest countries', topic: 'Top 15 Countries by GDP 1960-2025' },
+    { label: '👥 Population race', topic: 'Top 15 Most Populous Countries 1950-2025' },
+    { label: '🎮 Best-selling consoles', topic: 'Best-Selling Game Consoles of All Time' },
+    { label: '📱 Smartphone brands', topic: 'Top Smartphone Brands by Market Share 2010-2025' },
+    { label: '⚡ Energy producers', topic: 'Top 15 Electricity Producing Countries 1990-2025' },
+  ];
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim() || busy) return;
@@ -548,6 +557,25 @@ function NewProject({ onCreated }: { onCreated: (id: string) => void }): React.R
         <p className="mt-1 text-sm text-muted">Describe the topic you want to turn into a data video.</p>
       </div>
       <form onSubmit={submit} className="card space-y-4 p-6">
+        <div>
+          <label className="form-label">Quick start — pick a proven topic</label>
+          <div className="flex flex-wrap gap-2">
+            {templates.map((t) => (
+              <button
+                key={t.topic}
+                type="button"
+                onClick={() => setTopic(t.topic)}
+                className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
+                  topic === t.topic
+                    ? 'border-accent bg-accent/15 text-white'
+                    : 'border-white/10 bg-white/5 text-muted hover:border-white/25 hover:text-white'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <div>
           <label htmlFor="np-topic" className="form-label">Topic</label>
           <input
@@ -866,6 +894,15 @@ function RenderTab({ project, onRefresh }: { project: any; onRefresh: () => void
         This dispatches the GitHub Actions render workflow. Rendering takes a while;
         the finished video shows up in the Video Library automatically.
       </p>
+      <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="mb-2 text-sm font-semibold text-white">📦 Every render includes the full YouTube package</div>
+        <ul className="space-y-1 text-sm text-muted">
+          <li>🎵 Random background music from your copyright-free playlist</li>
+          <li>🤖 AI-written clickbait title, SEO description & tags</li>
+          <li>🖼️ Clickbait thumbnail with topic icon (🚗 for cars, 🎮 for games…)</li>
+          <li>⬆️ Auto-upload to your YouTube channel</li>
+        </ul>
+      </div>
       {error ? <ErrorBanner message={error} /> : null}
       {note && !isRendering ? (
         <div className="success-banner" role="status">
