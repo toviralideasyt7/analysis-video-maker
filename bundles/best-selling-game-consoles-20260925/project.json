@@ -1,0 +1,16 @@
+{
+  "projectId": "best-selling-game-consoles-20260925",
+  "title": "Best-Selling Game Consoles",
+  "topic": "Best-selling game consoles of all time by units sold",
+  "status": "APPROVED",
+  "createdAt": "2026-09-25T05:30:00Z",
+  "updatedAt": "2026-09-25T05:30:00Z",
+  "sources": [
+    {
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/List_of_best-selling_game_consoles",
+      "kind": "dataset",
+      "retrievedAt": "2026-09-25T00:00:00Z"
+    }
+  ]
+}
