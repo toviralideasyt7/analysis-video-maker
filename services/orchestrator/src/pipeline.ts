@@ -1329,8 +1329,11 @@ export function estimateDurationSeconds(
   const spotlightTotal = buildDecadeSpotlights(tape, dataset).length * spotlightSeconds;
   const fixedSeconds = titleSeconds + introSeconds + endingSeconds;
   let raceSeconds = targetDuration - fixedSeconds - spotlightTotal;
-  // Documentary pace: never faster than 2s/period, never slower than 6s/period.
-  raceSeconds = Math.min(Math.max(raceSeconds, periods * 2), periods * 6);
+  // Documentary pace: never faster than 3s/period. For big datasets (50+
+  // periods), allow up to 10s/period so the race doesn't feel rushed — the
+  // user explicitly wants slower pacing when there's lots of data.
+  const maxPerPeriod = periods >= 50 ? 10 : 6;
+  raceSeconds = Math.min(Math.max(raceSeconds, periods * 3), periods * maxPerPeriod);
   return fixedSeconds + spotlightTotal + raceSeconds;
 }
 

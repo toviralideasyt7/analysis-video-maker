@@ -378,25 +378,25 @@ export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagB
     <div
       style={{
         position: 'absolute',
-        left: 960,
-        top: 400,
-        width: 272,
-        background: '#ffffff',
-        border: '1px solid #e5e7eb',
-        borderLeft: `6px solid ${accent}`,
-        borderRadius: 18,
-        boxShadow: '0 16px 40px rgba(17,24,39,0.14)',
-        padding: '24px 24px 26px',
+        left: 730,
+        top: 120,
+        width: 520,
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+        border: '2px solid #e5e7eb',
+        borderLeft: `8px solid ${accent}`,
+        borderRadius: 24,
+        boxShadow: '0 24px 64px rgba(17,24,39,0.18)',
+        padding: '32px 32px 36px',
         opacity: appear,
-        transform: `translateY(${(1 - appear) * 16}px)`,
+        transform: `translateY(${(1 - appear) * 16}px) scale(${0.95 + appear * 0.05})`,
       }}
     >
-      <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.24em', color: accent, marginBottom: 12 }}>SPOTLIGHT</div>
+      <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '0.28em', color: accent, marginBottom: 14 }}>✨ SPOTLIGHT</div>
       {title ? (
-        <div style={{ fontSize: 32, fontWeight: 800, color: '#111111', lineHeight: 1.15, letterSpacing: '-0.02em' }}>{title}</div>
+        <div style={{ fontSize: 40, fontWeight: 900, color: '#111111', lineHeight: 1.15, letterSpacing: '-0.02em' }}>{title}</div>
       ) : null}
       {body ? (
-        <div style={{ marginTop: 12, fontSize: 20, fontWeight: 500, color: '#4b5563', lineHeight: 1.45 }}>
+        <div style={{ marginTop: 14, fontSize: 22, fontWeight: 500, color: '#4b5563', lineHeight: 1.5 }}>
           {formatNarrativeNumbers(body)}
         </div>
       ) : null}
@@ -747,3 +747,82 @@ export const NoteStrip: React.FC<{ notes: string[]; theme: Theme; opacity?: numb
     </div>
   );
 };
+/** Right-side decorative panel: fills the empty space with topic visuals.
+ * Shows a dark premium panel with the current leader's highlight. */
+export interface SidePanelProps {
+  leaderName: string;
+  leaderValue: string;
+  leaderColor: string;
+  yearLabel: string;
+  topicIcon: string; // text icon for the topic (e.g. "CAR", "CO2")
+  appear: number;
+}
+
+export const SidePanel: React.FC<SidePanelProps> = ({
+  leaderName,
+  leaderValue,
+  leaderColor,
+  yearLabel,
+  topicIcon,
+  appear,
+}) => (
+  <div
+    style={{
+      position: 'absolute',
+      left: 750,
+      top: 140,
+      width: 480,
+      height: 480,
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
+      borderRadius: 24,
+      padding: '36px 32px',
+      opacity: appear,
+      boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    {/* Decorative glow */}
+    <div
+      style={{
+        position: 'absolute',
+        top: -60,
+        right: -60,
+        width: 200,
+        height: 200,
+        background: `radial-gradient(circle, ${leaderColor}44 0%, transparent 70%)`,
+        borderRadius: '50%',
+      }}
+    />
+    {/* Topic label - large stylized text */}
+    <div style={{
+      fontSize: 48,
+      fontWeight: 900,
+      color: '#ffffff',
+      letterSpacing: '0.1em',
+      marginBottom: 16,
+      textShadow: '0 4px 20px rgba(0,0,0,0.5)',
+    }}>
+      {topicIcon}
+    </div>
+    {/* Year */}
+    <div style={{ fontSize: 64, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1 }}>
+      {yearLabel}
+    </div>
+    {/* Leader label */}
+    <div style={{ marginTop: 12, fontSize: 15, fontWeight: 700, letterSpacing: '0.2em', color: '#94a3b8' }}>
+      CURRENT LEADER
+    </div>
+    {/* Leader name */}
+    <div style={{ marginTop: 8, fontSize: 32, fontWeight: 800, color: '#ffffff', textAlign: 'center', lineHeight: 1.2 }}>
+      {leaderName}
+    </div>
+    {/* Leader value */}
+    <div style={{ marginTop: 8, fontSize: 24, fontWeight: 700, color: leaderColor }}>
+      {leaderValue}
+    </div>
+  </div>
+);

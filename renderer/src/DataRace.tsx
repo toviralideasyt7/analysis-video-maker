@@ -21,6 +21,7 @@ import {
   RaceHeader,
   RaceProgress,
   RankingRow,
+  SidePanel,
   SpotlightCard,
   TitleBlock,
 } from './components';
@@ -314,6 +315,32 @@ const BarRace: React.FC<{
           />
         );
       })}
+      {/* Right-side panel: fills empty space with topic visual + leader info.
+          Hidden when the spotlight card is active (it takes the same space). */}
+      {!cardContent && (() => {
+        const leaderRow = rows.find((r) => Math.round(r.rank) === 1);
+        const leaderEntity = leaderRow ? entityById.get(leaderRow.id) : undefined;
+        if (!leaderRow || !leaderEntity) return null;
+        // Topic label based on video title (CAR for car videos, etc.)
+        const title = input.videoSpec.metadata.title.toLowerCase();
+        let icon = 'DATA RACE';
+        if (title.includes('car') || title.includes('vehicle') || title.includes('auto')) icon = 'CAR PRODUCTION';
+        else if (title.includes('population')) icon = 'POPULATION';
+        else if (title.includes('pollut')) icon = 'CO2 EMISSIONS';
+        else if (title.includes('phone') || title.includes('browser')) icon = 'TECH RACE';
+        // Format value without decimals
+        const formattedValue = Math.round(leaderRow.value).toLocaleString();
+        return (
+          <SidePanel
+            leaderName={leaderEntity.name}
+            leaderValue={formattedValue}
+            leaderColor={leaderEntity.color}
+            yearLabel={currentLabel}
+            topicIcon={icon}
+            appear={chromeAppear}
+          />
+        );
+      })()}
       {cardContent ? (
         <EraPanel
           title={cardContent.title}

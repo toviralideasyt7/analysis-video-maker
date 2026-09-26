@@ -152,23 +152,35 @@ def main() -> int:
 
     icon = args.icon or pick_icon(args.topic or args.hook)
 
-    with tempfile.TemporaryDirectory() as td:
-        frame_path = os.path.join(td, "frame.png")
-        grab_frame(args.video, args.at, frame_path)
-        img = Image.open(frame_path).convert("RGB").resize((W, H))
-
+    # Premium dark design like top YouTube channels:
+    # - Dark navy gradient background (not a washed-out video frame)
+    # - Huge bold hook text in yellow/white
+    # - Large topic icon illustration
+    # - Year range prominent
+    img = Image.new("RGB", (W, H), (15, 23, 42))  # dark navy
     draw = ImageDraw.Draw(img, "RGBA")
+
+    # Subtle gradient: lighter at top
+    for y in range(H):
+        alpha = int(30 * (1 - y / H))
+        draw.line([(0, y), (W, y)], fill=(30, 41, 59, alpha))
+
+    # Decorative glow spots
+    draw.ellipse([W - 300, -100, W + 100, 300], fill=(225, 29, 46, 30))  # red glow top-right
+    draw.ellipse([-100, H - 300, 300, H + 100], fill=(255, 213, 0, 20))  # yellow glow bottom-left
+
     font_bold = find_font(True)
 
-    # Darken + slight blur-ish vignette so text pops.
-    draw.rectangle([0, 0, W, H], fill=(0, 0, 0, 70))
+    # --- Left: giant topic icon in a glowing circle ---
+    ecx, ecy = 240, H // 2
+    # Glow
+    draw.ellipse([ecx - 200, ecy - 200, ecx + 200, ecy + 200], fill=(255, 213, 0, 40))
+    # Circle bg
+    draw.ellipse([ecx - 170, ecy - 170, ecx + 170, ecy + 170], fill=(30, 41, 59, 255))
+    draw.ellipse([ecx - 170, ecy - 170, ecx + 170, ecy + 170], outline=(255, 213, 0, 255), width=6)
+    draw_icon(draw, icon, ecx, ecy + 10, 1.2)
 
-    # --- Left: giant topic icon ---
-    ecx, ecy = 230, H // 2
-    draw.ellipse([ecx - 190, ecy - 190, ecx + 190, ecy + 190], fill=(255, 255, 255, 46))
-    draw_icon(draw, icon, ecx, ecy + 10, 1.0)
-
-    # --- Right: hook words, huge, yellow with black stroke ---
+    # --- Right: hook words, HUGE, yellow with black stroke ---
     hook = args.hook.upper()
     words = hook.split()
     # split into at most 2 lines for punch
@@ -177,32 +189,30 @@ def main() -> int:
         lines = [" ".join(words[:mid]), " ".join(words[mid:])]
     else:
         lines = [hook]
-    tx0 = 470
+    tx0 = 480
     max_w = W - tx0 - 60
-    fonts = [fit_font(draw, ln, font_bold, max_w, 150) for ln in lines]
+    fonts = [fit_font(draw, ln, font_bold, max_w, 170) for ln in lines]  # bigger!
     heights = [draw.textbbox((0, 0), ln, font=f)[3] for ln, f in zip(lines, fonts)]
-    total = sum(heights) + 18 * (len(lines) - 1)
-    y = (H - total) / 2 - 30
+    total = sum(heights) + 20 * (len(lines) - 1)
+    y = (H - total) / 2 - 40
     for ln, f, hh in zip(lines, fonts, heights):
-        stroke_text(draw, (tx0, y), ln, f, YELLOW, stroke_w=4)
-        y += hh + 18
+        # Black stroke for pop, yellow fill
+        stroke_text(draw, (tx0, y), ln, f, YELLOW, stroke_w=6)
+        y += hh + 20
 
-    # --- Year pill under the hook ---
+    # --- Year range, big white text under hook ---
     if args.years:
-        pf = ImageFont.truetype(font_bold, 44)
-        ptw = draw.textlength(args.years, font=pf)
-        px0, py0 = tx0, y + 16
-        pad_x, pad_y = 34, 16
-        draw.rounded_rectangle([px0, py0, px0 + ptw + pad_x * 2, py0 + 44 + pad_y * 2],
-                               radius=40, fill=BLUE + (255,))
-        draw.text((px0 + pad_x, py0 + pad_y - 4), args.years, font=pf, fill=WHITE)
+        yf = ImageFont.truetype(font_bold, 56)
+        ytw = draw.textlength(args.years, font=yf)
+        draw.text((tx0, y + 20), args.years, font=yf, fill=WHITE,
+                  stroke_width=3, stroke_fill=(0, 0, 0))
 
     # --- Small brand badge bottom-right ---
-    bf = ImageFont.truetype(font_bold, 30)
+    bf = ImageFont.truetype(font_bold, 28)
     btw = draw.textlength(args.brand, font=bf)
-    bx0, by0 = W - btw - 70, H - 78
-    draw.rounded_rectangle([bx0 - 18, by0 - 12, bx0 + btw + 18, by0 + 44], radius=24, fill=(0, 0, 0, 150))
-    draw.text((bx0, by0), args.brand, font=bf, fill=WHITE)
+    bx0, by0 = W - btw - 70, H - 76
+    draw.rounded_rectangle([bx0 - 16, by0 - 10, bx0 + btw + 16, by0 + 40], radius=20, fill=(0, 0, 0, 120))
+    draw.text((bx0, by0), args.brand, font=bf, fill=(148, 163, 184))  # muted gray
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     img.save(args.out, "JPEG", quality=92)
