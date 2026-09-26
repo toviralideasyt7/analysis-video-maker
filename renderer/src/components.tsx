@@ -810,7 +810,7 @@ export const SidePanel: React.FC<SidePanelProps> = ({
     style={{
       position: 'absolute',
       left: 750,
-      top: 120,
+      bottom: 80,
       width: 480,
       opacity: appear,
       display: 'flex',
