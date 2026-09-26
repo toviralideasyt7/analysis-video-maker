@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "GLOBAL TOP COMPANIES BY",
+  "subtitle": "MARKET CAPITALIZATION AND REVENUE",
+  "entities": [
+    "Apple",
+    "Samsung",
+    "Xiaomi"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

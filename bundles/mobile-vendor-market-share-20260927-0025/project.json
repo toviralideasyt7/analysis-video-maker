@@ -1,0 +1,95 @@
+{
+  "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+  "title": "Use this DIRECT CSV download as the single data source (verified working, download it and parse it directly — do not scr",
+  "topic": "Use this DIRECT CSV download as the single data source (verified working, download it and parse it directly — do not scr",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-26T19:05:32.694Z",
+  "updatedAt": "2026-09-26T19:05:45.192Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-gs-statcounter-com-chart-php-device-mobile-device-hidd",
+      "sourceName": "gs.statcounter.com",
+      "publisher": "gs.statcounter.com",
+      "url": "https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-26T19:05:39.273Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-26T19:05:39.258Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-26T19:05:39.273Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-26T19:05:39.523Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-26T19:05:39.525Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-26T19:05:39.638Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-26T19:05:40.356Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-26T19:05:44.935Z"
+    },
+    {
+      "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-26T19:05:45.041Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=2010-2026",
+    "agent direct URL: https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1 (219 rows)",
+    "transposed wide-format table detected: melting 72 entity columns into long format",
+    "melted 8245 observations from transposed wide-format table",
+    "direct table https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1: 8245 observations (unit: percent)",
+    "primary source: gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1) - all 8245 dataset values come from this one source",
+    "verification: 8245 observations (VERIFIED 0, SUPPORTED 8245, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 8245 valued cells confirmed by 2+ independent publishers; 8245 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1), covering 8245 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: mobicel jumps down 254.0x between 2020-10 (2.54) and 2020-12 (0.01) - possible unit/extraction error",
+    "single-source: dataset values come from ONE source - gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1), covering 8245 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: mobicel jumps down 254.0x between 2020-10 (2.54) and 2020-12 (0.01) - possible unit/extraction error"
+  ]
+}

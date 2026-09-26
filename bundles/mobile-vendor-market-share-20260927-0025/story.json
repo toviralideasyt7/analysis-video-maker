@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "title": "Global Top Companies by Market Capitalization and Revenue",
+  "subtitle": "04/2010 to 09/2026",
+  "hook": "Watch how the world's most dominant mobile phone brands shifted their market shares over sixteen years.",
+  "setup": "This data race tracks monthly shifts in global market capitalization and revenue leadership from April 2010 through September 2026.",
+  "sequence": [
+    {
+      "atLabel": "04/2010",
+      "text": "Nokia starts the timeline strong as the leading entity in April 2010."
+    },
+    {
+      "atLabel": "03/2012",
+      "text": "Huawei enters the ranking for the first time in March 2012."
+    },
+    {
+      "atLabel": "06/2013",
+      "text": "Samsung climbs to the top position in June 2013."
+    },
+    {
+      "atLabel": "03/2016",
+      "text": "Lenovo appears in the rankings as a newcomer in March 2016."
+    },
+    {
+      "atLabel": "01/2017",
+      "text": "Oppo joins the competition as a newcomer in January 2017."
+    },
+    {
+      "atLabel": "11/2020",
+      "text": "Vivo enters the top standings with a notable position in November 2020."
+    },
+    {
+      "atLabel": "10/2021",
+      "text": "Apple recaptures the top ranking in October 2021."
+    },
+    {
+      "atLabel": "06/2026",
+      "text": "OnePlus appears as a newcomer to the ranking in June 2026."
+    }
+  ],
+  "highlights": [],
+  "ending": "The long-term race reveals how rapidly industry leaders and challengers trade places in the global market.",
+  "sourcesLine": "Data: Market Analysis"
+}

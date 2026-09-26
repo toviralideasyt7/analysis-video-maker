@@ -1,0 +1,156 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "samsung",
+      "type": "logo",
+      "query": "Samsung logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "apple",
+      "type": "logo",
+      "query": "Apple logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "nokia",
+      "type": "logo",
+      "query": "Nokia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "unknown",
+      "type": "logo",
+      "query": "Unknown logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xiaomi",
+      "type": "logo",
+      "query": "Xiaomi logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "huawei",
+      "type": "logo",
+      "query": "Huawei logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "oppo",
+      "type": "logo",
+      "query": "Oppo logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "rim",
+      "type": "logo",
+      "query": "RIM logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "motorola",
+      "type": "logo",
+      "query": "Motorola logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "lg",
+      "type": "logo",
+      "query": "LG logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "vivo",
+      "type": "logo",
+      "query": "Vivo logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sony",
+      "type": "logo",
+      "query": "Sony logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "realme",
+      "type": "logo",
+      "query": "Realme logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "htc",
+      "type": "logo",
+      "query": "HTC logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "lenovo",
+      "type": "logo",
+      "query": "Lenovo logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mobicel",
+      "type": "logo",
+      "query": "Mobicel logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "micromax",
+      "type": "logo",
+      "query": "Micromax logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "google",
+      "type": "logo",
+      "query": "Google logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "oneplus",
+      "type": "logo",
+      "query": "OnePlus logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tecno",
+      "type": "logo",
+      "query": "Tecno logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "infinix",
+      "type": "logo",
+      "query": "Infinix logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "other",
+      "type": "logo",
+      "query": "Other logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "t-mobile",
+      "type": "logo",
+      "query": "T-Mobile logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "nintendo",
+      "type": "logo",
+      "query": "Nintendo logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "honor",
+      "type": "logo",
+      "query": "Honor logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}
