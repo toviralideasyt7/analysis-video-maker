@@ -37,7 +37,7 @@ async function kaggleAuth(): Promise<string | null> {
 
 export const kaggleSource: SourceAdapter = {
   name: 'kaggle',
-  tier: 7,
+  tier: 2,
   async search(query: string): Promise<DatasetHit[]> {
     const auth = await kaggleAuth();
     const headers: Record<string, string> = { 'User-Agent': 'analysis-video-maker/1.0' };
@@ -52,7 +52,7 @@ export const kaggleSource: SourceAdapter = {
         source: 'kaggle',
         pageUrl: `https://www.kaggle.com/datasets/${d.ref}`,
         downloadUrl: `https://www.kaggle.com/api/v1/datasets/download/${d.ref}`,
-        tier: 7,
+        tier: 2,
       }));
     } catch (error) {
       logger.warn('kaggle search failed', { error: String(error) });
@@ -68,7 +68,7 @@ export const kaggleSource: SourceAdapter = {
 
 export const owidSource: SourceAdapter = {
   name: 'owid',
-  tier: 2,
+  tier: 1,
   async search(query: string): Promise<DatasetHit[]> {
     try {
       const { text } = await getText(
@@ -87,7 +87,7 @@ export const owidSource: SourceAdapter = {
         source: 'owid',
         pageUrl: `https://ourworldindata.org/grapher/${slug}`,
         downloadUrl: `https://ourworldindata.org/grapher/${slug}.zip?v=1&csvType=full&useColumnShortNames=false`,
-        tier: 2,
+        tier: 1,
       }));
     } catch (error) {
       logger.warn('owid search failed', { error: String(error) });
@@ -105,7 +105,7 @@ const DATARACES_CATEGORIES = ['economy', 'technology', 'culture', 'agriculture',
 
 export const dataRacesSource: SourceAdapter = {
   name: 'data-races',
-  tier: 5,
+  tier: 1,
   async search(query: string): Promise<DatasetHit[]> {
     const hits: DatasetHit[] = [];
     const q = query.toLowerCase();
@@ -125,7 +125,7 @@ export const dataRacesSource: SourceAdapter = {
                 source: 'data-races',
                 pageUrl: `https://data-races.com/en/datasets/${slug}/`,
                 downloadUrl: `https://data-races.com/data/${cat}/${slug}.json`,
-                tier: 5,
+                tier: 1,
               });
             }
           }
@@ -179,7 +179,7 @@ export const eurostatSource: SourceAdapter = {
 
 export const huggingfaceSource: SourceAdapter = {
   name: 'huggingface',
-  tier: 7,
+  tier: 2,
   async search(query: string): Promise<DatasetHit[]> {
     try {
       const url = `https://huggingface.co/api/datasets?search=${encodeURIComponent(query)}&limit=10`;
@@ -192,7 +192,7 @@ export const huggingfaceSource: SourceAdapter = {
         pageUrl: `https://huggingface.co/datasets/${d.id}`,
         // Parquet download; the ingest layer handles parquet via python
         downloadUrl: `https://huggingface.co/api/datasets/${d.id}/parquet`,
-        tier: 7,
+        tier: 2,
       }));
     } catch (error) {
       logger.warn('huggingface search failed', { error: String(error) });
@@ -280,7 +280,7 @@ export const opencitySource: SourceAdapter = {
 
 export const visdatasetsSource: SourceAdapter = {
   name: 'visdatasets',
-  tier: 5,
+  tier: 1,
   async search(query: string): Promise<DatasetHit[]> {
     try {
       // Scrape the index page for dataset CSV filenames matching the query
@@ -301,7 +301,7 @@ export const visdatasetsSource: SourceAdapter = {
             source: 'visdatasets',
             pageUrl: 'https://visdatasets.github.io/',
             downloadUrl: `https://visdatasets.github.io/datasets/${file}`,
-            tier: 5,
+            tier: 1,
           });
         }
         if (hits.length >= 10) break;
@@ -351,7 +351,7 @@ export const oecdSource: SourceAdapter = {
 
 export const wbCatalogSource: SourceAdapter = {
   name: 'wb-catalog',
-  tier: 2,
+  tier: 1,
   async search(query: string): Promise<DatasetHit[]> {
     try {
       // Use the public search endpoint (full catalog, filter client-side)
@@ -370,7 +370,7 @@ export const wbCatalogSource: SourceAdapter = {
             pageUrl: `https://datacatalog.worldbank.org/search/dataset/${ds.dataset_unique_id}`,
             // File download URLs are on the dataset page; the extractor will find them
             downloadUrl: undefined,
-            tier: 2,
+            tier: 1,
           });
         }
         if (hits.length >= 10) break;
@@ -384,20 +384,21 @@ export const wbCatalogSource: SourceAdapter = {
 };
 
 // ---------------------------------------------------------------------------
-// Registry: all adapters in tier order
+// Registry: all adapters — Tier 1 = official/established (best), 
+// Tier 2 = community/public datasets. The picker finds the best among Tier 1.
 // ---------------------------------------------------------------------------
 
 export const ALL_SOURCES: SourceAdapter[] = [
-  eurostatSource,   // tier 1
-  datagovSource,    // tier 1
-  opencitySource,   // tier 1
-  oecdSource,       // tier 1
-  owidSource,       // tier 2
-  wbCatalogSource,  // tier 2
-  dataRacesSource,  // tier 5
-  visdatasetsSource,// tier 5
-  kaggleSource,     // tier 7
-  huggingfaceSource,// tier 7
+  eurostatSource,   // tier 1 - official
+  datagovSource,    // tier 1 - official
+  opencitySource,   // tier 1 - official
+  oecdSource,       // tier 1 - official
+  owidSource,       // tier 1 - best source
+  wbCatalogSource,  // tier 1 - best source (World Bank)
+  dataRacesSource,  // tier 1 - established
+  visdatasetsSource,// tier 1 - established
+  kaggleSource,     // tier 2 - community
+  huggingfaceSource,// tier 2 - community
 ].sort((a, b) => a.tier - b.tier);
 
 /**

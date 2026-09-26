@@ -796,15 +796,8 @@ CANDIDATES (excerpts are real page content, truncated):
 ${JSON.stringify(briefs, null, 2)}
 
 Rules:
-- SOURCE HIERARCHY (strict priority order — always prefer a higher tier):
-  1. Official government / organization source (e.g. OICA for vehicles, WHO for health)
-  2. Official API or official dataset (World Bank API, OWID grapher CSV, Eurostat API)
-  3. Company/organization official website
-  4. Academic/research source
-  5. Established database (Data Commons, UNdata, OECD)
-  6. Reputable news/reference source
-  7. Kaggle / public dataset
-  8. General web page (last resort only)
+- SOURCE TIERS: Tier 1 = best sources (OWID, World Bank, OECD, Eurostat, Data.gov, OpenCity, Data Races, visdatasets, Wikipedia, official sites). Tier 2 = community sources (Kaggle, Hugging Face). Always prefer Tier 1; use Tier 2 only if no Tier 1 source has the data.
+- Among Tier 1 sources, pick the one with the most complete data (widest year range, most entities, official methodology).
 - Prefer machine-readable (CSV/JSON/API/ZIP) over prose/HTML tables.
 - A user-provided direct data URL always wins: if a candidate URL was supplied
   directly in the request, pick it first and do not replace it with a
