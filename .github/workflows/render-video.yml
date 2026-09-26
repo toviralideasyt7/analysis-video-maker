@@ -38,6 +38,10 @@ on:
         description: Number of parallel render chunks
         required: false
         default: "4"
+      upload_youtube:
+        description: "true to also publish the finished video to YouTube (default off)"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -440,7 +444,9 @@ jobs:
           done
 
       - name: Upload to YouTube
-        if: success() && env.YOUTUBE_REFRESH_TOKEN != ''
+        # Opt-in only: auto-uploads used to fill the channel on every render.
+        # Pass upload_youtube=true on manual dispatch to publish.
+        if: ${{ success() && env.YOUTUBE_REFRESH_TOKEN != '' && inputs.upload_youtube == 'true' }}
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
@@ -467,20 +473,6 @@ jobs:
           fi
           python3 tools/youtube-upload.py "${ARGS[@]}" | tee "projects/${PROJECT_ID}/renders/youtube-url.txt" \
             || echo "youtube upload failed (non-fatal)"
-
-      - name: Publish to object storage
-        if: ${{ env.R2_BUCKET != '' }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          R2_BUCKET: ${{ secrets.R2_BUCKET }}
-          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-        run: |
-          set -euo pipefail
-          command -v aws >/dev/null || pip install --quiet awscli
-          aws s3 cp "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            "s3://${R2_BUCKET}/renders/${PROJECT_ID}.mp4" \
-            --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
 
       - name: Report completion
         if: always()
