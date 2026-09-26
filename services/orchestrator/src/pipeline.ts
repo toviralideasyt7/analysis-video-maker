@@ -1443,8 +1443,9 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
     },
   };
 
+  const datasetRange = `${dataset.timeRange.start} - ${dataset.timeRange.end}`;
   const scenes: VideoSpec['scenes'] = [
-    { id: 'scene_title', type: 'title', duration: titleSeconds, title: story.title, subtitle: story.subtitle },
+    { id: 'scene_title', type: 'title', duration: titleSeconds, title: story.title, subtitle: datasetRange },
     {
       id: 'scene_intro',
       type: 'intro',
@@ -1452,7 +1453,7 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
       // Never leave the intro blank: fall back to the video title when the
       // story hook/setup are missing (e.g. story step skipped).
       title: story.hook || story.title || dataset.name,
-      subtitle: story.setup || story.subtitle || '',
+      subtitle: story.setup || datasetRange,
     },
   ];
   segments.forEach((seg, i) => {
@@ -1489,7 +1490,9 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
     version: '1.0',
     metadata: {
       title: prettyLabel(story.title || dataset.name),
-      subtitle: prettyLabel(story.subtitle || `${dataset.timeRange.start} - ${dataset.timeRange.end}`),
+      // Subtitle MUST match dataset.timeRange exactly — AI-generated story.subtitle
+      // often has off-by-one year errors that cause QA false rejections.
+      subtitle: `${dataset.timeRange.start} - ${dataset.timeRange.end}`,
       language: options.language ?? 'en',
       durationSeconds: Number(total.toFixed(2)),
     },

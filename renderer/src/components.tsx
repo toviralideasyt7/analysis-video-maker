@@ -441,19 +441,30 @@ export const RaceHeader: React.FC<{ title: string; yearLabel: string; appear: nu
       left: 0,
       right: 0,
       top: 0,
-      height: 96,
+      minHeight: 96,
       display: 'flex',
       alignItems: 'center',
-      padding: '0 48px',
+      padding: '12px 48px',
       background: '#ffffff',
       borderBottom: '1px solid #e5e7eb',
       opacity: appear,
     }}
   >
-    <div style={{ fontSize: 27, fontWeight: 800, color: '#111827', letterSpacing: '-0.02em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 760 }}>
+    <div style={{
+      fontSize: 26,
+      fontWeight: 800,
+      color: '#111827',
+      letterSpacing: '-0.01em',
+      lineHeight: 1.25,
+      maxWidth: 780,
+      display: '-webkit-box',
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden',
+    }}>
       {title}
     </div>
-    <div style={{ marginLeft: 'auto', fontSize: 68, fontWeight: 800, color: '#111827', letterSpacing: '-0.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+    <div style={{ marginLeft: 'auto', fontSize: 68, fontWeight: 800, color: '#111827', letterSpacing: '-0.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums', flexShrink: 0, paddingLeft: 24 }}>
       {yearLabel}
     </div>
   </div>
@@ -797,7 +808,7 @@ export const SidePanel: React.FC<SidePanelProps> = ({
     style={{
       position: 'absolute',
       left: 750,
-      top: 130,
+      top: 120,
       width: 480,
       opacity: appear,
       display: 'flex',
@@ -806,37 +817,43 @@ export const SidePanel: React.FC<SidePanelProps> = ({
     }}
   >
     {/* Car illustration */}
-    <div style={{ width: 420, marginBottom: 10 }}>
+    <div style={{ width: 400, marginBottom: 16, filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.15))' }}>
       <CarIllustration color={carColor} />
     </div>
-    {/* Green topic box */}
+    {/* Green topic box - premium typography */}
     <div
       style={{
         width: 440,
-        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-        borderRadius: 8,
-        padding: '28px 24px',
-        boxShadow: '0 12px 32px rgba(34,197,94,0.3)',
+        background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
+        borderRadius: 12,
+        padding: '32px 28px',
+        boxShadow: '0 16px 40px rgba(34,197,94,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
         textAlign: 'center',
+        border: '1px solid rgba(255,255,255,0.15)',
       }}
     >
       <div style={{
-        fontSize: 38,
+        fontSize: 34,
         fontWeight: 900,
         color: '#ffffff',
-        lineHeight: 1.2,
-        letterSpacing: '0.02em',
-        textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+        lineHeight: 1.15,
+        letterSpacing: '0.04em',
+        textShadow: '0 2px 12px rgba(0,0,0,0.3)',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
       }}>
         {topicTitle}
       </div>
       <div style={{
-        marginTop: 8,
-        fontSize: 44,
-        fontWeight: 900,
+        marginTop: 12,
+        paddingTop: 12,
+        borderTop: '2px solid rgba(255,255,255,0.25)',
+        fontSize: 40,
+        fontWeight: 800,
         color: '#ffffff',
-        letterSpacing: '0.05em',
-        textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+        letterSpacing: '0.08em',
+        textShadow: '0 2px 12px rgba(0,0,0,0.3)',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontVariantNumeric: 'tabular-nums',
       }}>
         {yearRange}
       </div>
