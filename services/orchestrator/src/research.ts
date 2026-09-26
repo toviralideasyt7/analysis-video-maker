@@ -921,12 +921,23 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
         return false;
       }
     };
-    const best =
-      picked.find((s) => isDeepPage(s.url)) ??
-      [...state.sources].filter((s) => isDeepPage(s.url)).sort((a, b) => b.qualityScore - a.qualityScore)[0] ??
-      picked[0] ??
-      [...state.sources].sort((a, b) => b.qualityScore - a.qualityScore)[0];
-    if (best) {
+    // Try several candidate pages in order, not just one: the top-ranked
+    // page is often a generic landing page with no data tables. Keep going
+    // until a page actually yields rows (or we run out of budget).
+    const candidates = [
+      ...picked.filter((s) => isDeepPage(s.url)),
+      ...[...state.sources].filter((s) => isDeepPage(s.url)).sort((a, b) => b.qualityScore - a.qualityScore),
+      ...picked,
+      ...[...state.sources].sort((a, b) => b.qualityScore - a.qualityScore),
+    ];
+    const seen = new Set<string>();
+    const ordered = candidates.filter((s) => {
+      if (seen.has(s.url)) return false;
+      seen.add(s.url);
+      return true;
+    }).slice(0, 5);
+    for (const best of ordered) {
+      if (collected.length > 0 || !ctx.budget.remaining()) break;
       try {
         const fetched = await ctx.search.fetch(best.url);
         const text = fetched.text ?? '';
@@ -946,9 +957,11 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
             const normalized = await normalizeDrafts(canonical, 'count');
             collected.push(...normalized.map((d) => toObservation(d, best, timeRange)));
           }
+        } else {
+          extractionNotes.push(`AI text extraction from ${best.url}: skipped, page text too short (${text.length} chars)`);
         }
       } catch (error) {
-        extractionNotes.push(`AI text extraction failed: ${error instanceof Error ? error.message : String(error)}`);
+        extractionNotes.push(`AI text extraction from ${best.url} failed: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
   }
