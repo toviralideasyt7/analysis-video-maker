@@ -222,6 +222,40 @@ export async function harvestSources(plan: DataPlan, options: ResearchOptions, c
     errors.push(`web search: ${error instanceof Error ? error.message : String(error)}`);
   }
 
+  // User's approved source catalog: search tiered sources (Eurostat, OWID,
+  // Data Races, Kaggle, Hugging Face, Data.gov) for direct download URLs.
+  try {
+    const { searchAllSources } = await import('./sources/catalog');
+    const hits = await searchAllSources(`${plan.topic} ${plan.metric}`, 3);
+    for (const hit of hits) {
+      if (!hit.downloadUrl) continue;
+      candidates.push({
+        candidateId: `catalog-${hit.source}-${Buffer.from(hit.downloadUrl).toString('base64').slice(0, 16)}`,
+        sourceName: hit.source,
+        publisher: hit.source,
+        url: hit.downloadUrl,
+        kind: 'dataset',
+        accessMethod: 'download',
+        retrievedAt: new Date().toISOString(),
+        license: 'UNKNOWN',
+        machineReadable: true,
+        authority: hit.tier <= 2 ? 0.9 : hit.tier <= 5 ? 0.7 : 0.5,
+        directness: 1,
+        coverage: 0.6,
+        methodologyTransparency: 0.5,
+        recency: 0.6,
+        consistency: 0.6,
+        qualityScore: hit.tier <= 2 ? 0.85 : hit.tier <= 5 ? 0.7 : 0.55,
+        accepts: true,
+        primary: hit.tier <= 2,
+        discoveredBy: `catalog-${hit.source}`,
+        title: hit.title,
+      } as SourceCandidate);
+    }
+  } catch (error) {
+    errors.push(`catalog search: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
   const scored = scoreCandidates(candidates);
   return { candidates: scored, errors };
 }
