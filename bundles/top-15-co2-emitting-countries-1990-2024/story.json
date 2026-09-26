@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "title": "Annual CO2 emissions from fossil fuels",
+  "subtitle": "1830–2023",
+  "hook": "Witness the historical shift in annual CO2 emissions from fossil fuels over nearly two centuries.",
+  "setup": "This animation traces the changing levels of annual CO2 emissions from fossil fuels across nations from 1830 to 2023.",
+  "sequence": [
+    {
+      "atLabel": "1830",
+      "text": "France appears among the early recorded entities in 1830."
+    },
+    {
+      "atLabel": "1843",
+      "text": "Chile appears as a newcomer to the rankings in 1843."
+    },
+    {
+      "atLabel": "1860",
+      "text": "Italy and Czechia enter the recorded entities in 1860."
+    },
+    {
+      "atLabel": "1888",
+      "text": "Japan enters the rankings for the first time in 1888."
+    },
+    {
+      "atLabel": "1906",
+      "text": "China appears in the rankings in 1906."
+    },
+    {
+      "atLabel": "1916",
+      "text": "Mexico joins the recorded entities in 1916."
+    },
+    {
+      "atLabel": "1990",
+      "text": "United States reaches an emissions level of 5131760600 in 1990."
+    },
+    {
+      "atLabel": "2023",
+      "text": "China reaches a high value of 12172008000 by 2023."
+    }
+  ],
+  "highlights": [],
+  "ending": "The race highlights the long-term evolution of annual CO2 emissions from fossil fuels.",
+  "sourcesLine": "Data: Historical emissions records"
+}

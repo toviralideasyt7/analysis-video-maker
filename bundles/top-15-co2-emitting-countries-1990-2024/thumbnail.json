@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "ANNUAL CO2 EMISSIONS",
+  "subtitle": "FROM FOSSIL FUELS",
+  "entities": [
+    "China",
+    "United States",
+    "India"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

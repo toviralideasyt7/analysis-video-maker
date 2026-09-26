@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "topic": "Annual CO2 emissions from fossil fuels",
+  "metric": "Annual CO2 emissions from fossil fuels",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Territorial Emissions",
+      "description": "CO2 emissions produced directly within a country's geographical borders from fossil fuel combustion and industrial processes.",
+      "measurableDefinition": "Million metric tons of carbon dioxide (MtCO2) per year",
+      "caveats": [
+        "Does not account for emissions embedded in international trade (imported or exported goods)."
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Consumption-based Emissions",
+      "description": "CO2 emissions allocated to the country where goods and services are ultimately consumed.",
+      "measurableDefinition": "Million metric tons of carbon dioxide (MtCO2) per year adjusted for trade balance",
+      "caveats": [
+        "Relies on complex multi-regional input-output models with higher uncertainty and reporting lags."
+      ]
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1990",
+    "end": "2024"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "China",
+    "United States",
+    "India",
+    "Russia",
+    "Japan",
+    "Iran",
+    "Germany",
+    "Saudi Arabia",
+    "South Korea",
+    "Canada"
+  ],
+  "preferredSources": [
+    "Global Carbon Project",
+    "International Energy Agency (IEA)",
+    "EDGAR (Emissions Database for Global Atmospheric Research)"
+  ],
+  "knownRisks": [
+    "Final validated data for 2023 and 2024 may be preliminary or estimated.",
+    "Discrepancies can occur between top-down atmospheric inversions and bottom-up national inventories."
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}
