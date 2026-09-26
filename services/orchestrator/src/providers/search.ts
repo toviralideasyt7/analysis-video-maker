@@ -248,6 +248,11 @@ export class MonidProvider implements SearchProvider {
           input,
         })) as Record<string, unknown>;
         const results = normaliseSearchResults(raw, limit);
+        logger.warn('monid search raw response', {
+          shape: JSON.stringify(input).slice(0, 80),
+          results: results.length,
+          rawPreview: JSON.stringify(raw).slice(0, 500),
+        });
         if (results.length > 0) {
           this.cache.set(cacheKey, results);
           return results;
