@@ -1,0 +1,85 @@
+# Update an already-published YouTube video: refresh title/description/tags
+# (deterministic, fact-grounded) and regenerate the thumbnail from the final MP4.
+# Used to fix videos that were published with hallucinated titles/thumbnails.
+name: Update YouTube video
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "YouTube video ID to update (e.g. k8U1BpyC68A)"
+        required: true
+      project_id:
+        description: "Bundle/project id (e.g. mobile-vendor-market-share-20260927-0025)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install workspace deps
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Stage project bundle
+        run: |
+          set -euo pipefail
+          cp -r "bundles/${{ inputs.project_id }}" "projects/${{ inputs.project_id }}"
+
+      - name: Regenerate YouTube metadata (deterministic title)
+        env:
+          NARA_API_KEY: ${{ secrets.NARA_API_KEY }}
+          NARA_BASE_URL: ${{ vars.NARA_BASE_URL || 'https://router.bynara.id/v1' }}
+          GEMINI_WORKER_1: ${{ vars.GEMINI_WORKER_1 }}
+          GEMINI_WORKER_2: ${{ vars.GEMINI_WORKER_2 }}
+        run: |
+          set -euo pipefail
+          mkdir -p "projects/${{ inputs.project_id }}/renders"
+          npx tsx services/orchestrator/src/scripts/generate-metadata.ts \
+            --project "projects/${{ inputs.project_id }}" \
+            --out "projects/${{ inputs.project_id }}/renders/metadata.json"
+
+      - name: Download final MP4 from release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p "projects/${{ inputs.project_id }}/renders"
+          gh release download videos-20260922 \
+            -p "${{ inputs.project_id }}-final.mp4" \
+            -D "projects/${{ inputs.project_id }}/renders"
+
+      - name: Regenerate thumbnail from video frame
+        run: |
+          set -euo pipefail
+          pip install --quiet pillow
+          TOPIC=$(python3 -c "import json;print(json.load(open('projects/${{ inputs.project_id }}/video-spec.json')).get('metadata',{}).get('title',''))")
+          python3 tools/make-thumbnail.py \
+            --video "projects/${{ inputs.project_id }}/renders/${{ inputs.project_id }}-final.mp4" \
+            --topic "$TOPIC" \
+            --out "projects/${{ inputs.project_id }}/renders/${{ inputs.project_id }}-thumbnail.jpg"
+
+      - name: Update YouTube title/metadata/thumbnail
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 tools/youtube-upload.py \
+            --update "${{ inputs.video_id }}" \
+            --metadata "projects/${{ inputs.project_id }}/renders/metadata.json" \
+            --thumbnail "projects/${{ inputs.project_id }}/renders/${{ inputs.project_id }}-thumbnail.jpg"

@@ -65,7 +65,16 @@ async function main(): Promise<void> {
   const years: number[] = Array.isArray((dataset as any).periods)
     ? (dataset as any).periods.map((p: any) => Number(p.year ?? p)).filter((n: number) => Number.isFinite(n))
     : [];
-  const yearRange = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : '';
+  let yearRange = '';
+  if (years.length) {
+    yearRange = `${Math.min(...years)}–${Math.max(...years)}`;
+  } else {
+    // datasets without a periods array carry timeRange {start,end}
+    const tr = (dataset as any).timeRange as { start?: unknown; end?: unknown } | undefined;
+    const s = tr?.start != null ? String(tr.start) : '';
+    const e = tr?.end != null ? String(tr.end) : '';
+    if (s && e) yearRange = `${s}–${e}`;
+  }
 
   // The YouTube title is built deterministically from spec facts — the model
   // must NOT invent it (past runs hallucinated "$3T Giants" / wrong metrics).

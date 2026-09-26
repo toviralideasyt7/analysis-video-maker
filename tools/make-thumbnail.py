@@ -6,8 +6,8 @@ Design (per user spec):
   - Background: a real frame from the rendered video (the race itself)
   - Topic icon on the top-right: a vector illustration about the video's topic
     (car for car videos, phone for mobile, factory for CO2, etc.)
-  - Caption below the icon: green box with the topic title + year range,
-    styled like the in-video side panel.
+  - The caption comes from the frame itself: the video's own green side panel
+    (topic title + year range), so no text is drawn on top of it.
 
 Usage:
   python3 tools/make-thumbnail.py \
@@ -247,56 +247,9 @@ def main() -> int:
     d.ellipse([icon_cx - 150, icon_cy - 130, icon_cx + 150, icon_cy + 130],
               fill=(0, 0, 0, 45))
 
-    # --- topic icon ---
+    # --- topic icon (the caption already lives in the frame: the video's
+    # --- own green side panel. Drawing another box would duplicate it.) ---
     ICONS.get(icon_kind, draw_star)(d, icon_cx, icon_cy, 1.0)
-
-    # --- green caption box (like the in-video side panel) ---
-    box_w, box_x1 = 470, W - 40
-    box_x0 = box_x1 - box_w
-    pad = 30
-    font_title = ImageFont.truetype(font_path, 46)
-    font_years = ImageFont.truetype(font_path, 58)
-
-    title_lines = wrap_lines(d, topic, font_title, box_w - 2 * pad)[:3]
-    lh = [d.textbbox((0, 0), ln, font=font_title)[3] for ln in title_lines]
-    yh = d.textbbox((0, 0), years, font=font_years)[3] if years else 0
-    box_h = pad + sum(lh) + 14 * (len(lh) - 1)
-    if years:
-        box_h += 16 + 2 + 16 + yh  # gap + divider + gap + years
-    box_h += pad
-    box_y0 = 330
-
-    grad = Image.new("RGB", (box_w, box_h))
-    gd = ImageDraw.Draw(grad)
-    for y in range(box_h):
-        t = y / max(1, box_h - 1)
-        gd.line([(0, y), (box_w, y)], fill=(
-            int(GREEN_TOP[0] + (GREEN_BOT[0] - GREEN_TOP[0]) * t),
-            int(GREEN_TOP[1] + (GREEN_BOT[1] - GREEN_TOP[1]) * t),
-            int(GREEN_TOP[2] + (GREEN_BOT[2] - GREEN_TOP[2]) * t)))
-    mask = Image.new("L", (box_w, box_h), 0)
-    ImageDraw.Draw(mask).rounded_rectangle([0, 0, box_w, box_h], radius=14, fill=255)
-    img.paste(grad, (box_x0, box_y0), mask)
-    d = ImageDraw.Draw(img, "RGBA")
-    d.rounded_rectangle([box_x0, box_y0, box_x1, box_y0 + box_h], radius=14,
-                        outline=(255, 255, 255, 60), width=2)
-
-    def shadow_text(xy, text, font, fill):
-        x, y = xy
-        d.text((x + 2, y + 2), text, font=font, fill=(0, 0, 0, 110))
-        d.text((x, y), text, font=font, fill=fill)
-
-    ty = box_y0 + pad
-    for ln, h_ in zip(title_lines, lh):
-        tw = d.textlength(ln, font=font_title)
-        shadow_text((box_x0 + (box_w - tw) / 2, ty), ln, font_title, WHITE)
-        ty += h_ + 14
-    if years:
-        ty += 2
-        d.line([(box_x0 + pad, ty), (box_x1 - pad, ty)], fill=(255, 255, 255, 70), width=2)
-        ty += 18
-        yw = d.textlength(years, font=font_years)
-        shadow_text((box_x0 + (box_w - yw) / 2, ty), years, font_years, WHITE)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     img.save(args.out, "JPEG", quality=92)

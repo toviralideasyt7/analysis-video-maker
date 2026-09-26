@@ -89,9 +89,27 @@ def set_thumbnail(video_id: str, thumb_path: str, token: str) -> None:
         pass
 
 
+def update_video(video_id: str, meta: dict, token: str) -> None:
+    body = {
+        "id": video_id,
+        "snippet": {
+            "title": meta["title"][:100],
+            "description": meta["description"],
+            "tags": meta.get("tags", [])[:500],
+            "categoryId": "28",  # Science & Technology
+        },
+    }
+    api("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
+        token, body)
+    print(f"updated snippet for {video_id}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--video", required=True)
+    ap.add_argument("--video", default="",
+                    help="MP4 to upload (omit with --update)")
+    ap.add_argument("--update", default="",
+                    help="YouTube video ID to update instead of uploading new")
     ap.add_argument("--thumbnail", default="")
     ap.add_argument("--metadata", required=True)
     ap.add_argument("--privacy", default="public", choices=["public", "unlisted", "private"])
@@ -105,6 +123,9 @@ def main() -> int:
         print("missing YOUTUBE_CLIENT_ID / YOUTUBE_CLIENT_SECRET / YOUTUBE_REFRESH_TOKEN",
               file=sys.stderr)
         return 2
+    if not args.update and not args.video:
+        print("--video is required unless --update is given", file=sys.stderr)
+        return 2
     with open(args.metadata) as f:
         meta = json.load(f)
     print(f"title: {meta['title']}")
@@ -114,8 +135,12 @@ def main() -> int:
         return 0
 
     token = refresh_access_token(cid, csec, rtok)
-    video_id = upload_video(args.video, meta, token, args.privacy)
-    print(f"uploaded video id: {video_id}")
+    if args.update:
+        update_video(args.update, meta, token)
+        video_id = args.update
+    else:
+        video_id = upload_video(args.video, meta, token, args.privacy)
+        print(f"uploaded video id: {video_id}")
     if args.thumbnail and os.path.exists(args.thumbnail):
         set_thumbnail(video_id, args.thumbnail, token)
         print("thumbnail set")
