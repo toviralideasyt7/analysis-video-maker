@@ -330,11 +330,14 @@ const BarRace: React.FC<{
         // Year range: extract from subtitle or use dataset range
         const yearMatch = years.match(/(\d{4})\s*[-–to]+\s*(\d{4})/i);
         const yearRange = yearMatch ? `${yearMatch[1]}-${yearMatch[2]}` : '';
+        // Only show car illustration for car-related topics
+        const isCarTopic = /car|vehicle|auto/i.test(topicTitle);
         return (
           <SidePanel
             topicTitle={topicTitle}
             yearRange={yearRange}
             carColor="#e53e3e"
+            iconType={isCarTopic ? 'car' : 'none'}
             appear={chromeAppear}
           />
         );

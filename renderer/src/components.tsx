@@ -379,7 +379,7 @@ export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagB
       style={{
         position: 'absolute',
         left: 730,
-        top: 120,
+        bottom: 80,
         width: 520,
         background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
         border: '2px solid #e5e7eb',
@@ -758,12 +758,13 @@ export const NoteStrip: React.FC<{ notes: string[]; theme: Theme; opacity?: numb
     </div>
   );
 };
-/** Right-side panel: car illustration + topic title box, like the reference.
+/** Right-side panel: topic illustration + topic title box, like the reference.
  * Shows when no spotlight is active. */
 export interface SidePanelProps {
   topicTitle: string; // e.g. "TOP CAR PRODUCING COUNTRIES"
   yearRange: string;  // e.g. "1950-2025"
-  carColor: string;   // car body color
+  carColor: string;   // car body color (used when iconType='car')
+  iconType?: 'car' | 'factory' | 'globe' | 'none'; // topic-specific icon
   appear: number;
 }
 
@@ -802,6 +803,7 @@ export const SidePanel: React.FC<SidePanelProps> = ({
   topicTitle,
   yearRange,
   carColor,
+  iconType = 'car',
   appear,
 }) => (
   <div
@@ -816,10 +818,12 @@ export const SidePanel: React.FC<SidePanelProps> = ({
       alignItems: 'center',
     }}
   >
-    {/* Car illustration */}
+    {/* Topic illustration - only show for car topics, otherwise just the title box */}
+    {iconType === 'car' && (
     <div style={{ width: 400, marginBottom: 16, filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.15))' }}>
       <CarIllustration color={carColor} />
     </div>
+    )}
     {/* Green topic box - premium typography */}
     <div
       style={{
@@ -839,7 +843,7 @@ export const SidePanel: React.FC<SidePanelProps> = ({
         lineHeight: 1.15,
         letterSpacing: '0.04em',
         textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: '"Bebas Neue", "Arial Narrow", sans-serif',
       }}>
         {topicTitle}
       </div>
@@ -852,7 +856,7 @@ export const SidePanel: React.FC<SidePanelProps> = ({
         color: '#ffffff',
         letterSpacing: '0.08em',
         textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: '"Bebas Neue", "Arial Narrow", sans-serif',
         fontVariantNumeric: 'tabular-nums',
       }}>
         {yearRange}
