@@ -17,6 +17,10 @@ on:
         description: Studio project id — the bundle is committed to bundles/<projectId>/
         required: false
         default: ""
+      autoRender:
+        description: "Automatically trigger render-video.yml when research succeeds (1-prompt video)"
+        required: false
+        default: "true"
       prompt:
         description: Natural-language video request (agent mode). The agent picks the source, years and entities itself.
         required: false
@@ -170,3 +174,22 @@ jobs:
             git commit -m "research: bundle for ${{ inputs.projectId }}"
             git push origin "HEAD:${{ github.ref_name }}"
           fi
+
+      # One-prompt video: auto-trigger the render when research succeeds.
+      # Set inputs.autoRender=false to get research-only behavior.
+      - name: Auto-trigger render
+        if: ${{ inputs.projectId != '' && inputs.autoRender != 'false' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'render-video.yml',
+              ref: context.ref,
+              inputs: {
+                projectId: '${{ inputs.projectId }}',
+                renderScale: '1',
+              },
+            });
+            core.info('Render auto-triggered for ${{ inputs.projectId }}');
