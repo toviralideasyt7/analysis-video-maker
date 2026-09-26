@@ -232,13 +232,11 @@ export class MonidProvider implements SearchProvider {
 
     await this.inspect(this.config.searchEndpoint);
     // Shapes verified against `POST /v1/inspect {provider:"tinyfish",endpoint:"/search"}`:
-    //   queryParams.query (string) is the documented field; `purpose` is an
-    //   optional ranking hint. The remaining shapes are kept as fallbacks for a
-    //   provider-side schema change.
+    //   queryParams.query (string) is the ONLY accepted field. The API rejects
+    //   unrecognized keys (e.g. `purpose`, `q`) with 400. Keep the exact shape
+    //   first; fallbacks are for a provider-side schema change.
     const candidates: Array<Record<string, unknown>> = [
-      { queryParams: { query, purpose: 'find a machine-readable dataset with numbers over time' } },
       { queryParams: { query } },
-      { queryParams: { q: query } },
       { body: { query } },
       { query },
     ];
