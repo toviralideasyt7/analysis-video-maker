@@ -356,7 +356,7 @@ jobs:
           TOPIC=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('metadata',{}).get('title',''))")
           python3 tools/make-thumbnail.py \
             --video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            --hook "$HOOK" --years "$YEARS" --topic "$TOPIC" \
+            --topic "$TOPIC" --years "$YEARS" \
             --out "projects/${PROJECT_ID}/renders/${PROJECT_ID}-thumbnail.jpg" \
             || echo "thumbnail generation failed (non-fatal)"
 
