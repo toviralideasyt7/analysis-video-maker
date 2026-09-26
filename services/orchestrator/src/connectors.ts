@@ -59,11 +59,18 @@ export async function getJson<T>(
   url: string,
   options: { retries?: number; headers?: Record<string, string>; timeoutMs?: number } = {},
 ): Promise<T> {
-  const { text } = await getText(url, {
+  const { text, status } = await getText(url, {
     ...options,
     headers: { Accept: 'application/json', ...(options.headers ?? {}) },
   });
-  return JSON.parse(text) as T;
+  if (status >= 400) {
+    throw new Error(`HTTP ${status} for ${url}: ${text.slice(0, 200)}`);
+  }
+  try {
+    return JSON.parse(text) as T;
+  } catch (error) {
+    throw new Error(`JSON parse failed for ${url} (HTTP ${status}): ${String(error)} — body: ${text.slice(0, 200)}`);
+  }
 }
 
 // ---------------------------------------------------------------------------

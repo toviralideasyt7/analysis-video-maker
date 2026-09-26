@@ -34,9 +34,9 @@ on:
         required: false
         default: ""
       worldBankIndicator:
-        description: Optional World Bank indicator id
+        description: Optional World Bank indicator id (leave empty for auto-discovery)
         required: false
-        default: "SP.POP.TOTL"
+        default: ""
       topN:
         description: Entities shown in the race
         required: false
@@ -69,7 +69,6 @@ jobs:
       KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
       KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
       DATARACE_BIN: ${{ github.workspace }}/target/release/datarace
-      DATARACE_FFPROBE: /usr/bin/ffprobe
       LOG_LEVEL: info
     steps:
       - uses: actions/checkout@v4
@@ -96,20 +95,27 @@ jobs:
 
       - name: Run the research pipeline
         env:
+          AVM_TOPIC: ${{ inputs.topic }}
           AVM_PROMPT: ${{ inputs.prompt }}
+          AVM_TOPN: ${{ inputs.topN }}
+          AVM_FRAMES: ${{ inputs.framesPerTransition }}
+          AVM_INDICATOR: ${{ inputs.worldBankIndicator }}
+          AVM_FROM: ${{ inputs.fromYear }}
+          AVM_TO: ${{ inputs.toYear }}
+          AVM_SKIP_AI: ${{ inputs.skipAi }}
         run: |
           set -euo pipefail
-          ARGS=("${{ inputs.topic }}" --topn "${{ inputs.topN }}" --frames "${{ inputs.framesPerTransition }}")
-          if [ -n "${{ inputs.worldBankIndicator }}" ]; then
-            ARGS+=(--indicator "${{ inputs.worldBankIndicator }}")
+          ARGS=("$AVM_TOPIC" --topn "$AVM_TOPN" --frames "$AVM_FRAMES")
+          if [ -n "$AVM_INDICATOR" ]; then
+            ARGS+=(--indicator "$AVM_INDICATOR")
           fi
-          if [ -n "${{ inputs.fromYear }}" ] && [ -n "${{ inputs.toYear }}" ]; then
-            ARGS+=(--from "${{ inputs.fromYear }}" --to "${{ inputs.toYear }}")
+          if [ -n "$AVM_FROM" ] && [ -n "$AVM_TO" ]; then
+            ARGS+=(--from "$AVM_FROM" --to "$AVM_TO")
           fi
           if [ -n "$AVM_PROMPT" ]; then
             ARGS+=(--prompt "$AVM_PROMPT")
           fi
-          if [ "${{ inputs.skipAi }}" = "true" ]; then
+          if [ "$AVM_SKIP_AI" = "true" ]; then
             ARGS+=(--skip-ai)
           fi
           npx tsx services/orchestrator/src/scripts/demo-research.ts "${ARGS[@]}"
@@ -119,18 +125,21 @@ jobs:
       # bundle to it so the Render tab picks it up without manual juggling.
       - name: Name the bundle after the studio project
         if: ${{ inputs.projectId != '' }}
+        env:
+          AVM_PROJECT_ID: ${{ inputs.projectId }}
         run: |
           set -euo pipefail
+          shopt -s nullglob
           dirs=(projects/*/)
           if [ "${#dirs[@]}" -ne 1 ]; then
             echo "expected exactly one project dir, found ${#dirs[@]}"
             exit 1
           fi
           src="${dirs[0]%/}"
-          if [ "$src" != "projects/${{ inputs.projectId }}" ]; then
-            mv "$src" "projects/${{ inputs.projectId }}"
+          if [ "$src" != "projects/$AVM_PROJECT_ID" ]; then
+            mv "$src" "projects/$AVM_PROJECT_ID"
           fi
-          ls "projects/${{ inputs.projectId }}"
+          ls "projects/$AVM_PROJECT_ID"
 
       - name: Validate every produced bundle
         run: |

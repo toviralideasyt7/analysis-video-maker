@@ -618,12 +618,15 @@ export interface AIClientOptions {
   provider?: AIProvider;
   /** Overrides for tests; merged over the environment-derived providers. */
   providers?: Partial<Record<ModelProvider, AIProvider>>;
+  /** Called on every model attempt (for budget tracking). */
+  onAiCall?: () => void;
 }
 
 class RoutingClient implements AIClient {
   constructor(
     private readonly providers: Partial<Record<ModelProvider, AIProvider>>,
     private readonly fallback: AIProvider,
+    private readonly onAiCall?: () => void,
   ) {}
 
   get providerName(): string {
@@ -638,6 +641,8 @@ class RoutingClient implements AIClient {
   private async run(spec: ModelSpec, req: AIRequest): Promise<AIResponse> {
     const provider = this.providerFor(spec.provider);
     if (!provider) throw new AIError(`${spec.provider} provider is not configured`);
+    // Track every model attempt for budget enforcement
+    this.onAiCall?.();
     if (provider instanceof GeminiProxyProvider) return provider.generateWithModel(spec.model, req);
     if (provider instanceof OpenAICompatProvider) return provider.generateWithModel(spec.model, req);
     if (provider instanceof GeminiOfficialProvider) return provider.generateWithModel(spec.model, req);
@@ -661,7 +666,14 @@ class RoutingClient implements AIClient {
   async completeRole(role: AgentRole, req: AIRequest): Promise<AIResponse> {
     const chain = ROLE_MODELS[role];
     let lastError: unknown = null;
+    // Per-call deadline: fail fast instead of burning the 60-min job budget
+    // on a degraded provider chain. 5 minutes is generous for a single role.
+    const deadlineMs = 5 * 60 * 1000;
+    const deadline = Date.now() + deadlineMs;
     for (const spec of chain) {
+      if (Date.now() > deadline) {
+        throw new AIError(`AI deadline exceeded for role ${role} after ${deadlineMs/1000}s`);
+      }
       if (!this.providerFor(spec.provider)) continue;
       try {
         const response = await this.run(spec, req);
@@ -672,10 +684,12 @@ class RoutingClient implements AIClient {
         logger.warn('role model failed, trying the next one', { role, model: spec.model, error: String(error) });
       }
     }
-    if (!this.fallback) {
-      throw lastError instanceof Error ? lastError : new AIError(`no model available for role ${role}`);
+    // All real providers failed: throw the real error, not a mock.
+    // The mock is only for explicit test mode (AVM_MOCK_AI=1).
+    if (process.env.AVM_MOCK_AI === '1' && this.fallback) {
+      return this.fallback.generate(req);
     }
-    return this.fallback.generate(req);
+    throw lastError instanceof Error ? lastError : new AIError(`no model available for role ${role}`);
   }
 
   completeJsonRole<T>(role: AgentRole, req: AIRequest, schema: SchemaName): Promise<T> {
@@ -690,7 +704,7 @@ class RoutingClient implements AIClient {
  * best available model per role (see `ROLE_MODELS`).
  */
 export function createAIClient(options: AIClientOptions = {}): AIClient {
-  if (options.provider) return new RoutingClient({}, options.provider);
+  if (options.provider) return new RoutingClient({}, options.provider, options.onAiCall);
 
   const workers = envList('GEMINI_WORKER_1').concat(envList('GEMINI_WORKER_2')).filter(Boolean);
   const models = envList('GEMINI_MODELS', ['gemini-3.7-flash', 'gemini-3.6-flash']);
@@ -725,7 +739,7 @@ export function createAIClient(options: AIClientOptions = {}): AIClient {
   const fallback = new MockProvider(() =>
     JSON.stringify({ note: 'mock provider: configure GEMINI_WORKER_1 or NARA_API_KEY for real models' }),
   );
-  const client = new RoutingClient(providers, fallback);
+  const client = new RoutingClient(providers, fallback, options.onAiCall);
   logger.info('ai providers ready', { providers: client.providerName });
   return client;
 }

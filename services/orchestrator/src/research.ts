@@ -124,7 +124,7 @@ function buildAgentContext(options: ResearchOptions): AgentContext {
   const lim = loadLimits();
   const budget = new Budget(options.maxSearches ?? lim.maxSearches, lim.maxSearches * 4, lim.maxAgentRounds * 8);
   const search = createSearchProvider(budget);
-  const ai: AIClient = createAIClient();
+  const ai: AIClient = createAIClient({ onAiCall: () => { budget.takeAi(); } });
   return {
     ai,
     search,
@@ -183,10 +183,14 @@ export async function harvestSources(plan: DataPlan, options: ResearchOptions, c
 
   if (options.worldBankIndicator) {
     try {
-      const result = await worldBankFetch(options.worldBankIndicator, 'all', {
-        start: Number(plan.timeRange.start.slice(0, 4)),
-        end: Number(plan.timeRange.end.slice(0, 4)),
-      });
+      const startYear = Number(plan.timeRange.start.slice(0, 4));
+      const endYear = Number(plan.timeRange.end.slice(0, 4));
+      const start = Number.isFinite(startYear) ? startYear : 1960;
+      const end = Number.isFinite(endYear) ? endYear : new Date().getFullYear();
+      if (!Number.isFinite(startYear) || !Number.isFinite(endYear)) {
+        logger.warn('Invalid year range in plan, using fallback', { start: plan.timeRange.start, end: plan.timeRange.end, fallbackStart: start, fallbackEnd: end });
+      }
+      const result = await worldBankFetch(options.worldBankIndicator, 'all', { start, end });
       candidates.push(result.candidate);
     } catch (error) {
       errors.push(`World Bank ${options.worldBankIndicator}: ${error instanceof Error ? error.message : String(error)}`);
@@ -941,7 +945,9 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
 
   // Last resort: if nothing structured worked, let the extractor read the best
   // page and pull rows out of it - every row must quote the page verbatim.
-  if (collected.length === 0 && !options.skipAi && ctx.budget.remaining()) {
+  // Gated on AI budget only (not search/fetch) — this is the fallback for
+  // exactly the "no structured data" case.
+  if (collected.length === 0 && !options.skipAi && ctx.budget.aiRemaining()) {
     // Prefer a deep page over a site homepage: an extractor reading
     // "ourworldindata.org/" can only correctly answer "no data here".
     const picked = state.sources.filter((s) => selection.picked.some((p) => p.candidateId === s.candidateId));

@@ -87,6 +87,11 @@ export class Budget {
   remaining(): boolean {
     return !this.exhausted();
   }
+
+  /** True while AI calls are still available (independent of search/fetch budget). */
+  aiRemaining(): boolean {
+    return this.aiCalls < this.maxAiCalls;
+  }
 }
 
 const BROWSER_UA =

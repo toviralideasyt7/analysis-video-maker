@@ -86,7 +86,8 @@ export class ProjectStore {
       .replace(/^-|-$/g, '')
       .slice(0, 40);
     const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
-    return `${slug || 'project'}-${stamp}`;
+    const rand = Math.random().toString(36).slice(2, 8);
+    return `${slug || 'project'}-${stamp}-${rand}`;
   }
 
   create(topic: string, limits: Limits, title?: string): ProjectState {

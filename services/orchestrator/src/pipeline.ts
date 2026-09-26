@@ -354,11 +354,18 @@ export interface SourceRanking {
  *
  * The primary source is the one covering the most distinct entity|date
  * cells; ties break on mean confidence, then first-seen order.
+ *
+ * When `expectedUnit` is provided, sources whose unit matches get a strong
+ * preference — this prevents a wrong-metric source (e.g. population data for
+ * a CO2 topic) from winning purely on cell count.
  */
-export function selectPrimarySource(observations: Observation[]): SourceRanking {
+export function selectPrimarySource(
+  observations: Observation[],
+  options?: { expectedUnit?: string; expectedMetric?: string }
+): SourceRanking {
   const byKey = new Map<
     string,
-    { publisher: string; url: string; cells: Set<string>; observations: number; confidenceSum: number; firstSeen: number }
+    { publisher: string; url: string; cells: Set<string>; observations: number; confidenceSum: number; firstSeen: number; units: Set<string> }
   >();
   observations.forEach((o, idx) => {
     const key = publisherKey(o);
@@ -371,15 +378,26 @@ export function selectPrimarySource(observations: Observation[]): SourceRanking 
         observations: 0,
         confidenceSum: 0,
         firstSeen: idx,
+        units: new Set(),
       };
       byKey.set(key, entry);
     }
     entry.cells.add(`${canonicalEntityKey(o.entity.name)}|${o.date}`);
     entry.observations += 1;
     entry.confidenceSum += typeof o.confidence === 'number' ? o.confidence : 0;
+    if (o.unit) entry.units.add(o.unit.toLowerCase());
   });
   const withOrder = [...byKey.entries()].map(([key, e]) => ({ key, ...e }));
+  const expectedUnitLower = options?.expectedUnit?.toLowerCase();
   withOrder.sort((a, b) => {
+    // Metric relevance first: a source whose unit matches the expected unit
+    // wins over one that doesn't, regardless of cell count. This prevents
+    // wrong-metric data (e.g. population for a CO2 topic) from winning.
+    if (expectedUnitLower) {
+      const aMatches = [...a.units].some(u => u.includes(expectedUnitLower) || expectedUnitLower.includes(u));
+      const bMatches = [...b.units].some(u => u.includes(expectedUnitLower) || expectedUnitLower.includes(u));
+      if (aMatches !== bMatches) return aMatches ? -1 : 1;
+    }
     if (b.cells.size !== a.cells.size) return b.cells.size - a.cells.size;
     const meanA = a.observations > 0 ? a.confidenceSum / a.observations : 0;
     const meanB = b.observations > 0 ? b.confidenceSum / b.observations : 0;
@@ -650,7 +668,7 @@ export function sanitizeObservations(observations: Observation[]): SanitizeResul
 
 export function verifyAcrossSources(
   observations: Observation[],
-  options: { tolerance?: number; metric?: string; outlierRatio?: number; singleSource?: boolean } = {},
+  options: { tolerance?: number; metric?: string; unit?: string; outlierRatio?: number; singleSource?: boolean } = {},
 ): VerificationResult {
   const tolerance = options.tolerance ?? 0.05;
   const outlierRatio = options.outlierRatio ?? 100;
@@ -664,7 +682,7 @@ export function verifyAcrossSources(
   // primary value is kept (the single source stands) and the dispute is
   // recorded as a conflict + note for the reviewer.
   const singleSource = options.singleSource === true && observations.length > 0;
-  const ranking = singleSource ? selectPrimarySource(observations) : null;
+  const ranking = singleSource ? selectPrimarySource(observations, { expectedUnit: options.unit }) : null;
   const primary = ranking?.primary ?? null;
   let droppedCells = 0;
   if (primary && ranking) {

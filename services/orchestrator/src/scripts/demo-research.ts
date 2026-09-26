@@ -38,7 +38,9 @@ async function main(): Promise<void> {
   const topic = positional.join(' ').trim() || 'World Population by Country';
   const numeric = (key: string): number | undefined => {
     const raw = flags.get(key);
-    return raw === undefined ? undefined : Number(raw);
+    if (raw === undefined) return undefined;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : undefined;
   };
 
   process.stdout.write(`rust core: ${rustAvailable() ? 'available' : 'MISSING (frame tape will fail)'}\n`);

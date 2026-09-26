@@ -588,7 +588,10 @@ async function decideWithAi(prompt: string, directUrls: string[]): Promise<Parti
   try {
     const res = await ai.complete({ system, prompt: `Video request: ${prompt}`, maxTokens: 800, temperature: 0.2 });
     const text = res.text ?? '';
-    const jsonText = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
+    const startIdx = text.indexOf('{');
+    const endIdx = text.lastIndexOf('}');
+    if (startIdx < 0 || endIdx < 0 || endIdx <= startIdx) return null;
+    const jsonText = text.slice(startIdx, endIdx + 1);
     const parsed = JSON.parse(jsonText) as Record<string, unknown>;
     const years = parseYearPreference(prompt);
     const num = (v: unknown): number | undefined => (typeof v === 'number' && Number.isFinite(v) ? v : undefined);
