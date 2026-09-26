@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "BAR CHART RACE OF THE",
+  "subtitle": "MOST SELLING SMARTPHONE BRANDS, 2009-2026",
+  "entities": [
+    "Apple",
+    "Samsung",
+    "Xiaomi"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

@@ -1,0 +1,95 @@
+{
+  "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+  "title": "Research a bar chart race of the most selling smartphone brands, 2009-2026. Annual unit-shipment data from industry anal",
+  "topic": "Research a bar chart race of the most selling smartphone brands, 2009-2026. Annual unit-shipment data from industry anal",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-26T19:13:30.662Z",
+  "updatedAt": "2026-09-26T19:13:45.662Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-gs-statcounter-com-chart-php-device-mobile-device-hidd",
+      "sourceName": "gs.statcounter.com",
+      "publisher": "gs.statcounter.com",
+      "url": "https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-26T19:13:39.669Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-26T19:13:39.668Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-26T19:13:39.669Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-26T19:13:39.811Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-26T19:13:39.812Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-26T19:13:39.880Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-26T19:13:40.459Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-26T19:13:45.392Z"
+    },
+    {
+      "projectId": "research-a-bar-chart-race-of-the-most-se-20260926191330-gab4ga",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-26T19:13:45.491Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=2009-2026",
+    "agent direct URL: https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1 (219 rows)",
+    "transposed wide-format table detected: melting 72 entity columns into long format",
+    "melted 8245 observations from transposed wide-format table",
+    "direct table https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1: 8245 observations (unit: percent)",
+    "primary source: gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1) - all 8245 dataset values come from this one source",
+    "verification: 8245 observations (VERIFIED 0, SUPPORTED 8245, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 8245 valued cells confirmed by 2+ independent publishers; 8245 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1), covering 8245 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: mobicel jumps down 254.0x between 2020-10 (2.54) and 2020-12 (0.01) - possible unit/extraction error",
+    "single-source: dataset values come from ONE source - gs.statcounter.com (https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1), covering 8245 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: mobicel jumps down 254.0x between 2020-10 (2.54) and 2020-12 (0.01) - possible unit/extraction error"
+  ]
+}

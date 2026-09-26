@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": "picked_https-gs-statcounter-com-chart-php-device-mobile-device-hidd",
+    "sourceName": "gs.statcounter.com",
+    "publisher": "gs.statcounter.com",
+    "url": "https://gs.statcounter.com/chart.php?device=Mobile&device_hidden=mobile&statType_hidden=vendor&region_hidden=ww&granularity=monthly&statType=Mobile%20Vendor&region=Worldwide&fromInt=200901&toInt=202609&csv=1",
+    "kind": "dataset",
+    "accessMethod": "download",
+    "retrievedAt": "2026-09-26T19:13:39.669Z",
+    "license": "UNKNOWN",
+    "machineReadable": true,
+    "authority": 0.8,
+    "directness": 1,
+    "coverage": 0.8,
+    "methodologyTransparency": 0.6,
+    "recency": 0.8,
+    "consistency": 0.8,
+    "qualityScore": 0.8,
+    "accepts": true,
+    "primary": true,
+    "discoveredBy": "agent-direct-url"
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "title": "Bar chart race of the most selling smartphone brands, 2009-2026",
+  "subtitle": "Annual Unit Shipments from 2009 to 2026",
+  "hook": "Witness how the global smartphone market shifted over more than a decade of fierce competition.",
+  "setup": "This animation tracks annual unit shipments for top smartphone brands from 2009 to 2026.",
+  "sequence": [
+    {
+      "atLabel": "04/2010",
+      "text": "Nokia enters the ranking at the start of the timeline."
+    },
+    {
+      "atLabel": "02/2012",
+      "text": "Unknown enters the ranking with a notable market share."
+    },
+    {
+      "atLabel": "01/2013",
+      "text": "Apple overtakes the top position in early 2013."
+    },
+    {
+      "atLabel": "06/2013",
+      "text": "Samsung takes over the number one spot by mid-2013."
+    },
+    {
+      "atLabel": "11/2016",
+      "text": "Xiaomi appears as a newcomer in the rankings."
+    },
+    {
+      "atLabel": "01/2017",
+      "text": "Oppo joins the competition as a newcomer."
+    },
+    {
+      "atLabel": "11/2020",
+      "text": "Vivo enters the ranking with a strong showing."
+    },
+    {
+      "atLabel": "08/2026",
+      "text": "Honor appears as a newcomer toward the end of the timeline."
+    }
+  ],
+  "highlights": [],
+  "ending": "The smartphone landscape transformed dramatically as new contenders reshaped global market share.",
+  "sourcesLine": "Data: Industry Shipments"
+}

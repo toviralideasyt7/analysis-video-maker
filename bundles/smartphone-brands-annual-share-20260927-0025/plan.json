@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "topic": "Bar chart race of the most selling smartphone brands, 2009-2026",
+  "metric": "Annual Unit Shipments",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Annual Shipments (Recommended)",
+      "description": "Total number of smartphones shipped globally by a brand to channels or end-users in a calendar year.",
+      "measurableDefinition": "Number of units shipped, expressed in millions of units (M units)",
+      "caveats": [
+        "Definitions vary between sell-in and sell-through data",
+        "Historical restatements by tracking agencies can alter past years"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Global Market Share",
+      "description": "A brand's percentage share of the total global smartphone market in a calendar year.",
+      "measurableDefinition": "Percentage of total global smartphone shipments (%)",
+      "caveats": [
+        "Total market size calculation methodology can differ slightly among research firms"
+      ]
+    },
+    {
+      "id": "c",
+      "label": "Annual Smartphone Revenue",
+      "description": "Total gross revenue generated specifically from smartphone hardware sales in a calendar year.",
+      "measurableDefinition": "Revenue in billions of US Dollars (USD)",
+      "caveats": [
+        "Affected by average selling price (ASP) fluctuations rather than raw volume",
+        "Private companies may not publicly disclose exact segment revenues"
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "2009",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Samsung",
+    "Apple",
+    "Xiaomi",
+    "OPPO",
+    "vivo",
+    "Huawei",
+    "Lenovo",
+    "LG",
+    "Nokia",
+    "ZTE",
+    "RIM / BlackBerry"
+  ],
+  "preferredSources": [
+    "IDC Worldwide Quarterly Mobile Phone Tracker",
+    "Canalys Smartphone Analysis",
+    "Counterpoint Research Market Monitor",
+    "Gartner Market Share Data"
+  ],
+  "knownRisks": [
+    "Brand portfolio shifts such as the Huawei and Honor separation",
+    "Incomplete or preliminary estimates for the full year 2026",
+    "Consolidation of smaller regional brands into the 'Others' category over time"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}
