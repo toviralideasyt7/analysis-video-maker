@@ -1020,7 +1020,12 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // A dataset with no observations is a failed run, not an empty video:
   // refuse to emit a frame tape and spec for nothing.
   if (dataset.stats.observations === 0) {
-    const reason = `research produced no observations for "${plan.topic}" - refusing to render an empty video`;
+    const budgetUsed = ctx.budget.used();
+    const reason =
+      `research produced no observations for "${plan.topic}" - refusing to render an empty video. ` +
+      `sources=${state.sources.length} ` +
+      `budget(searches=${budgetUsed.searches},fetches=${budgetUsed.fetches},aiCalls=${budgetUsed.aiCalls}) ` +
+      `extraction: ${extractionNotes.join(' | ').slice(0, 800)}`;
     state.notes.push(reason);
     store.setStatus(state, 'FAILED');
     store.save(state);
