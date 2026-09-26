@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "TOP 15 CAR PRODUCING COUNTRIES BY ANNUAL",
+  "subtitle": "MOTOR VEHICLE PRODUCTION, 1950 TO 2025",
+  "entities": [
+    "China",
+    "United States",
+    "Japan"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

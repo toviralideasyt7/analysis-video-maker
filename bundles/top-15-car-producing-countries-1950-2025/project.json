@@ -1,0 +1,97 @@
+{
+  "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+  "title": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025. Use data from",
+  "topic": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025. Use data from",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-26T10:04:14.595Z",
+  "updatedAt": "2026-09-26T10:04:36.338Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-en-wikipedia-org-wiki-list-of-countries-by-motor-vehic",
+      "sourceName": "en.wikipedia.org",
+      "publisher": "en.wikipedia.org",
+      "url": "https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-26T10:04:31.836Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-26T10:04:31.834Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-26T10:04:31.836Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-26T10:04:31.881Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-26T10:04:31.882Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-26T10:04:31.912Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-26T10:04:32.008Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-26T10:04:36.288Z"
+    },
+    {
+      "projectId": "top-15-car-producing-countries-by-annual-20260926100414",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-26T10:04:36.308Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=country, range=1950-2025",
+    "agent direct URL: https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production (70 rows)",
+    "wide-format table detected: melting 24 year columns into long format",
+    "melted 1136 observations from wide-format table",
+    "direct table https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production: 1092 observations (unit: count)",
+    "primary source: en.wikipedia.org (https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production) - all 1090 dataset values come from this one source",
+    "verification: 1090 observations (VERIFIED 0, SUPPORTED 1090, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 1090 valued cells confirmed by 2+ independent publishers; 1090 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - en.wikipedia.org (https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production), covering 1090 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: belgium jumps up 296.0x between 1960 (1000) and 1970 (296000) - possible unit/extraction error",
+    "outlier: serbia jumps up 218.8x between 2024 (235) and 2025 (51417) - possible unit/extraction error",
+    "single-source: dataset values come from ONE source - en.wikipedia.org (https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production), covering 1090 cells; 0 other source(s) used for verification only, never merged",
+    "outlier: belgium jumps up 296.0x between 1960 (1000) and 1970 (296000) - possible unit/extraction error",
+    "outlier: serbia jumps up 218.8x between 2024 (235) and 2025 (51417) - possible unit/extraction error"
+  ]
+}

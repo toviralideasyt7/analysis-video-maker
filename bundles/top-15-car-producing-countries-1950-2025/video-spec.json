@@ -1,0 +1,657 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025",
+    "subtitle": "1950 to 2025",
+    "language": "en",
+    "durationSeconds": 276
+  },
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025",
+      "subtitle": "1950 to 2025"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "Watch how global automobile manufacturing shifted across the world over seven decades.",
+      "subtitle": "This race tracks annual motor vehicle production volumes for the top countries from 1950 through 2025."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 12,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          39
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1970",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "United States rules the 1970s",
+      "props": {
+        "kicker": "THE 1970S",
+        "atLabel": "1970",
+        "body": "As the 1970s began, United States led the world with 8.3M count. Japan was the previous decade's biggest climber, rising 12 places into the top 15.",
+        "entityIds": [
+          "united-states",
+          "japan",
+          "germany"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 6,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          40,
+          59
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1980",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Japan rules the 1980s",
+      "props": {
+        "kicker": "THE 1980S",
+        "atLabel": "1980",
+        "body": "As the 1980s began, Japan led the world with 11.0M count. Japan was the previous decade's biggest climber, rising 13 places into the top 15.",
+        "entityIds": [
+          "japan",
+          "united-states",
+          "germany"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 6,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          60,
+          79
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1990",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Japan rules the 1990s",
+      "props": {
+        "kicker": "THE 1990S",
+        "atLabel": "1990",
+        "body": "As the 1990s began, Japan led the world with 13.5M count. Japan was the previous decade's biggest climber, rising 13 places into the top 15.",
+        "entityIds": [
+          "japan",
+          "united-states",
+          "germany"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_4",
+      "type": "bar_race",
+      "duration": 12,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          80,
+          119
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2000",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "United States rules the 2000s",
+      "props": {
+        "kicker": "THE 2000S",
+        "atLabel": "2000",
+        "body": "As the 2000s began, United States led the world with 12.8M count. South Korea was the previous decade's biggest climber, rising 15 places into the top 15.",
+        "entityIds": [
+          "united-states",
+          "japan",
+          "germany"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_5",
+      "type": "bar_race",
+      "duration": 12,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          120,
+          159
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, China led the world with 18.3M count. China was the previous decade's biggest climber, rising 19 places into the top 15.",
+        "entityIds": [
+          "china",
+          "japan",
+          "united-states"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_6",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          160,
+          359
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "China rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2025, China leads the world with 34.4M count.",
+        "entityIds": [
+          "china",
+          "united-states",
+          "japan"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_7",
+      "type": "bar_race",
+      "duration": 36,
+      "datasetRef": "dataset_top-15-car-producing-countries-by-annual-20260926100414",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "1950",
+          "1960",
+          "1970",
+          "1980",
+          "1990",
+          "1995",
+          "2000",
+          "2005",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "highlights": [],
+        "notes": [
+          "744 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Annual motor vehicle production volume",
+          "value": 34368280.7,
+          "entityName": "China",
+          "entityId": "china",
+          "year": "2025",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "china",
+              "name": "China",
+              "color": "#2563eb",
+              "flagCode": "cn"
+            },
+            {
+              "id": "united-states",
+              "name": "United States",
+              "color": "#dc2626",
+              "flagCode": "us"
+            },
+            {
+              "id": "japan",
+              "name": "Japan",
+              "color": "#f59e0b",
+              "flagCode": "jp"
+            }
+          ]
+        },
+        "tapeRange": [
+          360,
+          479
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "China ultimately maintained its dominant position in global vehicle manufacturing through the final years."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production",
+      "publisher": "en.wikipedia.org",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-26T10:04:31.836Z",
+      "identifier": "picked_https-en-wikipedia-org-wiki-list-of-countries-by-motor-vehic"
+    }
+  ]
+}

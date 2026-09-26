@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": "picked_https-en-wikipedia-org-wiki-list-of-countries-by-motor-vehic",
+    "sourceName": "en.wikipedia.org",
+    "publisher": "en.wikipedia.org",
+    "url": "https://en.wikipedia.org/wiki/List_of_countries_by_motor_vehicle_production",
+    "kind": "dataset",
+    "accessMethod": "download",
+    "retrievedAt": "2026-09-26T10:04:31.836Z",
+    "license": "UNKNOWN",
+    "machineReadable": true,
+    "authority": 0.8,
+    "directness": 1,
+    "coverage": 0.8,
+    "methodologyTransparency": 0.6,
+    "recency": 0.8,
+    "consistency": 0.8,
+    "qualityScore": 0.8,
+    "accepts": true,
+    "primary": true,
+    "discoveredBy": "agent-direct-url"
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "topic": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025",
+  "metric": "Annual motor vehicle production volume",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Total Motor Vehicles",
+      "description": "Total number of manufactured motor vehicles including passenger cars, light commercial vehicles, trucks, buses, and coaches.",
+      "measurableDefinition": "Total count of vehicles produced per calendar year (Units)",
+      "caveats": [
+        "Includes both passenger cars and commercial vehicles which can blur distinctions in heavy truck-heavy countries."
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Passenger Cars Only",
+      "description": "Total number of dedicated passenger cars (excluding commercial vehicles and light trucks) manufactured per calendar year.",
+      "measurableDefinition": "Total count of passenger cars produced per calendar year (Units)",
+      "caveats": [
+        "Excludes light commercial vehicles which are classified differently in certain national reporting standards."
+      ]
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1950",
+    "end": "2025"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "China",
+    "United States",
+    "Japan",
+    "Germany",
+    "South Korea",
+    "India",
+    "Mexico",
+    "Spain",
+    "Brazil",
+    "Canada"
+  ],
+  "preferredSources": [
+    "International Organization of Motor Vehicle Manufacturers (OICA)",
+    "National Automotive Industry Associations (e.g., VDA, JAMA, CAAM)",
+    "UN Economic Commission for Europe (UNECE) Historical Transport Statistics"
+  ],
+  "knownRisks": [
+    "Inconsistent reporting standards and definitions of 'motor vehicle' across countries prior to 1970",
+    "Geopolitical boundary changes and dissolution of states (e.g., Soviet Union, Czechoslovakia, Yugoslavia) impacting historical time series continuity"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

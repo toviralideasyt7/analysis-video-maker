@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "title": "Top 15 car producing countries by annual motor vehicle production, 1950 to 2025",
+  "subtitle": "1950 to 2025",
+  "hook": "Watch how global automobile manufacturing shifted across the world over seven decades.",
+  "setup": "This race tracks annual motor vehicle production volumes for the top countries from 1950 through 2025.",
+  "sequence": [
+    {
+      "atLabel": "1950",
+      "text": "In 1950, the United States stood as the top car producer with 8,005,859 vehicles."
+    },
+    {
+      "atLabel": "1960",
+      "text": "Germany jumped to second place in 1960 with a production volume of 2,056,149."
+    },
+    {
+      "atLabel": "1980",
+      "text": "Japan claimed the top spot in 1980, producing 11,042,884 vehicles."
+    },
+    {
+      "atLabel": "2000",
+      "text": "Turkey entered the ranking in 2000 with a production volume of 1,077,190 vehicles."
+    },
+    {
+      "atLabel": "2024",
+      "text": "China reached a massive production volume of 31,281,592 vehicles by 2024."
+    }
+  ],
+  "highlights": [],
+  "ending": "China ultimately maintained its dominant position in global vehicle manufacturing through the final years.",
+  "sourcesLine": "Data: OICA"
+}
