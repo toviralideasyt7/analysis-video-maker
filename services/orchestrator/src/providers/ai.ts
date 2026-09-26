@@ -384,7 +384,7 @@ export class GeminiOfficialProvider implements AIProvider {
   }
 
   async generate(req: AIRequest): Promise<AIResponse> {
-    return this.generateWithModel('gemini-2.5-flash', req);
+    return this.generateWithModel('gemini-3.8-flash', req);
   }
 
   /** Run a request on a specific official model (e.g. gemini-2.5-flash). */
@@ -520,8 +520,8 @@ const NARA_FREE: ModelSpec[] = [
 ];
 
 const GEMINI_OFFICIAL: ModelSpec[] = [
-  { provider: 'gemini-official', model: 'gemini-2.5-flash' },
-  { provider: 'gemini-official', model: 'gemini-2.5-flash-lite' },
+  { provider: 'gemini-official', model: 'gemini-3.8-flash' },
+  { provider: 'gemini-official', model: 'gemini-3-flash-preview' },
 ];
 
 const FULL_CHAIN: ModelSpec[] = [...GEMINI_PROXY, ...NARA_FREE, ...GEMINI_OFFICIAL];
