@@ -182,7 +182,22 @@ jobs:
             echo "nothing to commit"
           else
             git commit -m "research: bundle for ${{ inputs.projectId }}"
-            git push origin "HEAD:${{ github.ref_name }}"
+            # Push race resilience: a parallel research run may have pushed its
+            # own bundle commit first. Rebase onto the remote tip and retry
+            # instead of failing the whole run on a non-fast-forward reject.
+            for attempt in 1 2 3; do
+              if git push origin "HEAD:${{ github.ref_name }}"; then
+                break
+              fi
+              echo "push attempt $attempt rejected; rebasing onto remote tip and retrying"
+              git fetch origin "${{ github.ref_name }}" || true
+              git rebase "origin/${{ github.ref_name }}" || git pull --rebase origin "${{ github.ref_name }}"
+              sleep 10
+              if [ "$attempt" = "3" ]; then
+                echo "push still rejected after 3 attempts; giving up"
+                exit 1
+              fi
+            done
           fi
 
       # One-prompt video: auto-trigger the render when research succeeds.
