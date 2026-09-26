@@ -420,6 +420,45 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
       problems.push(`melted ${drafts.length} observations from wide-format table`);
       return { drafts, problems };
     }
+    // Transposed wide-format fallback: entities live in the column headers
+    // (e.g. a StatCounter CSV shaped as Date | Samsung | Apple | Nokia | ...
+    // with one row per period) while the date runs down the rows. Melt each
+    // numeric column into its own entity series.
+    if (!detected.entity && detected.date) {
+      const dateIdx = columns.indexOf(detected.date);
+      const sampleRows = rows.slice(0, 50);
+      const entitySeries = columns
+        .map((name, index) => ({ name: (name ?? '').trim(), index }))
+        .filter(({ name, index }) => {
+          if (index === dateIdx || !name || looksLikeDate(name) || /^(19|20)\d{2}$/.test(name)) return false;
+          let numeric = 0;
+          let total = 0;
+          for (const row of sampleRows) {
+            const cell = (row[index] ?? '').trim();
+            if (!cell) continue;
+            total += 1;
+            if (parseScaledNumber(cell).value !== null) numeric += 1;
+          }
+          return total > 0 && numeric / total >= 0.5;
+        });
+      if (entitySeries.length >= 2) {
+        problems.push(`transposed wide-format table detected: melting ${entitySeries.length} entity columns into long format`);
+        const drafts: ExtractedDraft[] = [];
+        for (const row of rows) {
+          const date = (row[dateIdx] ?? '').trim();
+          if (!date || !looksLikeDate(date)) continue;
+          for (const { name, index } of entitySeries) {
+            const cell = (row[index] ?? '').trim();
+            if (!cell) continue;
+            const parsed = parseScaledNumber(cell);
+            if (parsed.value === null || !Number.isFinite(parsed.value) || parsed.value <= 0) continue;
+            drafts.push({ entity: name, date, value: parsed.value, unit: parsed.unitHint ?? defaultUnit });
+          }
+        }
+        problems.push(`melted ${drafts.length} observations from transposed wide-format table`);
+        return { drafts, problems };
+      }
+    }
     problems.push(`could not identify entity/date/value columns in [${columns.join(', ')}]`);
     return { drafts: [], problems };
   }
