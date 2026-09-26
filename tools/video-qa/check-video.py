@@ -78,6 +78,13 @@ C3C_X1 = 135            # right edge for the C3c rank-order scan: country
                         # flags sit at the bar end (x~140+) and their colors
                         # can match other entities' brands; the bar's left
                         # 39px is flag-free and enough to identify its color.
+
+MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
+                        # pill ends, anti-aliased edges, label knockouts), so
+                        # each measurement carries a few px of noise. C1
+                        # allows the relative tolerance OR this absolute
+                        # slack, whichever is larger, so a few-px miss on a
+                        # small bar is not mistaken for disproportionality.
 BAR_X1 = 960            # bars/labels must stay left of the spotlight card
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
@@ -396,6 +403,15 @@ class VideoQA:
         return img, out
 
     # C1: bars strictly proportional to values ------------------------------
+    # The check is done in width space, not ratio space: comparing pure
+    # width *ratios* amplifies measurement noise for small bars (a 7px
+    # miss on a 58px bar skews its ratio ~12% and falsely fails against
+    # the relative tolerance). Here b's expected width is implied by a's
+    # measured width and the value ratio, and it must land within the
+    # relative tolerance OR the absolute measurement slack (whichever is
+    # larger). A genuinely broken render -- e.g. a 50px min-width clamp
+    # where 10px is proportional -- deviates far beyond both and still
+    # fails. (Bars under 40px and the intentional 4px stub are exempt.)
     def check_proportional(self, screen_idx, tape_idx, scene_id, measured):
         good = [m for m in measured
                 if m["width"] and m["width"] > 40 and m["value"] > 0]
@@ -405,14 +421,16 @@ class VideoQA:
                 a, b = good[i], good[j]
                 expected = a["value"] / b["value"]
                 got = a["width"] / b["width"]
-                rel = abs(got - expected) / expected
-                if rel > 0.12 and n1 < 6:
+                expected_b = a["width"] * b["value"] / a["value"]
+                dev = abs(b["width"] - expected_b)
+                if dev > max(0.12 * expected_b, MEASURE_SLACK_PX) and n1 < 6:
                     self.add(
                         "C1-non-proportional-bars",
                         f"{a['entity']} ({a['value']:.2f}) vs {b['entity']} "
                         f"({b['value']:.2f}): value ratio {expected:.2f} but "
                         f"bar-width ratio {got:.2f} "
-                        f"(widths {a['width']}px vs {b['width']}px)",
+                        f"(widths {a['width']}px vs {b['width']}px; "
+                        f"implied {expected_b:.1f}px, dev {dev:.1f}px)",
                         frame=screen_idx, tape_index=tape_idx, scene=scene_id)
                     n1 += 1
                 # identical rendered widths at very different values: the
