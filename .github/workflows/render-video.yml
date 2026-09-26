@@ -38,6 +38,10 @@ on:
         description: Number of parallel render chunks
         required: false
         default: "4"
+      upload_youtube:
+        description: "true to also publish the finished video to YouTube (default off)"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -381,7 +385,30 @@ jobs:
           MP4="projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4"
           URL=""
           if [ -f "$MP4" ]; then
-            URL="$(curl -fsS --max-time 180 -F "file=@${MP4}" https://0x0.st 2>/dev/null || true)"
+            # gofile.io (primary; effectively unlimited temp hosting)
+            # 1) guest token -> 2) pick server -> 3) upload -> downloadPage link
+            GF_TOKEN="$(curl -fsS --max-time 60 -X POST \
+              -H "Content-Type: application/json" \
+              -d '{"name":"avm-render","description":"analysis-video-maker render"}' \
+              https://api.gofile.io/accounts 2>/dev/null | \
+              python3 -c 'import json,sys; print(json.load(sys.stdin)["data"]["token"])' 2>/dev/null || true)"
+            if [ -n "$GF_TOKEN" ]; then
+              GF_SERVER="$(curl -fsS --max-time 60 \
+                "https://api.gofile.io/servers" 2>/dev/null | \
+                python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["data"]["servers"][0]["name"])' 2>/dev/null || true)"
+              if [ -n "$GF_SERVER" ]; then
+                GF_RESP="$(curl -fsS --max-time 900 \
+                  -F "file=@${MP4}" -F "token=${GF_TOKEN}" \
+                  "https://${GF_SERVER}.gofile.io/contents/uploadfile" 2>/dev/null || true)"
+                URL="$(echo "$GF_RESP" | \
+                  python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["data"].get("directLink") or d["data"].get("downloadPage") or "")' 2>/dev/null || true)"
+              fi
+            fi
+            # fallbacks for hosts with smaller caps
+            if [ -z "$URL" ]; then
+              echo "gofile.io failed, trying 0x0.st"
+              URL="$(curl -fsS --max-time 180 -F "file=@${MP4}" https://0x0.st 2>/dev/null || true)"
+            fi
             if [ -z "$URL" ]; then
               echo "0x0.st failed, trying catbox.moe"
               URL="$(curl -fsS --max-time 180 -F "reqtype=fileupload" -F "fileToUpload=@${MP4}" https://catbox.moe/user/api.php 2>/dev/null || true)"
@@ -417,7 +444,9 @@ jobs:
           done
 
       - name: Upload to YouTube
-        if: success() && env.YOUTUBE_REFRESH_TOKEN != ''
+        # Opt-in only: auto-uploads used to fill the channel on every render.
+        # Pass upload_youtube=true on manual dispatch to publish.
+        if: ${{ success() && env.YOUTUBE_REFRESH_TOKEN != '' && inputs.upload_youtube == 'true' }}
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}

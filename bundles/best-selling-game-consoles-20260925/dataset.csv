@@ -1,0 +1,391 @@
+date,entity_id,entity_name,value
+1984,nes,NES,2.28
+1985,nes,NES,6.93
+1986,nes,NES,15.31
+1987,nes,NES,27.41
+1988,nes,NES,40.34
+1989,nes,NES,50.35
+1990,game-boy,Game Boy,3.53
+1990,nes,NES,56.36
+1991,game-boy,Game Boy,10.11
+1991,nes,NES,59.42
+1991,snes,SNES,1.61
+1992,game-boy,Game Boy,21.48
+1992,nes,NES,60.86
+1992,snes,SNES,4.76
+1993,game-boy,Game Boy,38.61
+1993,nes,NES,61.5
+1993,snes,SNES,10.31
+1994,game-boy,Game Boy,59.83
+1994,nes,NES,61.79
+1994,snes,SNES,18.57
+1995,game-boy,Game Boy,80.53
+1995,nes,NES,61.91
+1995,ps1,PlayStation,3.77
+1995,snes,SNES,28.19
+1996,game-boy,Game Boy,96.53
+1996,nes,NES,61.91
+1996,ps1,PlayStation,11.48
+1996,snes,SNES,36.67
+1997,game-boy,Game Boy,106.81
+1997,n64,Nintendo 64,2.81
+1997,nes,NES,61.91
+1997,ps1,PlayStation,25.34
+1997,snes,SNES,42.5
+1998,game-boy,Game Boy,112.66
+1998,n64,Nintendo 64,10.71
+1998,nes,NES,61.91
+1998,ps1,PlayStation,45.38
+1998,snes,SNES,45.84
+1999,game-boy,Game Boy,115.75
+1999,n64,Nintendo 64,22.34
+1999,nes,NES,61.91
+1999,ps1,PlayStation,66.77
+1999,snes,SNES,47.58
+2000,game-boy,Game Boy,117.32
+2000,n64,Nintendo 64,29.64
+2000,nes,NES,61.91
+2000,ps1,PlayStation,83.36
+2000,snes,SNES,48.42
+2001,game-boy,Game Boy,118.11
+2001,n64,Nintendo 64,32.11
+2001,nes,NES,61.91
+2001,ps1,PlayStation,93.3
+2001,ps2,PlayStation 2,5.26
+2001,snes,SNES,48.82
+2002,game-boy,Game Boy,118.5
+2002,gba,Game Boy Advance,4.6
+2002,n64,Nintendo 64,32.77
+2002,nes,NES,61.91
+2002,ps1,PlayStation,98.37
+2002,ps2,PlayStation 2,15.52
+2002,snes,SNES,49.01
+2003,game-boy,Game Boy,118.69
+2003,gba,Game Boy Advance,15.86
+2003,n64,Nintendo 64,32.93
+2003,nes,NES,61.91
+2003,ps1,PlayStation,100.75
+2003,ps2,PlayStation 2,33.6
+2003,snes,SNES,49.1
+2004,game-boy,Game Boy,118.69
+2004,gba,Game Boy Advance,36.09
+2004,n64,Nintendo 64,32.93
+2004,nes,NES,61.91
+2004,ps1,PlayStation,101.81
+2004,ps2,PlayStation 2,60.5
+2004,snes,SNES,49.1
+2005,game-boy,Game Boy,118.69
+2005,gba,Game Boy Advance,58.09
+2005,n64,Nintendo 64,32.93
+2005,nes,NES,61.91
+2005,nintendo-ds,Nintendo DS,8.69
+2005,ps1,PlayStation,102.28
+2005,ps2,PlayStation 2,91.85
+2005,psp,PlayStation Portable,3.84
+2005,snes,SNES,49.1
+2006,game-boy,Game Boy,118.69
+2006,gba,Game Boy Advance,72.09
+2006,n64,Nintendo 64,32.93
+2006,nes,NES,61.91
+2006,nintendo-ds,Nintendo DS,29.97
+2006,ps1,PlayStation,102.49
+2006,ps2,PlayStation 2,119.49
+2006,psp,PlayStation Portable,12.64
+2006,snes,SNES,49.1
+2006,xbox-360,Xbox 360,3.5
+2007,game-boy,Game Boy,118.69
+2007,gba,Game Boy Advance,78.24
+2007,n64,Nintendo 64,32.93
+2007,nes,NES,61.91
+2007,nintendo-ds,Nintendo DS,68.19
+2007,ps1,PlayStation,102.49
+2007,ps2,PlayStation 2,138.48
+2007,ps3,PlayStation 3,3.64
+2007,psp,PlayStation Portable,28.74
+2007,snes,SNES,49.1
+2007,wii,Wii,8.66
+2007,xbox-360,Xbox 360,11.05
+2008,game-boy,Game Boy,118.69
+2008,gba,Game Boy Advance,80.49
+2008,n64,Nintendo 64,32.93
+2008,nes,NES,61.91
+2008,nintendo-ds,Nintendo DS,109.76
+2008,ps1,PlayStation,102.49
+2008,ps2,PlayStation 2,149.39
+2008,ps3,PlayStation 3,11.5
+2008,psp,PlayStation Portable,48.96
+2008,snes,SNES,49.1
+2008,wii,Wii,33.06
+2008,xbox-360,Xbox 360,24.84
+2009,game-boy,Game Boy,118.69
+2009,gba,Game Boy Advance,81.25
+2009,n64,Nintendo 64,32.93
+2009,nes,NES,61.91
+2009,nintendo-ds,Nintendo DS,136.22
+2009,ps1,PlayStation,102.49
+2009,ps2,PlayStation 2,155.03
+2009,ps3,PlayStation 3,25.84
+2009,psp,PlayStation Portable,65.07
+2009,snes,SNES,49.1
+2009,wii,Wii,68.96
+2009,xbox-360,Xbox 360,43.74
+2010,game-boy,Game Boy,118.69
+2010,gba,Game Boy Advance,81.51
+2010,n64,Nintendo 64,32.93
+2010,nes,NES,61.91
+2010,nintendo-ds,Nintendo DS,147.83
+2010,ps1,PlayStation,102.49
+2010,ps2,PlayStation 2,157.79
+2010,ps3,PlayStation 3,45.52
+2010,psp,PlayStation Portable,73.86
+2010,snes,SNES,49.1
+2010,wii,Wii,91.46
+2010,xbox-360,Xbox 360,61.59
+2011,game-boy,Game Boy,118.69
+2011,gba,Game Boy Advance,81.51
+2011,n64,Nintendo 64,32.93
+2011,nes,NES,61.91
+2011,nintendo-ds,Nintendo DS,152.08
+2011,ps1,PlayStation,102.49
+2011,ps2,PlayStation 2,159.1
+2011,ps3,PlayStation 3,64.08
+2011,psp,PlayStation Portable,77.7
+2011,snes,SNES,49.1
+2011,wii,Wii,99.11
+2011,xbox-360,Xbox 360,73.38
+2012,game-boy,Game Boy,118.69
+2012,gba,Game Boy Advance,81.51
+2012,n64,Nintendo 64,32.93
+2012,nes,NES,61.91
+2012,nintendo-3ds,Nintendo 3DS,4.29
+2012,nintendo-ds,Nintendo DS,153.54
+2012,ps1,PlayStation,102.49
+2012,ps2,PlayStation 2,159.71
+2012,ps3,PlayStation 3,76.35
+2012,psp,PlayStation Portable,79.22
+2012,snes,SNES,49.1
+2012,wii,Wii,101.13
+2012,xbox-360,Xbox 360,79.45
+2013,game-boy,Game Boy,118.69
+2013,gba,Game Boy Advance,81.51
+2013,n64,Nintendo 64,32.93
+2013,nes,NES,61.91
+2013,nintendo-3ds,Nintendo 3DS,14.78
+2013,nintendo-ds,Nintendo DS,154.02
+2013,ps1,PlayStation,102.49
+2013,ps2,PlayStation 2,160.0
+2013,ps3,PlayStation 3,82.67
+2013,psp,PlayStation Portable,79.79
+2013,snes,SNES,49.1
+2013,wii,Wii,101.63
+2013,xbox-360,Xbox 360,82.18
+2014,game-boy,Game Boy,118.69
+2014,gba,Game Boy Advance,81.51
+2014,n64,Nintendo 64,32.93
+2014,nes,NES,61.91
+2014,nintendo-3ds,Nintendo 3DS,33.62
+2014,nintendo-ds,Nintendo DS,154.02
+2014,ps1,PlayStation,102.49
+2014,ps2,PlayStation 2,160.0
+2014,ps3,PlayStation 3,85.51
+2014,ps4,PlayStation 4,3.85
+2014,psp,PlayStation Portable,80.0
+2014,snes,SNES,49.1
+2014,wii,Wii,101.63
+2014,xbox-360,Xbox 360,83.33
+2014,xbox-one,Xbox One,4.94
+2015,game-boy,Game Boy,118.69
+2015,gba,Game Boy Advance,81.51
+2015,n64,Nintendo 64,32.93
+2015,nes,NES,61.91
+2015,nintendo-3ds,Nintendo 3DS,54.12
+2015,nintendo-ds,Nintendo DS,154.02
+2015,ps1,PlayStation,102.49
+2015,ps2,PlayStation 2,160.0
+2015,ps3,PlayStation 3,86.71
+2015,ps4,PlayStation 4,11.37
+2015,psp,PlayStation Portable,80.0
+2015,snes,SNES,49.1
+2015,wii,Wii,101.63
+2015,xbox-360,Xbox 360,83.81
+2015,xbox-one,Xbox One,18.87
+2016,game-boy,Game Boy,118.69
+2016,gba,Game Boy Advance,81.51
+2016,n64,Nintendo 64,32.93
+2016,nes,NES,61.91
+2016,nintendo-3ds,Nintendo 3DS,67.17
+2016,nintendo-ds,Nintendo DS,154.02
+2016,ps1,PlayStation,102.49
+2016,ps2,PlayStation 2,160.0
+2016,ps3,PlayStation 3,87.2
+2016,ps4,PlayStation 4,24.61
+2016,psp,PlayStation Portable,80.0
+2016,snes,SNES,49.1
+2016,wii,Wii,101.63
+2016,xbox-360,Xbox 360,84.0
+2016,xbox-one,Xbox One,39.35
+2017,game-boy,Game Boy,118.69
+2017,gba,Game Boy Advance,81.51
+2017,n64,Nintendo 64,32.93
+2017,nes,NES,61.91
+2017,nintendo-3ds,Nintendo 3DS,72.89
+2017,nintendo-ds,Nintendo DS,154.02
+2017,ps1,PlayStation,102.49
+2017,ps2,PlayStation 2,160.0
+2017,ps3,PlayStation 3,87.4
+2017,ps4,PlayStation 4,44.32
+2017,psp,PlayStation Portable,80.0
+2017,snes,SNES,49.1
+2017,wii,Wii,101.63
+2017,xbox-360,Xbox 360,84.0
+2017,xbox-one,Xbox One,52.2
+2018,game-boy,Game Boy,118.69
+2018,gba,Game Boy Advance,81.51
+2018,n64,Nintendo 64,32.93
+2018,nes,NES,61.91
+2018,nintendo-3ds,Nintendo 3DS,74.99
+2018,nintendo-ds,Nintendo DS,154.02
+2018,nintendo-switch,Nintendo Switch,8.84
+2018,ps1,PlayStation,102.49
+2018,ps2,PlayStation 2,160.0
+2018,ps3,PlayStation 3,87.4
+2018,ps4,PlayStation 4,67.28
+2018,psp,PlayStation Portable,80.0
+2018,snes,SNES,49.1
+2018,wii,Wii,101.63
+2018,xbox-360,Xbox 360,84.0
+2018,xbox-one,Xbox One,56.56
+2019,game-boy,Game Boy,118.69
+2019,gba,Game Boy Advance,81.51
+2019,n64,Nintendo 64,32.93
+2019,nes,NES,61.91
+2019,nintendo-3ds,Nintendo 3DS,75.7
+2019,nintendo-ds,Nintendo DS,154.02
+2019,nintendo-switch,Nintendo Switch,30.47
+2019,ps1,PlayStation,102.49
+2019,ps2,PlayStation 2,160.0
+2019,ps3,PlayStation 3,87.4
+2019,ps4,PlayStation 4,87.53
+2019,psp,PlayStation Portable,80.0
+2019,snes,SNES,49.1
+2019,wii,Wii,101.63
+2019,xbox-360,Xbox 360,84.0
+2019,xbox-one,Xbox One,57.72
+2020,game-boy,Game Boy,118.69
+2020,gba,Game Boy Advance,81.51
+2020,n64,Nintendo 64,32.93
+2020,nes,NES,61.91
+2020,nintendo-3ds,Nintendo 3DS,75.94
+2020,nintendo-ds,Nintendo DS,154.02
+2020,nintendo-switch,Nintendo Switch,69.33
+2020,ps1,PlayStation,102.49
+2020,ps2,PlayStation 2,160.0
+2020,ps3,PlayStation 3,87.4
+2020,ps4,PlayStation 4,101.44
+2020,psp,PlayStation Portable,80.0
+2020,snes,SNES,49.1
+2020,wii,Wii,101.63
+2020,xbox-360,Xbox 360,84.0
+2020,xbox-one,Xbox One,58.0
+2021,game-boy,Game Boy,118.69
+2021,gba,Game Boy Advance,81.51
+2021,n64,Nintendo 64,32.93
+2021,nes,NES,61.91
+2021,nintendo-3ds,Nintendo 3DS,75.94
+2021,nintendo-ds,Nintendo DS,154.02
+2021,nintendo-switch,Nintendo Switch,111.59
+2021,ps1,PlayStation,102.49
+2021,ps2,PlayStation 2,160.0
+2021,ps3,PlayStation 3,87.4
+2021,ps4,PlayStation 4,109.43
+2021,ps5,PlayStation 5,10.67
+2021,psp,PlayStation Portable,80.0
+2021,snes,SNES,49.1
+2021,wii,Wii,101.63
+2021,xbox-360,Xbox 360,84.0
+2021,xbox-one,Xbox One,58.0
+2022,game-boy,Game Boy,118.69
+2022,gba,Game Boy Advance,81.51
+2022,n64,Nintendo 64,32.93
+2022,nes,NES,61.91
+2022,nintendo-3ds,Nintendo 3DS,75.94
+2022,nintendo-ds,Nintendo DS,154.02
+2022,nintendo-switch,Nintendo Switch,138.5
+2022,ps1,PlayStation,102.49
+2022,ps2,PlayStation 2,160.0
+2022,ps3,PlayStation 3,87.4
+2022,ps4,PlayStation 4,113.56
+2022,ps5,PlayStation 5,42.2
+2022,psp,PlayStation Portable,80.0
+2022,snes,SNES,49.1
+2022,wii,Wii,101.63
+2022,xbox-360,Xbox 360,84.0
+2022,xbox-one,Xbox One,58.0
+2023,game-boy,Game Boy,118.69
+2023,gba,Game Boy Advance,81.51
+2023,n64,Nintendo 64,32.93
+2023,nes,NES,61.91
+2023,nintendo-3ds,Nintendo 3DS,75.94
+2023,nintendo-ds,Nintendo DS,154.02
+2023,nintendo-switch,Nintendo Switch,150.3
+2023,ps1,PlayStation,102.49
+2023,ps2,PlayStation 2,160.0
+2023,ps3,PlayStation 3,87.4
+2023,ps4,PlayStation 4,115.58
+2023,ps5,PlayStation 5,77.51
+2023,psp,PlayStation Portable,80.0
+2023,snes,SNES,49.1
+2023,wii,Wii,101.63
+2023,xbox-360,Xbox 360,84.0
+2023,xbox-one,Xbox One,58.0
+2024,game-boy,Game Boy,118.69
+2024,gba,Game Boy Advance,81.51
+2024,n64,Nintendo 64,32.93
+2024,nes,NES,61.91
+2024,nintendo-3ds,Nintendo 3DS,75.94
+2024,nintendo-ds,Nintendo DS,154.02
+2024,nintendo-switch,Nintendo Switch,154.62
+2024,ps1,PlayStation,102.49
+2024,ps2,PlayStation 2,160.0
+2024,ps3,PlayStation 3,87.4
+2024,ps4,PlayStation 4,116.54
+2024,ps5,PlayStation 5,91.47
+2024,psp,PlayStation Portable,80.0
+2024,snes,SNES,49.1
+2024,wii,Wii,101.63
+2024,xbox-360,Xbox 360,84.0
+2024,xbox-one,Xbox One,58.0
+2025,game-boy,Game Boy,118.69
+2025,gba,Game Boy Advance,81.51
+2025,n64,Nintendo 64,32.93
+2025,nes,NES,61.91
+2025,nintendo-3ds,Nintendo 3DS,75.94
+2025,nintendo-ds,Nintendo DS,154.02
+2025,nintendo-switch,Nintendo Switch,156.1
+2025,ps1,PlayStation,102.49
+2025,ps2,PlayStation 2,160.0
+2025,ps3,PlayStation 3,87.4
+2025,ps4,PlayStation 4,116.99
+2025,ps5,PlayStation 5,94.67
+2025,psp,PlayStation Portable,80.0
+2025,snes,SNES,49.1
+2025,wii,Wii,101.63
+2025,xbox-360,Xbox 360,84.0
+2025,xbox-one,Xbox One,58.0
+2026,game-boy,Game Boy,118.69
+2026,gba,Game Boy Advance,81.51
+2026,n64,Nintendo 64,32.93
+2026,nes,NES,61.91
+2026,nintendo-3ds,Nintendo 3DS,75.94
+2026,nintendo-ds,Nintendo DS,154.02
+2026,nintendo-switch,Nintendo Switch,156.59
+2026,ps1,PlayStation,102.49
+2026,ps2,PlayStation 2,160.0
+2026,ps3,PlayStation 3,87.4
+2026,ps4,PlayStation 4,117.2
+2026,ps5,PlayStation 5,95.3
+2026,psp,PlayStation Portable,80.0
+2026,snes,SNES,49.1
+2026,wii,Wii,101.63
+2026,xbox-360,Xbox 360,84.0
+2026,xbox-one,Xbox One,58.0

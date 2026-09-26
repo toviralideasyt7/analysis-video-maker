@@ -1,0 +1,1091 @@
+date,entity_id,entity_name,value
+1950,australia,Australia,58000
+1950,belarus,Belarus,2400
+1950,canada,Canada,387726
+1950,france,France,357512
+1950,germany,Germany,306064
+1950,india,India,14688
+1950,italy,Italy,127847
+1950,japan,Japan,31597
+1950,korea-dem-people-s-rep,North Korea,3000
+1950,poland,Poland,1000
+1950,russian-federation,Russia,362985
+1950,sweden,Sweden,129000
+1950,ukraine,Ukraine,18300
+1950,united-kingdom,United Kingdom,783672
+1950,united-states,United States,8005859
+1960,argentina,Argentina,89000
+1960,australia,Australia,204000
+1960,austria,Austria,13000
+1960,belarus,Belarus,18700
+1960,belgium,Belgium,1000
+1960,brazil,Brazil,133041
+1960,canada,Canada,397739
+1960,china,China,22574
+1960,france,France,1369210
+1960,germany,Germany,2056149
+1960,hungary,Hungary,3000
+1960,india,India,51136
+1960,italy,Italy,644633
+1960,japan,Japan,481551
+1960,mexico,Mexico,533041
+1960,netherlands,Netherlands,19000
+1960,new-zealand,New Zealand,9731
+1960,poland,Poland,37000
+1960,romania,Romania,12000
+1960,russian-federation,Russia,523591
+1960,spain,Spain,58209
+1960,sweden,Sweden,311000
+1960,ukraine,Ukraine,7500
+1960,united-kingdom,United Kingdom,1810700
+1960,united-states,United States,7905119
+1970,argentina,Argentina,219599
+1970,australia,Australia,475000
+1970,austria,Austria,7000
+1970,belarus,Belarus,29800
+1970,belgium,Belgium,296000
+1970,brazil,Brazil,416089
+1970,canada,Canada,1159504
+1970,china,China,87166
+1970,france,France,2750086
+1970,germany,Germany,3842247
+1970,greece,Greece,2200
+1970,india,India,76409
+1970,iran-islamic-rep,Iran,25000
+1970,italy,Italy,1854252
+1970,japan,Japan,5289157
+1970,korea-rep,South Korea,28819
+1970,mexico,Mexico,916089
+1970,netherlands,Netherlands,79000
+1970,new-zealand,New Zealand,32409
+1970,poland,Poland,113087
+1970,romania,Romania,59000
+1970,russian-federation,Russia,916118
+1970,south-africa,South Africa,297573
+1970,spain,Spain,539132
+1970,sweden,Sweden,317000
+1970,thailand,Thailand,22055
+1970,turkiye,Turkey,35000
+1970,ukraine,Ukraine,115700
+1970,united-kingdom,United Kingdom,2098498
+1970,united-states,United States,8283949
+1980,argentina,Argentina,281793
+1980,australia,Australia,361000
+1980,austria,Austria,14000
+1980,belarus,Belarus,40100
+1980,belgium,Belgium,923426
+1980,brazil,Brazil,1165174
+1980,bulgaria,Bulgaria,12000
+1980,canada,Canada,1369607
+1980,china,China,222288
+1980,france,France,3378433
+1980,germany,Germany,3878553
+1980,greece,Greece,18187
+1980,india,India,113917
+1980,indonesia,Indonesia,103000
+1980,iran-islamic-rep,Iran,50881
+1980,italy,Italy,1610287
+1980,japan,Japan,11042884
+1980,korea-rep,South Korea,123135
+1980,malaysia,Malaysia,104227
+1980,mexico,Mexico,1565174
+1980,netherlands,Netherlands,97000
+1980,new-zealand,New Zealand,55178
+1980,poland,Poland,237834
+1980,portugal,Portugal,91000
+1980,romania,Romania,124000
+1980,russian-federation,Russia,2199200
+1980,south-africa,South Africa,404766
+1980,spain,Spain,1181659
+1980,sweden,Sweden,344000
+1980,taiwan,Taiwan,132116
+1980,thailand,Thailand,73347
+1980,turkiye,Turkey,161000
+1980,ukraine,Ukraine,206700
+1980,united-kingdom,United Kingdom,1312914
+1980,united-states,United States,8009841
+1990,argentina,Argentina,99639
+1990,australia,Australia,284000
+1990,austria,Austria,20000
+1990,belgium,Belgium,1248290
+1990,brazil,Brazil,914466
+1990,bulgaria,Bulgaria,21000
+1990,canada,Canada,1947106
+1990,china,China,509242
+1990,colombia,Colombia,43000
+1990,france,France,3768993
+1990,germany,Germany,4976552
+1990,greece,Greece,18333
+1990,india,India,362655
+1990,iran-islamic-rep,Iran,209150
+1990,ireland,Ireland,47000
+1990,italy,Italy,2120850
+1990,japan,Japan,13486796
+1990,korea-dem-people-s-rep,North Korea,13000
+1990,korea-rep,South Korea,1321630
+1990,malaysia,Malaysia,191580
+1990,mexico,Mexico,1814466
+1990,netherlands,Netherlands,111000
+1990,new-zealand,New Zealand,90000
+1990,poland,Poland,287975
+1990,portugal,Portugal,26000
+1990,romania,Romania,94000
+1990,russian-federation,Russia,2039600
+1990,south-africa,South Africa,334779
+1990,spain,Spain,2053350
+1990,sweden,Sweden,490000
+1990,taiwan,Taiwan,382000
+1990,thailand,Thailand,304843
+1990,turkiye,Turkey,44665
+1990,united-kingdom,United Kingdom,1565957
+1990,united-states,United States,9782997
+1990,venezuela-rb,Venezuela,153000
+1995,argentina,Argentina,286000
+1995,australia,Australia,331000
+1995,austria,Austria,68000
+1995,belgium,Belgium,468000
+1995,brazil,Brazil,1629008
+1995,canada,Canada,2407999
+1995,china,China,1434772
+1995,colombia,Colombia,34850
+1995,czech-republic,Czechia,216000
+1995,france,France,3474705
+1995,germany,Germany,4667364
+1995,greece,Greece,567
+1995,hungary,Hungary,53000
+1995,india,India,636000
+1995,indonesia,Indonesia,292710
+1995,iran-islamic-rep,Iran,282000
+1995,italy,Italy,1667270
+1995,japan,Japan,10195536
+1995,korea-dem-people-s-rep,North Korea,9000
+1995,korea-rep,South Korea,2526400
+1995,malaysia,Malaysia,164000
+1995,mexico,Mexico,2629008
+1995,netherlands,Netherlands,132000
+1995,philippines,Philippines,107000
+1995,poland,Poland,381000
+1995,portugal,Portugal,57000
+1995,romania,Romania,93000
+1995,russian-federation,Russia,608460
+1995,slovak-republic,Slovakia,22600
+1995,spain,Spain,2333787
+1995,sweden,Sweden,301343
+1995,taiwan,Taiwan,406000
+1995,thailand,Thailand,533200
+1995,ukraine,Ukraine,67400
+1995,united-kingdom,United Kingdom,1765000
+1995,united-states,United States,11985457
+2000,argentina,Argentina,339632
+2000,australia,Australia,347122
+2000,austria,Austria,141026
+2000,belarus,Belarus,19324
+2000,belgium,Belgium,1033294
+2000,brazil,Brazil,1681527
+2000,bulgaria,Bulgaria,2200
+2000,canada,Canada,2961636
+2000,china,China,2069069
+2000,czech-republic,Czechia,455492
+2000,egypt-arab-rep,Egypt,59765
+2000,finland,Finland,38926
+2000,france,France,3348361
+2000,germany,Germany,5526615
+2000,hungary,Hungary,137398
+2000,india,India,801360
+2000,indonesia,Indonesia,379300
+2000,iran-islamic-rep,Iran,430947
+2000,italy,Italy,1738315
+2000,japan,Japan,10140796
+2000,korea-dem-people-s-rep,North Korea,7000
+2000,korea-rep,South Korea,3114998
+2000,malaysia,Malaysia,282830
+2000,mexico,Mexico,3099522
+2000,morocco,Morocco,31314
+2000,netherlands,Netherlands,98823
+2000,pakistan,Pakistan,31500
+2000,philippines,Philippines,38877
+2000,poland,Poland,404972
+2000,portugal,Portugal,245784
+2000,romania,Romania,78165
+2000,russian-federation,Russia,1205581
+2000,serbia,Serbia,12740
+2000,slovak-republic,Slovakia,181783
+2000,slovenia,Slovenia,98953
+2000,south-africa,South Africa,345297
+2000,spain,Spain,3032874
+2000,sweden,Sweden,339229
+2000,taiwan,Taiwan,361800
+2000,thailand,Thailand,411721
+2000,turkiye,Turkey,277985
+2000,ukraine,Ukraine,31255
+2000,united-kingdom,United Kingdom,1813894
+2000,united-states,United States,12799857
+2000,uzbekistan,Uzbekistan,32273
+2000,venezuela-rb,Venezuela,96400
+2000,viet-nam,Vietnam,6862
+2005,argentina,Argentina,319755
+2005,australia,Australia,394713
+2005,austria,Austria,253279
+2005,belarus,Belarus,26995
+2005,belgium,Belgium,926515
+2005,brazil,Brazil,2530840
+2005,canada,Canada,2687892
+2005,chile,Chile,5245
+2005,china,China,5717619
+2005,colombia,Colombia,23979
+2005,czech-republic,Czechia,602237
+2005,ecuador,Ecuador,41047
+2005,egypt-arab-rep,Egypt,123425
+2005,finland,Finland,21644
+2005,france,France,3549008
+2005,germany,Germany,5757710
+2005,hungary,Hungary,152015
+2005,india,India,1638674
+2005,indonesia,Indonesia,500710
+2005,iran-islamic-rep,Iran,879452
+2005,italy,Italy,1038352
+2005,japan,Japan,10799659
+2005,kenya,Kenya,288
+2005,korea-dem-people-s-rep,North Korea,5000
+2005,korea-rep,South Korea,3699350
+2005,malaysia,Malaysia,563408
+2005,mexico,Mexico,3583076
+2005,morocco,Morocco,33992
+2005,netherlands,Netherlands,102204
+2005,nigeria,Nigeria,7834
+2005,pakistan,Pakistan,153393
+2005,philippines,Philippines,64492
+2005,poland,Poland,543200
+2005,portugal,Portugal,226834
+2005,romania,Romania,194802
+2005,russian-federation,Russia,1354504
+2005,serbia,Serbia,14179
+2005,slovak-republic,Slovakia,218349
+2005,slovenia,Slovenia,187247
+2005,south-africa,South Africa,525227
+2005,spain,Spain,2752500
+2005,sweden,Sweden,217084
+2005,taiwan,Taiwan,446345
+2005,thailand,Thailand,1122712
+2005,turkiye,Turkey,1077190
+2005,ukraine,Ukraine,215759
+2005,united-kingdom,United Kingdom,1803109
+2005,united-states,United States,11946653
+2005,uruguay,Uruguay,14404
+2005,uzbekistan,Uzbekistan,94437
+2005,venezuela-rb,Venezuela,21190
+2005,viet-nam,Vietnam,31600
+2005,zimbabwe,Zimbabwe,792
+2010,argentina,Argentina,716540
+2010,australia,Australia,243495
+2010,austria,Austria,104814
+2010,azerbaijan,Azerbaijan,490
+2010,belarus,Belarus,15249
+2010,belgium,Belgium,555302
+2010,brazil,Brazil,3381728
+2010,canada,Canada,2068189
+2010,chile,Chile,6660
+2010,china,China,18264761
+2010,colombia,Colombia,109333
+2010,czech-republic,Czechia,1076384
+2010,ecuador,Ecuador,32254
+2010,egypt-arab-rep,Egypt,116683
+2010,finland,Finland,6665
+2010,france,France,2229421
+2010,germany,Germany,5905985
+2010,hungary,Hungary,211461
+2010,india,India,3557073
+2010,indonesia,Indonesia,702508
+2010,iran-islamic-rep,Iran,1094557
+2010,italy,Italy,838186
+2010,japan,Japan,9628920
+2010,kazakhstan,Kazakhstan,3176
+2010,kenya,Kenya,405
+2010,korea-dem-people-s-rep,North Korea,4000
+2010,korea-rep,South Korea,4271741
+2010,malaysia,Malaysia,567715
+2010,mexico,Mexico,3981728
+2010,morocco,Morocco,42066
+2010,netherlands,Netherlands,94132
+2010,nigeria,Nigeria,2937
+2010,pakistan,Pakistan,152970
+2010,peru,Peru,1566
+2010,philippines,Philippines,65625
+2010,poland,Poland,609474
+2010,portugal,Portugal,158723
+2010,romania,Romania,350912
+2010,russian-federation,Russia,1403244
+2010,serbia,Serbia,18033
+2010,slovak-republic,Slovakia,561933
+2010,slovenia,Slovenia,205711
+2010,south-africa,South Africa,472049
+2010,spain,Spain,2387900
+2010,sweden,Sweden,188969
+2010,taiwan,Taiwan,303456
+2010,thailand,Thailand,1644513
+2010,turkiye,Turkey,1599454
+2010,ukraine,Ukraine,83133
+2010,united-kingdom,United Kingdom,1393463
+2010,united-states,United States,7743093
+2010,uzbekistan,Uzbekistan,156880
+2010,venezuela-rb,Venezuela,135425
+2010,viet-nam,Vietnam,42286
+2010,zimbabwe,Zimbabwe,960
+2011,argentina,Argentina,828771
+2011,australia,Australia,224193
+2011,austria,Austria,152505
+2011,azerbaijan,Azerbaijan,556
+2011,belarus,Belarus,24343
+2011,belgium,Belgium,595084
+2011,brazil,Brazil,3407861
+2011,canada,Canada,2135121
+2011,chile,Chile,4700
+2011,china,China,18418876
+2011,colombia,Colombia,41714
+2011,czech-republic,Czechia,1199845
+2011,ecuador,Ecuador,22335
+2011,egypt-arab-rep,Egypt,81731
+2011,finland,Finland,2540
+2011,france,France,2242928
+2011,germany,Germany,6146948
+2011,hungary,Hungary,202800
+2011,india,India,3927411
+2011,indonesia,Indonesia,838388
+2011,iran-islamic-rep,Iran,1189131
+2011,italy,Italy,790348
+2011,japan,Japan,8398630
+2011,kazakhstan,Kazakhstan,8195
+2011,korea-dem-people-s-rep,North Korea,4000
+2011,korea-rep,South Korea,4657094
+2011,malaysia,Malaysia,533695
+2011,mexico,Mexico,3907861
+2011,morocco,Morocco,59477
+2011,netherlands,Netherlands,73151
+2011,pakistan,Pakistan,162194
+2011,philippines,Philippines,53921
+2011,poland,Poland,708133
+2011,portugal,Portugal,192242
+2011,romania,Romania,335232
+2011,russian-federation,Russia,1990155
+2011,serbia,Serbia,11023
+2011,slovak-republic,Slovakia,639763
+2011,slovenia,Slovenia,174119
+2011,south-africa,South Africa,532545
+2011,spain,Spain,2373329
+2011,sweden,Sweden,162814
+2011,taiwan,Taiwan,343296
+2011,thailand,Thailand,1457798
+2011,tunisia,Tunisia,1860
+2011,turkiye,Turkey,1649311
+2011,ukraine,Ukraine,104654
+2011,united-kingdom,United Kingdom,1463999
+2011,united-states,United States,8661535
+2011,uzbekistan,Uzbekistan,179560
+2011,venezuela-rb,Venezuela,104357
+2011,viet-nam,Vietnam,31181
+2011,zimbabwe,Zimbabwe,257
+2012,argentina,Argentina,764495
+2012,australia,Australia,209730
+2012,austria,Austria,143060
+2012,azerbaijan,Azerbaijan,540
+2012,belarus,Belarus,25425
+2012,belgium,Belgium,538848
+2012,brazil,Brazil,3402508
+2012,canada,Canada,2463364
+2012,china,China,19271808
+2012,colombia,Colombia,32466
+2012,czech-republic,Czechia,1178995
+2012,ecuador,Ecuador,24322
+2012,egypt-arab-rep,Egypt,56480
+2012,finland,Finland,2900
+2012,france,France,1967765
+2012,germany,Germany,5649260
+2012,hungary,Hungary,217840
+2012,india,India,4174713
+2012,indonesia,Indonesia,1052895
+2012,iran-islamic-rep,Iran,1072978
+2012,italy,Italy,671768
+2012,japan,Japan,9943077
+2012,kazakhstan,Kazakhstan,19186
+2012,kenya,Kenya,2945
+2012,korea-dem-people-s-rep,North Korea,4000
+2012,korea-rep,South Korea,4561766
+2012,malaysia,Malaysia,572150
+2012,mexico,Mexico,4002508
+2012,morocco,Morocco,108743
+2012,netherlands,Netherlands,57462
+2012,pakistan,Pakistan,165700
+2012,philippines,Philippines,55360
+2012,poland,Poland,654756
+2012,portugal,Portugal,163561
+2012,romania,Romania,337765
+2012,russian-federation,Russia,2233103
+2012,serbia,Serbia,11032
+2012,slovak-republic,Slovakia,926555
+2012,slovenia,Slovenia,130949
+2012,south-africa,South Africa,539424
+2012,spain,Spain,1979179
+2012,sweden,Sweden,161080
+2012,taiwan,Taiwan,339038
+2012,thailand,Thailand,2429142
+2012,tunisia,Tunisia,1860
+2012,turkiye,Turkey,1000089
+2012,ukraine,Ukraine,76281
+2012,united-kingdom,United Kingdom,1576945
+2012,united-states,United States,10335765
+2012,uzbekistan,Uzbekistan,164180
+2012,venezuela-rb,Venezuela,102409
+2012,viet-nam,Vietnam,40470
+2012,zimbabwe,Zimbabwe,829
+2013,argentina,Argentina,791007
+2013,australia,Australia,215926
+2013,austria,Austria,166428
+2013,azerbaijan,Azerbaijan,424
+2013,belarus,Belarus,22926
+2013,belgium,Belgium,503504
+2013,brazil,Brazil,3712380
+2013,bulgaria,Bulgaria,2200
+2013,canada,Canada,2379806
+2013,china,China,22116825
+2013,colombia,Colombia,70686
+2013,czech-republic,Czechia,1132931
+2013,ecuador,Ecuador,24322
+2013,egypt-arab-rep,Egypt,39050
+2013,finland,Finland,7703
+2013,france,France,1740000
+2013,germany,Germany,5718222
+2013,hungary,Hungary,222400
+2013,india,India,3898425
+2013,indonesia,Indonesia,1206368
+2013,iran-islamic-rep,Iran,1125534
+2013,italy,Italy,658206
+2013,japan,Japan,9630181
+2013,kazakhstan,Kazakhstan,40684
+2013,kenya,Kenya,3080
+2013,korea-dem-people-s-rep,North Korea,4000
+2013,korea-rep,South Korea,4521429
+2013,malaysia,Malaysia,601407
+2013,mexico,Mexico,4219380
+2013,morocco,Morocco,167452
+2013,netherlands,Netherlands,29183
+2013,pakistan,Pakistan,134145
+2013,philippines,Philippines,52260
+2013,poland,Poland,690159
+2013,portugal,Portugal,154016
+2013,romania,Romania,410997
+2013,russian-federation,Russia,2184266
+2013,serbia,Serbia,113878
+2013,slovak-republic,Slovakia,975000
+2013,slovenia,Slovenia,93734
+2013,south-africa,South Africa,545913
+2013,spain,Spain,2163338
+2013,sweden,Sweden,154173
+2013,taiwan,Taiwan,338720
+2013,thailand,Thailand,2457057
+2013,tunisia,Tunisia,1860
+2013,turkiye,Turkey,743647
+2013,ukraine,Ukraine,50449
+2013,united-kingdom,United Kingdom,1597433
+2013,united-states,United States,11066432
+2013,uzbekistan,Uzbekistan,246641
+2013,venezuela-rb,Venezuela,104083
+2013,viet-nam,Vietnam,37576
+2013,zimbabwe,Zimbabwe,829
+2014,algeria,Algeria,1244
+2014,argentina,Argentina,617329
+2014,australia,Australia,180311
+2014,austria,Austria,154340
+2014,azerbaijan,Azerbaijan,669
+2014,belarus,Belarus,22990
+2014,belgium,Belgium,516832
+2014,brazil,Brazil,3146306
+2014,bulgaria,Bulgaria,2508
+2014,canada,Canada,2393890
+2014,china,China,23722890
+2014,colombia,Colombia,71137
+2014,czech-republic,Czechia,1251220
+2014,ecuador,Ecuador,24322
+2014,egypt-arab-rep,Egypt,42515
+2014,finland,Finland,45035
+2014,france,France,1817000
+2014,germany,Germany,5907548
+2014,hungary,Hungary,437599
+2014,india,India,3840160
+2014,indonesia,Indonesia,1298523
+2014,iran-islamic-rep,Iran,1170445
+2014,italy,Italy,697864
+2014,japan,Japan,9774558
+2014,kazakhstan,Kazakhstan,40162
+2014,kenya,Kenya,3080
+2014,korea-dem-people-s-rep,North Korea,4000
+2014,korea-rep,South Korea,4524932
+2014,malaysia,Malaysia,596600
+2014,mexico,Mexico,4664779
+2014,morocco,Morocco,231986
+2014,netherlands,Netherlands,29807
+2014,pakistan,Pakistan,148746
+2014,philippines,Philippines,106938
+2014,poland,Poland,693904
+2014,portugal,Portugal,161509
+2014,romania,Romania,391422
+2014,russian-federation,Russia,1886646
+2014,serbia,Serbia,103150
+2014,slovak-republic,Slovakia,993000
+2014,slovenia,Slovenia,118591
+2014,south-africa,South Africa,566083
+2014,spain,Spain,2402978
+2014,sweden,Sweden,188987
+2014,taiwan,Taiwan,379223
+2014,thailand,Thailand,1880007
+2014,tunisia,Tunisia,540
+2014,turkiye,Turkey,1090846
+2014,ukraine,Ukraine,28751
+2014,united-kingdom,United Kingdom,1598879
+2014,united-states,United States,11660699
+2014,uzbekistan,Uzbekistan,245660
+2014,venezuela-rb,Venezuela,71753
+2014,viet-nam,Vietnam,48871
+2014,zimbabwe,Zimbabwe,829
+2015,algeria,Algeria,19346
+2015,argentina,Argentina,533683
+2015,australia,Australia,173009
+2015,austria,Austria,125500
+2015,azerbaijan,Azerbaijan,2145
+2015,bangladesh,Bangladesh,536
+2015,belarus,Belarus,15033
+2015,belgium,Belgium,409340
+2015,brazil,Brazil,2429463
+2015,canada,Canada,2283474
+2015,china,China,24503326
+2015,colombia,Colombia,78070
+2015,czech-republic,Czechia,1303603
+2015,ecuador,Ecuador,5986
+2015,egypt-arab-rep,Egypt,36000
+2015,finland,Finland,69053
+2015,france,France,1972000
+2015,germany,Germany,6033164
+2015,hungary,Hungary,495370
+2015,india,India,4160585
+2015,indonesia,Indonesia,1098780
+2015,iran-islamic-rep,Iran,1358796
+2015,italy,Italy,1014223
+2015,japan,Japan,9278321
+2015,kazakhstan,Kazakhstan,14477
+2015,korea-dem-people-s-rep,North Korea,4000
+2015,korea-rep,South Korea,4555957
+2015,malaysia,Malaysia,614671
+2015,mexico,Mexico,4029463
+2015,morocco,Morocco,288329
+2015,netherlands,Netherlands,44122
+2015,pakistan,Pakistan,229686
+2015,philippines,Philippines,112493
+2015,poland,Poland,760603
+2015,portugal,Portugal,156626
+2015,romania,Romania,387177
+2015,russian-federation,Russia,1384399
+2015,serbia,Serbia,83630
+2015,slovak-republic,Slovakia,1035503
+2015,slovenia,Slovenia,133092
+2015,south-africa,South Africa,615658
+2015,spain,Spain,2733201
+2015,sweden,Sweden,205374
+2015,taiwan,Taiwan,351085
+2015,thailand,Thailand,1915420
+2015,tunisia,Tunisia,540
+2015,turkiye,Turkey,982337
+2015,ukraine,Ukraine,8244
+2015,united-kingdom,United Kingdom,1682156
+2015,united-states,United States,12100095
+2015,uzbekistan,Uzbekistan,185400
+2015,venezuela-rb,Venezuela,19759
+2015,viet-nam,Vietnam,50000
+2016,algeria,Algeria,42008
+2016,argentina,Argentina,472776
+2016,australia,Australia,161294
+2016,austria,Austria,108000
+2016,azerbaijan,Azerbaijan,850
+2016,bangladesh,Bangladesh,540
+2016,belarus,Belarus,16864
+2016,belgium,Belgium,399427
+2016,brazil,Brazil,2156356
+2016,canada,Canada,2370271
+2016,china,China,28118794
+2016,colombia,Colombia,79036
+2016,czech-republic,Czechia,1349896
+2016,ecuador,Ecuador,4800
+2016,egypt-arab-rep,Egypt,36230
+2016,finland,Finland,55280
+2016,france,France,2082000
+2016,germany,Germany,5746808
+2016,hungary,Hungary,472000
+2016,india,India,4519341
+2016,indonesia,Indonesia,1177389
+2016,iran-islamic-rep,Iran,1485927
+2016,italy,Italy,1103516
+2016,japan,Japan,9204590
+2016,kazakhstan,Kazakhstan,10651
+2016,korea-dem-people-s-rep,North Korea,4000
+2016,korea-rep,South Korea,4228509
+2016,malaysia,Malaysia,513445
+2016,mexico,Mexico,4396356
+2016,morocco,Morocco,345106
+2016,netherlands,Netherlands,44430
+2016,pakistan,Pakistan,214650
+2016,philippines,Philippines,116686
+2016,poland,Poland,781837
+2016,portugal,Portugal,143096
+2016,romania,Romania,359306
+2016,russian-federation,Russia,1303989
+2016,serbia,Serbia,80320
+2016,slovak-republic,Slovakia,1040000
+2016,slovenia,Slovenia,133702
+2016,south-africa,South Africa,599004
+2016,spain,Spain,2885922
+2016,sweden,Sweden,226000
+2016,taiwan,Taiwan,309531
+2016,thailand,Thailand,1944417
+2016,tunisia,Tunisia,1940
+2016,turkiye,Turkey,1164710
+2016,ukraine,Ukraine,5264
+2016,united-kingdom,United Kingdom,1816622
+2016,united-states,United States,12198137
+2016,uzbekistan,Uzbekistan,88152
+2016,venezuela-rb,Venezuela,18300
+2016,viet-nam,Vietnam,236161
+2017,algeria,Algeria,60606
+2017,argentina,Argentina,472158
+2017,australia,Australia,98632
+2017,austria,Austria,99880
+2017,bangladesh,Bangladesh,580
+2017,belarus,Belarus,13428
+2017,belgium,Belgium,379140
+2017,brazil,Brazil,2699672
+2017,canada,Canada,2199789
+2017,china,China,29015434
+2017,colombia,Colombia,74994
+2017,czech-republic,Czechia,1419993
+2017,ecuador,Ecuador,2700
+2017,egypt-arab-rep,Egypt,36640
+2017,finland,Finland,91598
+2017,france,France,2227000
+2017,germany,Germany,5645581
+2017,hungary,Hungary,505400
+2017,india,India,4782896
+2017,indonesia,Indonesia,1216615
+2017,iran-islamic-rep,Iran,1695731
+2017,italy,Italy,1142210
+2017,japan,Japan,9693746
+2017,kazakhstan,Kazakhstan,19071
+2017,korea-dem-people-s-rep,North Korea,3000
+2017,korea-rep,South Korea,4134913
+2017,malaysia,Malaysia,460140
+2017,mexico,Mexico,4137544
+2017,morocco,Morocco,376286
+2017,netherlands,Netherlands,157280
+2017,pakistan,Pakistan,250800
+2017,philippines,Philippines,141251
+2017,poland,Poland,789729
+2017,portugal,Portugal,175544
+2017,romania,Romania,359250
+2017,russian-federation,Russia,1551293
+2017,serbia,Serbia,79912
+2017,slovak-republic,Slovakia,1001520
+2017,slovenia,Slovenia,189852
+2017,south-africa,South Africa,589951
+2017,spain,Spain,2848335
+2017,sweden,Sweden,291000
+2017,taiwan,Taiwan,291563
+2017,thailand,Thailand,1988823
+2017,tunisia,Tunisia,1940
+2017,turkiye,Turkey,1515396
+2017,ukraine,Ukraine,9542
+2017,united-kingdom,United Kingdom,1749385
+2017,united-states,United States,11189985
+2017,uzbekistan,Uzbekistan,140247
+2017,venezuela-rb,Venezuela,2850
+2017,viet-nam,Vietnam,236161
+2018,algeria,Algeria,70597
+2018,argentina,Argentina,466649
+2018,australia,Australia,6371
+2018,austria,Austria,164900
+2018,azerbaijan,Azerbaijan,1453
+2018,bangladesh,Bangladesh,580
+2018,belarus,Belarus,23235
+2018,belgium,Belgium,308493
+2018,brazil,Brazil,2879809
+2018,canada,Canada,2020840
+2018,china,China,27809196
+2018,colombia,Colombia,75476
+2018,czech-republic,Czechia,1442884
+2018,ecuador,Ecuador,2700
+2018,egypt-arab-rep,Egypt,71600
+2018,finland,Finland,112104
+2018,france,France,2270000
+2018,germany,Germany,5120409
+2018,hungary,Hungary,430988
+2018,india,India,5174645
+2018,indonesia,Indonesia,1343714
+2018,iran-islamic-rep,Iran,1550150
+2018,italy,Italy,1060068
+2018,japan,Japan,9728528
+2018,kazakhstan,Kazakhstan,31545
+2018,korea-dem-people-s-rep,North Korea,3000
+2018,korea-rep,South Korea,4028834
+2018,malaysia,Malaysia,564800
+2018,mexico,Mexico,4100770
+2018,morocco,Morocco,402085
+2018,netherlands,Netherlands,214000
+2018,pakistan,Pakistan,269700
+2018,philippines,Philippines,79763
+2018,poland,Poland,809646
+2018,portugal,Portugal,294366
+2018,romania,Romania,476769
+2018,russian-federation,Russia,1767674
+2018,serbia,Serbia,56449
+2018,slovak-republic,Slovakia,1090000
+2018,slovenia,Slovenia,209378
+2018,south-africa,South Africa,610854
+2018,spain,Spain,2819565
+2018,sweden,Sweden,279000
+2018,taiwan,Taiwan,253241
+2018,thailand,Thailand,2167694
+2018,tunisia,Tunisia,2000
+2018,turkiye,Turkey,1095526
+2018,ukraine,Ukraine,6623
+2018,united-kingdom,United Kingdom,1604328
+2018,united-states,United States,11314705
+2018,uzbekistan,Uzbekistan,220667
+2018,venezuela-rb,Venezuela,1774
+2018,viet-nam,Vietnam,237000
+2019,algeria,Algeria,60012
+2019,argentina,Argentina,314787
+2019,australia,Australia,5606
+2019,austria,Austria,179400
+2019,azerbaijan,Azerbaijan,3014
+2019,belarus,Belarus,30487
+2019,belgium,Belgium,285797
+2019,brazil,Brazil,2944988
+2019,canada,Canada,1916585
+2019,china,China,25720665
+2019,colombia,Colombia,78020
+2019,czech-republic,Czechia,1433963
+2019,egypt-arab-rep,Egypt,18500
+2019,finland,Finland,114785
+2019,france,France,2202460
+2019,germany,Germany,4661328
+2019,hungary,Hungary,498158
+2019,india,India,4516017
+2019,indonesia,Indonesia,1286848
+2019,iran-islamic-rep,Iran,1461244
+2019,italy,Italy,915305
+2019,japan,Japan,9684298
+2019,kazakhstan,Kazakhstan,49400
+2019,korea-dem-people-s-rep,North Korea,2000
+2019,korea-rep,South Korea,3950617
+2019,malaysia,Malaysia,571632
+2019,mexico,Mexico,3986794
+2019,morocco,Morocco,394652
+2019,myanmar,Myanmar,15496
+2019,netherlands,Netherlands,176113
+2019,pakistan,Pakistan,186751
+2019,philippines,Philippines,95094
+2019,poland,Poland,498158
+2019,portugal,Portugal,345704
+2019,romania,Romania,490412
+2019,russian-federation,Russia,1719784
+2019,serbia,Serbia,35115
+2019,slovak-republic,Slovakia,1107902
+2019,slovenia,Slovenia,199102
+2019,south-africa,South Africa,631983
+2019,spain,Spain,2822355
+2019,sweden,Sweden,249000
+2019,taiwan,Taiwan,251304
+2019,thailand,Thailand,2013710
+2019,turkiye,Turkey,821060
+2019,ukraine,Ukraine,7266
+2019,united-kingdom,United Kingdom,1381405
+2019,united-states,United States,10880019
+2019,uzbekistan,Uzbekistan,271113
+2019,viet-nam,Vietnam,250000
+2020,algeria,Algeria,754
+2020,argentina,Argentina,257187
+2020,australia,Australia,4730
+2020,austria,Austria,104544
+2020,azerbaijan,Azerbaijan,1949
+2020,belarus,Belarus,31273
+2020,belgium,Belgium,267293
+2020,brazil,Brazil,2014055
+2020,canada,Canada,1376623
+2020,china,China,25225242
+2020,colombia,Colombia,47281
+2020,czech-republic,Czechia,1159151
+2020,egypt-arab-rep,Egypt,23754
+2020,finland,Finland,86270
+2020,france,France,1316371
+2020,germany,Germany,3742454
+2020,hungary,Hungary,406497
+2020,india,India,3490000
+2020,indonesia,Indonesia,691286
+2020,iran-islamic-rep,Iran,880997
+2020,italy,Italy,777165
+2020,japan,Japan,8067557
+2020,kazakhstan,Kazakhstan,74831
+2020,korea-dem-people-s-rep,North Korea,2000
+2020,korea-rep,South Korea,3506774
+2020,malaysia,Malaysia,485186
+2020,mexico,Mexico,3176600
+2020,morocco,Morocco,248430
+2020,myanmar,Myanmar,10753
+2020,netherlands,Netherlands,127058
+2020,pakistan,Pakistan,117375
+2020,philippines,Philippines,67297
+2020,poland,Poland,451382
+2020,portugal,Portugal,264236
+2020,romania,Romania,438107
+2020,russian-federation,Russia,1435335
+2020,serbia,Serbia,23375
+2020,slovak-republic,Slovakia,990598
+2020,slovenia,Slovenia,141714
+2020,south-africa,South Africa,447218
+2020,spain,Spain,2268185
+2020,sweden,Sweden,258000
+2020,taiwan,Taiwan,245615
+2020,thailand,Thailand,1427074
+2020,turkiye,Turkey,1297878
+2020,ukraine,Ukraine,4952
+2020,united-kingdom,United Kingdom,987044
+2020,united-states,United States,8822399
+2020,uzbekistan,Uzbekistan,280080
+2020,viet-nam,Vietnam,165568
+2021,algeria,Algeria,5208
+2021,argentina,Argentina,434753
+2021,australia,Australia,5391
+2021,austria,Austria,136700
+2021,azerbaijan,Azerbaijan,3870
+2021,belarus,Belarus,29891
+2021,belgium,Belgium,261038
+2021,brazil,Brazil,2248253
+2021,canada,Canada,1115002
+2021,china,China,26082220
+2021,colombia,Colombia,40764
+2021,czech-republic,Czechia,1111432
+2021,egypt-arab-rep,Egypt,23754
+2021,finland,Finland,93172
+2021,france,France,1351308
+2021,germany,Germany,3308692
+2021,hungary,Hungary,394302
+2021,india,India,4399112
+2021,indonesia,Indonesia,1121987
+2021,iran-islamic-rep,Iran,894298
+2021,italy,Italy,795856
+2021,japan,Japan,7846955
+2021,kazakhstan,Kazakhstan,92417
+2021,korea-dem-people-s-rep,North Korea,2000
+2021,korea-rep,South Korea,3462404
+2021,malaysia,Malaysia,481651
+2021,mexico,Mexico,3145653
+2021,morocco,Morocco,403007
+2021,myanmar,Myanmar,1957
+2021,netherlands,Netherlands,107021
+2021,pakistan,Pakistan,238702
+2021,philippines,Philippines,85874
+2021,poland,Poland,439421
+2021,portugal,Portugal,289954
+2021,romania,Romania,420755
+2021,russian-federation,Russia,1566317
+2021,serbia,Serbia,21263
+2021,slovak-republic,Slovakia,1000000
+2021,slovenia,Slovenia,95797
+2021,south-africa,South Africa,499087
+2021,spain,Spain,2098133
+2021,sweden,Sweden,257446
+2021,taiwan,Taiwan,265320
+2021,thailand,Thailand,1685705
+2021,turkiye,Turkey,1276140
+2021,ukraine,Ukraine,8153
+2021,united-kingdom,United Kingdom,932488
+2021,united-states,United States,9167214
+2021,uzbekistan,Uzbekistan,241649
+2021,viet-nam,Vietnam,163250
+2022,algeria,Algeria,2773
+2022,argentina,Argentina,536893
+2022,australia,Australia,6077
+2022,austria,Austria,107500
+2022,azerbaijan,Azerbaijan,3050
+2022,belgium,Belgium,276554
+2022,brazil,Brazil,2369769
+2022,canada,Canada,1233360
+2022,china,China,27020615
+2022,colombia,Colombia,51455
+2022,czech-republic,Czechia,1224456
+2022,finland,Finland,73044
+2022,france,France,1383173
+2022,germany,Germany,3677820
+2022,hungary,Hungary,441729
+2022,india,India,5456857
+2022,indonesia,Indonesia,1470146
+2022,iran-islamic-rep,Iran,1064215
+2022,italy,Italy,796324
+2022,japan,Japan,7835519
+2022,kazakhstan,Kazakhstan,112540
+2022,korea-dem-people-s-rep,North Korea,2000
+2022,korea-rep,South Korea,3757049
+2022,malaysia,Malaysia,702225
+2022,mexico,Mexico,3509072
+2022,morocco,Morocco,464864
+2022,netherlands,Netherlands,101670
+2022,pakistan,Pakistan,235454
+2022,philippines,Philippines,92223
+2022,poland,Poland,483840
+2022,portugal,Portugal,322404
+2022,romania,Romania,509465
+2022,russian-federation,Russia,608060
+2022,serbia,Serbia,4498
+2022,slovak-republic,Slovakia,1000000
+2022,slovenia,Slovenia,68130
+2022,south-africa,South Africa,555889
+2022,spain,Spain,2219462
+2022,sweden,Sweden,238955
+2022,taiwan,Taiwan,261263
+2022,thailand,Thailand,1883515
+2022,turkiye,Turkey,1352648
+2022,ukraine,Ukraine,1490
+2022,united-kingdom,United Kingdom,876614
+2022,united-states,United States,10060339
+2022,uzbekistan,Uzbekistan,333569
+2022,viet-nam,Vietnam,232410
+2023,algeria,Algeria,2456
+2023,argentina,Argentina,610725
+2023,australia,Australia,7141
+2023,austria,Austria,114191
+2023,azerbaijan,Azerbaijan,5110
+2023,belgium,Belgium,332103
+2023,brazil,Brazil,2324838
+2023,canada,Canada,1553758
+2023,china,China,30160966
+2023,colombia,Colombia,34700
+2023,czech-republic,Czechia,1404501
+2023,finland,Finland,30191
+2023,france,France,1505079
+2023,germany,Germany,4109371
+2023,hungary,Hungary,507225
+2023,india,India,5851507
+2023,indonesia,Indonesia,1395717
+2023,iran-islamic-rep,Iran,1188471
+2023,italy,Italy,880085
+2023,japan,Japan,8997440
+2023,kazakhstan,Kazakhstan,146989
+2023,korea-rep,South Korea,4244000
+2023,malaysia,Malaysia,774600
+2023,mexico,Mexico,4002047
+2023,morocco,Morocco,535825
+2023,myanmar,Myanmar,1475
+2023,netherlands,Netherlands,123379
+2023,pakistan,Pakistan,79513
+2023,philippines,Philippines,110350
+2023,poland,Poland,612882
+2023,portugal,Portugal,318231
+2023,romania,Romania,513050
+2023,russian-federation,Russia,729864
+2023,serbia,Serbia,186
+2023,slovak-republic,Slovakia,1080000
+2023,slovenia,Slovenia,60881
+2023,south-africa,South Africa,633337
+2023,spain,Spain,2451221
+2023,sweden,Sweden,276750
+2023,taiwan,Taiwan,285962
+2023,thailand,Thailand,1841663
+2023,turkiye,Turkey,1468393
+2023,ukraine,Ukraine,1993
+2023,united-kingdom,United Kingdom,1025474
+2023,united-states,United States,10611555
+2023,uzbekistan,Uzbekistan,425876
+2023,viet-nam,Vietnam,177435
+2024,algeria,Algeria,30108
+2024,argentina,Argentina,506571
+2024,australia,Australia,7238
+2024,austria,Austria,71785
+2024,azerbaijan,Azerbaijan,6815
+2024,bangladesh,Bangladesh,24
+2024,belgium,Belgium,240366
+2024,brazil,Brazil,2549595
+2024,canada,Canada,1339288
+2024,china,China,31281592
+2024,colombia,Colombia,23778
+2024,czech-republic,Czechia,1458892
+2024,ecuador,Ecuador,2700
+2024,finland,Finland,22384
+2024,france,France,1357701
+2024,germany,Germany,4069222
+2024,hungary,Hungary,437045
+2024,india,India,6014691
+2024,indonesia,Indonesia,1196664
+2024,iran-islamic-rep,Iran,1077839
+2024,italy,Italy,591067
+2024,japan,Japan,8234681
+2024,kazakhstan,Kazakhstan,144624
+2024,korea-rep,South Korea,4127252
+2024,malaysia,Malaysia,790347
+2024,mexico,Mexico,4202642
+2024,morocco,Morocco,559645
+2024,myanmar,Myanmar,2711
+2024,netherlands,Netherlands,7403
+2024,pakistan,Pakistan,128449
+2024,philippines,Philippines,126571
+2024,poland,Poland,555346
+2024,portugal,Portugal,332546
+2024,romania,Romania,560102
+2024,russian-federation,Russia,982665
+2024,serbia,Serbia,235
+2024,slovak-republic,Slovakia,993000
+2024,slovenia,Slovenia,60903
+2024,south-africa,South Africa,599755
+2024,spain,Spain,2376504
+2024,sweden,Sweden,268487
+2024,taiwan,Taiwan,275156
+2024,thailand,Thailand,1468997
+2024,turkiye,Turkey,1365296
+2024,united-kingdom,United Kingdom,905233
+2024,united-states,United States,10562188
+2024,uzbekistan,Uzbekistan,429364
+2024,viet-nam,Vietnam,175661
+2025,algeria,Algeria,43052
+2025,argentina,Argentina,490876
+2025,austria,Austria,70900
+2025,azerbaijan,Azerbaijan,4309
+2025,belgium,Belgium,253418
+2025,brazil,Brazil,2644054
+2025,canada,Canada,1237075
+2025,china,China,34530738
+2025,colombia,Colombia,34546
+2025,czech-republic,Czechia,1452776
+2025,egypt-arab-rep,Egypt,89570
+2025,france,France,1463991
+2025,germany,Germany,4148836
+2025,hungary,Hungary,411776
+2025,india,India,6490810
+2025,indonesia,Indonesia,1147600
+2025,iran-islamic-rep,Iran,915210
+2025,italy,Italy,474044
+2025,japan,Japan,8410232
+2025,kazakhstan,Kazakhstan,170582
+2025,korea-rep,South Korea,4102200
+2025,malaysia,Malaysia,747780
+2025,mexico,Mexico,4092448
+2025,morocco,Morocco,501965
+2025,pakistan,Pakistan,190082
+2025,poland,Poland,628276
+2025,portugal,Portugal,341361
+2025,romania,Romania,545510
+2025,russian-federation,Russia,853897
+2025,serbia,Serbia,51417
+2025,slovak-republic,Slovakia,1070000
+2025,slovenia,Slovenia,61431
+2025,south-africa,South Africa,618077
+2025,spain,Spain,2274026
+2025,sweden,Sweden,251659
+2025,thailand,Thailand,1455569
+2025,turkiye,Turkey,1419464
+2025,united-kingdom,United Kingdom,764715
+2025,united-states,United States,10243844
+2025,uzbekistan,Uzbekistan,462343

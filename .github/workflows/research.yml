@@ -166,6 +166,19 @@ jobs:
           retention-days: 14
           if-no-files-found: error
 
+      # Export a plain dataset.csv into the bundle so the researched data is
+      # saved to the repo as a reusable CSV (not just dataset.json).
+      - name: Export dataset.csv into the bundle
+        if: ${{ inputs.projectId != '' }}
+        run: |
+          set -euo pipefail
+          if [ -f "projects/${{ inputs.projectId }}/dataset.json" ]; then
+            python3 tools/export-dataset-csv.py \
+              --in "projects/${{ inputs.projectId }}/dataset.json" \
+              --out "projects/${{ inputs.projectId }}/dataset.csv" \
+              || echo "dataset.csv export failed (non-fatal)"
+          fi
+
       # Commit the bundle into the repo so the studio's Render button works
       # straight after research — no manual download/commit step in between.
       - name: Commit research bundle to the repo
