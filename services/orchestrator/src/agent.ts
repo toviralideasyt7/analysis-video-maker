@@ -370,22 +370,35 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
     }
     if (rows.length === 0) throw new Error('no rows parsed');
     // Year span of the table: find the year column by header, scan every row.
+    // For wide-format tables (years as column headers, e.g. from HTML),
+    // derive the range directly from the headers.
     let yearMin: number | undefined;
     let yearMax: number | undefined;
-    const yearIdx = columns.findIndex((c) => /^(year|date)$/i.test(c.trim()));
-    const scanIdx = yearIdx >= 0 ? yearIdx : -1;
-    const scanCell = (cell: string | undefined): void => {
-      const m = /^(-?\d{1,5})$/.exec((cell ?? '').trim());
-      if (!m) return;
-      const y = Number(m[1]);
-      if (y < -20000 || y > 2100) return;
-      yearMin = yearMin === undefined ? y : Math.min(yearMin, y);
-      yearMax = yearMax === undefined ? y : Math.max(yearMax, y);
-    };
-    if (scanIdx >= 0) {
-      for (const row of rows) scanCell(row[scanIdx]);
+    const headerYears = columns
+      .map((c) => {
+        const m = /^(\d{4})$/.exec(c.trim());
+        return m ? Number(m[1]) : null;
+      })
+      .filter((y): y is number => y !== null && y >= 1000 && y <= 2100);
+    if (headerYears.length >= 2) {
+      yearMin = Math.min(...headerYears);
+      yearMax = Math.max(...headerYears);
     } else {
-      for (const row of rows.slice(0, 20000)) for (const cell of row) scanCell(cell);
+      const yearIdx = columns.findIndex((c) => /^(year|date)$/i.test(c.trim()));
+      const scanIdx = yearIdx >= 0 ? yearIdx : -1;
+      const scanCell = (cell: string | undefined): void => {
+        const m = /^(-?\d{1,5})$/.exec((cell ?? '').trim());
+        if (!m) return;
+        const y = Number(m[1]);
+        if (y < -20000 || y > 2100) return;
+        yearMin = yearMin === undefined ? y : Math.min(yearMin, y);
+        yearMax = yearMax === undefined ? y : Math.max(yearMax, y);
+      };
+      if (scanIdx >= 0) {
+        for (const row of rows) scanCell(row[scanIdx]);
+      } else {
+        for (const row of rows.slice(0, 20000)) for (const cell of row) scanCell(cell);
+      }
     }
     return {
       columns,

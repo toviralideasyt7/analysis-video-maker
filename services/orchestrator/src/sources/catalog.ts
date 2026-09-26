@@ -241,14 +241,161 @@ export const datagovSource: SourceAdapter = {
 };
 
 // ---------------------------------------------------------------------------
+// OpenCity (tier 1 — official government source, CKAN)
+// ---------------------------------------------------------------------------
+
+export const opencitySource: SourceAdapter = {
+  name: 'opencity',
+  tier: 1,
+  async search(query: string): Promise<DatasetHit[]> {
+    try {
+      const url = `https://data.opencity.in/api/3/action/package_search?q=${encodeURIComponent(query)}&rows=10`;
+      const res = await fetch(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } });
+      if (!res.ok) return [];
+      const data = (await res.json()) as { result?: { results?: Array<{ title: string; name: string; resources: Array<{ url: string; format: string }> }> } };
+      const results = data.result?.results ?? [];
+      const hits: DatasetHit[] = [];
+      for (const ds of results) {
+        const dl = ds.resources.find((r) => /csv|json|xlsx?/i.test(r.format)) ?? ds.resources[0];
+        if (!dl) continue;
+        hits.push({
+          title: ds.title,
+          source: 'opencity',
+          pageUrl: `https://data.opencity.in/dataset/${ds.name}`,
+          downloadUrl: dl.url,
+          tier: 1,
+        });
+      }
+      return hits;
+    } catch (error) {
+      logger.warn('opencity search failed', { error: String(error) });
+      return [];
+    }
+  },
+};
+
+// ---------------------------------------------------------------------------
+// visdatasets (tier 5 — established database, GitHub Pages CSVs)
+// ---------------------------------------------------------------------------
+
+export const visdatasetsSource: SourceAdapter = {
+  name: 'visdatasets',
+  tier: 5,
+  async search(query: string): Promise<DatasetHit[]> {
+    try {
+      // Scrape the index page for dataset CSV filenames matching the query
+      const { text } = await getText('https://visdatasets.github.io/', { timeoutMs: 20000 });
+      const q = query.toLowerCase().split(' ').filter((w) => w.length > 3);
+      const re = /datasets\/([a-z0-9-]+\.csv)/gi;
+      const seen = new Set<string>();
+      const hits: DatasetHit[] = [];
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text)) !== null) {
+        const file = m[1];
+        if (seen.has(file)) continue;
+        seen.add(file);
+        const name = file.replace('.csv', '').toLowerCase();
+        if (q.some((w) => name.includes(w))) {
+          hits.push({
+            title: file.replace('.csv', '').replace(/-/g, ' '),
+            source: 'visdatasets',
+            pageUrl: 'https://visdatasets.github.io/',
+            downloadUrl: `https://visdatasets.github.io/datasets/${file}`,
+            tier: 5,
+          });
+        }
+        if (hits.length >= 10) break;
+      }
+      return hits;
+    } catch (error) {
+      logger.warn('visdatasets search failed', { error: String(error) });
+      return [];
+    }
+  },
+};
+
+// ---------------------------------------------------------------------------
+// OECD (tier 1 — official organization source, SDMX)
+// ---------------------------------------------------------------------------
+
+export const oecdSource: SourceAdapter = {
+  name: 'oecd',
+  tier: 1,
+  async search(query: string): Promise<DatasetHit[]> {
+    // OECD SDMX has no keyword search; the AI proposes a dataflow code.
+    // Validate the code and return the data URL pattern.
+    const code = query.trim().toUpperCase();
+    if (!/^[A-Z0-9_]+$/.test(code)) return [];
+    try {
+      // Try to get dataflow metadata
+      const url = `https://sdmx.oecd.org/public/rest/v1/dataflow/OECD/${code}/1.0`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/vnd.sdmx.data+json', 'User-Agent': 'analysis-video-maker/1.0' } });
+      if (!res.ok) return [];
+      return [{
+        title: code,
+        source: 'oecd',
+        pageUrl: `https://data.oecd.org/`,
+        downloadUrl: `https://sdmx.oecd.org/public/rest/v1/data/OECD,${code},1.0/all?dimensionAtObservation=AllDimensions`,
+        tier: 1,
+      }];
+    } catch {
+      return [];
+    }
+  },
+};
+
+// ---------------------------------------------------------------------------
+// World Bank Catalog (tier 2 — official dataset)
+// User-provided: POST /ddhxext/v3/SearchData
+// ---------------------------------------------------------------------------
+
+export const wbCatalogSource: SourceAdapter = {
+  name: 'wb-catalog',
+  tier: 2,
+  async search(query: string): Promise<DatasetHit[]> {
+    try {
+      // Use the public search endpoint (full catalog, filter client-side)
+      const url = `https://datacatalogapi.worldbank.org/ddhxext/v3/search?$top=50`;
+      const res = await fetch(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } });
+      if (!res.ok) return [];
+      const data = (await res.json()) as { data?: Array<{ dataset_unique_id: string; name: string }> };
+      const q = query.toLowerCase().split(' ').filter((w) => w.length > 3);
+      const hits: DatasetHit[] = [];
+      for (const ds of data.data ?? []) {
+        const name = (ds.name ?? '').toLowerCase();
+        if (q.some((w) => name.includes(w))) {
+          hits.push({
+            title: ds.name,
+            source: 'wb-catalog',
+            pageUrl: `https://datacatalog.worldbank.org/search/dataset/${ds.dataset_unique_id}`,
+            // File download URLs are on the dataset page; the extractor will find them
+            downloadUrl: undefined,
+            tier: 2,
+          });
+        }
+        if (hits.length >= 10) break;
+      }
+      return hits;
+    } catch (error) {
+      logger.warn('wb-catalog search failed', { error: String(error) });
+      return [];
+    }
+  },
+};
+
+// ---------------------------------------------------------------------------
 // Registry: all adapters in tier order
 // ---------------------------------------------------------------------------
 
 export const ALL_SOURCES: SourceAdapter[] = [
   eurostatSource,   // tier 1
   datagovSource,    // tier 1
+  opencitySource,   // tier 1
+  oecdSource,       // tier 1
   owidSource,       // tier 2
+  wbCatalogSource,  // tier 2
   dataRacesSource,  // tier 5
+  visdatasetsSource,// tier 5
   kaggleSource,     // tier 7
   huggingfaceSource,// tier 7
 ].sort((a, b) => a.tier - b.tier);
