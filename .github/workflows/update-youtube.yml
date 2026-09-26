@@ -37,6 +37,7 @@ jobs:
       - name: Stage project bundle
         run: |
           set -euo pipefail
+          mkdir -p projects
           cp -r "bundles/${{ inputs.project_id }}" "projects/${{ inputs.project_id }}"
 
       - name: Regenerate YouTube metadata (deterministic title)
