@@ -236,7 +236,10 @@ class VideoQA:
         c2 = []
         seen = set()
         for scene in self.race_scenes():
-            for sec in (0.15, 0.3, 0.5, 0.8, 1.2, 2.0):
+            for sec in (0.8, 1.2, 2.0, 3.0):
+                # Skip the intro fade (first ~0.6s/18 frames where bars fade in
+                # from transparent). Sampling during fade-in gives false 2px
+                # width measurements via color detection.
                 s = scene["start"] + int(round(sec * self.fps_render))
                 if s < scene["start"] + scene["nframes"] and s not in seen:
                     seen.add(s)
