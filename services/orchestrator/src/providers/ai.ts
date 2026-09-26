@@ -407,12 +407,17 @@ export class GeminiOfficialProvider implements AIProvider {
         ...(req.temperature !== undefined ? { temperature: req.temperature } : {}),
       };
     }
-    const doFetch = () =>
+    const doFetch = (apiVersion: string) =>
       fetchWithTimeout(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${this.config.apiKey}`,
+        `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${this.config.apiKey}`,
         { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
       );
-    const response = await this.pacer.run(doFetch);
+    let response = await this.pacer.run(() => doFetch('v1beta'));
+    // If v1beta 404s (model not in beta), try the stable v1 API before giving up.
+    if (response.status === 404) {
+      logger.warn('gemini-official v1beta 404, trying v1', { model });
+      response = await this.pacer.run(() => doFetch('v1'));
+    }
     const text = await response.text();
     if (!response.ok) {
       this.usage.append({ at: new Date().toISOString(), provider: this.name, model, operation: 'generate', ok: false, durationMs: Date.now() - started, status: response.status });

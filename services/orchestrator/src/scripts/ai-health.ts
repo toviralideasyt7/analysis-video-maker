@@ -35,7 +35,9 @@ async function main(): Promise<void> {
           { prompt: 'Reply with exactly: OK', maxTokens: 8, temperature: 0 },
           `${s.provider}:${s.model}`,
         ),
-        new Promise<never>((_, rej) => setTimeout(() => rej(new Error('timeout 15s')), 15000)),
+        // 60s timeout to match fetchWithTimeout. Worker 2 can take 25s+;
+        // a 15s timeout here causes false negatives for slow-but-working models.
+        new Promise<never>((_, rej) => setTimeout(() => rej(new Error('timeout 60s')), 60000)),
       ]);
       const ok = /ok/i.test(res.text ?? '');
       console.log(
