@@ -785,6 +785,13 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     : options.worldBankIndicator
       ? { id: options.worldBankIndicator, name: options.worldBankIndicator }
       : await findWorldBankIndicator(plan.metric).catch(() => null);
+  // A metric-name-discovered indicator is a true fallback: it must not fire
+  // when a direct source (direct URL table, OWID) already produced
+  // observations. Name matching can pick a wrongly-scoped indicator (e.g.
+  // coal-mine CO2 for a total-CO2 topic), which would otherwise inject a
+  // second, conflicting source into a run that already has good data.
+  // An explicitly requested indicator always fetches. 2026-09-26.
+  const wbDiscoveredFallback = !options.preloadedTable && !options.worldBankIndicator && wbIndicator !== null;
   const wantedIndicator = wbIndicator?.id ?? null;
   const wantedIndicatorUnit = options.agentUnit ?? (wbIndicator ? worldBankUnitFromName(wbIndicator.name) : 'count');
 
@@ -827,7 +834,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     }
   }
 
-  if (wantedIndicator) {
+  if (wantedIndicator && !(wbDiscoveredFallback && collected.length > 0)) {
     try {
       const wb = await worldBankFetch(wantedIndicator, 'all', {
         start: Number(String(timeRange.start).slice(0, 4)) || 1960,

@@ -515,7 +515,10 @@ const KNOWN_TOPICS: Array<{ re: RegExp; make: (prompt: string) => Partial<AgentD
   },
   {
     re: /\bco2\b|\bcarbon\b|\bemission\b/i,
-    make: () => ({ topic: 'CO2 emissions by country', entityKind: 'country', metric: 'CO2 emissions', unit: 'kt', worldBankIndicator: 'EN.ATM.CO2E.KT' }),
+    // World Bank's EN.ATM.CO2E.KT is retired (archived, probe returns
+    // nothing). OWID's annual-co2-emissions grapher CSV (Global Carbon
+    // Project, 1750-2024, tonnes) is the working direct source. Verified 2026-09-26.
+    make: () => ({ topic: 'CO2 emissions by country', entityKind: 'country', metric: 'CO2 emissions', unit: 't', owidSlug: 'annual-co2-emissions' }),
   },
 ];
 
@@ -575,6 +578,7 @@ async function decideWithAi(prompt: string, directUrls: string[]): Promise<Parti
     'Rules:',
     '- entityKind is "country" only for country races; platforms, browsers, companies, empires -> "custom".',
     '- Prefer a World Bank indicator id (e.g. SP.POP.TOTL) or an OWID grapher slug when the topic fits; else null and the researcher will web-search.',
+    '- For CO2 / carbon emissions topics use owidSlug "annual-co2-emissions" (unit "t"); do not invent other CO2 slugs. World Bank indicator EN.ATM.CO2E.KT is retired - never use it.',
     '- yearFrom/yearTo: the years the user asked for, or null when not stated.',
     '- topN defaults to 10.',
     '- unit: count | percent | USD | years | kt — pick what the metric really is.',
