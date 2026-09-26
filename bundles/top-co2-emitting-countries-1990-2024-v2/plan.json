@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "topic": "Top CO2 emitting countries from 1990 to 2024, annual emissions data",
+  "metric": "CO2 emissions",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Total Territorial CO2 Emissions",
+      "description": "Annual carbon dioxide emissions produced within a country's national borders from fossil fuel combustion and industrial processes.",
+      "measurableDefinition": "Million metric tons of CO2 per year (Mt CO2/yr)",
+      "caveats": [
+        "Excludes land-use change and forestry emissions",
+        "Does not account for embedded carbon in international trade"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Consumption-Based CO2 Emissions",
+      "description": "Annual carbon dioxide emissions allocated to the final consumer country after adjusting for imports and exports of goods and services.",
+      "measurableDefinition": "Million metric tons of CO2 per year (Mt CO2/yr)",
+      "caveats": [
+        "Subject to greater estimation uncertainty and reporting lags",
+        "Relies on global economic input-output models"
+      ]
+    },
+    {
+      "id": "c",
+      "label": "Per Capita CO2 Emissions",
+      "description": "Total annual territorial carbon dioxide emissions divided by the national population for the given year.",
+      "measurableDefinition": "Metric tons of CO2 per person per year (t CO2/person/yr)",
+      "caveats": [
+        "Does not reflect total absolute contribution to global atmospheric concentration",
+        "Can skew high for smaller energy-exporting economies"
+      ]
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1990",
+    "end": "2024"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "China",
+    "United States",
+    "India",
+    "Russia",
+    "Japan",
+    "Iran",
+    "Germany",
+    "Saudi Arabia",
+    "Indonesia",
+    "South Korea"
+  ],
+  "preferredSources": [
+    "Global Carbon Project",
+    "International Energy Agency (IEA) CO2 Emissions from Fuel Combustion",
+    "EDGAR (Emissions Database for Global Atmospheric Research)"
+  ],
+  "knownRisks": [
+    "Preliminary data limitations and reporting lags for the years 2023 and 2024",
+    "Retroactive historical revisions by reporting agencies due to methodology updates",
+    "Accounting differences regarding international bunker fuels"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

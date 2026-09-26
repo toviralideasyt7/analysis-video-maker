@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "title": "Top CO2 emitting countries from 1990 to 2024, annual emissions data",
+  "subtitle": "1802 to 2023",
+  "hook": "Witness how global carbon dioxide emissions shifted dramatically across nations over two centuries.",
+  "setup": "This animation tracks the historical progression of annual industrial output, highlighting key milestones and surging nations.",
+  "sequence": [
+    {
+      "atLabel": "1802",
+      "text": "The United Kingdom starts as the early leader in carbon dioxide emissions."
+    },
+    {
+      "atLabel": "1888",
+      "text": "The United States surges past other nations to take the top spot in 1888."
+    },
+    {
+      "atLabel": "1897",
+      "text": "Japan makes its first appearance in the ranking in 1897."
+    },
+    {
+      "atLabel": "1917",
+      "text": "India enters the rankings for the first time in 1917."
+    },
+    {
+      "atLabel": "1924",
+      "text": "China enters the global emissions rankings in 1924."
+    },
+    {
+      "atLabel": "1945",
+      "text": "France climbs significantly in the rankings by 1945."
+    },
+    {
+      "atLabel": "2006",
+      "text": "China claims the number one position in 2006."
+    },
+    {
+      "atLabel": "2016",
+      "text": "Indonesia joins the top rankings as a newcomer in 2016."
+    }
+  ],
+  "highlights": [],
+  "ending": "Industrial growth over the centuries reshaped the global balance of carbon dioxide emissions.",
+  "sourcesLine": "Data: Historical emissions records"
+}

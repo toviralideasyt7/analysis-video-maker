@@ -1,0 +1,348 @@
+{
+  "flags": [
+    {
+      "entityId": "united-states",
+      "type": "flag",
+      "code": "us"
+    },
+    {
+      "entityId": "china",
+      "type": "flag",
+      "code": "cn"
+    },
+    {
+      "entityId": "russia",
+      "type": "flag",
+      "code": "ru"
+    },
+    {
+      "entityId": "germany",
+      "type": "flag",
+      "code": "de"
+    },
+    {
+      "entityId": "united-kingdom",
+      "type": "flag",
+      "code": "gb"
+    },
+    {
+      "entityId": "japan",
+      "type": "flag",
+      "code": "jp"
+    },
+    {
+      "entityId": "india",
+      "type": "flag",
+      "code": "in"
+    },
+    {
+      "entityId": "canada",
+      "type": "flag",
+      "code": "ca"
+    },
+    {
+      "entityId": "france",
+      "type": "flag",
+      "code": "fr"
+    },
+    {
+      "entityId": "ukraine",
+      "type": "flag",
+      "code": "ua"
+    },
+    {
+      "entityId": "poland",
+      "type": "flag",
+      "code": "pl"
+    },
+    {
+      "entityId": "south-korea",
+      "type": "flag",
+      "code": "kr"
+    },
+    {
+      "entityId": "iran",
+      "type": "flag",
+      "code": "ir"
+    },
+    {
+      "entityId": "saudi-arabia",
+      "type": "flag",
+      "code": "sa"
+    },
+    {
+      "entityId": "italy",
+      "type": "flag",
+      "code": "it"
+    },
+    {
+      "entityId": "indonesia",
+      "type": "flag",
+      "code": "id"
+    },
+    {
+      "entityId": "belgium",
+      "type": "flag",
+      "code": "be"
+    },
+    {
+      "entityId": "czechia",
+      "type": "flag",
+      "code": "cz"
+    },
+    {
+      "entityId": "austria",
+      "type": "flag",
+      "code": "at"
+    },
+    {
+      "entityId": "mexico",
+      "type": "flag",
+      "code": "mx"
+    },
+    {
+      "entityId": "kuwait",
+      "type": "flag",
+      "code": "kw"
+    },
+    {
+      "entityId": "netherlands",
+      "type": "flag",
+      "code": "nl"
+    },
+    {
+      "entityId": "spain",
+      "type": "flag",
+      "code": "es"
+    },
+    {
+      "entityId": "denmark",
+      "type": "flag",
+      "code": "dk"
+    },
+    {
+      "entityId": "hungary",
+      "type": "flag",
+      "code": "hu"
+    },
+    {
+      "entityId": "sweden",
+      "type": "flag",
+      "code": "se"
+    },
+    {
+      "entityId": "ireland",
+      "type": "flag",
+      "code": "ie"
+    },
+    {
+      "entityId": "norway",
+      "type": "flag",
+      "code": "no"
+    },
+    {
+      "entityId": "australia",
+      "type": "flag",
+      "code": "au"
+    },
+    {
+      "entityId": "new-zealand",
+      "type": "flag",
+      "code": "nz"
+    },
+    {
+      "entityId": "taiwan",
+      "type": "flag",
+      "code": "tw"
+    }
+  ],
+  "logos": [
+    {
+      "entityId": "united-states",
+      "type": "logo",
+      "query": "United States logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "china",
+      "type": "logo",
+      "query": "China logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "russia",
+      "type": "logo",
+      "query": "Russia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "germany",
+      "type": "logo",
+      "query": "Germany logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "united-kingdom",
+      "type": "logo",
+      "query": "United Kingdom logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "japan",
+      "type": "logo",
+      "query": "Japan logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "india",
+      "type": "logo",
+      "query": "India logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "canada",
+      "type": "logo",
+      "query": "Canada logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "france",
+      "type": "logo",
+      "query": "France logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ukraine",
+      "type": "logo",
+      "query": "Ukraine logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "poland",
+      "type": "logo",
+      "query": "Poland logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "south-korea",
+      "type": "logo",
+      "query": "South Korea logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "iran",
+      "type": "logo",
+      "query": "Iran logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "saudi-arabia",
+      "type": "logo",
+      "query": "Saudi Arabia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "italy",
+      "type": "logo",
+      "query": "Italy logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "indonesia",
+      "type": "logo",
+      "query": "Indonesia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "belgium",
+      "type": "logo",
+      "query": "Belgium logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "czechia",
+      "type": "logo",
+      "query": "Czechia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "austria",
+      "type": "logo",
+      "query": "Austria logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mexico",
+      "type": "logo",
+      "query": "Mexico logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kuwait",
+      "type": "logo",
+      "query": "Kuwait logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "netherlands",
+      "type": "logo",
+      "query": "Netherlands logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "spain",
+      "type": "logo",
+      "query": "Spain logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "denmark",
+      "type": "logo",
+      "query": "Denmark logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "hungary",
+      "type": "logo",
+      "query": "Hungary logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sweden",
+      "type": "logo",
+      "query": "Sweden logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ireland",
+      "type": "logo",
+      "query": "Ireland logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "norway",
+      "type": "logo",
+      "query": "Norway logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "australia",
+      "type": "logo",
+      "query": "Australia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "new-zealand",
+      "type": "logo",
+      "query": "New Zealand logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "taiwan",
+      "type": "logo",
+      "query": "Taiwan logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

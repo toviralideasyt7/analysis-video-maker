@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "TOP CO2 EMITTING COUNTRIES FROM 1990",
+  "subtitle": "TO 2024, ANNUAL EMISSIONS DATA",
+  "entities": [
+    "China",
+    "United States",
+    "India"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}
