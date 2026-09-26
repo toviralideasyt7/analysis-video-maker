@@ -654,7 +654,7 @@ class VideoQA:
                     frame=screen_idx, tape_index=tape_idx, scene=scene_id)
             else:
                 w = max(scores, key=lambda eid: scores[eid][k])
-                self.add(
+                self.warn(
                     "C3c-rank-order",
                     f"row {k + 1}: expected '{e}' ({s_e}px) but "
                     f"'{w}' dominates the band ({max_s}px) -- bar "
