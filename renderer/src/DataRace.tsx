@@ -163,21 +163,25 @@ const BarRace: React.FC<{
         });
       } else if (bb) {
         // entering the top-N: glide up from below the list
+        // Width stays at full target (no grow-from-zero) to avoid the
+        // "smaller-then-bigger" flicker; only position and opacity animate.
         const r1 = s1?.get(id) ?? bb.rank;
         out.push({
           id,
           value: bb.value,
-          widthFrac: bb.width * te,
+          widthFrac: bb.width,
           rank: count + 1 + (r1 - (count + 1)) * te,
           held: bb.held ?? false,
           appear: te,
         });
       } else if (ba) {
         // leaving the top-N: glide down out of the list
+        // Width stays constant (no shrink-to-zero) to avoid flicker;
+        // only position and opacity animate.
         out.push({
           id,
           value: ba.value,
-          widthFrac: ba.width * (1 - te),
+          widthFrac: ba.width,
           rank: ba.rank + (count + 1 - ba.rank) * te,
           held: ba.held ?? false,
           appear: 1 - te,
