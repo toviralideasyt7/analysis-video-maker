@@ -24,6 +24,91 @@ import { createAIClient } from './providers/ai';
 import { tableFromJsonArray } from './research';
 import { logger } from './runtime';
 
+/**
+ * Parse HTML tables into a unified {columns, rows}. Handles Wikipedia-style
+ * pages with multiple tables covering different year ranges: tables with
+ * compatible headers (entity + year columns) are merged.
+ */
+function parseHtmlTables(html: string): { columns: string[]; rows: string[][] } | null {
+  // Simple regex-based table parser (no external deps). Extracts text content
+  // from <table> -> <tr> -> <td>/<th>, stripping inner tags and citations.
+  const tables: string[][][] = [];
+  const tableRe = /<table[\s>][\s\S]*?<\/table\s*>/gi;
+  let tableMatch: RegExpExecArray | null;
+  while ((tableMatch = tableRe.exec(html)) !== null) {
+    const tableHtml = tableMatch[0];
+    const rows: string[][] = [];
+    const rowRe = /<tr[\s>][\s\S]*?<\/tr\s*>/gi;
+    let rowMatch: RegExpExecArray | null;
+    while ((rowMatch = rowRe.exec(tableHtml)) !== null) {
+      const rowHtml = rowMatch[0];
+      const cells: string[] = [];
+      const cellRe = /<(td|th)[\s>][\s\S]*?<\/\1\s*>/gi;
+      let cellMatch: RegExpExecArray | null;
+      while ((cellMatch = cellRe.exec(rowHtml)) !== null) {
+        let text = cellMatch[0]
+          .replace(/<[^>]+>/g, ' ')           // strip tags
+          .replace(/\[\s*\d+\s*\]/g, '')       // strip citations [1], [2]
+          .replace(/&nbsp;/g, ' ')
+          .replace(/&amp;/g, '&')
+          .replace(/\s+/g, ' ')
+          .trim();
+        cells.push(text);
+      }
+      if (cells.length > 0) rows.push(cells);
+    }
+    if (rows.length >= 2) tables.push(rows); // need header + at least 1 data row
+  }
+  if (tables.length === 0) return null;
+
+  // Find tables that look like data tables: first cell of header is an entity
+  // label, remaining headers contain 4-digit years.
+  const yearRe = /\b(19|20)\d{2}\b/;
+  const dataTables = tables.filter((t) => {
+    const header = t[0];
+    return header.length >= 2 && header.slice(1).some((h) => yearRe.test(h));
+  });
+  if (dataTables.length === 0) return null;
+
+  // Merge tables with compatible structure. Use the first table's entity
+  // column header; collect all year columns across tables.
+  const entityHeader = dataTables[0][0][0];
+  const yearCols = new Map<string, number>(); // year -> column index in merged
+  const mergedRows = new Map<string, Map<string, string>>(); // entity -> year -> value
+
+  for (const table of dataTables) {
+    const header = table[0];
+    // Map this table's column indices to years
+    const colToYear = new Map<number, string>();
+    for (let c = 1; c < header.length; c++) {
+      const m = header[c].match(yearRe);
+      if (m) colToYear.set(c, m[0]);
+    }
+    if (colToYear.size === 0) continue;
+    for (let r = 1; r < table.length; r++) {
+      const row = table[r];
+      const entity = (row[0] ?? '').trim();
+      if (!entity) continue;
+      if (!mergedRows.has(entity)) mergedRows.set(entity, new Map());
+      const entityYears = mergedRows.get(entity)!;
+      for (const [colIdx, year] of colToYear) {
+        const val = (row[colIdx] ?? '').trim();
+        if (val && !entityYears.has(year)) entityYears.set(year, val);
+      }
+    }
+  }
+
+  const allYears = [...new Set([...mergedRows.values()].flatMap((m) => [...m.keys()]))].sort();
+  if (allYears.length === 0 || mergedRows.size === 0) return null;
+
+  const columns = [entityHeader, ...allYears];
+  const rows: string[][] = [];
+  for (const [entity, yearMap] of mergedRows) {
+    rows.push([entity, ...allYears.map((y) => yearMap.get(y) ?? '')]);
+  }
+  return { columns, rows };
+}
+
 export interface PreloadedTable {
   columns: string[];
   rows: string[][];
@@ -258,6 +343,7 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
       if (status !== 200) throw new Error(`HTTP ${status}`);
       const trimmed = text.trimStart();
       const looksJson = /json/i.test(contentType ?? '') || trimmed.startsWith('[') || trimmed.startsWith('{');
+      const looksHtml = /html/i.test(contentType ?? '') || /^<!DOCTYPE html/i.test(trimmed) || /^<html/i.test(trimmed);
       if (looksJson) {
         let parsed: unknown = JSON.parse(text);
         if (!Array.isArray(parsed)) {
@@ -270,6 +356,12 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
         const table = tableFromJsonArray(parsed as unknown[]);
         columns = table.columns;
         rows = table.rows;
+      } else if (looksHtml) {
+        const htmlTable = parseHtmlTables(text);
+        if (!htmlTable) throw new Error('no data tables found in HTML');
+        columns = htmlTable.columns;
+        rows = htmlTable.rows;
+        notes.push(`parsed ${columns.length - 1} year columns, ${rows.length} entities from HTML tables`);
       } else {
         const parsed = parseCsv(text, /\.tsv(\?|$)/i.test(url) ? '\t' : ',');
         columns = parsed.columns;
