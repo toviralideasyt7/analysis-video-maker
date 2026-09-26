@@ -796,7 +796,19 @@ CANDIDATES (excerpts are real page content, truncated):
 ${JSON.stringify(briefs, null, 2)}
 
 Rules:
-- Prefer an official API or official dataset over an aggregator; prefer machine-readable over prose.
+- SOURCE HIERARCHY (strict priority order — always prefer a higher tier):
+  1. Official government / organization source (e.g. OICA for vehicles, WHO for health)
+  2. Official API or official dataset (World Bank API, OWID grapher CSV, Eurostat API)
+  3. Company/organization official website
+  4. Academic/research source
+  5. Established database (Data Commons, UNdata, OECD)
+  6. Reputable news/reference source
+  7. Kaggle / public dataset
+  8. General web page (last resort only)
+- Prefer machine-readable (CSV/JSON/API/ZIP) over prose/HTML tables.
+- A user-provided direct data URL always wins: if a candidate URL was supplied
+  directly in the request, pick it first and do not replace it with a
+  "better" source you found. Direct beats discovered.
 - Reject pages that only mention numbers, are paywalled, or have no licence we could check.
 - Check the metric definition: reject sources whose numbers measure something
   different from the plan (totals vs per-capita, current vs constant prices,
