@@ -19,7 +19,6 @@ import {
   Canvas,
   EraPanel,
   RaceHeader,
-  RaceProgress,
   RankingRow,
   SidePanel,
   SpotlightCard,
@@ -315,28 +314,27 @@ const BarRace: React.FC<{
           />
         );
       })}
-      {/* Right-side panel: fills empty space with topic visual + leader info.
-          Hidden when the spotlight card is active (it takes the same space). */}
+      {/* Right-side panel: car + topic box (like reference). Hidden when spotlight active. */}
       {!cardContent && (() => {
-        const leaderRow = rows.find((r) => Math.round(r.rank) === 1);
-        const leaderEntity = leaderRow ? entityById.get(leaderRow.id) : undefined;
-        if (!leaderRow || !leaderEntity) return null;
-        // Topic label based on video title (CAR for car videos, etc.)
-        const title = input.videoSpec.metadata.title.toLowerCase();
-        let icon = 'DATA RACE';
-        if (title.includes('car') || title.includes('vehicle') || title.includes('auto')) icon = 'CAR PRODUCTION';
-        else if (title.includes('population')) icon = 'POPULATION';
-        else if (title.includes('pollut')) icon = 'CO2 EMISSIONS';
-        else if (title.includes('phone') || title.includes('browser')) icon = 'TECH RACE';
-        // Format value without decimals
-        const formattedValue = Math.round(leaderRow.value).toLocaleString();
+        const title = input.videoSpec.metadata.title;
+        // Extract topic and years from title, e.g. "Top 15 car producing countries..." → "TOP CAR PRODUCING COUNTRIES"
+        const years = input.videoSpec.metadata.subtitle || '';
+        // Build topic title: uppercase, remove "Top 15", keep it punchy
+        let topicTitle = title
+          .replace(/^Top \d+\s*/i, '')
+          .replace(/by annual.*$/i, '')
+          .replace(/countries$/i, 'COUNTRIES')
+          .trim()
+          .toUpperCase();
+        if (!topicTitle) topicTitle = 'DATA RACE';
+        // Year range: extract from subtitle or use dataset range
+        const yearMatch = years.match(/(\d{4})\s*[-–to]+\s*(\d{4})/i);
+        const yearRange = yearMatch ? `${yearMatch[1]}-${yearMatch[2]}` : '';
         return (
           <SidePanel
-            leaderName={leaderEntity.name}
-            leaderValue={formattedValue}
-            leaderColor={leaderEntity.color}
-            yearLabel={currentLabel}
-            topicIcon={icon}
+            topicTitle={topicTitle}
+            yearRange={yearRange}
+            carColor="#e53e3e"
             appear={chromeAppear}
           />
         );
@@ -350,11 +348,6 @@ const BarRace: React.FC<{
           appear={panelAppear}
         />
       ) : null}
-      <RaceProgress
-        progress={progress}
-        caption={`Source: ${input.videoSpec.sources[0]?.publisher ?? 'multiple sources'}`}
-        appear={chromeAppear}
-      />
     </AbsoluteFill>
   );
 };

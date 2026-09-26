@@ -747,82 +747,99 @@ export const NoteStrip: React.FC<{ notes: string[]; theme: Theme; opacity?: numb
     </div>
   );
 };
-/** Right-side decorative panel: fills the empty space with topic visuals.
- * Shows a dark premium panel with the current leader's highlight. */
+/** Right-side panel: car illustration + topic title box, like the reference.
+ * Shows when no spotlight is active. */
 export interface SidePanelProps {
-  leaderName: string;
-  leaderValue: string;
-  leaderColor: string;
-  yearLabel: string;
-  topicIcon: string; // text icon for the topic (e.g. "CAR", "CO2")
+  topicTitle: string; // e.g. "TOP CAR PRODUCING COUNTRIES"
+  yearRange: string;  // e.g. "1950-2025"
+  carColor: string;   // car body color
   appear: number;
 }
 
+/** Simple side-view car SVG. */
+const CarIllustration: React.FC<{ color: string }> = ({ color }) => (
+  <svg viewBox="0 0 400 160" width="100%" height="140" style={{ display: 'block' }}>
+    {/* Body */}
+    <path
+      d="M20 110 L40 70 L90 65 L120 35 L260 35 L290 65 L370 70 L380 110 L360 115 L340 115 L330 100 L80 100 L70 115 L40 115 Z"
+      fill={color}
+      stroke="#1a1a1a"
+      strokeWidth="3"
+    />
+    {/* Windows */}
+    <path d="M130 42 L155 42 L155 62 L125 62 Z" fill="#2d3748" />
+    <path d="M165 42 L250 42 L270 62 L165 62 Z" fill="#2d3748" />
+    {/* Wheels */}
+    <circle cx="110" cy="115" r="28" fill="#1a1a1a" />
+    <circle cx="110" cy="115" r="14" fill="#cbd5e0" />
+    <circle cx="110" cy="115" r="6" fill="#4a5568" />
+    <circle cx="300" cy="115" r="28" fill="#1a1a1a" />
+    <circle cx="300" cy="115" r="14" fill="#cbd5e0" />
+    <circle cx="300" cy="115" r="6" fill="#4a5568" />
+    {/* Headlight */}
+    <ellipse cx="365" cy="85" rx="10" ry="6" fill="#fefcbf" stroke="#1a1a1a" strokeWidth="2" />
+    {/* Taillight */}
+    <ellipse cx="25" cy="85" rx="8" ry="6" fill="#fc8181" stroke="#1a1a1a" strokeWidth="2" />
+    {/* Door line */}
+    <line x1="205" y1="42" x2="205" y2="100" stroke="#1a1a1a" strokeWidth="2" />
+    {/* Handle */}
+    <rect x="215" y="68" width="18" height="5" rx="2" fill="#1a1a1a" />
+  </svg>
+);
+
 export const SidePanel: React.FC<SidePanelProps> = ({
-  leaderName,
-  leaderValue,
-  leaderColor,
-  yearLabel,
-  topicIcon,
+  topicTitle,
+  yearRange,
+  carColor,
   appear,
 }) => (
   <div
     style={{
       position: 'absolute',
       left: 750,
-      top: 140,
+      top: 130,
       width: 480,
-      height: 480,
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-      borderRadius: 24,
-      padding: '36px 32px',
       opacity: appear,
-      boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
-      overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
       alignItems: 'center',
     }}
   >
-    {/* Decorative glow */}
+    {/* Car illustration */}
+    <div style={{ width: 420, marginBottom: 10 }}>
+      <CarIllustration color={carColor} />
+    </div>
+    {/* Green topic box */}
     <div
       style={{
-        position: 'absolute',
-        top: -60,
-        right: -60,
-        width: 200,
-        height: 200,
-        background: `radial-gradient(circle, ${leaderColor}44 0%, transparent 70%)`,
-        borderRadius: '50%',
+        width: 440,
+        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+        borderRadius: 8,
+        padding: '28px 24px',
+        boxShadow: '0 12px 32px rgba(34,197,94,0.3)',
+        textAlign: 'center',
       }}
-    />
-    {/* Topic label - large stylized text */}
-    <div style={{
-      fontSize: 48,
-      fontWeight: 900,
-      color: '#ffffff',
-      letterSpacing: '0.1em',
-      marginBottom: 16,
-      textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-    }}>
-      {topicIcon}
-    </div>
-    {/* Year */}
-    <div style={{ fontSize: 64, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1 }}>
-      {yearLabel}
-    </div>
-    {/* Leader label */}
-    <div style={{ marginTop: 12, fontSize: 15, fontWeight: 700, letterSpacing: '0.2em', color: '#94a3b8' }}>
-      CURRENT LEADER
-    </div>
-    {/* Leader name */}
-    <div style={{ marginTop: 8, fontSize: 32, fontWeight: 800, color: '#ffffff', textAlign: 'center', lineHeight: 1.2 }}>
-      {leaderName}
-    </div>
-    {/* Leader value */}
-    <div style={{ marginTop: 8, fontSize: 24, fontWeight: 700, color: leaderColor }}>
-      {leaderValue}
+    >
+      <div style={{
+        fontSize: 38,
+        fontWeight: 900,
+        color: '#ffffff',
+        lineHeight: 1.2,
+        letterSpacing: '0.02em',
+        textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+      }}>
+        {topicTitle}
+      </div>
+      <div style={{
+        marginTop: 8,
+        fontSize: 44,
+        fontWeight: 900,
+        color: '#ffffff',
+        letterSpacing: '0.05em',
+        textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+      }}>
+        {yearRange}
+      </div>
     </div>
   </div>
 );
