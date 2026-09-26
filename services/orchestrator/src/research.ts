@@ -391,6 +391,31 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
   const problems: string[] = [];
   const detected = detectColumns(columns, rows);
   if (!detected.entity || !detected.date || !detected.value) {
+    // Wide-format fallback: years as column headers (e.g. Wikipedia tables
+    // with Country | 1950 | 1960 | ...). Melt into long format.
+    const yearCols = columns
+      .map((c, i) => ({ name: c, index: i }))
+      .filter(({ name }) => /^(19|20)\d{2}$/.test(name.trim()));
+    const entityIdx = columns.findIndex((c) =>
+      ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'nation'].includes(c.toLowerCase().trim())
+    );
+    if (entityIdx >= 0 && yearCols.length >= 2) {
+      problems.push(`wide-format table detected: melting ${yearCols.length} year columns into long format`);
+      const drafts: ExtractedDraft[] = [];
+      for (const row of rows) {
+        const entity = stripCorporateSuffix((row[entityIdx] ?? '').trim());
+        if (!entity) continue;
+        for (const { name, index } of yearCols) {
+          const cell = (row[index] ?? '').trim().replace(/[,\s]/g, '');
+          if (!cell || cell === '–' || cell === '-' || cell === '?') continue;
+          const value = parseScaledNumber(cell).value;
+          if (value === null || value <= 0) continue;
+          drafts.push({ entity, date: name.trim(), value, unit: defaultUnit });
+        }
+      }
+      problems.push(`melted ${drafts.length} observations from wide-format table`);
+      return { drafts, problems };
+    }
     problems.push(`could not identify entity/date/value columns in [${columns.join(', ')}]`);
     return { drafts: [], problems };
   }
