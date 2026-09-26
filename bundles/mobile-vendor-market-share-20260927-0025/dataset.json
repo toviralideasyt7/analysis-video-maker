@@ -1,14 +1,14 @@
 {
   "datasetId": "dataset_use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
   "projectId": "use-this-direct-csv-download-as-the-sing-20260926190532-zvlezj",
-  "name": "Global Top Companies by Market Capitalization and Revenue",
-  "metric": "biggest",
+  "name": "Mobile phone vendor market share, 2010–2026",
+  "metric": "market share",
   "unit": "percent",
   "timeRange": {
     "start": "2010",
     "end": "2026"
   },
-  "frequency": "annual",
+  "frequency": "monthly",
   "missingDataPolicy": "STRICT",
   "version": 1,
   "frozen": false,

@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "metadata": {
-    "title": "Global Top Companies by Market Capitalization and Revenue",
+    "title": "Mobile phone vendor market share, 2010–2026",
     "subtitle": "2010 - 2026",
     "language": "en",
     "durationSeconds": 480
@@ -27,7 +27,7 @@
       "id": "scene_title",
       "type": "title",
       "duration": 8,
-      "title": "Global Top Companies by Market Capitalization and Revenue",
+      "title": "Mobile phone vendor market share, 2010–2026",
       "subtitle": "2010 - 2026"
     },
     {
@@ -35,7 +35,7 @@
       "type": "intro",
       "duration": 25,
       "title": "Watch how the world's most dominant mobile phone brands shifted their market shares over sixteen years.",
-      "subtitle": "This data race tracks monthly shifts in global market capitalization and revenue leadership from April 2010 through September 2026."
+      "subtitle": "This data race tracks monthly shifts in worldwide mobile phone vendor market share from April 2010 through September 2026."
     },
     {
       "id": "scene_race_1",

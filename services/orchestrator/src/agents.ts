@@ -83,6 +83,16 @@ TARGET ENTITY COUNT: ${options.entityCount ?? 10}
 
 Task: turn this topic into a DataPlan that a research team can execute.
 
+Topic grounding rule: the TOPIC may be phrased as an instruction about a data
+source or download URL instead of a plain subject (e.g. "use this direct CSV
+download ... https://gs.statcounter.com/chart.php?...statType=Mobile%20Vendor...").
+In that case you MUST derive the topic from the actual dataset the instruction
+points to (a StatCounter "Mobile Vendor" CSV means "Mobile phone vendor market
+share"; a browser-usage URL means browser market share; etc.). Never invent an
+unrelated subject - e.g. do NOT output "Global Top Companies by Market
+Capitalization and Revenue" when the source is about mobile phone vendors. The
+topic you output must describe the data the source actually contains.
+
 Critical requirement: words like "most popular", "best selling", "most used",
 "biggest", "richest", "most powerful" are ambiguous. You MUST detect that and
 list measurable interpretations, with the measurable unit for each. Never pick
