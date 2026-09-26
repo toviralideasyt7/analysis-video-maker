@@ -217,7 +217,7 @@ pub fn display_label(iso: &str, freq: Frequency) -> String {
         }
         Frequency::Monthly => {
             let y = fmt_year(iso_year(iso));
-            let m = iso.split(|c| c == '-' || c == '/' || c == '.').nth(1).filter(|s| s.len() == 2 && s.chars().all(|c| c.is_ascii_digit())).unwrap_or("");
+            let m = iso.split(['-', '/', '.']).nth(1).filter(|s| s.len() == 2 && s.chars().all(|c| c.is_ascii_digit())).unwrap_or("");
             if m.is_empty() {
                 iso.to_string()
             } else {
