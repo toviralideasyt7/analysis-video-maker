@@ -38,10 +38,6 @@ on:
         description: Number of parallel render chunks
         required: false
         default: "4"
-      upload_youtube:
-        description: "true to also publish the finished video to YouTube (default off)"
-        required: false
-        default: "false"
 
 permissions:
   contents: write
@@ -444,9 +440,7 @@ jobs:
           done
 
       - name: Upload to YouTube
-        # Opt-in only: auto-uploads used to fill the channel on every render.
-        # Pass upload_youtube=true on manual dispatch to publish.
-        if: ${{ success() && env.YOUTUBE_REFRESH_TOKEN != '' && inputs.upload_youtube == 'true' }}
+        if: success() && env.YOUTUBE_REFRESH_TOKEN != ''
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
