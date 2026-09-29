@@ -396,6 +396,73 @@ export async function kaggleDownload(
   writeFileSync(file, buffer);
   return { file, bytes: buffer.byteLength };
 }
+
+/**
+ * Extract a Kaggle dataset ref ("owner/slug") from a dataset page URL or an
+ * API download URL. Returns null for anything that is not a specific dataset
+ * — notably the bare https://www.kaggle.com/datasets catalog, which carries
+ * no data and must never be treated as a dataset.
+ */
+export function kaggleRefFromUrl(url: string): string | null {
+  const m = /kaggle\.com\/(?:api\/v1\/datasets\/download\/|datasets\/)([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)/.exec(url);
+  return m ? `${m[1]}/${m[2]}` : null;
+}
+
+export interface KaggleFileEntry {
+  name: string;
+  totalBytes: number;
+}
+
+/** List the files inside a Kaggle dataset (authenticated). */
+export async function kaggleListFiles(
+  ref: string,
+  options: { baseUrl?: string } = {},
+): Promise<KaggleFileEntry[]> {
+  const base = (options.baseUrl ?? 'https://www.kaggle.com/api/v1').replace(/\/$/, '');
+  const [owner, slug] = ref.split('/');
+  const payload = await getJson<unknown[]>(`${base}/datasets/list/${owner}/${slug}`, {
+    headers: kaggleAuthHeader(),
+    timeoutMs: 60_000,
+  });
+  if (!Array.isArray(payload)) return [];
+  return payload
+    .map((f) => {
+      const d = f as Record<string, unknown>;
+      return {
+        name: String(d.name ?? ''),
+        totalBytes: typeof d.totalBytes === 'number' ? d.totalBytes : 0,
+      };
+    })
+    .filter((f) => f.name.length > 0);
+}
+
+/**
+ * Download the largest .csv inside a Kaggle dataset as text, using the
+ * authenticated per-file download endpoint. This avoids zip handling and —
+ * critically — the login-wall HTML that plain page fetches of kaggle.com
+ * URLs return (HTTP 200, so it looks like success but has no data).
+ * Throws when credentials are missing, the dataset has no CSV, or the
+ * download fails; callers must catch and move on.
+ */
+export async function kaggleDatasetCsvText(
+  ref: string,
+  options: { baseUrl?: string } = {},
+): Promise<{ fileName: string; text: string }> {
+  const files = await kaggleListFiles(ref, options);
+  const csvs = files.filter((f) => /\.csv$/i.test(f.name)).sort((a, b) => b.totalBytes - a.totalBytes);
+  if (csvs.length === 0) throw new Error(`Kaggle dataset ${ref}: no CSV file found`);
+  const base = (options.baseUrl ?? 'https://www.kaggle.com/api/v1').replace(/\/$/, '');
+  const [owner, slug] = ref.split('/');
+  const fileName = csvs[0].name;
+  const response = await fetch(
+    `${base}/datasets/download/${owner}/${slug}/${encodeURIComponent(fileName)}`,
+    { headers: kaggleAuthHeader() },
+  );
+  if (!response.ok) throw new Error(`Kaggle file download failed for ${ref}/${fileName}: ${response.status}`);
+  const text = await response.text();
+  if (text.length < 50) throw new Error(`Kaggle file ${ref}/${fileName} came back empty`);
+  return { fileName, text };
+}
 // ---------------------------------------------------------------------------
 // CKAN (data.gov and friends)
 // ---------------------------------------------------------------------------

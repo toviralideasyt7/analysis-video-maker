@@ -897,6 +897,70 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     }
   }
 
+  // Kaggle datasets: plain page fetches of kaggle.com URLs only ever see the
+  // login wall (HTTP 200 HTML), so dataset URLs are routed through the
+  // authenticated Kaggle file-download API and the largest CSV inside is
+  // parsed. Bare catalog URLs (kaggle.com/datasets) carry no dataset ref and
+  // are skipped here. Runs before the plain-fetch loops so the same URL is
+  // never fetched twice.
+  {
+    const { kaggleRefFromUrl, kaggleDatasetCsvText, parseCsv } = await import('./connectors');
+    const kaggleTargets: Array<{ url: string; ref: string; candidate: (typeof state.sources)[number] }> = [];
+    const kaggleRefs = new Set<string>();
+    const pushKaggleTarget = (url: string, candidate: (typeof state.sources)[number]) => {
+      const ref = kaggleRefFromUrl(url);
+      if (!ref || kaggleRefs.has(ref) || extractedUrls.has(url)) return;
+      kaggleRefs.add(ref);
+      kaggleTargets.push({ url, ref, candidate });
+    };
+    for (const s of state.sources) pushKaggleTarget(s.url, s);
+    for (const dataUrl of selection.dataUrls) {
+      const found = state.sources.find((s) => s.url === dataUrl);
+      if (found) continue; // already covered by the state.sources loop
+      pushKaggleTarget(dataUrl, {
+        candidateId: `kaggle:${dataUrl}`,
+        sourceName: 'Kaggle Datasets',
+        publisher: 'Kaggle',
+        url: dataUrl,
+        kind: 'dataset',
+        accessMethod: 'download',
+        retrievedAt: new Date().toISOString(),
+        license: 'UNKNOWN',
+        machineReadable: true,
+        authority: 0.55,
+        directness: 0.75,
+        coverage: 0.6,
+        methodologyTransparency: 0.4,
+        recency: 0.5,
+        consistency: 0.4,
+        qualityScore: 0.6,
+        accepts: null,
+        primary: false,
+        discoveredBy: 'source-picker',
+      } as (typeof state.sources)[number]);
+    }
+    for (const { url, ref, candidate } of kaggleTargets.slice(0, 3)) {
+      if (ctx.budget.exhausted()) break;
+      try {
+        const { fileName, text } = await kaggleDatasetCsvText(ref);
+        const table = parseCsv(text);
+        const { drafts: csvDrafts, problems } = draftsFromTable(table.columns, table.rows, 'count');
+        extractionNotes.push(...problems);
+        if (csvDrafts.length === 0) {
+          extractionNotes.push(`kaggle ${ref}: CSV parsed but produced no drafts`);
+          continue;
+        }
+        const drafts = await canonicalizeDrafts(csvDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
+        const normalized = await normalizeDrafts(drafts, 'count');
+        collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+        extractedUrls.add(url);
+        extractionNotes.push(`kaggle ${ref} (${fileName}): ${normalized.length} observations`);
+      } catch (error) {
+        extractionNotes.push(`kaggle ${ref}: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+  }
+
   // URLs the picker verified in the pages it actually read.
   for (const dataUrl of selection.dataUrls.slice(0, 5)) {
     if (ctx.budget.exhausted()) break;

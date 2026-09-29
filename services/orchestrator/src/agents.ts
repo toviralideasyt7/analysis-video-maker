@@ -807,6 +807,7 @@ ${JSON.stringify(briefs, null, 2)}
 
 Rules:
 - SOURCE TIERS: Tier 1 = best sources (OWID, World Bank, OECD, Eurostat, Data.gov, OpenCity, Data Races, visdatasets, Wikipedia, official sites). Tier 2 = community sources (Kaggle, Hugging Face). Always prefer Tier 1; use Tier 2 only if no Tier 1 source has the data.
+- EVIDENCE BEATS TIERS: if a candidate's fetched excerpt contains NO data rows for the plan's metric, reject it — the Tier 1 preference never overrides empty evidence. A bare catalog/portal page (a domain root, a /datasets listing, an /en/data.html-style index) that only links to other datasets is not a data source, even when it is Tier 1.
 - Among Tier 1 sources, pick the one with the most complete data (widest year range, most entities, official methodology).
 - Prefer machine-readable (CSV/JSON/API/ZIP) over prose/HTML tables.
 - A user-provided direct data URL always wins: if a candidate URL was supplied
