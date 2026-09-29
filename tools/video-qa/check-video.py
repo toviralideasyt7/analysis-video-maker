@@ -102,7 +102,7 @@ def run(cmd):
 def probe_video(path):
     r = run([
         "ffprobe", "-v", "error", "-select_streams", "v:0",
-        "-show_entries", "stream=width,height,nb_frames,avg_frame_rate,duration",
+        "-show_entries", "stream=width,height,nb_frames,avg_frame_rate,r_frame_rate,duration",
         "-of", "json", path,
     ])
     if r.returncode != 0:
@@ -111,6 +111,13 @@ def probe_video(path):
     s = json.loads(r.stdout)["streams"][0]
     num, den = (int(x) for x in s["avg_frame_rate"].split("/"))
     fps = num / den if den else 0
+    # The TRUE render rate is the stream's declared frame rate. Deriving fps
+    # from frames/container-duration is unreliable: after the chunk concat
+    # (-c copy) the container duration runs long (e.g. 110.25s for 6600
+    # frames), which silently shifts every scene boundary by several frames
+    # and makes the gate sample mid-transition frames as "settled".
+    rnum, rden = (int(x) for x in s.get("r_frame_rate", "0/1").split("/"))
+    rfps = rnum / rden if rden else 0
     n = int(s.get("nb_frames") or 0)
     if not n and s.get("duration") and fps:
         n = int(round(float(s["duration"]) * fps))
@@ -118,7 +125,7 @@ def probe_video(path):
         sys.stderr.write("ERROR: could not determine frame count of video.\n")
         sys.exit(2)
     return {"width": int(s["width"]), "height": int(s["height"]),
-            "frames": n, "fps": fps}
+            "frames": n, "fps": fps, "rfps": rfps}
 
 
 def hex_to_hsv(hexcolor):
@@ -158,20 +165,28 @@ class VideoQA:
 
     # ------------------------------------------------------- scenes ------
     def _scene_map(self):
-        """Screen-frame ranges for every scene, from video-spec.json."""
+        """Screen-frame ranges for every scene, from video-spec.json.
+
+        Replicates the renderer's scene layout EXACTLY (DataRace.tsx):
+        each scene gets Math.round(duration * 60) frames and scene starts
+        are accumulated as integers. Accumulating float seconds and
+        rounding (or Python's banker's round) drifts by a frame per scene
+        -- after several scenes the gate samples mid-transition frames
+        while believing they are settled.
+        """
         scenes = []
-        cursor = 0.0
+        cursor = 0
         for s in self.spec.get("scenes", []):
             dur = float(s.get("duration", 0))
-            nframes = int(round(dur * self.fps_render))
+            nframes = int(dur * self.fps_render + 0.5)  # JS Math.round
             scenes.append({
                 "id": s.get("id", "?"),
                 "type": s.get("type", "?"),
-                "start": int(round(cursor * self.fps_render)),
+                "start": cursor,
                 "nframes": nframes,
                 "tapeRange": (s.get("props", {}) or {}).get("tapeRange"),
             })
-            cursor += dur
+            cursor += nframes
         return scenes
 
     def race_scenes(self):
@@ -186,13 +201,18 @@ class VideoQA:
         return idx, bpt
 
     def screen_of_tape(self, scene, tape_idx):
+        # Exact inverse of the renderer's tapePos formula
+        # (DataRace.tsx: tapePos = t0 + (frame/nframes) * (t1-t0), with
+        # frame measured from the scene start). Using (nframes-1) here
+        # biases every sample up to one screen frame early -- enough, on
+        # close-valued datasets, to land mid-glide on a rank swap.
         t0, t1 = scene["tapeRange"]
         frac = (tape_idx - t0) / max(1, t1 - t0)
-        return scene["start"] + int(round(frac * (scene["nframes"] - 1)))
+        return scene["start"] + int(round(frac * scene["nframes"]))
 
     def tape_of_screen(self, scene, screen_idx):
         t0, t1 = scene["tapeRange"]
-        frac = (screen_idx - scene["start"]) / max(1, scene["nframes"] - 1)
+        frac = (screen_idx - scene["start"]) / max(1, scene["nframes"])
         return int(round(t0 + frac * (t1 - t0)))
 
     def sample_plan(self, n_samples):
@@ -338,6 +358,14 @@ class VideoQA:
         stay colored), which a thin center-line scan cannot survive -- it
         stops at the first long word. Rounded pill ends cost only ~2px
         (coverage stays >= 0.30 until 0.046*r from the tip).
+
+        On dimmed (held) bars the antialiased fringe around the white glyphs
+        falls below the color mask's saturation floor, so the name punches a
+        WIDE dead gap inside the bar and a naive scan stops at the text
+        (e.g. 49px measured for a 594px bar). The bar is therefore measured
+        as runs of brand-colored columns: the walk extends across interior
+        gaps (name text, fringe specks) and stops at the first clean white
+        gap -- the 12px gap before the flag badge.
         """
         mask = self._color_mask(img, eid)
         bar_h = row_h - 16
@@ -354,17 +382,33 @@ class VideoQA:
         if i >= 12:
             return None, None  # bar does not start at the left margin
         x0 = BAR_X0 + i
-        last = i
-        gap = 0
-        for j in range(i, n):
-            if cov[j] >= 0.30:
-                last = j
-                gap = 0
-            else:
-                gap += 1
-                if gap >= 6 and cov[j] < 0.15:
-                    break
-        return (BAR_X0 + last + 1) - x0, x0
+        # Runs of brand-colored columns from the bar start. The bar ends
+        # at the first clean white gap: the 12px gap before the flag badge
+        # (badge pixels are excluded by the zone edge/scan). Interior gaps
+        # -- the white name text and its antialiased fringe, pill-edge
+        # specks -- either are narrow (< 10px) or still carry color fringe,
+        # so the walk extends across them to the bar's true right edge.
+        runs = []
+        j = i
+        while j < n:
+            if cov[j] < 0.30:
+                j += 1
+                continue
+            k = j
+            while k < n and cov[k] >= 0.30:
+                k += 1
+            runs.append((j, k - 1))
+            j = k
+        end = runs[0][1]
+        for (s1, e1) in runs[1:]:
+            gap = s1 - end - 1
+            if gap >= 200:
+                break  # sanity: never jump that far
+            gap_cov = cov[end + 1:s1].mean() if s1 > end + 1 else 0.0
+            if gap >= 10 and gap_cov <= 0.05:
+                break  # clean white gap: the bar end
+            end = e1  # interior gap (name text / fringe): keep going
+        return (BAR_X0 + end + 1) - x0, x0
 
     def card_present(self, img):
         """Is the spotlight card visible? Its accent edge is a saturated
@@ -552,11 +596,11 @@ class VideoQA:
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
         dark_text = (mx < 90) & ((mx - mn) < 40)
         rows = sorted(measured, key=lambda m: m["ymid"])
-        # Smoothed ranks at this tape: when two adjacent rows are mid-swap
-        # their smoothed ranks are close together and the bars (with their
-        # labels) legitimately pass through each other for ~0.2s. Flagging
-        # label pixels crossing the midpoint boundary then is a false
-        # positive -- C3b only applies when rows sit at rest.
+        # Displayed ranks at this tape: with the renderer's integer-rank
+        # glide, rows only sit close together mid-transition; the gate
+        # samples settled frames, so a sub-0.75 rank gap here means the
+        # sample landed mid-swap and crossing labels are expected motion,
+        # not a bug -- skip the overlap check for that pair.
         smoothed = self.smooth_ranks()
         sdict = smoothed[min(tape_idx, len(smoothed) - 1)] if smoothed else {}
         for r0, r1 in zip(rows, rows[1:]):
@@ -578,34 +622,21 @@ class VideoQA:
 
     # C3c: bars sit in smoothed-rank order; rank numbers present ---------------
     def smooth_ranks(self):
-        """Replicate the renderer's buildSmoothRanks (DataRace.tsx): the
-        displayed rank eases toward its target over 12 tapes (cubic ease),
-        so the visual row order lags frames.json's discrete ranks for
-        several tapes after any swap. The gate must compare against the
-        smoothed order -- comparing against raw ranks flags correct
-        mid-glide frames as violations."""
+        """Displayed rank per tape frame, replicating the renderer
+        (DataRace.tsx): ranks glide between the bracketing tape frames'
+        INTEGER ranks with the same easing as width/value, so at settled
+        (integer) tape positions rows sit at exactly the tape's ranks and
+        glide only across genuine rank changes. (The old exponential
+        12-tape rank smoother this used to replicate was removed from the
+        renderer; keeping its model here made the gate expect fractional
+        ranks the video no longer shows.)
+        """
         if self._smooth_ranks is not None:
             return self._smooth_ranks
-        blend = 12
-        displayed = {}
         smoothed = []
-        for index, f in enumerate(self.frames):
-            for bar in f.get("bars", []):
-                eid = bar["entityId"]
-                ex = displayed.get(eid)
-                if ex is None:
-                    displayed[eid] = {"value": float(bar["rank"]),
-                                      "target": bar["rank"],
-                                      "since": index}
-                    continue
-                if ex["target"] != bar["rank"]:
-                    ex["target"] = bar["rank"]
-                    ex["since"] = index
-                progress = min(1.0, (index - ex["since"]) / max(1, blend))
-                eased = 1 - (1 - progress) ** 3
-                ex["value"] = ex["value"] + (ex["target"] - ex["value"]) * eased
-            smoothed.append({eid: v["value"]
-                             for eid, v in displayed.items()})
+        for f in self.frames:
+            smoothed.append({bar["entityId"]: float(bar["rank"])
+                             for bar in f.get("bars", [])})
         self._smooth_ranks = smoothed
         return smoothed
 
@@ -643,10 +674,10 @@ class VideoQA:
         n = len(measured)
         smoothed_all = self.smooth_ranks()
         smoothed = smoothed_all[tape_idx] if tape_idx < len(smoothed_all) else {}
-        # Expected visual order: the renderer's eased ranks, not the raw
-        # frames.json ranks. The displayed rank glides toward its target
-        # over 12 tapes, so for several tapes after a swap the visual order
-        # legitimately lags the discrete data.
+        # Expected visual order: the renderer's eased ranks. Ranks glide
+        # between the bracketing tapes' integer ranks, so at the settled
+        # frames this gate samples the visual order equals the tape order;
+        # mid-glide frames are never sampled (see screen_of_tape).
         exp = sorted(measured,
                      key=lambda m: smoothed.get(m["entity"], m["rank"]))
         expected = [m["entity"] for m in exp]
@@ -779,10 +810,14 @@ def main():
     with open(spec_path) as fh:
         spec = json.load(fh)
 
-    fps_render = info["frames"] / float(
-        json.loads(run(["ffprobe", "-v", "error", "-show_entries",
-                        "format=duration", "-of", "json",
-                        a.video]).stdout)["format"]["duration"])
+    fps_render = info.get("rfps") or (
+        info["frames"] / float(
+            json.loads(run(["ffprobe", "-v", "error", "-show_entries",
+                            "format=duration", "-of", "json",
+                            a.video]).stdout)["format"]["duration"]))
+    if not fps_render:
+        sys.stderr.write("ERROR: could not determine video frame rate.\n")
+        return 2
     qa = VideoQA(a.video, bundle_dir, tape, spec, info["frames"], fps_render)
     violations = qa.run(n_samples=a.samples)
 
