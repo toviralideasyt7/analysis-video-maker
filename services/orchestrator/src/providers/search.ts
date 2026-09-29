@@ -231,7 +231,14 @@ export class MonidProvider implements SearchProvider {
       logger.warn('search budget exhausted');
       return [];
     }
-    const cacheKey = `search:${this.config.searchProvider}:${query}:${limit}`;
+    // AI planners sometimes emit markdown inside the query
+    // (e.g. `site:[example.com](https://example.com)`) — the search backend
+    // treats it literally and returns nothing. Strip it before sending.
+    const cleanQuery = query
+      .replace(/\[([^\]]*)\]\(([^)]*)\)/g, '$1')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const cacheKey = `search:${this.config.searchProvider}:${cleanQuery}:${limit}`;
     const cached = this.cache.get<SearchResult[]>(cacheKey);
     if (cached) return cached;
 
@@ -239,11 +246,14 @@ export class MonidProvider implements SearchProvider {
     // Shapes verified against `POST /v1/inspect {provider:"tinyfish",endpoint:"/search"}`:
     //   queryParams.query (string) is the ONLY accepted field. The API rejects
     //   unrecognized keys (e.g. `purpose`, `q`) with 400. Keep the exact shape
-    //   first; fallbacks are for a provider-side schema change.
+    //   first; fallbacks are for a provider-side schema change (i.e. only try
+    //   them when the documented shape THROWS — a 200 with zero results means
+    //   the provider genuinely returned nothing, and the fallbacks would just
+    //   400 and burn time).
     const candidates: Array<Record<string, unknown>> = [
-      { queryParams: { query } },
-      { body: { query } },
-      { query },
+      { queryParams: { query: cleanQuery } },
+      { body: { query: cleanQuery } },
+      { query: cleanQuery },
     ];
     for (const input of candidates) {
       try {
@@ -257,6 +267,14 @@ export class MonidProvider implements SearchProvider {
           this.cache.set(cacheKey, results);
           return results;
         }
+        // 200 but nothing usable: log the raw payload so a dead/empty provider
+        // is diagnosable from logs instead of looking like "no matches".
+        // Do NOT try the fallbacks — they are known to 400 on this API.
+        logger.warn('monid search returned zero results', {
+          shape: JSON.stringify(input).slice(0, 80),
+          raw: JSON.stringify(raw).slice(0, 500),
+        });
+        break;
       } catch (error) {
         logger.warn('monid search attempt failed', { shape: JSON.stringify(input).slice(0, 80), error: String(error) });
       }
