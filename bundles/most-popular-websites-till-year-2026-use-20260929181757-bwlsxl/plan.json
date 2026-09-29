@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "topic": "Most popular websites based on historical Tranco top-sites ranking",
+  "metric": "Website Popularity Rank (Tranco composite score)",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Tranco Composite Rank",
+      "description": "Aggregated ranking combining multiple traffic metrics and top-site lists (such as Chrome UX Report, Cloudflare Radar, Farsight DNSDB) using a robust combination mechanism to resist manipulation.",
+      "measurableDefinition": "Integer rank position from 1 to 1000 based on the Tranco list aggregation algorithm (lower number means higher popularity/rank).",
+      "caveats": [
+        "Tranco ranking reflects domain-level presence rather than individual page views.",
+        "Composition of underlying data sources evolved over the 2019-2026 period (e.g., deprecation of Alexa/Quantcast, addition of Cloudflare Radar and CrUX)."
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "2019",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "google.com",
+    "youtube.com",
+    "facebook.com",
+    "cloudflare.com",
+    "microsoft.com"
+  ],
+  "preferredSources": [
+    "Tranco List Official API",
+    "Tranco Research Project Dataset"
+  ],
+  "knownRisks": [
+    "Changes in source list composition over time can affect historical comparisons.",
+    "Bucketed or aggregated metrics may smooth out short-term fluctuations."
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

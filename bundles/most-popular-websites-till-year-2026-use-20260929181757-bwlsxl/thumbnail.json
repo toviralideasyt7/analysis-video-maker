@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "MOST POPULAR WEBSITES BASED ON",
+  "subtitle": "HISTORICAL TRANCO TOP-SITES RANKING",
+  "entities": [
+    "google.com",
+    "a-msedge.net",
+    "gtld-servers.net"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

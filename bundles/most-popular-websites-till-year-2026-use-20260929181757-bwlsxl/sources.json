@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+    "sourceName": "tranco-list.eu",
+    "publisher": "tranco-list.eu",
+    "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+    "kind": "dataset",
+    "accessMethod": "download",
+    "retrievedAt": "2026-09-29T18:18:04.969Z",
+    "license": "UNKNOWN",
+    "machineReadable": true,
+    "authority": 0.8,
+    "directness": 1,
+    "coverage": 0.8,
+    "methodologyTransparency": 0.6,
+    "recency": 0.8,
+    "consistency": 0.8,
+    "qualityScore": 0.8,
+    "accepts": true,
+    "primary": true,
+    "discoveredBy": "agent-direct-url"
+  }
+]

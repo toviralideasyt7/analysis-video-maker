@@ -1,0 +1,3269 @@
+{
+  "datasetId": "dataset_most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+  "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+  "name": "Most popular websites based on historical Tranco top-sites ranking",
+  "metric": "Website Popularity Rank (Tranco composite score)",
+  "unit": "count",
+  "timeRange": {
+    "start": "2019",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "missingDataPolicy": "STRICT",
+  "version": 1,
+  "frozen": false,
+  "observations": [
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2019",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_netflix_com_2019",
+      "entity": {
+        "id": "netflix-com",
+        "name": "netflix.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2019",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2019",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2019",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2019",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_yelp_com_2019",
+      "entity": {
+        "id": "yelp-com",
+        "name": "yelp.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_wikipedia_org_2019",
+      "entity": {
+        "id": "wikipedia-org",
+        "name": "wikipedia.org"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_baidu_com_2019",
+      "entity": {
+        "id": "baidu-com",
+        "name": "baidu.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2019",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_linkedin_com_2019",
+      "entity": {
+        "id": "linkedin-com",
+        "name": "linkedin.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2019",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_qq_com_2019",
+      "entity": {
+        "id": "qq-com",
+        "name": "qq.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_yahoo_com_2019",
+      "entity": {
+        "id": "yahoo-com",
+        "name": "yahoo.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazon_com_2019",
+      "entity": {
+        "id": "amazon-com",
+        "name": "amazon.com"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2020",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2020",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2020",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2020",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_netflix_com_2020",
+      "entity": {
+        "id": "netflix-com",
+        "name": "netflix.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2020",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_tmall_com_2020",
+      "entity": {
+        "id": "tmall-com",
+        "name": "tmall.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2020",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_qq_com_2020",
+      "entity": {
+        "id": "qq-com",
+        "name": "qq.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_linkedin_com_2020",
+      "entity": {
+        "id": "linkedin-com",
+        "name": "linkedin.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_windowsupdate_com_2020",
+      "entity": {
+        "id": "windowsupdate-com",
+        "name": "windowsupdate.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_wikipedia_org_2020",
+      "entity": {
+        "id": "wikipedia-org",
+        "name": "wikipedia.org"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2020",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_baidu_com_2020",
+      "entity": {
+        "id": "baidu-com",
+        "name": "baidu.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_live_com_2020",
+      "entity": {
+        "id": "live-com",
+        "name": "live.com"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2021",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2021",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2021",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2021",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_netflix_com_2021",
+      "entity": {
+        "id": "netflix-com",
+        "name": "netflix.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2021",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2021",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_tmall_com_2021",
+      "entity": {
+        "id": "tmall-com",
+        "name": "tmall.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_linkedin_com_2021",
+      "entity": {
+        "id": "linkedin-com",
+        "name": "linkedin.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_qq_com_2021",
+      "entity": {
+        "id": "qq-com",
+        "name": "qq.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2021",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_wikipedia_org_2021",
+      "entity": {
+        "id": "wikipedia-org",
+        "name": "wikipedia.org"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_baidu_com_2021",
+      "entity": {
+        "id": "baidu-com",
+        "name": "baidu.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_windowsupdate_com_2021",
+      "entity": {
+        "id": "windowsupdate-com",
+        "name": "windowsupdate.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_live_com_2021",
+      "entity": {
+        "id": "live-com",
+        "name": "live.com"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2022",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2022",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2022",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_gtld_servers_net_2022",
+      "entity": {
+        "id": "gtld-servers-net",
+        "name": "gtld-servers.net"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamaiedge_net_2022",
+      "entity": {
+        "id": "akamaiedge-net",
+        "name": "akamaiedge.net"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_netflix_com_2022",
+      "entity": {
+        "id": "netflix-com",
+        "name": "netflix.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2022",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2022",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2022",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamai_net_2022",
+      "entity": {
+        "id": "akamai-net",
+        "name": "akamai.net"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazonaws_com_2022",
+      "entity": {
+        "id": "amazonaws-com",
+        "name": "amazonaws.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_baidu_com_2022",
+      "entity": {
+        "id": "baidu-com",
+        "name": "baidu.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_linkedin_com_2022",
+      "entity": {
+        "id": "linkedin-com",
+        "name": "linkedin.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2022",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_wikipedia_org_2022",
+      "entity": {
+        "id": "wikipedia-org",
+        "name": "wikipedia.org"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2023",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_a_msedge_net_2023",
+      "entity": {
+        "id": "a-msedge-net",
+        "name": "a-msedge.net"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2023",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2023",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2023",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazonaws_com_2023",
+      "entity": {
+        "id": "amazonaws-com",
+        "name": "amazonaws.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2023",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_baidu_com_2023",
+      "entity": {
+        "id": "baidu-com",
+        "name": "baidu.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_gtld_servers_net_2023",
+      "entity": {
+        "id": "gtld-servers-net",
+        "name": "gtld-servers.net"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2023",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamaiedge_net_2023",
+      "entity": {
+        "id": "akamaiedge-net",
+        "name": "akamaiedge.net"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_cloudflare_com_2023",
+      "entity": {
+        "id": "cloudflare-com",
+        "name": "cloudflare.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_linkedin_com_2023",
+      "entity": {
+        "id": "linkedin-com",
+        "name": "linkedin.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_netflix_com_2023",
+      "entity": {
+        "id": "netflix-com",
+        "name": "netflix.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2023",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2024",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_a_msedge_net_2024",
+      "entity": {
+        "id": "a-msedge-net",
+        "name": "a-msedge.net"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2024",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2024",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazonaws_com_2024",
+      "entity": {
+        "id": "amazonaws-com",
+        "name": "amazonaws.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_googleapis_com_2024",
+      "entity": {
+        "id": "googleapis-com",
+        "name": "googleapis.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2024",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2024",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_root_servers_net_2024",
+      "entity": {
+        "id": "root-servers-net",
+        "name": "root-servers.net"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamaiedge_net_2024",
+      "entity": {
+        "id": "akamaiedge-net",
+        "name": "akamaiedge.net"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamai_net_2024",
+      "entity": {
+        "id": "akamai-net",
+        "name": "akamai.net"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_azure_com_2024",
+      "entity": {
+        "id": "azure-com",
+        "name": "azure.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2024",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2024",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_cloudflare_com_2024",
+      "entity": {
+        "id": "cloudflare-com",
+        "name": "cloudflare.com"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2025",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_mail_ru_2025",
+      "entity": {
+        "id": "mail-ru",
+        "name": "mail.ru"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2025",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2025",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2025",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazonaws_com_2025",
+      "entity": {
+        "id": "amazonaws-com",
+        "name": "amazonaws.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_dzen_ru_2025",
+      "entity": {
+        "id": "dzen-ru",
+        "name": "dzen.ru"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2025",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_googleapis_com_2025",
+      "entity": {
+        "id": "googleapis-com",
+        "name": "googleapis.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_cloudflare_com_2025",
+      "entity": {
+        "id": "cloudflare-com",
+        "name": "cloudflare.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamai_net_2025",
+      "entity": {
+        "id": "akamai-net",
+        "name": "akamai.net"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2025",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_twitter_com_2025",
+      "entity": {
+        "id": "twitter-com",
+        "name": "twitter.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamaiedge_net_2025",
+      "entity": {
+        "id": "akamaiedge-net",
+        "name": "akamaiedge.net"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_office_com_2025",
+      "entity": {
+        "id": "office-com",
+        "name": "office.com"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_google_com_2026",
+      "entity": {
+        "id": "google-com",
+        "name": "google.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 100,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_gtld_servers_net_2026",
+      "entity": {
+        "id": "gtld-servers-net",
+        "name": "gtld-servers.net"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 99,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_cloudflare_com_2026",
+      "entity": {
+        "id": "cloudflare-com",
+        "name": "cloudflare.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 98,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_gstatic_com_2026",
+      "entity": {
+        "id": "gstatic-com",
+        "name": "gstatic.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 97,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_facebook_com_2026",
+      "entity": {
+        "id": "facebook-com",
+        "name": "facebook.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 96,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_microsoft_com_2026",
+      "entity": {
+        "id": "microsoft-com",
+        "name": "microsoft.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 95,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_googleapis_com_2026",
+      "entity": {
+        "id": "googleapis-com",
+        "name": "googleapis.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 94,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_youtube_com_2026",
+      "entity": {
+        "id": "youtube-com",
+        "name": "youtube.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 93,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_amazonaws_com_2026",
+      "entity": {
+        "id": "amazonaws-com",
+        "name": "amazonaws.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 92,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_apple_com_2026",
+      "entity": {
+        "id": "apple-com",
+        "name": "apple.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 91,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_instagram_com_2026",
+      "entity": {
+        "id": "instagram-com",
+        "name": "instagram.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 90,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_mail_ru_2026",
+      "entity": {
+        "id": "mail-ru",
+        "name": "mail.ru"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 89,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_akamai_net_2026",
+      "entity": {
+        "id": "akamai-net",
+        "name": "akamai.net"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 88,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_fbcdn_net_2026",
+      "entity": {
+        "id": "fbcdn-net",
+        "name": "fbcdn.net"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 87,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    },
+    {
+      "observationId": "obs_picked_https_tranco_list_eu_api_lists_date_yyyymmdd_ezviz7_com_2026",
+      "entity": {
+        "id": "ezviz7-com",
+        "name": "ezviz7.com"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 86,
+      "unit": "count",
+      "geography": "global",
+      "source": {
+        "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "publisher": "tranco-list.eu",
+        "publishedAt": null,
+        "retrievedAt": "2026-09-29T18:18:04.969Z",
+        "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+      },
+      "evidence": {
+        "datasetUrl": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+        "datasetVersion": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.8300000000000001
+    }
+  ],
+  "conflicts": [],
+  "stats": {
+    "observations": 120,
+    "entities": 33,
+    "verified": 0,
+    "supported": 120,
+    "estimated": 0,
+    "unknown": 0,
+    "conflicting": 0,
+    "rejected": 0
+  },
+  "createdAt": "2026-09-29T18:18:05.006Z"
+}

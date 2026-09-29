@@ -1,0 +1,204 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "google-com",
+      "type": "logo",
+      "query": "google.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "facebook-com",
+      "type": "logo",
+      "query": "facebook.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "microsoft-com",
+      "type": "logo",
+      "query": "microsoft.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "youtube-com",
+      "type": "logo",
+      "query": "youtube.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "instagram-com",
+      "type": "logo",
+      "query": "instagram.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "apple-com",
+      "type": "logo",
+      "query": "apple.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "twitter-com",
+      "type": "logo",
+      "query": "twitter.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "netflix-com",
+      "type": "logo",
+      "query": "netflix.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amazonaws-com",
+      "type": "logo",
+      "query": "amazonaws.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "baidu-com",
+      "type": "logo",
+      "query": "baidu.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "linkedin-com",
+      "type": "logo",
+      "query": "linkedin.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "akamaiedge-net",
+      "type": "logo",
+      "query": "akamaiedge.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "cloudflare-com",
+      "type": "logo",
+      "query": "cloudflare.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "akamai-net",
+      "type": "logo",
+      "query": "akamai.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "wikipedia-org",
+      "type": "logo",
+      "query": "wikipedia.org logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "gtld-servers-net",
+      "type": "logo",
+      "query": "gtld-servers.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "googleapis-com",
+      "type": "logo",
+      "query": "googleapis.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "qq-com",
+      "type": "logo",
+      "query": "qq.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "a-msedge-net",
+      "type": "logo",
+      "query": "a-msedge.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mail-ru",
+      "type": "logo",
+      "query": "mail.ru logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tmall-com",
+      "type": "logo",
+      "query": "tmall.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "windowsupdate-com",
+      "type": "logo",
+      "query": "windowsupdate.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "live-com",
+      "type": "logo",
+      "query": "live.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "gstatic-com",
+      "type": "logo",
+      "query": "gstatic.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "dzen-ru",
+      "type": "logo",
+      "query": "dzen.ru logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yelp-com",
+      "type": "logo",
+      "query": "yelp.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "root-servers-net",
+      "type": "logo",
+      "query": "root-servers.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "azure-com",
+      "type": "logo",
+      "query": "azure.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "fbcdn-net",
+      "type": "logo",
+      "query": "fbcdn.net logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yahoo-com",
+      "type": "logo",
+      "query": "yahoo.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amazon-com",
+      "type": "logo",
+      "query": "amazon.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ezviz7-com",
+      "type": "logo",
+      "query": "ezviz7.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "office-com",
+      "type": "logo",
+      "query": "office.com logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

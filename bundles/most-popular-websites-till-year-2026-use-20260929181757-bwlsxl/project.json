@@ -1,0 +1,92 @@
+{
+  "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+  "title": "most popular websites till year 2026. Use the Tranco historical top-sites ranking as the single data source: for each ye",
+  "topic": "most popular websites till year 2026. Use the Tranco historical top-sites ranking as the single data source: for each ye",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-29T18:17:57.835Z",
+  "updatedAt": "2026-09-29T18:18:10.591Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd",
+      "sourceName": "tranco-list.eu",
+      "publisher": "tranco-list.eu",
+      "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-29T18:18:04.969Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-29T18:18:04.968Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-29T18:18:04.969Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-29T18:18:04.991Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-29T18:18:04.992Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-29T18:18:05.006Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-29T18:18:05.024Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-29T18:18:10.578Z"
+    },
+    {
+      "projectId": "most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-29T18:18:10.583Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=2019-2026",
+    "agent direct URL: https://tranco-list.eu/api/lists/date/YYYYMMDD (120 rows)",
+    "value column \"score\" was chosen by fallback (first free column) - verify it is the metric column",
+    "direct table https://tranco-list.eu/api/lists/date/YYYYMMDD: 120 observations (unit: count)",
+    "primary source: tranco-list.eu (https://tranco-list.eu/api/lists/date/YYYYMMDD) - all 120 dataset values come from this one source",
+    "verification: 120 observations (VERIFIED 0, SUPPORTED 120, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 120 valued cells confirmed by 2+ independent publishers; 120 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - tranco-list.eu (https://tranco-list.eu/api/lists/date/YYYYMMDD), covering 120 cells; 0 other source(s) used for verification only, never merged",
+    "single-source: dataset values come from ONE source - tranco-list.eu (https://tranco-list.eu/api/lists/date/YYYYMMDD), covering 120 cells; 0 other source(s) used for verification only, never merged"
+  ]
+}

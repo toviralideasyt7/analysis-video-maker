@@ -1,0 +1,179 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "Most popular websites based on historical Tranco top-sites ranking",
+    "subtitle": "2019 - 2026",
+    "language": "en",
+    "durationSeconds": 110
+  },
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "Most popular websites based on historical Tranco top-sites ranking",
+      "subtitle": "2019 - 2026"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "Explore how the most popular websites shifted in the Tranco top-sites ranking over time.",
+      "subtitle": "This video tracks website popularity scores and rankings from 2019 through 2026."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 6,
+      "datasetRef": "dataset_most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "772 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website Popularity Rank (Tranco composite score)",
+          "value": 100,
+          "entityName": "google.com",
+          "entityId": "google-com",
+          "year": "2026",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "a-msedge-net",
+              "name": "a-msedge.net",
+              "color": "#a16207"
+            },
+            {
+              "id": "gtld-servers-net",
+              "name": "gtld-servers.net",
+              "color": "#c2410c"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          19
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "google.com rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2026, google.com leads the world with 100 count.",
+        "entityIds": [
+          "google-com",
+          "a-msedge-net",
+          "gtld-servers-net"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 42,
+      "datasetRef": "dataset_most-popular-websites-till-year-2026-use-20260929181757-bwlsxl",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 15,
+        "periodLabels": [
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "772 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website Popularity Rank (Tranco composite score)",
+          "value": 100,
+          "entityName": "google.com",
+          "entityId": "google-com",
+          "year": "2026",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "a-msedge-net",
+              "name": "a-msedge.net",
+              "color": "#a16207"
+            },
+            {
+              "id": "gtld-servers-net",
+              "name": "gtld-servers.net",
+              "color": "#c2410c"
+            }
+          ]
+        },
+        "tapeRange": [
+          20,
+          159
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "Google.com maintained a leading composite score throughout the years."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+      "publisher": "tranco-list.eu",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-29T18:18:04.969Z",
+      "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+    }
+  ]
+}
