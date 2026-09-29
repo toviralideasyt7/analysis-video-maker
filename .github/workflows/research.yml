@@ -49,6 +49,10 @@ on:
         description: "true to run without any AI calls"
         required: false
         default: "false"
+      upload_youtube:
+        description: "true to also publish the finished render to YouTube (default off; passed through to render-video.yml)"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -228,6 +232,7 @@ jobs:
               inputs: {
                 projectId: '${{ inputs.projectId }}',
                 renderScale: '1',
+                upload_youtube: '${{ inputs.upload_youtube }}',
               },
             });
             core.info('Render auto-triggered for ${{ inputs.projectId }}');

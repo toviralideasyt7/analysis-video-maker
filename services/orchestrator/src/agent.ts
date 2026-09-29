@@ -252,7 +252,7 @@ export function classifyTopics(prompt: string): string[] {
   return [...topics];
 }
 
-const YEAR_RANGE_RE = /(?:from\s+)?(\d{1,5})\s*(bc|bce|ad|ce)?\s*(?:to|-|–|until)\s*(\d{1,5})\s*(bc|bce|ad|ce)?/i;
+const YEAR_RANGE_RE = /(?:from\s+)?(\d{1,5})\s*(bc|bce|ad|ce)?\s*(?:to|through|thru|-|–|until)\s*(\d{1,5})\s*(bc|bce|ad|ce)?/i;
 
 export function parseYearPreference(prompt: string): { from?: number; to?: number } {
   const m = YEAR_RANGE_RE.exec(prompt);
@@ -428,6 +428,151 @@ export async function ingestDirectUrls(urls: string[], prompt: string): Promise<
     notes.push(`direct URL ${url} unusable, trying next`);
   }
   return { notes };
+}
+
+// ---------------------------------------------------------------------------
+// Date-templated URL ingestion: one snapshot per plan year
+//
+// A prompt URL containing a YYYYMMDD placeholder (e.g. Tranco's historical
+// list API, https://tranco-list.eu/api/lists/date/YYYYMMDD) is expanded to one
+// concrete URL per plan year. List-style JSON responses ({available, download})
+// are followed to the real data file; a plain rank,domain CSV returned
+// directly works too. Each year's rows are stamped with that year, producing
+// a multi-year table shaped [domain, year, score].
+// ---------------------------------------------------------------------------
+
+/** A prompt URL containing a YYYYMMDD placeholder, e.g. Tranco's date API. */
+const DATE_TEMPLATE_RE = /YYYYMMDD/i;
+
+/**
+ * Which month-day to plug into a YYYYMMDD template. The prompt usually says
+ * it outright ("June 15", or an 8-digit example like 20240615); Jan 1 default.
+ */
+export function monthDayHint(prompt: string): string {
+  const explicit = /\b(?:19|20)\d{2}(\d{4})\b/.exec(prompt);
+  if (explicit && /^(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/.test(explicit[1])) return explicit[1];
+  const monthNames: Record<string, string> = {
+    january: '01', february: '02', march: '03', april: '04', may: '05', june: '06',
+    july: '07', august: '08', september: '09', october: '10', november: '11', december: '12',
+  };
+  const named = new RegExp(`\\b(${Object.keys(monthNames).join('|')})\\s+(\\d{1,2})\\b`, 'i').exec(prompt);
+  if (named) return `${monthNames[named[1].toLowerCase()]}${named[2].padStart(2, '0')}`;
+  return '0101';
+}
+
+function addDaysToStamp(stamp: string, days: number): string {
+  const dt = new Date(
+    Date.UTC(Number(stamp.slice(0, 4)), Number(stamp.slice(4, 6)) - 1, Number(stamp.slice(6, 8))),
+  );
+  dt.setUTCDate(dt.getUTCDate() + days);
+  const p = (n: number): string => String(n).padStart(2, '0');
+  return `${dt.getUTCFullYear()}${p(dt.getUTCMonth() + 1)}${p(dt.getUTCDate())}`;
+}
+
+function looksLikeDomain(cell: string): boolean {
+  const c = cell.trim().toLowerCase();
+  return c.includes('.') && /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(c);
+}
+
+interface RankRow {
+  rank: number;
+  domain: string;
+}
+
+/** Normalize rank,domain rows (headerless or headed) into ranked entries. */
+function toRankRows(columns: string[], rows: string[][]): RankRow[] {
+  // parseCsv eats the first data row as the header for headerless CSVs, so
+  // detect that shape ([integer, domain]) and put the row back.
+  const all =
+    columns.length === 2 && /^\d+$/.test(columns[0].trim()) && looksLikeDomain(columns[1])
+      ? [columns, ...rows]
+      : rows;
+  return all
+    .map((r) => ({ rank: Number((r[0] ?? '').trim()), domain: (r[1] ?? '').trim().toLowerCase() }))
+    .filter((r) => Number.isInteger(r.rank) && r.rank >= 1 && looksLikeDomain(r.domain))
+    .sort((a, b) => a.rank - b.rank);
+}
+
+/**
+ * Expand a YYYYMMDD-templated URL to one concrete URL per plan year and ingest
+ * each year's snapshot, with nearby-date retries for missing days.
+ */
+export async function ingestDateTemplatedUrl(
+  templateUrl: string,
+  years: { from: number; to: number },
+  prompt: string,
+): Promise<{ table?: PreloadedTable; notes: string[] }> {
+  const notes: string[] = [];
+  const mmdd = monthDayHint(prompt);
+  const topN = parseTopN(prompt);
+  const listSize = 100;
+  const longRows: string[][] = [];
+  const covered: string[] = [];
+  for (let year = years.from; year <= years.to; year += 1) {
+    const base = `${year}${mmdd}`;
+    let yearRows: string[][] | null = null;
+    let usedStamp = '';
+    for (const offset of [0, 1, -1, 2, -2, 7, -7]) {
+      const stamp = addDaysToStamp(base, offset);
+      const url = templateUrl.replace(DATE_TEMPLATE_RE, stamp);
+      try {
+        const first = await getText(url, { timeoutMs: 30000 });
+        if (first.status !== 200 || !first.text.trim()) continue;
+        let csvText = '';
+        if (first.text.trimStart().startsWith('{')) {
+          const obj = JSON.parse(first.text) as Record<string, unknown>;
+          if (obj.available === false || obj.failed === true) continue;
+          const dl = typeof obj.download === 'string' ? obj.download : '';
+          if (!/^https?:\/\//i.test(dl)) continue;
+          // Take the modest-size list file, not the full million-row dump.
+          const dataUrl = dl.replace(/\/\d+(\?.*)?$/, `/${listSize}$1`);
+          const csv = await getText(dataUrl, { timeoutMs: 60000 });
+          if (csv.status !== 200 || !csv.text.trim()) continue;
+          csvText = csv.text;
+        } else {
+          csvText = first.text;
+        }
+        const parsed = parseCsv(csvText);
+        const ranked = toRankRows(parsed.columns, parsed.rows).slice(0, topN);
+        if (ranked.length < Math.min(10, topN)) continue;
+        // Score maps rank to a positive popularity value with the same
+        // ordering as the prompt's "1000001 - rank", but with visible spread:
+        // bar width is strictly proportional to value/maxValue, so a huge
+        // constant would render every bar at ~equal width, which the
+        // scaled-bars quality bar forbids.
+        yearRows = ranked.map((r) => [r.domain, String(year), String(listSize + 1 - r.rank)]);
+        usedStamp = stamp;
+        break;
+      } catch {
+        // try the next nearby date
+      }
+    }
+    if (!yearRows) {
+      notes.push(`no usable list for ${year} (tried ${base} +/- day offsets)`);
+      continue;
+    }
+    longRows.push(...yearRows);
+    covered.push(`${year}@${usedStamp}`);
+  }
+  if (longRows.length < 10) {
+    notes.push('date-templated ingestion produced too few rows; falling back');
+    return { notes };
+  }
+  notes.push(
+    `date-templated ${templateUrl}: ${longRows.length} rows across ${covered.length} years (${covered.join(', ')})`,
+  );
+  return {
+    table: {
+      columns: ['domain', 'year', 'score'],
+      rows: longRows,
+      unit: sniffUnit(['domain', 'year', 'score'], prompt),
+      sourceName: hostOf(templateUrl),
+      sourceUrl: templateUrl,
+      yearMin: years.from,
+      yearMax: years.to,
+    },
+    notes,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -626,6 +771,40 @@ async function decideWithAi(prompt: string, directUrls: string[]): Promise<Parti
 export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
   const directUrls = extractUrls(prompt);
   const notes: string[] = [];
+
+  // Date-templated URLs (e.g. https://tranco-list.eu/api/lists/date/YYYYMMDD)
+  // expand to one snapshot per plan year. This runs before the plain
+  // direct-URL path: prompts for this recipe also contain a single example
+  // URL that would otherwise win outright with one dateless snapshot.
+  const templateUrls = directUrls.filter((u) => DATE_TEMPLATE_RE.test(u));
+  if (templateUrls.length > 0) {
+    const years = parseYearPreference(prompt);
+    if (
+      years.from !== undefined &&
+      years.to !== undefined &&
+      years.to >= years.from &&
+      years.to - years.from <= 60
+    ) {
+      const { table, notes: templateNotes } = await ingestDateTemplatedUrl(
+        templateUrls[0],
+        { from: years.from, to: years.to },
+        prompt,
+      );
+      notes.push(...templateNotes);
+      if (table && table.rows.length >= 10) {
+        return {
+          ...deterministicDecide(prompt, directUrls),
+          table,
+          yearFrom: years.from,
+          yearTo: years.to,
+          notes: [...notes, 'direct-URL mode: multi-year dataset from date-templated URL'],
+        };
+      }
+      notes.push('date-templated URL yielded no usable table; falling back to plain direct URLs');
+    } else {
+      notes.push('date-templated URL found but no usable year range in prompt; falling back');
+    }
+  }
 
   // Direct data links win outright: download and normalize now.
   if (directUrls.length > 0) {
