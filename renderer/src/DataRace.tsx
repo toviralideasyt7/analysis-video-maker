@@ -34,32 +34,10 @@ interface Highlight {
   factBox?: { heading: string; body: string; dateLabel?: string; wordmark?: string };
 }
 
-interface SmoothRanks {
-  ranks: Map<string, number>[];
-}
-
-/** Pre-compute animated ranks so row movement eases instead of snapping. */
-function buildSmoothRanks(tape: FrameTape, blendFrames = 12): SmoothRanks {
-  const smoothed: Map<string, number>[] = [];
-  const displayed = new Map<string, { value: number; target: number; since: number }>();
-  tape.frames.forEach((frame, index) => {
-    for (const bar of frame.bars) {
-      const existing = displayed.get(bar.entityId);
-      if (!existing) {
-        displayed.set(bar.entityId, { value: bar.rank, target: bar.rank, since: index });
-        continue;
-      }
-      if (existing.target !== bar.rank) {
-        existing.target = bar.rank;
-        existing.since = index;
-      }
-      const progress = Math.min(1, (index - existing.since) / Math.max(1, blendFrames));
-      const eased = 1 - (1 - progress) ** 3;
-      existing.value = existing.value + (existing.target - existing.value) * eased;
-    }
-    smoothed.push(new Map(Array.from(displayed.entries()).map(([id, v]) => [id, v.value])));
-  });
-  return { ranks: smoothed };
+/** Row vertical positions glide between the tape's integer ranks
+ * (the easing itself lives in the row builder below alongside width/value). */
+function easedRank(r0: number, r1: number, te: number): number {
+  return r0 + (r1 - r0) * te;
 }
 
 function groupTotals(tape: FrameTape, frameIndex: number): Array<{ label: string; value: number; color: string }> {
@@ -121,7 +99,6 @@ const BarRace: React.FC<{
   const f1 = tape.frames[i1];
 
   const entityById = useMemo(() => new Map(tape.entities.map((e) => [e.id, e])), [tape]);
-  const smoothRanks = useMemo(() => buildSmoothRanks(tape), [tape]);
   const labelToTapeIndex = useMemo(() => {
     const m = new Map<string, number>();
     tape.frames.forEach((f, idx) => {
@@ -144,20 +121,23 @@ const BarRace: React.FC<{
     const b = new Map((f1?.bars ?? []).map((b) => [b.entityId, b]));
     const ids = new Set<string>([...a.keys(), ...b.keys()]);
     const count = Math.max(f0?.bars.length ?? 0, f1?.bars.length ?? 0, 1);
-    const s0 = smoothRanks.ranks[i0];
-    const s1 = smoothRanks.ranks[i1];
     const out: Row[] = [];
     for (const id of ids) {
       const ba = a.get(id);
       const bb = b.get(id);
       if (ba && bb) {
-        const r0 = s0?.get(id) ?? ba.rank;
-        const r1 = s1?.get(id) ?? bb.rank;
         out.push({
           id,
           value: ba.value + (bb.value - ba.value) * te,
           widthFrac: ba.width + (bb.width - ba.width) * te,
-          rank: r0 + (r1 - r0) * te,
+          // Rank glides between the tape's INTEGER ranks with the same
+          // easing as width/value. (The old exponential smooth-ranks never
+          // settled when ranks changed faster than its blend window, so
+          // rows sat at fractional positions and overlapped their
+          // neighbors -- the C1 QA failures / visibly doubled rows.)
+          // At settled tape frames te is 0 or 1, so ranks are exactly
+          // integers and rows never overlap.
+          rank: easedRank(ba.rank, bb.rank, te),
           held: ba.held ?? bb.held ?? false,
           appear: 1,
         });
@@ -165,12 +145,11 @@ const BarRace: React.FC<{
         // entering the top-N: glide up from below the list
         // Width stays at full target (no grow-from-zero) to avoid the
         // "smaller-then-bigger" flicker; only position and opacity animate.
-        const r1 = s1?.get(id) ?? bb.rank;
         out.push({
           id,
           value: bb.value,
           widthFrac: bb.width,
-          rank: count + 1 + (r1 - (count + 1)) * te,
+          rank: count + 1 + (bb.rank - (count + 1)) * te,
           held: bb.held ?? false,
           appear: te,
         });
@@ -190,7 +169,7 @@ const BarRace: React.FC<{
     }
     out.sort((x, y) => x.rank - y.rank);
     return { rows: out.slice(0, count + 2), barCount: count };
-  }, [f0, f1, t, te, i0, i1, smoothRanks]);
+  }, [f0, f1, t, te, i0, i1]);
 
   // Layout: header occupies the top 96px; bars live between y=112 and y=648.
   const raceTop = 112;
