@@ -1,4 +1,7 @@
 name: render-video
+# The run name carries the project id so monitors can map a run back to its
+# studio project.
+run-name: "render: ${{ inputs.projectId }}"
 
 # The render layer. Dispatched by the backend only after a project is APPROVED.
 #

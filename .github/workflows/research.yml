@@ -1,4 +1,7 @@
 name: research
+# The run name carries the project id so monitors can map a run back to its
+# studio project (and recover its exact inputs from the log below).
+run-name: "research: ${{ inputs.projectId || inputs.topic }}"
 
 # Runs the research pipeline on a GitHub runner, using the same AI providers the
 # local runs use. The resulting bundle is uploaded as an artifact so it can be
@@ -76,6 +79,14 @@ jobs:
       LOG_LEVEL: info
     steps:
       - uses: actions/checkout@v4
+
+      # Echo the dispatch inputs so a re-dispatch can recover the EXACT
+      # original inputs (especially projectId) from this run's log.
+      - name: Log dispatch inputs
+        run: |
+          echo 'INPUTS_JSON<<EOF'
+          echo '${{ toJSON(inputs) }}'
+          echo 'EOF'
 
       - uses: actions/setup-node@v4
         with:

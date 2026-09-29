@@ -390,8 +390,11 @@ export async function normalizeDrafts(drafts: ExtractedDraft[], defaultUnit: str
   return drafts.map((d) => ({ ...d, unit: d.unit || defaultUnit }));
 }
 
-/** Extract observations from a connector payload. */
-export function draftsFromTable(columns: string[], rows: string[][], defaultUnit: string): { drafts: ExtractedDraft[]; problems: string[] } {
+/** Extract observations from a connector payload.
+ *  fallbackDate: when the table is a single snapshot with no date column
+ *  (e.g. a headerless rank/domain CSV), stamp every row with this date
+ *  instead of rejecting the whole table as dateless. Must be date-like. */
+export function draftsFromTable(columns: string[], rows: string[][], defaultUnit: string, fallbackDate?: string): { drafts: ExtractedDraft[]; problems: string[] } {
   const problems: string[] = [];
   const detected = detectColumns(columns, rows);
   if (!detected.entity || !detected.date || !detected.value) {
@@ -458,6 +461,26 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
         problems.push(`melted ${drafts.length} observations from transposed wide-format table`);
         return { drafts, problems };
       }
+    }
+    // Snapshot fallback: entity + value found but no date column, and the
+    // wide-format melts above did not apply. A single snapshot (one list,
+    // one file) is still usable when the caller knows the snapshot's date
+    // (from the URL, the API call, or the plan) — stamp every row with it
+    // instead of rejecting the whole table as dateless.
+    if (!detected.date && detected.entity && detected.value && fallbackDate && looksLikeDate(fallbackDate)) {
+      const ci = { entity: columns.indexOf(detected.entity), value: columns.indexOf(detected.value) };
+      const drafts: ExtractedDraft[] = [];
+      for (const row of rows) {
+        const entity = stripCorporateSuffix((row[ci.entity] ?? '').trim());
+        const rawValue = (row[ci.value] ?? '').trim();
+        if (!entity || !rawValue) continue;
+        const parsed = parseScaledNumber(rawValue);
+        const value = parsed.value !== null && Number.isFinite(parsed.value) ? parsed.value : null;
+        if (value === null) continue;
+        drafts.push({ entity, date: fallbackDate, value, unit: parsed.unitHint ?? defaultUnit });
+      }
+      problems.push(`no date column: stamped ${drafts.length} rows with snapshot date ${fallbackDate}`);
+      return { drafts, problems };
     }
     problems.push(`could not identify entity/date/value columns in [${columns.join(', ')}]`);
     return { drafts: [], problems };
@@ -849,7 +872,10 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   if (options.preloadedTable) {
     const t = options.preloadedTable;
     const candidate = state.sources[0];
-    const { drafts: tableDrafts, problems } = draftsFromTable(t.columns, t.rows, t.unit);
+    // Single-snapshot tables (one list/file, no date column) get stamped with
+    // the snapshot's date instead of being rejected as dateless.
+    const snapshotDate = t.yearMin !== undefined && t.yearMin === t.yearMax ? String(t.yearMin) : undefined;
+    const { drafts: tableDrafts, problems } = draftsFromTable(t.columns, t.rows, t.unit, snapshotDate);
     extractionNotes.push(...problems);
     const drafts = await canonicalizeDrafts(tableDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' });
     const normalized = await normalizeDrafts(drafts, t.unit);
