@@ -420,12 +420,25 @@ export async function kaggleListFiles(
 ): Promise<KaggleFileEntry[]> {
   const base = (options.baseUrl ?? 'https://www.kaggle.com/api/v1').replace(/\/$/, '');
   const [owner, slug] = ref.split('/');
-  const payload = await getJson<unknown[]>(`${base}/datasets/list/${owner}/${slug}`, {
+  const payload = await getJson<unknown>(`${base}/datasets/list/${owner}/${slug}`, {
     headers: kaggleAuthHeader(),
     timeoutMs: 60_000,
   });
-  if (!Array.isArray(payload)) return [];
-  return payload
+  // Kaggle returns an object {datasetFiles:[...]} (verified live 2026-09-30);
+  // accept a bare array too in case of proxy/mirror variants.
+  const list = Array.isArray(payload)
+    ? payload
+    : (payload as { datasetFiles?: unknown } | null | undefined)?.datasetFiles;
+  if (!Array.isArray(list)) return [];
+  return list
+    .map((f) => {
+      const d = f as Record<string, unknown>;
+      return {
+        name: String(d.name ?? ''),
+        totalBytes: typeof d.totalBytes === 'number' ? d.totalBytes : 0,
+      };
+    })
+    .filter((f) => f.name.length > 0);
     .map((f) => {
       const d = f as Record<string, unknown>;
       return {
@@ -872,44 +885,6 @@ export function uploadedCandidate(file: UploadedFile): SourceCandidate {
 // CSV helper (for connectors that return delimited text)
 // ---------------------------------------------------------------------------
 
-/** A cell that parses as a plain number (ints, decimals, percents, k/M/B suffixes). */
-function looksNumericCell(cell: string): boolean {
-  const c = cell.trim().replace(/[,\s_]/g, '');
-  if (!c) return false;
-  return /^[+-]?(\d+(\.\d+)?|\.\d+)([eE][+-]?\d+|[kKmMbB]|%)?$/.test(c);
-}
-
-/**
- * True when the first row looks like DATA rather than a header row.
- * Headerless CSVs (e.g. Tranco's `rank,domain` snapshots, many Kaggle
- * exports) were previously misread with the first data row as column names,
- * which broke column detection downstream ("could not identify
- * entity/date/value columns in [1, google.com]").
- * Detection is conservative: it requires positive evidence — at least one
- * numeric cell in the first row (header names are text) AND the same
- * numeric/text column shape as the following data rows. Anything ambiguous
- * keeps the old header-first behavior.
- */
-function isHeaderless(firstRow: string[], sampleRows: string[][]): boolean {
-  if (firstRow.length === 0 || sampleRows.length === 0) return false;
-  const kind = (cell: string): string => {
-    const c = cell.trim();
-    if (/^(19|20)\d{2}$/.test(c)) return 'y'; // year-like: header OR data
-    return looksNumericCell(cell) ? 'n' : 't';
-  };
-  // Positive evidence required: a plain numeric cell (year headers like
-  // "2020" don't count) AND the same column shape as the data rows.
-  if (!firstRow.some((c) => kind(c) === 'n')) return false;
-  const shape = (row: string[]): string => row.map(kind).join(',');
-  const first = shape(firstRow);
-  const sample = sampleRows.slice(0, 5);
-  let matches = 0;
-  for (const row of sample) {
-    if (row.length === firstRow.length && shape(row) === first) matches += 1;
-  }
-  return matches >= Math.min(3, sample.length);
-}
-
 export function parseCsv(text: string, delimiter = ','): { columns: string[]; rows: string[][] } {
   const rows: string[][] = [];
   let field = '';
@@ -948,12 +923,6 @@ export function parseCsv(text: string, delimiter = ','): { columns: string[]; ro
     row.push(field);
     rows.push(row);
   }
-  const data = rows.filter((r) => r.some((c) => c.trim() !== ''));
-  // Headerless CSVs keep every row as data; positional column names let the
-  // data-driven column detector below pick entity/value by cell content.
-  if (data.length > 1 && isHeaderless(data[0], data.slice(1))) {
-    return { columns: data[0].map((_, i) => `col_${i}`), rows: data };
-  }
-  const columns = data.shift() ?? [];
-  return { columns, rows: data };
+  const columns = rows.shift() ?? [];
+  return { columns, rows: rows.filter((r) => r.some((c) => c.trim() !== '')) };
 }
