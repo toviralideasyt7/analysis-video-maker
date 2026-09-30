@@ -486,7 +486,8 @@ class VideoQA:
     def frame_rows(self, tape_idx):
         f = self.frames[tape_idx]
         bars = sorted(f["bars"], key=lambda b: b["rank"])
-        return [(b["entityId"], b["value"], b["rank"]) for b in bars]
+        return [(b["entityId"], b["value"], b["rank"], b.get("width"))
+                for b in bars]
 
     def measure_frame(self, screen_idx, tape_idx):
         img = self.img(screen_idx)
@@ -494,9 +495,21 @@ class VideoQA:
         n = len(rows)
         row_h = self.row_h(n)
         out = []
-        for k, (eid, value, rank) in enumerate(rows):
+        # px-per-widthFrac scale for the badge-glyph cap in measure_bar:
+        # the renderer sizes bars as widthFrac * maxBarWidth with a
+        # maxBarWidth that is data-driven per video (longest value label),
+        # so it is derived here from the leader bar (rank 1, widthFrac ==
+        # 1.0 by construction: widthFrac = value/maxValue). Rows come in
+        # rank order, so the leader is measured first and the scale is
+        # available for every other row. If the leader is unmeasurable the
+        # scale stays None and the cap is simply disabled for the frame.
+        px_per_frac = None
+        for k, (eid, value, rank, wfrac) in enumerate(rows):
             ymid = RACE_TOP + (k + 0.5) * row_h
-            w, x0 = self.measure_bar(img, eid, ymid, row_h)
+            w, x0 = self.measure_bar(img, eid, ymid, row_h, wfrac,
+                                     px_per_frac)
+            if rank == 1 and w and wfrac:
+                px_per_frac = w / wfrac
             out.append({"entity": eid, "value": value, "rank": rank,
                         "width": w, "x0": x0, "ymid": ymid, "row_h": row_h})
         return img, out
@@ -553,8 +566,8 @@ class VideoQA:
         # its bar width must be identical across samples (the race width is
         # constant by design). Any spread means the layout is resizing bars
         # mid-race (the old spotlight-card fade bug). No card-state grouping:
-        # the bottom banner zone is reserved, so the card can never touch a
-        # bar by construction.
+        # the info panel sits in its reserved right-hand zone (x 904..1232),
+        # so the card can never touch a bar by construction.
         widths = []
         x0s = []
         for screen_idx, tape_idx, scene_id, measured in samples:
