@@ -650,7 +650,12 @@ class VideoQA:
         img = self.img(screen_idx)
         bgr = img.astype(np.int16)
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
-        bright_text = (mn > 150) & ((mx - mn) < 60)  # dark theme: white text on black
+        # Text polarity must match the renderer's actual output. The race
+        # scene background is currently #ffffff (DataRace.tsx), so label
+        # text is DARK on light. Only switch this to bright-text if/when
+        # the renderer itself goes dark -- bright_text on a white video
+        # matches the background itself and fails every frame (C3b).
+        dark_text = (mx < 90) & ((mx - mn) < 40)
         rows = sorted(measured, key=lambda m: m["ymid"])
         # Displayed ranks at this tape: with the renderer's integer-rank
         # glide, rows only sit close together mid-transition; the gate
@@ -666,13 +671,13 @@ class VideoQA:
                     and abs(sr0 - sr1) < 0.75):
                 continue  # mid-swap: crossing labels are expected, not a bug
             yb = int((r0["ymid"] + r1["ymid"]) / 2)
-            strip = bright_text[max(0, yb - 5):yb + 5, BAR_X0:BAR_X1]
+            strip = dark_text[max(0, yb - 5):yb + 5, BAR_X0:BAR_X1]
             if int(strip.sum()) > 500:
                 self.add(
                     "C3b-label-overlap",
                     f"text/label pixels cross the boundary between "
                     f"'{r0['entity']}' and '{r1['entity']}' rows "
-                    f"({int(strip.sum())} bright px in the boundary strip)",
+                    f"({int(strip.sum())} dark px in the boundary strip)",
                     frame=screen_idx, scene=scene_id)
                 break  # one report per frame is enough
 
