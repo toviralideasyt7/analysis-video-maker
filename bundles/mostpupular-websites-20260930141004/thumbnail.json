@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "MOST POPULAR WEBSITES BASED",
+  "subtitle": "ON TRANCO RANKING",
+  "entities": [
+    "google.com",
+    "gtld-servers.net",
+    "microsoft.com"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

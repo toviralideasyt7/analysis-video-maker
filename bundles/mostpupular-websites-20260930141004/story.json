@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "title": "Most popular websites based on Tranco ranking",
+  "subtitle": "2020 to 2026",
+  "hook": "Explore the shifting landscape of the world's most popular websites from 2020 through 2026.",
+  "setup": "This data race tracks composite website rankings based on the Tranco ranking system over multiple years.",
+  "sequence": [
+    {
+      "atLabel": "2020",
+      "text": "Netflix appears in the ranking as a newcomer in 2020."
+    },
+    {
+      "atLabel": "2024",
+      "text": "Amazonaws.com makes a significant jump in ranking by 2024."
+    }
+  ],
+  "highlights": [],
+  "ending": "A look back at how top website rankings evolved over the years.",
+  "sourcesLine": "Data: Tranco"
+}

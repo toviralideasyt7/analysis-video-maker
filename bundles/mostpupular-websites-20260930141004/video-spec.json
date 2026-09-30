@@ -1,0 +1,109 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "Most popular websites based on Tranco ranking",
+    "subtitle": "2020 - 2026",
+    "language": "en",
+    "durationSeconds": 90
+  },
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930142448-jjqppo",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "Most popular websites based on Tranco ranking",
+      "subtitle": "2020 - 2026"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "Explore the shifting landscape of the world's most popular websites from 2020 through 2026.",
+      "subtitle": "This data race tracks composite website rankings based on the Tranco ranking system over multiple years."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 42,
+      "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930142448-jjqppo",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "483 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Tranco rank (composite website ranking)",
+          "value": 100,
+          "entityName": "google.com",
+          "entityId": "google-com",
+          "year": "2026",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "gtld-servers-net",
+              "name": "gtld-servers.net",
+              "color": "#c2410c"
+            },
+            {
+              "id": "microsoft-com",
+              "name": "microsoft.com",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          139
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "A look back at how top website rankings evolved over the years."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://tranco-list.eu/api/lists/date/YYYYMMDD",
+      "publisher": "tranco-list.eu",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-30T14:24:54.327Z",
+      "identifier": "picked_https-tranco-list-eu-api-lists-date-yyyymmdd"
+    }
+  ]
+}

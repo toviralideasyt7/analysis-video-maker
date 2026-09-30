@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "topic": "Most popular websites based on Tranco ranking",
+  "metric": "Tranco rank (composite website ranking)",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Tranco composite ranking",
+      "description": "A composite website ranking derived by combining multiple ranking lists (such as Majestic, Umbrella, and Cisco OpenDNS) to reduce manipulation and noise.",
+      "measurableDefinition": "Tranco combined rank position (integer, lower number indicates higher popularity/traffic)",
+      "caveats": [
+        "Composite rankings rely on underlying third-party data sources which may weigh traffic or DNS queries differently."
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Monthly unique visitors",
+      "description": "Total distinct individuals visiting the website within a calendar month.",
+      "measurableDefinition": "Count of unique IP addresses or user sessions per month (integer)",
+      "caveats": [
+        "Requires third-party analytics data (e.g., Similarweb or Comscore) rather than pure DNS-based ranking."
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "2019",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "google.com",
+    "youtube.com",
+    "facebook.com",
+    "twitter.com",
+    "instagram.com",
+    "wikipedia.org",
+    "reddit.com",
+    "yahoo.com",
+    "amazon.com",
+    "netflix.com"
+  ],
+  "preferredSources": [
+    "Tranco Research Paper and Dataset repository (tranco-list.eu)",
+    "Archived Tranco daily/monthly CSV releases"
+  ],
+  "knownRisks": [
+    "Tranco list methodology updates over time can introduce shifts in rankings unrelated to actual traffic changes."
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}
