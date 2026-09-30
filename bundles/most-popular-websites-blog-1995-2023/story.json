@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "title": "Most popular websites based on Tranco rank",
+  "subtitle": "1995–2023",
+  "hook": "Witness the shifting landscape of internet traffic as the web's most popular platforms battle for supremacy over nearly three decades.",
+  "setup": "Tracking annual metrics reveals the rise of early portal giants, search engine dominance, and the emergence of modern social media networks.",
+  "sequence": [
+    {
+      "atLabel": "1995",
+      "text": "AOL.com debuted at the top of the ranking in 1995 with over 37 million."
+    },
+    {
+      "atLabel": "2000",
+      "text": "Google.com entered the ranking for the first time in the year 2000."
+    },
+    {
+      "atLabel": "2007",
+      "text": "YouTube.com and Facebook.com appeared as newcomers in the ranking by 2007."
+    },
+    {
+      "atLabel": "2022",
+      "text": "Google.com maintained the lead with a value of 88400000000 by 2022."
+    }
+  ],
+  "highlights": [
+    {
+      "atLabel": "1995",
+      "entityId": "Google.com",
+      "headline": "Early Portal Era",
+      "detail": "AOL.com began as the top-ranked website in 1995.",
+      "factBox": {
+        "heading": "AOL Leader",
+        "body": "AOL.com held the top position with 37485000 in 1995.",
+        "dateLabel": "1995",
+        "wordmark": "AOL.com"
+      }
+    }
+  ],
+  "ending": "From early dial-up portals to global search and social titans, these decades charted the monumental expansion of the digital world.",
+  "sourcesLine": "Data: Tranco rank"
+}

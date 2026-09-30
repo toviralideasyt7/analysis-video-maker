@@ -1,0 +1,93 @@
+{
+  "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+  "title": "Most popular websites (Tranco rank)",
+  "topic": "Most popular websites (Tranco rank)",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-30T16:10:22.719Z",
+  "updatedAt": "2026-09-30T16:10:42.498Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-hosting-com-blog-the-most-visited-websites-every-year-",
+      "sourceName": "hosting.com",
+      "publisher": "hosting.com",
+      "url": "https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-30T16:10:32.116Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-30T16:10:32.115Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-30T16:10:32.117Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-30T16:10:32.141Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-30T16:10:32.142Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-30T16:10:32.157Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-30T16:10:32.176Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-30T16:10:42.468Z"
+    },
+    {
+      "projectId": "most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-30T16:10:42.478Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=1995-2023",
+    "agent direct URL: https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/ (36 rows)",
+    "wide-format table detected: melting 29 year columns into long format",
+    "melted 290 observations from wide-format table",
+    "direct table https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/: 290 observations (unit: count)",
+    "primary source: hosting.com (https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/) - all 290 dataset values come from this one source",
+    "verification: 290 observations (VERIFIED 0, SUPPORTED 290, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 290 valued cells confirmed by 2+ independent publishers; 290 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - hosting.com (https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/), covering 290 cells; 0 other source(s) used for verification only, never merged",
+    "single-source: dataset values come from ONE source - hosting.com (https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/), covering 290 cells; 0 other source(s) used for verification only, never merged"
+  ]
+}

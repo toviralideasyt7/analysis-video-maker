@@ -1,0 +1,457 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "Most popular websites based on Tranco rank",
+    "subtitle": "1995 - 2023",
+    "language": "en",
+    "durationSeconds": 264
+  },
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930161022-34f36y",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "Most popular websites based on Tranco rank",
+      "subtitle": "1995 - 2023"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "Witness the shifting landscape of internet traffic as the web's most popular platforms battle for supremacy over nearly three decades.",
+      "subtitle": "Tracking annual metrics reveals the rise of early portal giants, search engine dominance, and the emergence of modern social media networks."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 30,
+      "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1995",
+            "entityId": "Google.com",
+            "headline": "Early Portal Era",
+            "detail": "AOL.com began as the top-ranked website in 1995.",
+            "factBox": {
+              "heading": "AOL Leader",
+              "body": "AOL.com held the top position with 37485000 in 1995.",
+              "dateLabel": "1995",
+              "wordmark": "AOL.com"
+            }
+          }
+        ],
+        "notes": [
+          "693 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website popularity based on aggregated ranking metrics",
+          "value": 84030000000,
+          "entityName": "Google.com",
+          "entityId": "google-com",
+          "year": "2023",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "Google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "youtube-com",
+              "name": "YouTube.com",
+              "color": "#dc2626"
+            },
+            {
+              "id": "facebook-com",
+              "name": "Facebook.com",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          99
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2000",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Yahoo.com rules the 2000s",
+      "props": {
+        "kicker": "THE 2000S",
+        "atLabel": "2000",
+        "body": "As the 2000s began, Yahoo.com led the world with 413.2M count. Ebay.com was the previous decade's biggest climber, rising 11 places into the top 10.",
+        "entityIds": [
+          "yahoo-com",
+          "aol-com",
+          "msn-com"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1995",
+            "entityId": "Google.com",
+            "headline": "Early Portal Era",
+            "detail": "AOL.com began as the top-ranked website in 1995.",
+            "factBox": {
+              "heading": "AOL Leader",
+              "body": "AOL.com held the top position with 37485000 in 1995.",
+              "dateLabel": "1995",
+              "wordmark": "AOL.com"
+            }
+          }
+        ],
+        "notes": [
+          "693 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website popularity based on aggregated ranking metrics",
+          "value": 84030000000,
+          "entityName": "Google.com",
+          "entityId": "google-com",
+          "year": "2023",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "Google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "youtube-com",
+              "name": "YouTube.com",
+              "color": "#dc2626"
+            },
+            {
+              "id": "facebook-com",
+              "name": "Facebook.com",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          100,
+          299
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Yahoo.com rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, Yahoo.com led the world with 11598.6M count. YouTube.com was the previous decade's biggest climber, rising 12 places into the top 10.",
+        "entityIds": [
+          "yahoo-com",
+          "google-com",
+          "youtube-com"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1995",
+            "entityId": "Google.com",
+            "headline": "Early Portal Era",
+            "detail": "AOL.com began as the top-ranked website in 1995.",
+            "factBox": {
+              "heading": "AOL Leader",
+              "body": "AOL.com held the top position with 37485000 in 1995.",
+              "dateLabel": "1995",
+              "wordmark": "AOL.com"
+            }
+          }
+        ],
+        "notes": [
+          "693 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website popularity based on aggregated ranking metrics",
+          "value": 84030000000,
+          "entityName": "Google.com",
+          "entityId": "google-com",
+          "year": "2023",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "Google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "youtube-com",
+              "name": "YouTube.com",
+              "color": "#dc2626"
+            },
+            {
+              "id": "facebook-com",
+              "name": "Facebook.com",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          300,
+          499
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Google.com rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2023, Google.com leads the world with 84030.0M count.",
+        "entityIds": [
+          "google-com",
+          "youtube-com",
+          "facebook-com"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_4",
+      "type": "bar_race",
+      "duration": 24,
+      "datasetRef": "dataset_most-popular-websites-tranco-rank-20260930161022-34f36y",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023"
+        ],
+        "highlights": [
+          {
+            "atFrame": 12,
+            "atLabel": "1995",
+            "entityId": "Google.com",
+            "headline": "Early Portal Era",
+            "detail": "AOL.com began as the top-ranked website in 1995.",
+            "factBox": {
+              "heading": "AOL Leader",
+              "body": "AOL.com held the top position with 37485000 in 1995.",
+              "dateLabel": "1995",
+              "wordmark": "AOL.com"
+            }
+          }
+        ],
+        "notes": [
+          "693 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Website popularity based on aggregated ranking metrics",
+          "value": 84030000000,
+          "entityName": "Google.com",
+          "entityId": "google-com",
+          "year": "2023",
+          "unit": "count",
+          "entities": [
+            {
+              "id": "google-com",
+              "name": "Google.com",
+              "color": "#2563eb"
+            },
+            {
+              "id": "youtube-com",
+              "name": "YouTube.com",
+              "color": "#dc2626"
+            },
+            {
+              "id": "facebook-com",
+              "name": "Facebook.com",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          500,
+          579
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "From early dial-up portals to global search and social titans, these decades charted the monumental expansion of the digital world."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/",
+      "publisher": "hosting.com",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-30T16:10:32.116Z",
+      "identifier": "picked_https-hosting-com-blog-the-most-visited-websites-every-year-"
+    }
+  ]
+}

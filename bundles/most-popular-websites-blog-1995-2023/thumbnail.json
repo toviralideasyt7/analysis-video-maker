@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "MOST POPULAR WEBSITES BASED",
+  "subtitle": "ON TRANCO RANK",
+  "entities": [
+    "Google.com",
+    "YouTube.com",
+    "Facebook.com"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

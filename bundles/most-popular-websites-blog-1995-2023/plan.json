@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "topic": "Most popular websites based on Tranco rank",
+  "metric": "Website popularity based on aggregated ranking metrics",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Tranco Composite Rank",
+      "description": "A research-oriented composite ranking derived by combining multiple ranking lists (such as Alexa, Majestic, and Cisco Umbrella) to mitigate manipulation and volatility.",
+      "measurableDefinition": "Tranco rank score (lower integer value indicates higher popularity/rank)",
+      "caveats": [
+        "Tranco project data availability begins around 2018 (retrospective/historical list reconstructions or specific archived datasets may be needed for years prior to 2018)",
+        "Methodology changes across different versions of the Tranco list aggregation algorithm"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Unique Visitors / Monthly Active Users",
+      "description": "Total number of distinct individuals who visit a website over a specific calendar month.",
+      "measurableDefinition": "Number of unique visitors counted in millions (Monthly)",
+      "caveats": [
+        "Rely on panel-based estimates or publisher self-reports for years prior to widespread analytics tracking",
+        "Definitions of unique visitors can vary across measurement providers (e.g., Comscore, Similarweb)"
+      ]
+    },
+    {
+      "id": "c",
+      "label": "Page Views / Traffic Volume",
+      "description": "Total number of pages loaded or viewed by users on a given website over a specific time period.",
+      "measurableDefinition": "Total page view count or traffic share percentage",
+      "caveats": [
+        "Heavy skew toward content-heavy or multi-page sites versus single-page web applications",
+        "Bot traffic can distort historical page view measurements"
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "1995",
+    "end": "2023"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "google.com",
+    "youtube.com",
+    "facebook.com",
+    "yahoo.com",
+    "wikipedia.org",
+    "amazon.com",
+    "reddit.com",
+    "twitter.com",
+    "instagram.com",
+    "netflix.com"
+  ],
+  "preferredSources": [
+    "Tranco Research Paper Datasets",
+    "Alexa Internet Archive (Wayback Machine snapshots for historical rank)",
+    "Similarweb historical reports",
+    "Comscore historical rankings"
+  ],
+  "knownRisks": [
+    "Tranco official daily/monthly lists only date back to 2018; data for 1995-2017 must rely on predecessor lists like Alexa or historical archives combined into Tranco-compatible formats",
+    "Domain ownership changes and mergers over a nearly 30-year span can affect historical continuity"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

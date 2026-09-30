@@ -1,0 +1,23 @@
+[
+  {
+    "candidateId": "picked_https-hosting-com-blog-the-most-visited-websites-every-year-",
+    "sourceName": "hosting.com",
+    "publisher": "hosting.com",
+    "url": "https://hosting.com/blog/the-most-visited-websites-every-year-since-1995/",
+    "kind": "dataset",
+    "accessMethod": "download",
+    "retrievedAt": "2026-09-30T16:10:32.116Z",
+    "license": "UNKNOWN",
+    "machineReadable": true,
+    "authority": 0.8,
+    "directness": 1,
+    "coverage": 0.8,
+    "methodologyTransparency": 0.6,
+    "recency": 0.8,
+    "consistency": 0.8,
+    "qualityScore": 0.8,
+    "accepts": true,
+    "primary": true,
+    "discoveredBy": "agent-direct-url"
+  }
+]

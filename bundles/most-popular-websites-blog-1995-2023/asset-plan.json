@@ -1,0 +1,222 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "google-com",
+      "type": "logo",
+      "query": "Google.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "youtube-com",
+      "type": "logo",
+      "query": "YouTube.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "facebook-com",
+      "type": "logo",
+      "query": "Facebook.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yahoo-com",
+      "type": "logo",
+      "query": "Yahoo.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "wikipedia-org",
+      "type": "logo",
+      "query": "Wikipedia.org logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "baidu-com",
+      "type": "logo",
+      "query": "Baidu.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "twitter-com",
+      "type": "logo",
+      "query": "Twitter.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "instagram-com",
+      "type": "logo",
+      "query": "Instagram.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yandex-com",
+      "type": "logo",
+      "query": "Yandex.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amazon-com",
+      "type": "logo",
+      "query": "Amazon.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xvideos-com",
+      "type": "logo",
+      "query": "Xvideos.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "msn-com",
+      "type": "logo",
+      "query": "MSN.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "pornhub-com",
+      "type": "logo",
+      "query": "PornHub.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ask-com",
+      "type": "logo",
+      "query": "Ask.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "aol-com",
+      "type": "logo",
+      "query": "AOL.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bbc-com",
+      "type": "logo",
+      "query": "BBC.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ebay-com",
+      "type": "logo",
+      "query": "Ebay.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "reddit-com",
+      "type": "logo",
+      "query": "Reddit.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "vk-com",
+      "type": "logo",
+      "query": "VK.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "myspace-com",
+      "type": "logo",
+      "query": "Myspace.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "xnxx-com",
+      "type": "logo",
+      "query": "Xnxx.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "whatsapp-com",
+      "type": "logo",
+      "query": "WhatsApp.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "walmart-com",
+      "type": "logo",
+      "query": "Walmart.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "lycos-com",
+      "type": "logo",
+      "query": "Lycos.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "about-com",
+      "type": "logo",
+      "query": "About.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "cnet-com",
+      "type": "logo",
+      "query": "CNET.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "weather-com",
+      "type": "logo",
+      "query": "Weather.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "excite-com",
+      "type": "logo",
+      "query": "Excite.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "americangreetings-com",
+      "type": "logo",
+      "query": "AmericanGreetings.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "geocities-com",
+      "type": "logo",
+      "query": "Geocities.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "netscape-com",
+      "type": "logo",
+      "query": "Netscape.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "infospace-com",
+      "type": "logo",
+      "query": "Infospace.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "prodigy-com",
+      "type": "logo",
+      "query": "Prodigy.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "infoseek-com",
+      "type": "logo",
+      "query": "Infoseek.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "webcrawler-com",
+      "type": "logo",
+      "query": "Webcrawler.com logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "compuserve-com",
+      "type": "logo",
+      "query": "Compuserve.com logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}
