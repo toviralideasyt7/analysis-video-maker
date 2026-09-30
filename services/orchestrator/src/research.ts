@@ -856,6 +856,19 @@ export interface ResearchResult {
   };
 }
 
+/** Spread-free append into `collected`. `collected.push(...bigArray)` blows the
+ * V8 call stack (RangeError: Maximum call stack size exceeded) once the array
+ * approaches ~65k elements — the 200k-row TMDB Kaggle direct ingest hit this
+ * on 2026-09-30. Iterating never has that problem. */
+function appendObservations(
+  out: Observation[],
+  drafts: ExtractedDraft[],
+  source: SourceCandidate,
+  timeRange: { start: string; end: string },
+): void {
+  for (const d of drafts) out.push(toObservation(d, source, timeRange));
+}
+
 function toObservation(
   draft: ExtractedDraft,
   source: SourceCandidate,
@@ -1021,7 +1034,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     extractionNotes.push(...problems);
     const drafts = await canonicalizeDrafts(tableDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' });
     const normalized = await normalizeDrafts(drafts, t.unit);
-    collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+    appendObservations(collected, normalized, candidate, timeRange);
     extractedUrls.add(candidate.url);
     extractionNotes.push(`direct table ${t.sourceUrl}: ${normalized.length} observations (unit: ${t.unit})`);
   }
@@ -1037,7 +1050,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       const drafts = await canonicalizeDrafts(owidDrafts, { countryOnly: plan.entityType === 'country' });
       const normalized = await normalizeDrafts(drafts, owidUnit);
       const candidate = state.sources.find((s) => s.candidateId === owid.candidate.candidateId) ?? owid.candidate;
-      collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+      appendObservations(collected, normalized, candidate, timeRange);
       extractedUrls.add(candidate.url);
       extractionNotes.push(`OWID ${options.owidSlug}: ${normalized.length} observations (unit: ${owidUnit})`);
     } catch (error) {
@@ -1057,7 +1070,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       const drafts = await canonicalizeDrafts(rawDrafts, { countryOnly: true });
       const normalized = await normalizeDrafts(drafts, wantedIndicatorUnit);
       const candidate = state.sources.find((s) => s.candidateId === wb.candidate.candidateId) ?? wb.candidate;
-      collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+      appendObservations(collected, normalized, candidate, timeRange);
       extractedUrls.add(candidate.url);
       extractionNotes.push(`World Bank ${wantedIndicator}: ${normalized.length} observations (unit: ${wantedIndicatorUnit})`);
     } catch (error) {
@@ -1124,7 +1137,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
         }
         const drafts = await canonicalizeDrafts(csvDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
         const normalized = await normalizeDrafts(drafts, kaggleUnit);
-        collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+        appendObservations(collected, normalized, candidate, timeRange);
         extractedUrls.add(url);
         extractionNotes.push(`kaggle ${ref} (${fileName}): ${normalized.length} observations`);
       } catch (error) {
@@ -1139,7 +1152,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
             if (stream.drafts.length > 0) {
               const drafts = await canonicalizeDrafts(stream.drafts, { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
               const normalized = await normalizeDrafts(drafts, stream.unit);
-              collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+              appendObservations(collected, normalized, candidate, timeRange);
               extractedUrls.add(url);
               extractionNotes.push(`kaggle ${ref} (${stream.fileName}): ${normalized.length} observations via streaming`);
             }
@@ -1205,7 +1218,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
           primary: false,
           discoveredBy: 'source-picker',
         } as SourceCandidate);
-      collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+      appendObservations(collected, normalized, candidate, timeRange);
       extractedUrls.add(dataUrl);
       extractionNotes.push(`picker data URL ${dataUrl}: ${normalized.length} observations`);
     } catch (error) {
@@ -1234,7 +1247,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       if (csvDrafts.length === 0) continue;
       const drafts = await canonicalizeDrafts(csvDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
       const normalized = await normalizeDrafts(drafts, csvUnit);
-      collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+      appendObservations(collected, normalized, candidate, timeRange);
       extractedUrls.add(candidate.url);
       extractionNotes.push(`${candidate.url}: ${normalized.length} observations`);
     } catch (error) {
@@ -1292,7 +1305,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
             // entities and verification can never compare them.
             const canonical = await canonicalizeDrafts(drafts, { countryOnly: plan.entityType === 'country' });
             const normalized = await normalizeDrafts(canonical, 'count');
-            collected.push(...normalized.map((d) => toObservation(d, best, timeRange)));
+            appendObservations(collected, normalized, best, timeRange);
           }
         } else {
           extractionNotes.push(`AI text extraction from ${best.url}: skipped, page text too short (${text.length} chars)`);
