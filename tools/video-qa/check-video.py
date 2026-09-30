@@ -77,7 +77,9 @@ except ImportError:
 RACE_TOP = 112          # bars live between y=112 and y=656
 RACE_BOT = 656          # raceBottom in DataRace.tsx; rows never enter the
                         # progress track below (y 688..700)
-BAR_X0 = 190             # every bar starts at x=96
+BAR_X0 = 190             # every bar starts at x=190 (must match barX0 in
+                        # renderer/src/DataRace.tsx); keep the derived
+                        # constants below in sync when it changes.
 RACE_RIGHT = 880        # right edge of the race zone; the info panel starts
                         # at x=904 and is RESERVED - bars, flags, value
                         # labels and name labels all end before 880.
@@ -86,9 +88,9 @@ ZONE_X1 = RACE_RIGHT    # right edge of the bar scan zone: the longest bar +
                         # never reaches panel pixels.
 BAR_X1 = RACE_RIGHT     # end of the label-row boundary strip (right of the
                         # longest possible value label, left of the panel)
-C3C_X1 = 135            # right edge for the C3c rank-order scan: country
-                        # flags sit at the bar end (x~140+) and their colors
-                        # can match other entities' brands; the bar's left
+C3C_X1 = BAR_X0 + 39     # right edge for the C3c rank-order scan: country
+                        # flags sit at the bar end and their colors can
+                        # match other entities' brands; the bar's left
                         # 39px is flag-free and enough to identify its color.
 
 MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
@@ -107,7 +109,9 @@ MEASURE_CAP_SLACK_PX = 15  # slack on the intended-width cap below: covers
                         # pill-edge AA and 1080p->720p resampling (±3px);
                         # far below the 12px badge gap + ~35px badge glyph,
                         # so badge absorption always exceeds the cap.
-MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
+# Rank numerals ride at [barX0-46, barX0-10) (RankingRow: left x0-46,
+# width 36, right-aligned); the +4px right slack matches the original box.
+MARGIN_X0, MARGIN_X1 = BAR_X0 - 46, BAR_X0 - 6   # rank-number margin box
 
 for _bin in ("ffprobe", "ffmpeg"):
     if shutil.which(_bin) is None:
@@ -778,7 +782,10 @@ class VideoQA:
             # threshold 25: a present numeral is ~40+ px even at 10 rows;
             # a truly missing one is ~0
             if int(box.sum()) < 25:
-                self.add(
+                # Advisory only: rank-label detection is color-threshold
+                # pixel counting, the fragile visual-check class the QA
+                # redesign keeps as warnings that never fail the render.
+                self.warn(
                     "C3c-rank-label-missing",
                     f"no rank number found in the left margin for row "
                     f"{k + 1} ('{m['entity']}')",
