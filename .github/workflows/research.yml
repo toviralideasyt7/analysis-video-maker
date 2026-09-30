@@ -82,11 +82,16 @@ jobs:
 
       # Echo the dispatch inputs so a re-dispatch can recover the EXACT
       # original inputs (especially projectId) from this run's log.
+      # Quoted heredoc: the JSON passes through the shell literally, so
+      # quotes/apostrophes inside inputs (e.g. a prompt containing "world's")
+      # cannot break shell quoting and fail this step.
       - name: Log dispatch inputs
         run: |
-          echo 'INPUTS_JSON<<EOF'
-          echo '${{ toJSON(inputs) }}'
-          echo 'EOF'
+          cat <<'AVM_INPUTS_JSON_EOF'
+          INPUTS_JSON<<EOF
+          ${{ toJSON(inputs) }}
+          EOF
+          AVM_INPUTS_JSON_EOF
 
       - uses: actions/setup-node@v4
         with:
