@@ -439,14 +439,6 @@ export async function kaggleListFiles(
       };
     })
     .filter((f) => f.name.length > 0);
-    .map((f) => {
-      const d = f as Record<string, unknown>;
-      return {
-        name: String(d.name ?? ''),
-        totalBytes: typeof d.totalBytes === 'number' ? d.totalBytes : 0,
-      };
-    })
-    .filter((f) => f.name.length > 0);
 }
 
 /**
