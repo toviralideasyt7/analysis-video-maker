@@ -659,6 +659,29 @@ const KNOWN_TOPICS: Array<{ re: RegExp; make: (prompt: string) => Partial<AgentD
     make: () => ({ topic: 'Most popular social media platforms', entityKind: 'custom', metric: 'monthly active users', unit: 'count' }),
   },
   {
+    re: /\bwebsites?\b/i,
+    // Verified website-popularity source: Tranco's historical top-site list
+    // API (documented JSON API + plain-CSV download, daily lists since Feb
+    // 2019). Verified live 2026-09-29 and used for the 'most popular
+    // websites' video. The YYYYMMDD template makes decideAgentPlan expand it
+    // to one snapshot per plan year, so this fires even when the prompt's
+    // own links are dead (root-cause fix 2026-09-30: a prompt linking only
+    // to a blog with no data tables used to fall back to web search and
+    // produce zero observations).
+    make: () => {
+      const to = new Date().getUTCFullYear();
+      return {
+        topic: 'Most popular websites (Tranco rank)',
+        entityKind: 'custom',
+        metric: 'Tranco composite rank',
+        unit: 'rank',
+        yearFrom: 2019,
+        yearTo: to,
+        directUrls: ['https://tranco-list.eu/api/lists/date/YYYYMMDD'],
+      };
+    },
+  },
+  {
     re: /\bco2\b|\bcarbon\b|\bemission\b/i,
     // World Bank's EN.ATM.CO2E.KT is retired (archived, probe returns
     // nothing). OWID's annual-co2-emissions grapher CSV (Global Carbon
@@ -772,22 +795,33 @@ export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
   const directUrls = extractUrls(prompt);
   const notes: string[] = [];
 
+  // Known-topic source memory (root-cause fix 2026-09-30): the planner may
+  // know a direct data URL for this topic (e.g. Tranco's date-templated API
+  // for "most popular websites") even when the prompt's own links are dead.
+  // Fold those URLs into the direct-URL ingestion list so the known source
+  // fires first, and let a known year range back up an absent prompt range.
+  const knownDecision = deterministicDecide(prompt, directUrls);
+  const knownUrls = knownDecision.directUrls.filter((u) => !directUrls.includes(u));
+  const ingestUrls = [...knownUrls, ...directUrls];
+  const ingestYears = parseYearPreference(prompt);
+  const ingestFrom = ingestYears.from ?? knownDecision.yearFrom;
+  const ingestTo = ingestYears.to ?? knownDecision.yearTo;
+
   // Date-templated URLs (e.g. https://tranco-list.eu/api/lists/date/YYYYMMDD)
   // expand to one snapshot per plan year. This runs before the plain
   // direct-URL path: prompts for this recipe also contain a single example
   // URL that would otherwise win outright with one dateless snapshot.
-  const templateUrls = directUrls.filter((u) => DATE_TEMPLATE_RE.test(u));
+  const templateUrls = ingestUrls.filter((u) => DATE_TEMPLATE_RE.test(u));
   if (templateUrls.length > 0) {
-    const years = parseYearPreference(prompt);
     if (
-      years.from !== undefined &&
-      years.to !== undefined &&
-      years.to >= years.from &&
-      years.to - years.from <= 60
+      ingestFrom !== undefined &&
+      ingestTo !== undefined &&
+      ingestTo >= ingestFrom &&
+      ingestTo - ingestFrom <= 60
     ) {
       const { table, notes: templateNotes } = await ingestDateTemplatedUrl(
         templateUrls[0],
-        { from: years.from, to: years.to },
+        { from: ingestFrom, to: ingestTo },
         prompt,
       );
       notes.push(...templateNotes);
@@ -795,8 +829,8 @@ export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
         return {
           ...deterministicDecide(prompt, directUrls),
           table,
-          yearFrom: years.from,
-          yearTo: years.to,
+          yearFrom: ingestFrom,
+          yearTo: ingestTo,
           notes: [...notes, 'direct-URL mode: multi-year dataset from date-templated URL'],
         };
       }
@@ -807,8 +841,8 @@ export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
   }
 
   // Direct data links win outright: download and normalize now.
-  if (directUrls.length > 0) {
-    const { table, notes: ingestNotes } = await ingestDirectUrls(directUrls, prompt);
+  if (ingestUrls.length > 0) {
+    const { table, notes: ingestNotes } = await ingestDirectUrls(ingestUrls, prompt);
     notes.push(...ingestNotes);
     if (table) {
       const years = parseYearPreference(prompt);
