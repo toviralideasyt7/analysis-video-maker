@@ -65,7 +65,11 @@ def grab_frame(video: str, at: float, out_path: str) -> None:
     ]).decode().strip())
     ts = max(0.5, dur * at)
     # Grab at a late-race moment (bars are at their most dramatic), then
-    # crop/scale to fill the left panel exactly.
+    # crop/scale to fill the left panel exactly. We crop the CENTER-LEFT
+    # portion to avoid the video's own info panel (which lives on the right
+    # at x 904..1232 in the 1280-wide design = right ~28% of frame).
+    # By taking only the left ~72% of the video frame, we get clean bars
+    # without the info card bleeding into the thumbnail's text panel.
     subprocess.check_call([
         "ffmpeg", "-y", "-v", "error", "-ss", f"{ts:.2f}", "-i", video,
         "-frames:v", "1",
@@ -96,6 +100,9 @@ def clean_topic(title: str) -> str:
     t = re.sub(r"^bar chart race of (the )?", "", t, flags=re.I)
     t = re.sub(r",?\s*\d{4}\s*[-\u2013\u2014]\s*\d{4}\.?$", "", t)
     t = re.sub(r"\s+from\s+\d+.*$", "", t, flags=re.I)
+    # Remove trailing "based on ..." fragments (e.g. "based on Tranco rank")
+    # which look broken when truncated
+    t = re.sub(r"\s+based\s+on.*$", "", t, flags=re.I)
     t = t.strip().rstrip(".")
     return t.upper() or "DATA RACE"
 
@@ -130,6 +137,21 @@ def draw_rising_arrow(d, x0, y0, x1, y1, color, width):
                fill=color, width=width, joint="curve")
 
 
+def fit_title_font(d, topic, font_path, content_w, max_lines=3, start_size=150):
+    """Find the largest font size that fits the topic in max_lines."""
+    for size in range(start_size, 60, -10):
+        font = load_font(font_path, size, weight=900)
+        lines = wrap_lines(d, topic, font, content_w, max_lines=max_lines)
+        # Check if all words fit within max_lines
+        words = topic.split()
+        used_words = sum(len(line.split()) for line in lines)
+        if used_words >= len(words) and len(lines) <= max_lines:
+            return font, lines, size
+    # Fallback to smallest
+    font = load_font(font_path, 60, weight=900)
+    return font, wrap_lines(d, topic, font, content_w, max_lines=max_lines), 60
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--video", required=True)
@@ -155,51 +177,65 @@ def main() -> int:
     d = ImageDraw.Draw(img)
 
     # --- right: white text panel ---
-    d.rectangle([PANEL_X, 0, W, H], fill=WHITE)
+    # Draw a SOLID white panel with a slight overlap to ensure no video
+    # bleed-through at the boundary
+    d.rectangle([PANEL_X - 10, 0, W, H], fill=WHITE)
     # subtle left divider
     d.line([PANEL_X, 0, PANEL_X, H], fill=(229, 231, 235), width=6)
 
     px = PANEL_X + 120          # panel content left
     content_w = PANEL_W - 240   # panel content width
-    y = 250
+    y = 200  # start higher to give more room
 
     # red rising arrow (top of panel, like the reference)
-    draw_rising_arrow(d, px, y + 180, px + 620, y - 60, RED, 46)
-    y += 300
+    draw_rising_arrow(d, px, y + 140, px + 500, y - 40, RED, 40)
+    y += 240
 
-    # big bold title
-    title_font = load_font(font_path, 168, weight=900)
-    for line in wrap_lines(d, topic, title_font, content_w):
+    # big bold title - dynamically sized to fit
+    title_font, title_lines, title_size = fit_title_font(d, topic, font_path, content_w, max_lines=3)
+    line_height = int(title_size * 1.15)
+    for line in title_lines:
         d.text((px, y), line, font=title_font, fill=BLACK)
-        y += 196
-    y += 40
+        y += line_height
+    y += 50
 
     # year range on a yellow highlight bar
     if years:
-        year_font = load_font(font_path, 120, weight=800)
+        year_font = load_font(font_path, 110, weight=800)
         tw = d.textlength(years, font=year_font)
-        pad_x, pad_y = 48, 26
-        d.rounded_rectangle(
-            [px, y, px + tw + pad_x * 2, y + 120 + pad_y * 2],
-            radius=18, fill=YELLOW,
-        )
-        d.text((px + pad_x, y + pad_y - 8), years, font=year_font, fill=BLACK)
-        y += 120 + pad_y * 2 + 90
+        # Ensure year badge fits within content width
+        if tw + 96 > content_w:
+            year_font = load_font(font_path, 90, weight=800)
+            tw = d.textlength(years, font=year_font)
+        pad_x, pad_y = 44, 24
+        badge_h = 110 + pad_y * 2
+        # Check if badge would overlap with chart area; if so, skip it
+        # (chart starts at H - 560)
+        if y + badge_h + 60 < H - 560:
+            d.rounded_rectangle(
+                [px, y, px + tw + pad_x * 2, y + badge_h],
+                radius=18, fill=YELLOW,
+            )
+            d.text((px + pad_x, y + pad_y - 6), years, font=year_font, fill=BLACK)
+            y += badge_h + 60
 
     # small bar chart at the bottom (ascending, brand blues)
-    chart_colors = [(37, 99, 235), (59, 130, 246), (96, 165, 250), (147, 197, 253), (29, 78, 216)]
-    chart_x, chart_y0, chart_y1 = px, H - 560, H - 200
-    n = 5
-    gap = 36
-    bw = (content_w - gap * (n - 1)) // n
-    heights = [150, 210, 180, 260, 330]
-    for i in range(n):
-        x0 = chart_x + i * (bw + gap)
-        hgt = heights[i]
-        d.rounded_rectangle([x0, chart_y1 - hgt, x0 + bw, chart_y1],
-                            radius=14, fill=chart_colors[i])
-    # baseline
-    d.line([chart_x, chart_y1, chart_x + content_w, chart_y1], fill=GRAY, width=8)
+    # Only draw if there's enough space
+    chart_top = H - 520
+    if y < chart_top - 100:
+        chart_colors = [(37, 99, 235), (59, 130, 246), (96, 165, 250), (147, 197, 253), (29, 78, 216)]
+        chart_x, chart_y1 = px, H - 180
+        n = 5
+        gap = 32
+        bw = (content_w - gap * (n - 1)) // n
+        heights = [140, 190, 165, 230, 290]
+        for i in range(n):
+            x0 = chart_x + i * (bw + gap)
+            hgt = heights[i]
+            d.rounded_rectangle([x0, chart_y1 - hgt, x0 + bw, chart_y1],
+                                radius=12, fill=chart_colors[i])
+        # baseline
+        d.line([chart_x, chart_y1, chart_x + content_w, chart_y1], fill=GRAY, width=6)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     save_under_limit(img, args.out)
