@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "title": "Hollywood actors box office earnings",
+  "subtitle": "1984 to 2024",
+  "hook": "Watch how cumulative box office earnings evolved from 1984 through 2024.",
+  "setup": "This race tracks leading films and major earnings milestones over four decades.",
+  "sequence": [
+    {
+      "atLabel": "1984",
+      "text": "Beverly Hills Cop enters the rankings in 1984 at the number one spot."
+    },
+    {
+      "atLabel": "1987",
+      "text": "Who Framed Roger Rabbit appears as a newcomer in 1987."
+    },
+    {
+      "atLabel": "1992",
+      "text": "Jurassic Park debuts in 1992 with a leading value of 978167947."
+    },
+    {
+      "atLabel": "1996",
+      "text": "Titanic arrives on the scene in 1996 taking the top rank."
+    },
+    {
+      "atLabel": "2008",
+      "text": "Avatar captures the lead position in 2008."
+    },
+    {
+      "atLabel": "2018",
+      "text": "Avengers: Endgame takes over the number one spot in 2018."
+    }
+  ],
+  "highlights": [],
+  "ending": "A look back at the top cumulative box office earnings from 1984 to 2024.",
+  "sourcesLine": "Data: Box office records"
+}

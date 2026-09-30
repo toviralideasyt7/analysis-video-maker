@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "topic": "Hollywood actors box office earnings",
+  "metric": "Cumulative Box Office Earnings",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Total Worldwide Box Office Gross",
+      "description": "Sum of global theatrical box office gross revenue for all movies featuring the actor in a leading or major role.",
+      "measurableDefinition": "Gross revenue in USD (unadjusted for inflation)",
+      "caveats": [
+        "Does not account for ticket price inflation over time",
+        "Includes ensemble casts where the actor's individual contribution to ticket sales is variable"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Total Domestic Box Office Gross",
+      "description": "Sum of North American (United States and Canada) theatrical box office revenue for films featuring the actor.",
+      "measurableDefinition": "Gross revenue in USD (unadjusted for inflation)",
+      "caveats": [
+        "Excludes international markets which often represent a significant portion of modern earnings",
+        "Subject to historical distortions in ticket pricing and distribution footprints"
+      ]
+    },
+    {
+      "id": "c",
+      "label": "Inflation-Adjusted Total Box Office Gross",
+      "description": "Cumulative global or domestic box office revenue adjusted to a baseline modern currency year to allow historical comparison.",
+      "measurableDefinition": "Adjusted gross revenue in constant USD",
+      "caveats": [
+        "Adjustment methodology can vary across different economic models and historical baselines"
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "930",
+    "end": "2023"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Tom Hanks",
+    "Samuel L. Jackson",
+    "Scarlett Johansson",
+    "Robert Downey Jr.",
+    "Harrison Ford",
+    "Tom Cruise",
+    "Eddie Murphy",
+    "Will Smith",
+    "Dwayne Johnson",
+    "Morgan Freeman"
+  ],
+  "preferredSources": [
+    "Box Office Mojo",
+    "The Numbers",
+    "Industry trade publications (Variety, The Hollywood Reporter)"
+  ],
+  "knownRisks": [
+    "Historical data prior to the modern studio era (and centuries prior to cinema invention specified in the range) is non-existent or speculative",
+    "Inconsistent credit definitions (lead vs. supporting vs. cameo) across aggregate tracking databases"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

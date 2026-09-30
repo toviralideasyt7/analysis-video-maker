@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "HOLLYWOOD ACTORS BOX",
+  "subtitle": "OFFICE EARNINGS",
+  "entities": [
+    "Avengers: Endgame",
+    "Avatar: The Way of Water",
+    "Star Wars: Episode VII - The Force Awakens"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}
