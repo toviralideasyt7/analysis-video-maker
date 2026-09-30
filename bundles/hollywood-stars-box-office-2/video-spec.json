@@ -1,10 +1,10 @@
 {
   "version": "1.0",
   "metadata": {
-    "title": "Hollywood actors box office earnings",
-    "subtitle": "1984 - 2024",
+    "title": "Hollywood actors box office earnings over time",
+    "subtitle": "2000 - 2024",
     "language": "en",
-    "durationSeconds": 350
+    "durationSeconds": 226
   },
   "canvas": {
     "width": 1920,
@@ -21,47 +21,31 @@
     "barTrack": "#eef0f3",
     "fontFamily": "Inter"
   },
-  "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
+  "datasetRef": "dataset_hollywood-actors-box-office-earnings-ove-20260930203613-6stesq",
   "scenes": [
     {
       "id": "scene_title",
       "type": "title",
       "duration": 8,
-      "title": "Hollywood actors box office earnings",
-      "subtitle": "1984 - 2024"
+      "title": "Hollywood actors box office earnings over time",
+      "subtitle": "2000 - 2024"
     },
     {
       "id": "scene_intro",
       "type": "intro",
       "duration": 25,
-      "title": "Watch how cumulative box office earnings evolved from 1984 through 2024.",
-      "subtitle": "This race tracks leading films and major earnings milestones over four decades."
+      "title": "See how cumulative box office earnings shifted across different film genres from 2000 to 2024.",
+      "subtitle": "This race tracks the top-performing movie genre combinations over two decades based on recorded earnings."
     },
     {
       "id": "scene_race_1",
       "type": "bar_race",
-      "duration": 36,
-      "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
+      "duration": 60,
+      "datasetRef": "dataset_hollywood-actors-box-office-earnings-ove-20260930203613-6stesq",
       "props": {
         "tapeRef": "frames.json",
         "topN": 10,
         "periodLabels": [
-          "1984",
-          "1985",
-          "1986",
-          "1987",
-          "1988",
-          "1989",
-          "1990",
-          "1991",
-          "1992",
-          "1993",
-          "1994",
-          "1995",
-          "1996",
-          "1997",
-          "1998",
-          "1999",
           "2000",
           "2001",
           "2002",
@@ -88,242 +72,52 @@
           "2023",
           "2024"
         ],
-        "highlights": [],
+        "highlights": [
+          {
+            "atFrame": 212,
+            "atLabel": "2010",
+            "entityId": "Action, Science Fiction, Adventure",
+            "headline": "New Peak Reached",
+            "detail": "Action, Science Fiction, Adventure took the lead with a value of 36,753.",
+            "factBox": {
+              "heading": "Top Genre",
+              "body": "Reached the highest recorded leader value in the dataset.",
+              "dateLabel": "2010",
+              "wordmark": "Action, Science Fiction, Adventure"
+            }
+          }
+        ],
         "notes": [
-          "8000 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "4674 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
-          "heading": "Cumulative Box Office Earnings",
-          "value": 2799439100,
-          "entityName": "Avengers: Endgame",
-          "entityId": "avengers-endgame",
+          "heading": "cumulative box office earnings",
+          "value": 35934,
+          "entityName": "Adventure, Drama, Science Fiction",
+          "entityId": "adventure-drama-science-fiction",
           "year": "2024",
           "unit": "count",
           "entities": [
             {
-              "id": "avengers-endgame",
-              "name": "Avengers: Endgame",
-              "color": "#2563eb"
+              "id": "adventure-drama-science-fiction",
+              "name": "Adventure, Drama, Science Fiction",
+              "color": "#c2410c"
             },
             {
-              "id": "avatar-the-way-of-water",
-              "name": "Avatar: The Way of Water",
-              "color": "#059669"
+              "id": "action-adventure-comedy",
+              "name": "Action, Adventure, Comedy",
+              "color": "#9d174d"
             },
             {
-              "id": "star-wars-episode-vii-the-force-awakens",
-              "name": "Star Wars: Episode VII - The Force Awakens",
-              "color": "#7c3aed"
+              "id": "crime-thriller-drama",
+              "name": "Crime, Thriller, Drama",
+              "color": "#db2777"
             }
           ]
         },
         "tapeRange": [
           0,
-          119
-        ]
-      }
-    },
-    {
-      "id": "scene_spotlight_1990",
-      "type": "fact_box",
-      "duration": 14,
-      "title": "Batman rules the 1990s",
-      "props": {
-        "kicker": "THE 1990S",
-        "atLabel": "1990",
-        "body": "As the 1990s began, Batman led the world with 401.2M count. Batman was the previous decade's biggest climber, rising 14 places into the top 10.",
-        "entityIds": [
-          "batman",
-          "home-alone",
-          "beauty-and-the-beast"
-        ]
-      }
-    },
-    {
-      "id": "scene_race_2",
-      "type": "bar_race",
-      "duration": 60,
-      "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
-      "props": {
-        "tapeRef": "frames.json",
-        "topN": 10,
-        "periodLabels": [
-          "1984",
-          "1985",
-          "1986",
-          "1987",
-          "1988",
-          "1989",
-          "1990",
-          "1991",
-          "1992",
-          "1993",
-          "1994",
-          "1995",
-          "1996",
-          "1997",
-          "1998",
-          "1999",
-          "2000",
-          "2001",
-          "2002",
-          "2003",
-          "2004",
-          "2005",
-          "2006",
-          "2007",
-          "2008",
-          "2009",
-          "2010",
-          "2011",
-          "2012",
-          "2013",
-          "2014",
-          "2015",
-          "2016",
-          "2017",
-          "2018",
-          "2019",
-          "2020",
-          "2021",
-          "2022",
-          "2023",
-          "2024"
-        ],
-        "highlights": [],
-        "notes": [
-          "8000 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
-        ],
-        "summary": {
-          "heading": "Cumulative Box Office Earnings",
-          "value": 2799439100,
-          "entityName": "Avengers: Endgame",
-          "entityId": "avengers-endgame",
-          "year": "2024",
-          "unit": "count",
-          "entities": [
-            {
-              "id": "avengers-endgame",
-              "name": "Avengers: Endgame",
-              "color": "#2563eb"
-            },
-            {
-              "id": "avatar-the-way-of-water",
-              "name": "Avatar: The Way of Water",
-              "color": "#059669"
-            },
-            {
-              "id": "star-wars-episode-vii-the-force-awakens",
-              "name": "Star Wars: Episode VII - The Force Awakens",
-              "color": "#7c3aed"
-            }
-          ]
-        },
-        "tapeRange": [
-          120,
-          319
-        ]
-      }
-    },
-    {
-      "id": "scene_spotlight_2000",
-      "type": "fact_box",
-      "duration": 14,
-      "title": "Titanic rules the 2000s",
-      "props": {
-        "kicker": "THE 2000S",
-        "atLabel": "2000",
-        "body": "As the 2000s began, Titanic led the world with 1843.4M count. Titanic was the previous decade's biggest climber, rising 14 places into the top 10.",
-        "entityIds": [
-          "titanic",
-          "jurassic-park",
-          "harry-potter-and-the-sorcerer-s-stone"
-        ]
-      }
-    },
-    {
-      "id": "scene_race_3",
-      "type": "bar_race",
-      "duration": 60,
-      "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
-      "props": {
-        "tapeRef": "frames.json",
-        "topN": 10,
-        "periodLabels": [
-          "1984",
-          "1985",
-          "1986",
-          "1987",
-          "1988",
-          "1989",
-          "1990",
-          "1991",
-          "1992",
-          "1993",
-          "1994",
-          "1995",
-          "1996",
-          "1997",
-          "1998",
-          "1999",
-          "2000",
-          "2001",
-          "2002",
-          "2003",
-          "2004",
-          "2005",
-          "2006",
-          "2007",
-          "2008",
-          "2009",
-          "2010",
-          "2011",
-          "2012",
-          "2013",
-          "2014",
-          "2015",
-          "2016",
-          "2017",
-          "2018",
-          "2019",
-          "2020",
-          "2021",
-          "2022",
-          "2023",
-          "2024"
-        ],
-        "highlights": [],
-        "notes": [
-          "8000 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
-        ],
-        "summary": {
-          "heading": "Cumulative Box Office Earnings",
-          "value": 2799439100,
-          "entityName": "Avengers: Endgame",
-          "entityId": "avengers-endgame",
-          "year": "2024",
-          "unit": "count",
-          "entities": [
-            {
-              "id": "avengers-endgame",
-              "name": "Avengers: Endgame",
-              "color": "#2563eb"
-            },
-            {
-              "id": "avatar-the-way-of-water",
-              "name": "Avatar: The Way of Water",
-              "color": "#059669"
-            },
-            {
-              "id": "star-wars-episode-vii-the-force-awakens",
-              "name": "Star Wars: Episode VII - The Force Awakens",
-              "color": "#7c3aed"
-            }
-          ]
-        },
-        "tapeRange": [
-          320,
-          519
+          199
         ]
       }
     },
@@ -331,43 +125,27 @@
       "id": "scene_spotlight_2010",
       "type": "fact_box",
       "duration": 14,
-      "title": "Avatar rules the 2010s",
+      "title": "Action, Science Fiction, Adventure rules the 2010s",
       "props": {
         "kicker": "THE 2010S",
         "atLabel": "2010",
-        "body": "As the 2010s began, Avatar led the world with 2743.6M count. Avatar was the previous decade's biggest climber, rising 14 places into the top 10.",
+        "body": "As the 2010s began, Action, Science Fiction, Adventure led the world with 36.8K count. Action, Science Fiction, Adventure was the previous decade's biggest climber, rising 14 places into the top 10.",
         "entityIds": [
-          "avatar",
-          "harry-potter-and-the-deathly-hallows-part-2",
-          "the-lord-of-the-rings-the-return-of-the-king"
+          "action-science-fiction-adventure",
+          "drama-action-crime-thriller",
+          "action-adventure-fantasy-science-fiction"
         ]
       }
     },
     {
-      "id": "scene_race_4",
+      "id": "scene_race_2",
       "type": "bar_race",
       "duration": 60,
-      "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
+      "datasetRef": "dataset_hollywood-actors-box-office-earnings-ove-20260930203613-6stesq",
       "props": {
         "tapeRef": "frames.json",
         "topN": 10,
         "periodLabels": [
-          "1984",
-          "1985",
-          "1986",
-          "1987",
-          "1988",
-          "1989",
-          "1990",
-          "1991",
-          "1992",
-          "1993",
-          "1994",
-          "1995",
-          "1996",
-          "1997",
-          "1998",
-          "1999",
           "2000",
           "2001",
           "2002",
@@ -394,38 +172,52 @@
           "2023",
           "2024"
         ],
-        "highlights": [],
+        "highlights": [
+          {
+            "atFrame": 212,
+            "atLabel": "2010",
+            "entityId": "Action, Science Fiction, Adventure",
+            "headline": "New Peak Reached",
+            "detail": "Action, Science Fiction, Adventure took the lead with a value of 36,753.",
+            "factBox": {
+              "heading": "Top Genre",
+              "body": "Reached the highest recorded leader value in the dataset.",
+              "dateLabel": "2010",
+              "wordmark": "Action, Science Fiction, Adventure"
+            }
+          }
+        ],
         "notes": [
-          "8000 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "4674 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
-          "heading": "Cumulative Box Office Earnings",
-          "value": 2799439100,
-          "entityName": "Avengers: Endgame",
-          "entityId": "avengers-endgame",
+          "heading": "cumulative box office earnings",
+          "value": 35934,
+          "entityName": "Adventure, Drama, Science Fiction",
+          "entityId": "adventure-drama-science-fiction",
           "year": "2024",
           "unit": "count",
           "entities": [
             {
-              "id": "avengers-endgame",
-              "name": "Avengers: Endgame",
-              "color": "#2563eb"
+              "id": "adventure-drama-science-fiction",
+              "name": "Adventure, Drama, Science Fiction",
+              "color": "#c2410c"
             },
             {
-              "id": "avatar-the-way-of-water",
-              "name": "Avatar: The Way of Water",
-              "color": "#059669"
+              "id": "action-adventure-comedy",
+              "name": "Action, Adventure, Comedy",
+              "color": "#9d174d"
             },
             {
-              "id": "star-wars-episode-vii-the-force-awakens",
-              "name": "Star Wars: Episode VII - The Force Awakens",
-              "color": "#7c3aed"
+              "id": "crime-thriller-drama",
+              "name": "Crime, Thriller, Drama",
+              "color": "#db2777"
             }
           ]
         },
         "tapeRange": [
-          520,
-          719
+          200,
+          399
         ]
       }
     },
@@ -433,43 +225,27 @@
       "id": "scene_spotlight_2020",
       "type": "fact_box",
       "duration": 14,
-      "title": "Avengers: Endgame rules the 2020s",
+      "title": "Adventure, Drama, Science Fiction rules the 2020s",
       "props": {
         "kicker": "THE 2020S",
         "atLabel": "2020",
-        "body": "As of 2024, Avengers: Endgame leads the world with 2799.4M count.",
+        "body": "As of 2024, Adventure, Drama, Science Fiction leads the world with 35.9K count.",
         "entityIds": [
-          "avengers-endgame",
-          "avatar-the-way-of-water",
-          "star-wars-episode-vii-the-force-awakens"
+          "adventure-drama-science-fiction",
+          "action-adventure-comedy",
+          "crime-thriller-drama"
         ]
       }
     },
     {
-      "id": "scene_race_5",
+      "id": "scene_race_3",
       "type": "bar_race",
       "duration": 30,
-      "datasetRef": "dataset_hollywood-actors-box-office-earnings-20260930201046-0b1wqr",
+      "datasetRef": "dataset_hollywood-actors-box-office-earnings-ove-20260930203613-6stesq",
       "props": {
         "tapeRef": "frames.json",
         "topN": 10,
         "periodLabels": [
-          "1984",
-          "1985",
-          "1986",
-          "1987",
-          "1988",
-          "1989",
-          "1990",
-          "1991",
-          "1992",
-          "1993",
-          "1994",
-          "1995",
-          "1996",
-          "1997",
-          "1998",
-          "1999",
           "2000",
           "2001",
           "2002",
@@ -496,38 +272,52 @@
           "2023",
           "2024"
         ],
-        "highlights": [],
+        "highlights": [
+          {
+            "atFrame": 212,
+            "atLabel": "2010",
+            "entityId": "Action, Science Fiction, Adventure",
+            "headline": "New Peak Reached",
+            "detail": "Action, Science Fiction, Adventure took the lead with a value of 36,753.",
+            "factBox": {
+              "heading": "Top Genre",
+              "body": "Reached the highest recorded leader value in the dataset.",
+              "dateLabel": "2010",
+              "wordmark": "Action, Science Fiction, Adventure"
+            }
+          }
+        ],
         "notes": [
-          "8000 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+          "4674 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
         ],
         "summary": {
-          "heading": "Cumulative Box Office Earnings",
-          "value": 2799439100,
-          "entityName": "Avengers: Endgame",
-          "entityId": "avengers-endgame",
+          "heading": "cumulative box office earnings",
+          "value": 35934,
+          "entityName": "Adventure, Drama, Science Fiction",
+          "entityId": "adventure-drama-science-fiction",
           "year": "2024",
           "unit": "count",
           "entities": [
             {
-              "id": "avengers-endgame",
-              "name": "Avengers: Endgame",
-              "color": "#2563eb"
+              "id": "adventure-drama-science-fiction",
+              "name": "Adventure, Drama, Science Fiction",
+              "color": "#c2410c"
             },
             {
-              "id": "avatar-the-way-of-water",
-              "name": "Avatar: The Way of Water",
-              "color": "#059669"
+              "id": "action-adventure-comedy",
+              "name": "Action, Adventure, Comedy",
+              "color": "#9d174d"
             },
             {
-              "id": "star-wars-episode-vii-the-force-awakens",
-              "name": "Star Wars: Episode VII - The Force Awakens",
-              "color": "#7c3aed"
+              "id": "crime-thriller-drama",
+              "name": "Crime, Thriller, Drama",
+              "color": "#db2777"
             }
           ]
         },
         "tapeRange": [
-          720,
-          819
+          400,
+          499
         ]
       }
     },
@@ -535,7 +325,7 @@
       "id": "scene_ending",
       "type": "ending",
       "duration": 15,
-      "title": "A look back at the top cumulative box office earnings from 1984 to 2024."
+      "title": "Over twenty-four years, blockbuster genres continually rotated at the top of the box office race."
     }
   ],
   "assets": [],
@@ -545,16 +335,8 @@
       "publisher": "kaggle.com",
       "title": "Movies Box office Dataset (2000-2024)",
       "publishedAt": null,
-      "retrievedAt": "2026-09-30T20:11:06.343Z",
-      "identifier": "web_kaggle-com_3"
-    },
-    {
-      "url": "https://www.kaggle.com/datasets/harios/box-office-data-1984-to-2024-from-boxofficemojo",
-      "publisher": "kaggle.com",
-      "title": "Box Office Data (1984 to 2024) from BoxOfficeMojo",
-      "publishedAt": null,
-      "retrievedAt": "2026-09-30T20:11:09.095Z",
-      "identifier": "web_kaggle-com_14"
+      "retrievedAt": "2026-09-30T20:36:45.716Z",
+      "identifier": "web_kaggle-com_11"
     }
   ]
 }

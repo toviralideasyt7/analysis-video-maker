@@ -1,2452 +1,952 @@
 {
-  "flags": [
-    {
-      "entityId": "madagascar",
-      "type": "flag",
-      "code": "mg"
-    }
-  ],
+  "flags": [],
   "logos": [
     {
-      "entityId": "avengers-endgame",
+      "entityId": "action-adventure-science-fiction",
       "type": "logo",
-      "query": "Avengers: Endgame logo png transparent",
+      "query": "Action, Adventure, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "avatar",
+      "entityId": "adventure-action-science-fiction",
       "type": "logo",
-      "query": "Avatar logo png transparent",
+      "query": "Adventure, Action, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-lion-king",
+      "entityId": "adventure-fantasy",
       "type": "logo",
-      "query": "The Lion King logo png transparent",
+      "query": "Adventure, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "avatar-the-way-of-water",
+      "entityId": "adventure-fantasy-action",
       "type": "logo",
-      "query": "Avatar: The Way of Water logo png transparent",
+      "query": "Adventure, Fantasy, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-vii-the-force-awakens",
+      "entityId": "action-science-fiction-adventure",
       "type": "logo",
-      "query": "Star Wars: Episode VII - The Force Awakens logo png transparent",
+      "query": "Action, Science Fiction, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "avengers-infinity-war",
+      "entityId": "action-adventure-fantasy",
       "type": "logo",
-      "query": "Avengers: Infinity War logo png transparent",
+      "query": "Action, Adventure, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-no-way-home",
+      "entityId": "science-fiction-action-adventure",
       "type": "logo",
-      "query": "Spider-Man: No Way Home logo png transparent",
+      "query": "Science Fiction, Action, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "titanic",
+      "entityId": "action-science-fiction",
       "type": "logo",
-      "query": "Titanic logo png transparent",
+      "query": "Action, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jurassic-world",
+      "entityId": "science-fiction-adventure-action",
       "type": "logo",
-      "query": "Jurassic World logo png transparent",
+      "query": "Science Fiction, Adventure, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-avengers",
+      "entityId": "fantasy-adventure",
       "type": "logo",
-      "query": "The Avengers logo png transparent",
+      "query": "Fantasy, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "furious-7",
+      "entityId": "action-crime",
       "type": "logo",
-      "query": "Furious 7 logo png transparent",
+      "query": "Action, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "beauty-and-the-beast",
+      "entityId": "drama-comedy",
       "type": "logo",
-      "query": "Beauty and the Beast logo png transparent",
+      "query": "Drama, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "top-gun-maverick",
+      "entityId": "adventure-science-fiction-action",
       "type": "logo",
-      "query": "Top Gun: Maverick logo png transparent",
+      "query": "Adventure, Science Fiction, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "frozen-ii",
+      "entityId": "action-crime-thriller",
       "type": "logo",
-      "query": "Frozen II logo png transparent",
+      "query": "Action, Crime, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "barbie",
+      "entityId": "drama-crime",
       "type": "logo",
-      "query": "Barbie logo png transparent",
+      "query": "Drama, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "avengers-age-of-ultron",
+      "entityId": "adventure-drama-science-fiction",
       "type": "logo",
-      "query": "Avengers: Age of Ultron logo png transparent",
+      "query": "Adventure, Drama, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "aladdin",
+      "entityId": "comedy",
       "type": "logo",
-      "query": "Aladdin logo png transparent",
+      "query": "Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-super-mario-bros-movie",
+      "entityId": "adventure-drama",
       "type": "logo",
-      "query": "The Super Mario Bros. Movie logo png transparent",
+      "query": "Adventure, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "black-panther",
+      "entityId": "drama-action-crime-thriller",
       "type": "logo",
-      "query": "Black Panther logo png transparent",
+      "query": "Drama, Action, Crime, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-deathly-hallows-part-2",
+      "entityId": "drama",
       "type": "logo",
-      "query": "Harry Potter and the Deathly Hallows: Part 2 logo png transparent",
+      "query": "Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-viii-the-last-jedi",
+      "entityId": "action-adventure-science-fiction-thriller",
       "type": "logo",
-      "query": "Star Wars: Episode VIII - The Last Jedi logo png transparent",
+      "query": "Action, Adventure, Science Fiction, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jurassic-world-fallen-kingdom",
+      "entityId": "action-adventure-fantasy-science-fiction",
       "type": "logo",
-      "query": "Jurassic World: Fallen Kingdom logo png transparent",
+      "query": "Action, Adventure, Fantasy, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "frozen",
+      "entityId": "action-adventure-comedy",
       "type": "logo",
-      "query": "Frozen logo png transparent",
+      "query": "Action, Adventure, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "incredibles-2",
+      "entityId": "action-adventure-animation-family",
       "type": "logo",
-      "query": "Incredibles 2 logo png transparent",
+      "query": "Action, Adventure, Animation, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-fate-of-the-furious",
+      "entityId": "drama-romance",
       "type": "logo",
-      "query": "The Fate of the Furious logo png transparent",
+      "query": "Drama, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "iron-man-3",
+      "entityId": "drama-thriller-crime",
       "type": "logo",
-      "query": "Iron Man 3 logo png transparent",
+      "query": "Drama, Thriller, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "minions",
+      "entityId": "thriller-crime",
       "type": "logo",
-      "query": "Minions logo png transparent",
+      "query": "Thriller, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "captain-america-civil-war",
+      "entityId": "action-comedy-adventure",
       "type": "logo",
-      "query": "Captain America: Civil War logo png transparent",
+      "query": "Action, Comedy, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "aquaman",
+      "entityId": "animation-comedy-family-fantasy",
       "type": "logo",
-      "query": "Aquaman logo png transparent",
+      "query": "Animation, Comedy, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-lord-of-the-rings-the-return-of-the-king",
+      "entityId": "drama-western",
       "type": "logo",
-      "query": "The Lord of the Rings: The Return of the King logo png transparent",
+      "query": "Drama, Western logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-far-from-home",
+      "entityId": "crime-thriller-drama",
       "type": "logo",
-      "query": "Spider-Man: Far from Home logo png transparent",
+      "query": "Crime, Thriller, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "captain-marvel",
+      "entityId": "animation-comedy-fantasy-adventure-family",
       "type": "logo",
-      "query": "Captain Marvel logo png transparent",
+      "query": "Animation, Comedy, Fantasy, Adventure, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "transformers-dark-of-the-moon",
+      "entityId": "crime-drama-comedy",
       "type": "logo",
-      "query": "Transformers: Dark of the Moon logo png transparent",
+      "query": "Crime, Drama, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "skyfall",
+      "entityId": "drama-thriller-mystery",
       "type": "logo",
-      "query": "Skyfall logo png transparent",
+      "query": "Drama, Thriller, Mystery logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "transformers-age-of-extinction",
+      "entityId": "animation-comedy-family",
       "type": "logo",
-      "query": "Transformers: Age of Extinction logo png transparent",
+      "query": "Animation, Comedy, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-dark-knight-rises",
+      "entityId": "animation-action-adventure-science-fiction",
       "type": "logo",
-      "query": "The Dark Knight Rises logo png transparent",
+      "query": "Animation, Action, Adventure, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "joker",
+      "entityId": "action-crime-drama-thriller",
       "type": "logo",
-      "query": "Joker logo png transparent",
+      "query": "Action, Crime, Drama, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-ix-the-rise-of-skywalker",
+      "entityId": "drama-thriller-war",
       "type": "logo",
-      "query": "Star Wars: Episode IX - The Rise of Skywalker logo png transparent",
+      "query": "Drama, Thriller, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "toy-story-4",
+      "entityId": "animation-family-adventure-drama-comedy",
       "type": "logo",
-      "query": "Toy Story 4 logo png transparent",
+      "query": "Animation, Family, Adventure, Drama, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "toy-story-3",
+      "entityId": "science-fiction-adventure-fantasy",
       "type": "logo",
-      "query": "Toy Story 3 logo png transparent",
+      "query": "Science Fiction, Adventure, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "pirates-of-the-caribbean-dead-man-s-chest",
+      "entityId": "action-adventure-science-fiction-drama",
       "type": "logo",
-      "query": "Pirates of the Caribbean: Dead Man's Chest logo png transparent",
+      "query": "Action, Adventure, Science Fiction, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "rogue-one-a-star-wars-story",
+      "entityId": "action-thriller-science-fiction",
       "type": "logo",
-      "query": "Rogue One: A Star Wars Story logo png transparent",
+      "query": "Action, Thriller, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "pirates-of-the-caribbean-on-stranger-tides",
+      "entityId": "action-crime-drama",
       "type": "logo",
-      "query": "Pirates of the Caribbean: On Stranger Tides logo png transparent",
+      "query": "Action, Crime, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "despicable-me-3",
+      "entityId": "drama-adventure-science-fiction",
       "type": "logo",
-      "query": "Despicable Me 3 logo png transparent",
+      "query": "Drama, Adventure, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "finding-dory",
+      "entityId": "family-animation-music-adventure",
       "type": "logo",
-      "query": "Finding Dory logo png transparent",
+      "query": "Family, Animation, Music, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "alice-in-wonderland",
+      "entityId": "war-action-drama",
       "type": "logo",
-      "query": "Alice in Wonderland logo png transparent",
+      "query": "War, Action, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "zootopia",
+      "entityId": "animation-family",
       "type": "logo",
-      "query": "Zootopia logo png transparent",
+      "query": "Animation, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hobbit-an-unexpected-journey",
+      "entityId": "action-drama-science-fiction",
       "type": "logo",
-      "query": "The Hobbit: An Unexpected Journey logo png transparent",
+      "query": "Action, Drama, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-dark-knight",
+      "entityId": "animation-adventure-comedy-family",
       "type": "logo",
-      "query": "The Dark Knight logo png transparent",
+      "query": "Animation, Adventure, Comedy, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jurassic-world-dominion",
+      "entityId": "horror-thriller",
       "type": "logo",
-      "query": "Jurassic World Dominion logo png transparent",
+      "query": "Horror, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jurassic-park",
+      "entityId": "action-drama-adventure",
       "type": "logo",
-      "query": "Jurassic Park logo png transparent",
+      "query": "Action, Drama, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-sorcerer-s-stone",
+      "entityId": "science-fiction-adventure",
       "type": "logo",
-      "query": "Harry Potter and the Sorcerer's Stone logo png transparent",
+      "query": "Science Fiction, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "oppenheimer",
+      "entityId": "mystery-thriller-drama",
       "type": "logo",
-      "query": "Oppenheimer logo png transparent",
+      "query": "Mystery, Thriller, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "despicable-me-2",
+      "entityId": "comedy-thriller-drama",
       "type": "logo",
-      "query": "Despicable Me 2 logo png transparent",
+      "query": "Comedy, Thriller, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-jungle-book",
+      "entityId": "western-drama-adventure",
       "type": "logo",
-      "query": "The Jungle Book logo png transparent",
+      "query": "Western, Drama, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jumanji-welcome-to-the-jungle",
+      "entityId": "drama-science-fiction-mystery",
       "type": "logo",
-      "query": "Jumanji: Welcome to the Jungle logo png transparent",
+      "query": "Drama, Science Fiction, Mystery logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "pirates-of-the-caribbean-at-world-s-end",
+      "entityId": "mystery-thriller-horror",
       "type": "logo",
-      "query": "Pirates of the Caribbean: At World's End logo png transparent",
+      "query": "Mystery, Thriller, Horror logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-deathly-hallows-part-1",
+      "entityId": "drama-war",
       "type": "logo",
-      "query": "Harry Potter and the Deathly Hallows: Part 1 logo png transparent",
+      "query": "Drama, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hobbit-the-desolation-of-smaug",
+      "entityId": "adventure-action-thriller",
       "type": "logo",
-      "query": "The Hobbit: The Desolation of Smaug logo png transparent",
+      "query": "Adventure, Action, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hobbit-the-battle-of-the-five-armies",
+      "entityId": "action-thriller-crime",
       "type": "logo",
-      "query": "The Hobbit: The Battle of the Five Armies logo png transparent",
+      "query": "Action, Thriller, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "doctor-strange-in-the-multiverse-of-madness",
+      "entityId": "action-mystery-science-fiction-thriller",
       "type": "logo",
-      "query": "Doctor Strange in the Multiverse of Madness logo png transparent",
+      "query": "Action, Mystery, Science Fiction, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "minions-the-rise-of-gru",
+      "entityId": "history-drama-thriller-war",
       "type": "logo",
-      "query": "Minions: The Rise of Gru logo png transparent",
+      "query": "History, Drama, Thriller, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-order-of-the-phoenix",
+      "entityId": "comedy-drama-romance-music",
       "type": "logo",
-      "query": "Harry Potter and the Order of the Phoenix logo png transparent",
+      "query": "Comedy, Drama, Romance, Music logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-lord-of-the-rings-the-two-towers",
+      "entityId": "music-drama",
       "type": "logo",
-      "query": "The Lord of the Rings: The Two Towers logo png transparent",
+      "query": "Music, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-half-blood-prince",
+      "entityId": "romance-drama",
       "type": "logo",
-      "query": "Harry Potter and the Half-Blood Prince logo png transparent",
+      "query": "Romance, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "shrek-2",
+      "entityId": "crime-comedy-action-adventure",
       "type": "logo",
-      "query": "Shrek 2 logo png transparent",
+      "query": "Crime, Comedy, Action, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-i-the-phantom-menace",
+      "entityId": "animation-family-fantasy",
       "type": "logo",
-      "query": "Star Wars: Episode I - The Phantom Menace logo png transparent",
+      "query": "Animation, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "bohemian-rhapsody",
+      "entityId": "animation-family-adventure-fantasy",
       "type": "logo",
-      "query": "Bohemian Rhapsody logo png transparent",
+      "query": "Animation, Family, Adventure, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-battle-at-lake-changjin",
+      "entityId": "animation-adventure-family-comedy",
       "type": "logo",
-      "query": "The Battle at Lake Changjin logo png transparent",
+      "query": "Animation, Adventure, Family, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-goblet-of-fire",
+      "entityId": "science-fiction-action",
       "type": "logo",
-      "query": "Harry Potter and the Goblet of Fire logo png transparent",
+      "query": "Science Fiction, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-3",
+      "entityId": "drama-mystery-science-fiction",
       "type": "logo",
-      "query": "Spider-Man 3 logo png transparent",
+      "query": "Drama, Mystery, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "ice-age-dawn-of-the-dinosaurs",
+      "entityId": "action-comedy-science-fiction",
       "type": "logo",
-      "query": "Ice Age: Dawn of the Dinosaurs logo png transparent",
+      "query": "Action, Comedy, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spectre",
+      "entityId": "science-fiction-adventure-thriller",
       "type": "logo",
-      "query": "Spectre logo png transparent",
+      "query": "Science Fiction, Adventure, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-homecoming",
+      "entityId": "drama-science-fiction-thriller",
       "type": "logo",
-      "query": "Spider-Man: Homecoming logo png transparent",
+      "query": "Drama, Science Fiction, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-chamber-of-secrets",
+      "entityId": "adventure-family-animation-action-comedy",
       "type": "logo",
-      "query": "Harry Potter and the Chamber of Secrets logo png transparent",
+      "query": "Adventure, Family, Animation, Action, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "ice-age-continental-drift",
+      "entityId": "action-horror-science-fiction-thriller",
       "type": "logo",
-      "query": "Ice Age: Continental Drift logo png transparent",
+      "query": "Action, Horror, Science Fiction, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-secret-life-of-pets",
+      "entityId": "science-fiction-thriller-drama",
       "type": "logo",
-      "query": "The Secret Life of Pets logo png transparent",
+      "query": "Science Fiction, Thriller, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "batman-v-superman-dawn-of-justice",
+      "entityId": "adventure-comedy-family-fantasy",
       "type": "logo",
-      "query": "Batman v Superman: Dawn of Justice logo png transparent",
+      "query": "Adventure, Comedy, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "finding-nemo",
+      "entityId": "drama-music",
       "type": "logo",
-      "query": "Finding Nemo logo png transparent",
+      "query": "Drama, Music logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "wolf-warrior-2",
+      "entityId": "action-adventure-thriller",
       "type": "logo",
-      "query": "Wolf Warrior 2 logo png transparent",
+      "query": "Action, Adventure, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-lord-of-the-rings-the-fellowship-of-the-ring",
+      "entityId": "science-fiction-drama-romance",
       "type": "logo",
-      "query": "The Lord of the Rings: The Fellowship of the Ring logo png transparent",
+      "query": "Science Fiction, Drama, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-iii-revenge-of-the-sith",
+      "entityId": "mystery-thriller",
       "type": "logo",
-      "query": "Star Wars: Episode III - Revenge of the Sith logo png transparent",
+      "query": "Mystery, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hunger-games-catching-fire",
+      "entityId": "animation-family-comedy",
       "type": "logo",
-      "query": "The Hunger Games: Catching Fire logo png transparent",
+      "query": "Animation, Family, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "guardians-of-the-galaxy-vol-2",
+      "entityId": "drama-thriller-horror",
       "type": "logo",
-      "query": "Guardians of the Galaxy Vol. 2 logo png transparent",
+      "query": "Drama, Thriller, Horror logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "black-panther-wakanda-forever",
+      "entityId": "romance-science-fiction-drama",
       "type": "logo",
-      "query": "Black Panther: Wakanda Forever logo png transparent",
+      "query": "Romance, Science Fiction, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "inside-out",
+      "entityId": "horror-drama-science-fiction",
       "type": "logo",
-      "query": "Inside Out logo png transparent",
+      "query": "Horror, Drama, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "venom",
+      "entityId": "drama-mystery-western",
       "type": "logo",
-      "query": "Venom logo png transparent",
+      "query": "Drama, Mystery, Western logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "thor-ragnarok",
+      "entityId": "adventure-action-fantasy",
       "type": "logo",
-      "query": "Thor: Ragnarok logo png transparent",
+      "query": "Adventure, Action, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "guardians-of-the-galaxy-vol-3",
+      "entityId": "family-fantasy-adventure",
       "type": "logo",
-      "query": "Guardians of the Galaxy Vol. 3 logo png transparent",
+      "query": "Family, Fantasy, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "transformers-revenge-of-the-fallen",
+      "entityId": "action-adventure-crime-mystery",
       "type": "logo",
-      "query": "Transformers: Revenge of the Fallen logo png transparent",
+      "query": "Action, Adventure, Crime, Mystery logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-twilight-saga-breaking-dawn-part-2",
+      "entityId": "drama-history-war",
       "type": "logo",
-      "query": "The Twilight Saga: Breaking Dawn - Part 2 logo png transparent",
+      "query": "Drama, History, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "inception",
+      "entityId": "action-adventure-comedy-science-fiction",
       "type": "logo",
-      "query": "Inception logo png transparent",
+      "query": "Action, Adventure, Comedy, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "wonder-woman",
+      "entityId": "action-adventure-war",
       "type": "logo",
-      "query": "Wonder Woman logo png transparent",
+      "query": "Action, Adventure, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "hi-mom",
+      "entityId": "fantasy-drama-romance",
       "type": "logo",
-      "query": "Hi, Mom logo png transparent",
+      "query": "Fantasy, Drama, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man",
+      "entityId": "comedy-drama-thriller",
       "type": "logo",
-      "query": "Spider-Man logo png transparent",
+      "query": "Comedy, Drama, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "fantastic-beasts-and-where-to-find-them",
+      "entityId": "animation-adventure-comedy-family-action-fantasy",
       "type": "logo",
-      "query": "Fantastic Beasts and Where to Find Them logo png transparent",
+      "query": "Animation, Adventure, Comedy, Family, Action, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "shrek-the-third",
+      "entityId": "animation-comedy-family-adventure",
       "type": "logo",
-      "query": "Shrek the Third logo png transparent",
+      "query": "Animation, Comedy, Family, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "jumanji-the-next-level",
+      "entityId": "drama-science-fiction",
       "type": "logo",
-      "query": "Jumanji: The Next Level logo png transparent",
+      "query": "Drama, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "harry-potter-and-the-prisoner-of-azkaban",
+      "entityId": "drama-romance-science-fiction",
       "type": "logo",
-      "query": "Harry Potter and the Prisoner of Azkaban logo png transparent",
+      "query": "Drama, Romance, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "mission-impossible-fallout",
+      "entityId": "fantasy-adventure-action",
       "type": "logo",
-      "query": "Mission: Impossible - Fallout logo png transparent",
+      "query": "Fantasy, Adventure, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "fast-furious-6",
+      "entityId": "fantasy-adventure-animation-family",
       "type": "logo",
-      "query": "Fast & Furious 6 logo png transparent",
+      "query": "Fantasy, Adventure, Animation, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-2",
+      "entityId": "drama-fantasy-romance",
       "type": "logo",
-      "query": "Spider-Man 2 logo png transparent",
+      "query": "Drama, Fantasy, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "indiana-jones-and-the-kingdom-of-the-crystal-skull",
+      "entityId": "comedy-crime-mystery",
       "type": "logo",
-      "query": "Indiana Jones and the Kingdom of the Crystal Skull logo png transparent",
+      "query": "Comedy, Crime, Mystery logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "deadpool",
+      "entityId": "war-history-thriller-drama",
       "type": "logo",
-      "query": "Deadpool logo png transparent",
+      "query": "War, History, Thriller, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "no-time-to-die",
+      "entityId": "animation-family-comedy-fantasy-adventure-romance",
       "type": "logo",
-      "query": "No Time to Die logo png transparent",
+      "query": "Animation, Family, Comedy, Fantasy, Adventure, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "guardians-of-the-galaxy",
+      "entityId": "comedy-horror",
       "type": "logo",
-      "query": "Guardians of the Galaxy logo png transparent",
+      "query": "Comedy, Horror logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-batman",
+      "entityId": "crime-drama-thriller",
       "type": "logo",
-      "query": "The Batman logo png transparent",
+      "query": "Crime, Drama, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "2012",
+      "entityId": "thriller-action-drama-science-fiction",
       "type": "logo",
-      "query": "2012 logo png transparent",
+      "query": "Thriller, Action, Drama, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "thor-love-and-thunder",
+      "entityId": "action-adventure-animation-family-comedy",
       "type": "logo",
-      "query": "Thor: Love and Thunder logo png transparent",
+      "query": "Action, Adventure, Animation, Family, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-da-vinci-code",
+      "entityId": "action-thriller",
       "type": "logo",
-      "query": "The Da Vinci Code logo png transparent",
+      "query": "Action, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "maleficent",
+      "entityId": "adventure-action-thriller-science-fiction",
       "type": "logo",
-      "query": "Maleficent logo png transparent",
+      "query": "Adventure, Action, Thriller, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-amazing-spider-man",
+      "entityId": "family-animation-adventure-comedy",
       "type": "logo",
-      "query": "The Amazing Spider-Man logo png transparent",
+      "query": "Family, Animation, Adventure, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hunger-games-mockingjay-part-1",
+      "entityId": "fantasy-comedy",
       "type": "logo",
-      "query": "The Hunger Games: Mockingjay - Part 1 logo png transparent",
+      "query": "Fantasy, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "shrek-forever-after",
+      "entityId": "adventure-family-fantasy",
       "type": "logo",
-      "query": "Shrek Forever After logo png transparent",
+      "query": "Adventure, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "suicide-squad",
+      "entityId": "thriller-mystery-science-fiction",
       "type": "logo",
-      "query": "Suicide Squad logo png transparent",
+      "query": "Thriller, Mystery, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "madagascar-3-europe-s-most-wanted",
+      "entityId": "fantasy-drama-war",
       "type": "logo",
-      "query": "Madagascar 3: Europe's Most Wanted logo png transparent",
+      "query": "Fantasy, Drama, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "x-men-days-of-future-past",
+      "entityId": "crime-drama-mystery-thriller",
       "type": "logo",
-      "query": "X-Men: Days of Future Past logo png transparent",
+      "query": "Crime, Drama, Mystery, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-chronicles-of-narnia-the-lion-the-witch-and-the-wardrobe",
+      "entityId": "animation-family-comedy-fantasy",
       "type": "logo",
-      "query": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe logo png transparent",
+      "query": "Animation, Family, Comedy, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "monsters-university",
+      "entityId": "crime-mystery-thriller",
       "type": "logo",
-      "query": "Monsters University logo png transparent",
+      "query": "Crime, Mystery, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-matrix-reloaded",
+      "entityId": "action-comedy-drama-thriller",
       "type": "logo",
-      "query": "The Matrix Reloaded logo png transparent",
+      "query": "Action, Comedy, Drama, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "up",
+      "entityId": "action-adventure-comedy-family-fantasy",
       "type": "logo",
-      "query": "Up logo png transparent",
+      "query": "Action, Adventure, Comedy, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "deadpool-2",
+      "entityId": "adventure-history-war",
       "type": "logo",
-      "query": "Deadpool 2 logo png transparent",
+      "query": "Adventure, History, War logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "f9-the-fast-saga",
+      "entityId": "adventure-drama-family-animation",
       "type": "logo",
-      "query": "F9: The Fast Saga logo png transparent",
+      "query": "Adventure, Drama, Family, Animation logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "gravity",
+      "entityId": "adventure-fantasy-romance-family",
       "type": "logo",
-      "query": "Gravity logo png transparent",
+      "query": "Adventure, Fantasy, Romance, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "captain-america-the-winter-soldier",
+      "entityId": "fantasy-animation-adventure",
       "type": "logo",
-      "query": "Captain America: The Winter Soldier logo png transparent",
+      "query": "Fantasy, Animation, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-twilight-saga-breaking-dawn-part-1",
+      "entityId": "animation-family-comedy-adventure",
       "type": "logo",
-      "query": "The Twilight Saga: Breaking Dawn - Part 1 logo png transparent",
+      "query": "Animation, Family, Comedy, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "dawn-of-the-planet-of-the-apes",
+      "entityId": "action-science-fiction-comedy-family",
       "type": "logo",
-      "query": "Dawn of the Planet of the Apes logo png transparent",
+      "query": "Action, Science Fiction, Comedy, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-twilight-saga-new-moon",
+      "entityId": "fantasy-action",
       "type": "logo",
-      "query": "The Twilight Saga: New Moon logo png transparent",
+      "query": "Fantasy, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "transformers",
+      "entityId": "drama-history",
       "type": "logo",
-      "query": "Transformers logo png transparent",
+      "query": "Drama, History logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-amazing-spider-man-2",
+      "entityId": "science-fiction",
       "type": "logo",
-      "query": "The Amazing Spider-Man 2 logo png transparent",
+      "query": "Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "dune-part-two",
+      "entityId": "romance-fantasy-animation",
       "type": "logo",
-      "query": "Dune: Part Two logo png transparent",
+      "query": "Romance, Fantasy, Animation logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "fast-x",
+      "entityId": "comedy-crime-family-adventure",
       "type": "logo",
-      "query": "Fast X logo png transparent",
+      "query": "Comedy, Crime, Family, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-twilight-saga-eclipse",
+      "entityId": "action-drama",
       "type": "logo",
-      "query": "The Twilight Saga: Eclipse logo png transparent",
+      "query": "Action, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "mission-impossible-ghost-protocol",
+      "entityId": "comedy-adventure",
       "type": "logo",
-      "query": "Mission: Impossible - Ghost Protocol logo png transparent",
+      "query": "Comedy, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hunger-games",
+      "entityId": "action-fantasy-science-fiction",
       "type": "logo",
-      "query": "The Hunger Games logo png transparent",
+      "query": "Action, Fantasy, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "spider-man-across-the-spider-verse",
+      "entityId": "thriller-drama-mystery",
       "type": "logo",
-      "query": "Spider-Man: Across the Spider-Verse logo png transparent",
+      "query": "Thriller, Drama, Mystery logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "detective-chinatown-3",
+      "entityId": "action-drama-mystery-thriller",
       "type": "logo",
-      "query": "Detective Chinatown 3 logo png transparent",
+      "query": "Action, Drama, Mystery, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "mission-impossible-rogue-nation",
+      "entityId": "animation-family-adventure-fantasy-comedy",
       "type": "logo",
-      "query": "Mission: Impossible - Rogue Nation logo png transparent",
+      "query": "Animation, Family, Adventure, Fantasy, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "interstellar",
+      "entityId": "mystery-action-science-fiction",
       "type": "logo",
-      "query": "Interstellar logo png transparent",
+      "query": "Mystery, Action, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-sixth-sense",
+      "entityId": "fantasy-action-adventure",
       "type": "logo",
-      "query": "The Sixth Sense logo png transparent",
+      "query": "Fantasy, Action, Adventure logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "man-of-steel",
+      "entityId": "comedy-adventure-science-fiction",
       "type": "logo",
-      "query": "Man of Steel logo png transparent",
+      "query": "Comedy, Adventure, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "kung-fu-panda-2",
+      "entityId": "drama-thriller-mystery-action",
       "type": "logo",
-      "query": "Kung Fu Panda 2 logo png transparent",
+      "query": "Drama, Thriller, Mystery, Action logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "ice-age-the-meltdown",
+      "entityId": "science-fiction-action-thriller",
       "type": "logo",
-      "query": "Ice Age: The Meltdown logo png transparent",
+      "query": "Science Fiction, Action, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "fantastic-beasts-the-crimes-of-grindelwald",
+      "entityId": "adventure-thriller-science-fiction",
       "type": "logo",
-      "query": "Fantastic Beasts: The Crimes of Grindelwald logo png transparent",
+      "query": "Adventure, Thriller, Science Fiction logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "pirates-of-the-caribbean-the-curse-of-the-black-pearl",
+      "entityId": "thriller-action-crime",
       "type": "logo",
-      "query": "Pirates of the Caribbean: The Curse of the Black Pearl logo png transparent",
+      "query": "Thriller, Action, Crime logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "men-in-black³",
+      "entityId": "animation-adventure-fantasy-comedy-family",
       "type": "logo",
-      "query": "Men in Black³ logo png transparent",
+      "query": "Animation, Adventure, Fantasy, Comedy, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-hunger-games-mockingjay-part-2",
+      "entityId": "fantasy-action-comedy",
       "type": "logo",
-      "query": "The Hunger Games: Mockingjay - Part 2 logo png transparent",
+      "query": "Fantasy, Action, Comedy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "star-wars-episode-ii-attack-of-the-clones",
+      "entityId": "family-comedy-fantasy",
       "type": "logo",
-      "query": "Star Wars: Episode II - Attack of the Clones logo png transparent",
+      "query": "Family, Comedy, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "thor-the-dark-world",
+      "entityId": "adventure-fantasy-drama",
       "type": "logo",
-      "query": "Thor: The Dark World logo png transparent",
+      "query": "Adventure, Fantasy, Drama logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "wonka",
+      "entityId": "adventure-animation-comedy-family-fantasy",
       "type": "logo",
-      "query": "Wonka logo png transparent",
+      "query": "Adventure, Animation, Comedy, Family, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "kung-fu-panda",
+      "entityId": "adventure-fantasy-action-family",
       "type": "logo",
-      "query": "Kung Fu Panda logo png transparent",
+      "query": "Adventure, Fantasy, Action, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-incredibles",
+      "entityId": "action-comedy-thriller",
       "type": "logo",
-      "query": "The Incredibles logo png transparent",
+      "query": "Action, Comedy, Thriller logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "the-martian",
+      "entityId": "family-animation-adventure-comedy-fantasy",
       "type": "logo",
-      "query": "The Martian logo png transparent",
+      "query": "Family, Animation, Adventure, Comedy, Fantasy logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "hancock",
+      "entityId": "thriller-science-fiction-horror",
       "type": "logo",
-      "query": "Hancock logo png transparent",
+      "query": "Thriller, Science Fiction, Horror logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "water-gate-bridge",
+      "entityId": "horror",
       "type": "logo",
-      "query": "Water Gate Bridge logo png transparent",
+      "query": "Horror logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "fast-five",
+      "entityId": "animation-comedy-family-fantasy-romance",
       "type": "logo",
-      "query": "Fast Five logo png transparent",
+      "query": "Animation, Comedy, Family, Fantasy, Romance logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "iron-man-2",
+      "entityId": "animation-action-science-fiction-family",
       "type": "logo",
-      "query": "Iron Man 2 logo png transparent",
+      "query": "Animation, Action, Science Fiction, Family logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "ratatouille",
+      "entityId": "crime-action-thriller",
       "type": "logo",
-      "query": "Ratatouille logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-passion-of-the-christ",
-      "type": "logo",
-      "query": "The Passion of the Christ logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mamma-mia",
-      "type": "logo",
-      "query": "Mamma Mia! logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "casino-royale",
-      "type": "logo",
-      "query": "Casino Royale logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "madagascar-escape-2-africa",
-      "type": "logo",
-      "query": "Madagascar: Escape 2 Africa logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "war-of-the-worlds",
-      "type": "logo",
-      "query": "War of the Worlds logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "tangled",
-      "type": "logo",
-      "query": "Tangled logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "quantum-of-solace",
-      "type": "logo",
-      "query": "Quantum of Solace logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-hangover-part-ii",
-      "type": "logo",
-      "query": "The Hangover Part II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "i-am-legend",
-      "type": "logo",
-      "query": "I Am Legend logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "iron-man",
-      "type": "logo",
-      "query": "Iron Man logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "night-at-the-museum",
-      "type": "logo",
-      "query": "Night at the Museum logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-little-mermaid",
-      "type": "logo",
-      "query": "The Little Mermaid logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mission-impossible-dead-reckoning-part-one",
-      "type": "logo",
-      "query": "Mission: Impossible - Dead Reckoning Part One logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-smurfs",
-      "type": "logo",
-      "query": "The Smurfs logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cars-2",
-      "type": "logo",
-      "query": "Cars 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "king-kong",
-      "type": "logo",
-      "query": "King Kong logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "armageddon",
-      "type": "logo",
-      "query": "Armageddon logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-day-after-tomorrow",
-      "type": "logo",
-      "query": "The Day After Tomorrow logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mission-impossible-ii",
-      "type": "logo",
-      "query": "Mission: Impossible II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "despicable-me",
-      "type": "logo",
-      "query": "Despicable Me logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "madagascar",
-      "type": "logo",
-      "query": "Madagascar logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-simpsons-movie",
-      "type": "logo",
-      "query": "The Simpsons Movie logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "monsters",
-      "type": "logo",
-      "query": "Monsters, logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "godzilla-x-kong-the-new-empire",
-      "type": "logo",
-      "query": "Godzilla x Kong: The New Empire logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sherlock-holmes",
-      "type": "logo",
-      "query": "Sherlock Holmes logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "meet-the-fockers",
-      "type": "logo",
-      "query": "Meet the Fockers logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "wall-e",
-      "type": "logo",
-      "query": "WALL·E logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "venom-let-there-be-carnage",
-      "type": "logo",
-      "query": "Venom: Let There Be Carnage logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "kung-fu-panda-4",
-      "type": "logo",
-      "query": "Kung Fu Panda 4 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "troy",
-      "type": "logo",
-      "query": "Troy logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "elemental",
-      "type": "logo",
-      "query": "Elemental logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "how-to-train-your-dragon",
-      "type": "logo",
-      "query": "How to Train Your Dragon logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mr-mrs-smith",
-      "type": "logo",
-      "query": "Mr. & Mrs. Smith logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "toy-story-2",
-      "type": "logo",
-      "query": "Toy Story 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "angels-demons",
-      "type": "logo",
-      "query": "Angels & Demons logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "shrek",
-      "type": "logo",
-      "query": "Shrek logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "bruce-almighty",
-      "type": "logo",
-      "query": "Bruce Almighty logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "saving-private-ryan",
-      "type": "logo",
-      "query": "Saving Private Ryan logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "puss-in-boots-the-last-wish",
-      "type": "logo",
-      "query": "Puss in Boots: The Last Wish logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "charlie-and-the-chocolate-factory",
-      "type": "logo",
-      "query": "Charlie and the Chocolate Factory logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "godzilla-vs-kong",
-      "type": "logo",
-      "query": "Godzilla vs. Kong logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-hangover",
-      "type": "logo",
-      "query": "The Hangover logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-matrix",
-      "type": "logo",
-      "query": "The Matrix logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cars",
-      "type": "logo",
-      "query": "Cars logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-eight-hundred",
-      "type": "logo",
-      "query": "The Eight Hundred logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "gladiator",
-      "type": "logo",
-      "query": "Gladiator logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "x-men-the-last-stand",
-      "type": "logo",
-      "query": "X-Men: The Last Stand logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "national-treasure-book-of-secrets",
-      "type": "logo",
-      "query": "National Treasure: Book of Secrets logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "300",
-      "type": "logo",
-      "query": "300 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-last-samurai",
-      "type": "logo",
-      "query": "The Last Samurai logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "demon-slayer-kimetsu-no-yaiba-the-movie-mugen-train",
-      "type": "logo",
-      "query": "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ocean-s-eleven",
-      "type": "logo",
-      "query": "Ocean's Eleven logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "pearl-harbor",
-      "type": "logo",
-      "query": "Pearl Harbor logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "tarzan",
-      "type": "logo",
-      "query": "Tarzan logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "men-in-black-ii",
-      "type": "logo",
-      "query": "Men in Black II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "terminator-3-rise-of-the-machines",
-      "type": "logo",
-      "query": "Terminator 3: Rise of the Machines logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-mummy-returns",
-      "type": "logo",
-      "query": "The Mummy Returns logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "shang-chi-and-the-legend-of-the-ten-rings",
-      "type": "logo",
-      "query": "Shang-Chi and the Legend of the Ten Rings logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "die-another-day",
-      "type": "logo",
-      "query": "Die Another Day logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cast-away",
-      "type": "logo",
-      "query": "Cast Away logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-matrix-revolutions",
-      "type": "logo",
-      "query": "The Matrix Revolutions logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "bad-boys-for-life",
-      "type": "logo",
-      "query": "Bad Boys for Life logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "my-people-my-homeland",
-      "type": "logo",
-      "query": "My People, My Homeland logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-chronicles-of-narnia-prince-caspian",
-      "type": "logo",
-      "query": "The Chronicles of Narnia: Prince Caspian logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sing-2",
-      "type": "logo",
-      "query": "Sing 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "signs",
-      "type": "logo",
-      "query": "Signs logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "x-men-2",
-      "type": "logo",
-      "query": "X-Men 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "batman",
-      "type": "logo",
-      "query": "Batman logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mission-impossible-iii",
-      "type": "logo",
-      "query": "Mission: Impossible III logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "superman-returns",
-      "type": "logo",
-      "query": "Superman Returns logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "happy-feet",
-      "type": "logo",
-      "query": "Happy Feet logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ice-age",
-      "type": "logo",
-      "query": "Ice Age logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "godzilla",
-      "type": "logo",
-      "query": "Godzilla logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "shark-tale",
-      "type": "logo",
-      "query": "Shark Tale logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "what-women-want",
-      "type": "logo",
-      "query": "What Women Want logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "batman-begins",
-      "type": "logo",
-      "query": "Batman Begins logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "hitch",
-      "type": "logo",
-      "query": "Hitch logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "there-s-something-about-mary",
-      "type": "logo",
-      "query": "There's Something About Mary logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "jurassic-park-iii",
-      "type": "logo",
-      "query": "Jurassic Park III logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "my-big-fat-greek-wedding",
-      "type": "logo",
-      "query": "My Big Fat Greek Wedding logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "tenet",
-      "type": "logo",
-      "query": "Tenet logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "a-bug-s-life",
-      "type": "logo",
-      "query": "A Bug's Life logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ocean-s-twelve",
-      "type": "logo",
-      "query": "Ocean's Twelve logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "planet-of-the-apes",
-      "type": "logo",
-      "query": "Planet of the Apes logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "minority-report",
-      "type": "logo",
-      "query": "Minority Report logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "american-beauty",
-      "type": "logo",
-      "query": "American Beauty logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "hannibal",
-      "type": "logo",
-      "query": "Hannibal logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dinosaur",
-      "type": "logo",
-      "query": "Dinosaur logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "how-the-grinch-stole-christmas",
-      "type": "logo",
-      "query": "How the Grinch Stole Christmas logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "meet-the-parents",
-      "type": "logo",
-      "query": "Meet the Parents logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "forrest-gump",
-      "type": "logo",
-      "query": "Forrest Gump logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-perfect-storm",
-      "type": "logo",
-      "query": "The Perfect Storm logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sonic-the-hedgehog",
-      "type": "logo",
-      "query": "Sonic the Hedgehog logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "runaway-bride",
-      "type": "logo",
-      "query": "Runaway Bride logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "independence-day",
-      "type": "logo",
-      "query": "Independence Day logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mulan",
-      "type": "logo",
-      "query": "Mulan logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "stuart-little",
-      "type": "logo",
-      "query": "Stuart Little logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "x-men",
-      "type": "logo",
-      "query": "X-Men logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "doctor-dolittle",
-      "type": "logo",
-      "query": "Doctor Dolittle logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "what-lies-beneath",
-      "type": "logo",
-      "query": "What Lies Beneath logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "shakespeare-in-love",
-      "type": "logo",
-      "query": "Shakespeare in Love logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "home-alone",
-      "type": "logo",
-      "query": "Home Alone logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-green-mile",
-      "type": "logo",
-      "query": "The Green Mile logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "lethal-weapon-4",
-      "type": "logo",
-      "query": "Lethal Weapon 4 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "bad-boys-ii",
-      "type": "logo",
-      "query": "Bad Boys II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "batman-returns",
-      "type": "logo",
-      "query": "Batman Returns logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-truman-show",
-      "type": "logo",
-      "query": "The Truman Show logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dolittle",
-      "type": "logo",
-      "query": "Dolittle logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "bean",
-      "type": "logo",
-      "query": "Bean logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "men-in-black",
-      "type": "logo",
-      "query": "Men in Black logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-blair-witch-project",
-      "type": "logo",
-      "query": "The Blair Witch Project logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "toy-story",
-      "type": "logo",
-      "query": "Toy Story logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "twister",
-      "type": "logo",
-      "query": "Twister logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "jiang-ziya",
-      "type": "logo",
-      "query": "Jiang Ziya logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "batman-robin",
-      "type": "logo",
-      "query": "Batman & Robin logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "who-framed-roger-rabbit",
-      "type": "logo",
-      "query": "Who Framed Roger Rabbit logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "beverly-hills-cop",
-      "type": "logo",
-      "query": "Beverly Hills Cop logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ghostbusters",
-      "type": "logo",
-      "query": "Ghostbusters logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-lost-world-jurassic-park",
-      "type": "logo",
-      "query": "The Lost World: Jurassic Park logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "out-of-africa",
-      "type": "logo",
-      "query": "Out of Africa logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "apollo-13",
-      "type": "logo",
-      "query": "Apollo 13 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "back-to-the-future",
-      "type": "logo",
-      "query": "Back to the Future logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mrs-doubtfire",
-      "type": "logo",
-      "query": "Mrs. Doubtfire logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ghost",
-      "type": "logo",
-      "query": "Ghost logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "a-little-red-flower",
-      "type": "logo",
-      "query": "A Little Red Flower logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-croods-a-new-age",
-      "type": "logo",
-      "query": "The Croods: A New Age logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "terminator-2-judgment-day",
-      "type": "logo",
-      "query": "Terminator 2: Judgment Day logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "indiana-jones-and-the-last-crusade",
-      "type": "logo",
-      "query": "Indiana Jones and the Last Crusade logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ghostbusters-frozen-empire",
-      "type": "logo",
-      "query": "Ghostbusters: Frozen Empire logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dances-with-wolves",
-      "type": "logo",
-      "query": "Dances with Wolves logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "batman-forever",
-      "type": "logo",
-      "query": "Batman Forever logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-fugitive",
-      "type": "logo",
-      "query": "The Fugitive logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "liar-liar",
-      "type": "logo",
-      "query": "Liar Liar logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mission-impossible",
-      "type": "logo",
-      "query": "Mission: Impossible logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "indiana-jones-and-the-temple-of-doom",
-      "type": "logo",
-      "query": "Indiana Jones and the Temple of Doom logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "pretty-woman",
-      "type": "logo",
-      "query": "Pretty Woman logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "bob-marley-one-love",
-      "type": "logo",
-      "query": "Bob Marley: One Love logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "top-gun",
-      "type": "logo",
-      "query": "Top Gun logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dead-poets-society",
-      "type": "logo",
-      "query": "Dead Poets Society logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "crocodile-dundee",
-      "type": "logo",
-      "query": "Crocodile Dundee logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "home-alone-2-lost-in-new-york",
-      "type": "logo",
-      "query": "Home Alone 2: Lost in New York logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "air-force-one",
-      "type": "logo",
-      "query": "Air Force One logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "rain-man",
-      "type": "logo",
-      "query": "Rain Man logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "three-men-and-a-baby",
-      "type": "logo",
-      "query": "Three Men and a Baby logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "robin-hood-prince-of-thieves",
-      "type": "logo",
-      "query": "Robin Hood: Prince of Thieves logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "speed-2-cruise-control",
-      "type": "logo",
-      "query": "Speed 2: Cruise Control logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-firm",
-      "type": "logo",
-      "query": "The Firm logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "fatal-attraction",
-      "type": "logo",
-      "query": "Fatal Attraction logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "jerry-maguire",
-      "type": "logo",
-      "query": "Jerry Maguire logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "beverly-hills-cop-ii",
-      "type": "logo",
-      "query": "Beverly Hills Cop II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-beekeeper",
-      "type": "logo",
-      "query": "The Beekeeper logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "rambo-first-blood-part-ii",
-      "type": "logo",
-      "query": "Rambo: First Blood Part II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "as-good-as-it-gets",
-      "type": "logo",
-      "query": "As Good as It Gets logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "gremlins",
-      "type": "logo",
-      "query": "Gremlins logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "lethal-weapon-2",
-      "type": "logo",
-      "query": "Lethal Weapon 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "true-lies",
-      "type": "logo",
-      "query": "True Lies logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-santa-clause",
-      "type": "logo",
-      "query": "The Santa Clause logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "lethal-weapon-3",
-      "type": "logo",
-      "query": "Lethal Weapon 3 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "pocahontas",
-      "type": "logo",
-      "query": "Pocahontas logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "a-few-good-men",
-      "type": "logo",
-      "query": "A Few Good Men logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "look-who-s-talking",
-      "type": "logo",
-      "query": "Look Who's Talking logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sister-act",
-      "type": "logo",
-      "query": "Sister Act logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "platoon",
-      "type": "logo",
-      "query": "Platoon logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "good-will-hunting",
-      "type": "logo",
-      "query": "Good Will Hunting logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ransom",
-      "type": "logo",
-      "query": "Ransom logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "101-dalmatians",
-      "type": "logo",
-      "query": "101 Dalmatians logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "teenage-mutant-ninja-turtles",
-      "type": "logo",
-      "query": "Teenage Mutant Ninja Turtles logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-rock",
-      "type": "logo",
-      "query": "The Rock logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-silence-of-the-lambs",
-      "type": "logo",
-      "query": "The Silence of the Lambs logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "honey-i-shrunk-the-kids",
-      "type": "logo",
-      "query": "Honey, I Shrunk the Kids logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-flintstones",
-      "type": "logo",
-      "query": "The Flintstones logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-nutty-professor",
-      "type": "logo",
-      "query": "The Nutty Professor logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "coming-to-america",
-      "type": "logo",
-      "query": "Coming to America logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "rocky-iv",
-      "type": "logo",
-      "query": "Rocky IV logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dumb-and-dumber",
-      "type": "logo",
-      "query": "Dumb and Dumber logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sleepless-in-seattle",
-      "type": "logo",
-      "query": "Sleepless in Seattle logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-birdcage",
-      "type": "logo",
-      "query": "The Birdcage logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "city-slickers",
-      "type": "logo",
-      "query": "City Slickers logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "good-morning-vietnam",
-      "type": "logo",
-      "query": "Good Morning, Vietnam logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "clear-and-present-danger",
-      "type": "logo",
-      "query": "Clear and Present Danger logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-hunt-for-red-october",
-      "type": "logo",
-      "query": "The Hunt for Red October logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-bodyguard",
-      "type": "logo",
-      "query": "The Bodyguard logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "wayne-s-world",
-      "type": "logo",
-      "query": "Wayne's World logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "speed",
-      "type": "logo",
-      "query": "Speed logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-mask",
-      "type": "logo",
-      "query": "The Mask logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "hook",
-      "type": "logo",
-      "query": "Hook logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "total-recall",
-      "type": "logo",
-      "query": "Total Recall logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "back-to-the-future-part-ii",
-      "type": "logo",
-      "query": "Back to the Future Part II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "basic-instinct",
-      "type": "logo",
-      "query": "Basic Instinct logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "die-hard-2",
-      "type": "logo",
-      "query": "Die Hard 2 logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-karate-kid-part-ii",
-      "type": "logo",
-      "query": "The Karate Kid Part II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "big",
-      "type": "logo",
-      "query": "Big logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-addams-family",
-      "type": "logo",
-      "query": "The Addams Family logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ghostbusters-ii",
-      "type": "logo",
-      "query": "Ghostbusters II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "twins",
-      "type": "logo",
-      "query": "Twins logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "star-trek-iv-the-voyage-home",
-      "type": "logo",
-      "query": "Star Trek IV: The Voyage Home logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "crocodile-dundee-ii",
-      "type": "logo",
-      "query": "Crocodile Dundee II logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "a-time-to-kill",
-      "type": "logo",
-      "query": "A Time to Kill logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ace-ventura-when-nature-calls",
-      "type": "logo",
-      "query": "Ace Ventura: When Nature Calls logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "pulp-fiction",
-      "type": "logo",
-      "query": "Pulp Fiction logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "a-league-of-their-own",
-      "type": "logo",
-      "query": "A League of Their Own logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "indecent-proposal",
-      "type": "logo",
-      "query": "Indecent Proposal logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "driving-miss-daisy",
-      "type": "logo",
-      "query": "Driving Miss Daisy logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "goldeneye",
-      "type": "logo",
-      "query": "GoldenEye logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "mean-girls",
-      "type": "logo",
-      "query": "Mean Girls logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "dick-tracy",
-      "type": "logo",
-      "query": "Dick Tracy logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "in-the-line-of-fire",
-      "type": "logo",
-      "query": "In the Line of Fire logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "sleeping-with-the-enemy",
-      "type": "logo",
-      "query": "Sleeping with the Enemy logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-pelican-brief",
-      "type": "logo",
-      "query": "The Pelican Brief logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "jumanji",
-      "type": "logo",
-      "query": "Jumanji logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "casper",
-      "type": "logo",
-      "query": "Casper logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "madame-web",
-      "type": "logo",
-      "query": "Madame Web logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "se7en",
-      "type": "logo",
-      "query": "Se7en logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "parenthood",
-      "type": "logo",
-      "query": "Parenthood logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "die-hard-with-a-vengeance",
-      "type": "logo",
-      "query": "Die Hard with a Vengeance logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "argylle",
-      "type": "logo",
-      "query": "Argylle logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "schindler-s-list",
-      "type": "logo",
-      "query": "Schindler's List logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "exhuma",
-      "type": "logo",
-      "query": "Exhuma logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-color-purple",
-      "type": "logo",
-      "query": "The Color Purple logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "kindergarten-cop",
-      "type": "logo",
-      "query": "Kindergarten Cop logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "back-to-school",
-      "type": "logo",
-      "query": "Back to School logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-karate-kid",
-      "type": "logo",
-      "query": "The Karate Kid logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "father-of-the-bride",
-      "type": "logo",
-      "query": "Father of the Bride logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-naked-gun-2½-the-smell-of-fear",
-      "type": "logo",
-      "query": "The Naked Gun 2½: The Smell of Fear logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "aliens",
-      "type": "logo",
-      "query": "Aliens logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cliffhanger",
-      "type": "logo",
-      "query": "Cliffhanger logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "die-hard",
-      "type": "logo",
-      "query": "Die Hard logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "police-academy",
-      "type": "logo",
-      "query": "Police Academy logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "moonstruck",
-      "type": "logo",
-      "query": "Moonstruck logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "footloose",
-      "type": "logo",
-      "query": "Footloose logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-golden-child",
-      "type": "logo",
-      "query": "The Golden Child logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-naked-gun-from-the-files-of-police-squad",
-      "type": "logo",
-      "query": "The Naked Gun: From the Files of Police Squad! logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cocktail",
-      "type": "logo",
-      "query": "Cocktail logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "romancing-the-stone",
-      "type": "logo",
-      "query": "Romancing the Stone logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "star-trek-iii-the-search-for-spock",
-      "type": "logo",
-      "query": "Star Trek III: The Search for Spock logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-untouchables",
-      "type": "logo",
-      "query": "The Untouchables logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "cocoon",
-      "type": "logo",
-      "query": "Cocoon logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-jewel-of-the-nile",
-      "type": "logo",
-      "query": "The Jewel of the Nile logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "beetlejuice",
-      "type": "logo",
-      "query": "Beetlejuice logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ruthless-people",
-      "type": "logo",
-      "query": "Ruthless People logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "ferris-bueller-s-day-off",
-      "type": "logo",
-      "query": "Ferris Bueller's Day Off logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "splash",
-      "type": "logo",
-      "query": "Splash logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "witness",
-      "type": "logo",
-      "query": "Witness logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-secret-of-my-success",
-      "type": "logo",
-      "query": "The Secret of My Success logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "stakeout",
-      "type": "logo",
-      "query": "Stakeout logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "lethal-weapon",
-      "type": "logo",
-      "query": "Lethal Weapon logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-witches-of-eastwick",
-      "type": "logo",
-      "query": "The Witches of Eastwick logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "the-goonies",
-      "type": "logo",
-      "query": "The Goonies logo png transparent",
-      "license": "verify before publishing"
-    },
-    {
-      "entityId": "spies-like-us",
-      "type": "logo",
-      "query": "Spies Like Us logo png transparent",
+      "query": "Crime, Action, Thriller logo png transparent",
       "license": "verify before publishing"
     }
   ],

@@ -1,11 +1,11 @@
 {
   "version": "1.0",
-  "title": "HOLLYWOOD ACTORS BOX",
-  "subtitle": "OFFICE EARNINGS",
+  "title": "HOLLYWOOD ACTORS BOX OFFICE",
+  "subtitle": "EARNINGS OVER TIME",
   "entities": [
-    "Avengers: Endgame",
-    "Avatar: The Way of Water",
-    "Star Wars: Episode VII - The Force Awakens"
+    "Adventure, Drama, Science Fiction",
+    "Action, Adventure, Comedy",
+    "Crime, Thriller, Drama"
   ],
   "assets": [],
   "layout": "ranking",

@@ -73,9 +73,9 @@
       "violations": 0
     }
   ],
-  "entities": 9287,
-  "generatedAt": "2026-09-30T20:12:24.307681942+00:00",
-  "observations": 11347,
+  "entities": 1317,
+  "generatedAt": "2026-09-30T20:37:37.963729088+00:00",
+  "observations": 3203,
   "passed": true,
   "violations": 0,
   "engine": "rust"
