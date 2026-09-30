@@ -532,8 +532,12 @@ function expandEntityNames(cell: string): string[] {
   return single.length > 1 ? [single] : [];
 }
 
-/** Unit for a streamed table: the agent's unit beats header sniffing. */
-function sniffStreamUnit(columns: string[], prompt: string, agentUnit?: string): string {
+/** Unit for an extracted table: the agent's unit beats header sniffing, which
+ * beats the 'count' default. Used by every table-ingestion path (Kaggle CSV,
+ * streamed Kaggle CSV, direct data-URL tables, generic CSV sweep) so a
+ * monetary/topic-specific unit chosen by the agent (e.g. 'USD' for GDP) is
+ * never silently replaced by 'count'. */
+export function sniffTableUnit(columns: string[], prompt: string, agentUnit?: string): string {
   if (agentUnit) return agentUnit;
   const hay = `${columns.join(' ')} ${prompt}`.toLowerCase();
   if (/%|percent|share|rate|ratio/.test(hay)) return 'percent';
@@ -609,7 +613,7 @@ export async function extractKaggleCsvStreaming(
     const valueIdx = info.columns.indexOf(detected.value);
     const multiEntity = expandEntityNames(info.sampleRows[0]?.[entityIdx] ?? '').length >= 2 ||
       info.sampleRows.some((r) => expandEntityNames(r[entityIdx] ?? '').length >= 2);
-    const unit = sniffStreamUnit(info.columns, `${plan.topic} ${plan.metric}`, agentUnit);
+    const unit = sniffTableUnit(info.columns, `${plan.topic} ${plan.metric}`, agentUnit);
     const drafts: ExtractedDraft[] = [];
     const aggregated = new Map<string, { entity: string; date: string; value: number }>();
     let rowCount = 0;
@@ -1108,14 +1112,18 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       try {
         const { fileName, text } = await kaggleDatasetCsvText(ref);
         const table = parseCsv(text);
-        const { drafts: csvDrafts, problems } = draftsFromTable(table.columns, table.rows, 'count');
+        // The agent's unit (e.g. 'USD' for GDP) beats header sniffing beats
+        // the 'count' default: a hardcoded 'count' here once shipped a GDP
+        // dataset labeled 'count' and tripped the content guard.
+        const kaggleUnit = sniffTableUnit(table.columns, `${plan.topic} ${plan.metric}`, options.agentUnit);
+        const { drafts: csvDrafts, problems } = draftsFromTable(table.columns, table.rows, kaggleUnit);
         extractionNotes.push(...problems);
         if (csvDrafts.length === 0) {
           extractionNotes.push(`kaggle ${ref}: CSV parsed but produced no drafts`);
           continue;
         }
         const drafts = await canonicalizeDrafts(csvDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
-        const normalized = await normalizeDrafts(drafts, 'count');
+        const normalized = await normalizeDrafts(drafts, kaggleUnit);
         collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
         extractedUrls.add(url);
         extractionNotes.push(`kaggle ${ref} (${fileName}): ${normalized.length} observations`);
@@ -1168,11 +1176,12 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
         table = parseCsv(text, dataUrl.endsWith('.tsv') ? '\t' : ',');
       }
       if (table.rows.length === 0) continue;
-      const { drafts: urlDrafts, problems } = draftsFromTable(table.columns, table.rows, 'count');
+      const urlUnit = sniffTableUnit(table.columns, `${plan.topic} ${plan.metric}`, options.agentUnit);
+      const { drafts: urlDrafts, problems } = draftsFromTable(table.columns, table.rows, urlUnit);
       extractionNotes.push(...problems);
       if (urlDrafts.length === 0) continue;
       const drafts = await canonicalizeDrafts(urlDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
-      const normalized = await normalizeDrafts(drafts, 'count');
+      const normalized = await normalizeDrafts(drafts, urlUnit);
       const candidate =
         state.sources.find((s) => s.url === dataUrl) ??
         ({
@@ -1219,11 +1228,12 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
       }
       const { parseCsv } = await import('./connectors');
       const table = parseCsv(text);
-      const { drafts: csvDrafts, problems } = draftsFromTable(table.columns, table.rows, 'count');
+      const csvUnit = sniffTableUnit(table.columns, `${plan.topic} ${plan.metric}`, options.agentUnit);
+      const { drafts: csvDrafts, problems } = draftsFromTable(table.columns, table.rows, csvUnit);
       extractionNotes.push(...problems);
       if (csvDrafts.length === 0) continue;
       const drafts = await canonicalizeDrafts(csvDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
-      const normalized = await normalizeDrafts(drafts, 'count');
+      const normalized = await normalizeDrafts(drafts, csvUnit);
       collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
       extractedUrls.add(candidate.url);
       extractionNotes.push(`${candidate.url}: ${normalized.length} observations`);
