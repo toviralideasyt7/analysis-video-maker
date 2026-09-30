@@ -2,10 +2,14 @@
  * The data-race composition.
  *
  * The data-race composition (1280x720 baseline), in the classic full-bleed style:
- *   full height  ranking bars from the left edge (name in white bold inside the
- *                bar, flag at the bar end, value in dark type past the flag)
- *   right        era panel: giant year, era headline + narrative, featured flags
- *   (no header during the race; title / ending / source card are own scenes)
+ *   header       video title, separated by a hairline
+ *   left         ranking bars (name in white bold inside the bar, flag at the
+ *                bar end, value in dark type past the flag) - geometrically
+ *                confined to x 0..880
+ *   right        info panel (x 904..1232): giant live year, headline +
+ *                narrative or live leader, featured flags. A RESERVED zone:
+ *                bars can never enter it, so overlap is impossible.
+ *   (title / intro / ending / source card are their own scenes)
  */
 
 import React, { useMemo } from 'react';
@@ -18,12 +22,12 @@ import {
   BrandMark,
   Canvas,
   DesignScale,
+  InfoPanel,
   RaceHeader,
   RankingRow,
-  SpotlightBanner,
   SpotlightCard,
   TitleBlock,
-  TopicStrip,
+  formatRaceValue,
 } from './components';
 
 interface Highlight {
@@ -172,24 +176,46 @@ const BarRace: React.FC<{
     return { rows: out.slice(0, count + 2), barCount: count };
   }, [f0, f1, t, te, i0, i1]);
 
-  // Layout: header occupies the top 96px; bars live between y=112 and y=596.
-  // The bottom banner zone (y 612..700) is RESERVED: ranking rows never
-  // enter it, so the spotlight banner / topic strip can never overlap a bar
-  // no matter how long a value label gets.
+  // Layout zones (design space 1280x720), CONSTANT for the whole video:
+  //   header:     y 0..96   (title)
+  //   race zone:  x 0..880, y 112..656  (rank numbers, bars, flags, values)
+  //   info panel: x 904..1232, y 112..656  (RESERVED - bars can never enter)
+  //   progress:   y 688..700  (thin track, full width)
+  //
+  // The never-overlap guarantee is structural: maxBarWidth is computed once
+  // from the tape's longest formatted value label so that even the longest
+  // bar + its flag + its value label ends before RACE_RIGHT (880), and the
+  // panel starts at 904. RankingRow additionally ellipsis-caps an
+  // outside-the-bar name to the remaining space. Overlap is impossible by
+  // construction, not by pixel-tuning.
+  const RACE_RIGHT = 880;
+  const PANEL_X = 904;
+  const PANEL_W = 1232 - PANEL_X;
   const raceTop = 112;
-  const raceBottom = 596;
+  const raceBottom = 656;
   // Row height is CONSTANT for the whole video, based on the tape's topN:
   // bars must never resize as entities enter or leave. Early periods show
   // fewer rows with vacant space below instead of ballooning the first rows
   // big and then shrinking them when newcomers arrive.
   const rowHeight = (raceBottom - raceTop) / Math.max(1, tape.topN || barCount);
   const barX0 = 96;
-  // The race width is CONSTANT on purpose: it used to shrink/grow with the
-  // spotlight card's fade, which read as the bars "refreshing" on every year
-  // tick. 860 fills the freed right side (the old right-hand panel is gone):
-  // worst case 96 + 860 + 12 + 46 + 12 + ~150px value label = ~1176 < 1232,
-  // so labels stay inside the canvas with the banner zone untouched below.
-  const maxBarWidth = 860;
+  const flagSize = Math.min(rowHeight * 0.72, 46);
+  const valueFont = Math.max(19, rowHeight * 0.4);
+  // Longest formatted value label in the whole tape -> reserved label width.
+  // Measured once per video, so maxBarWidth is fixed for every frame.
+  const maxValueW = useMemo(() => {
+    let longest = 0;
+    for (const f of tape.frames) {
+      for (const b of f.bars) {
+        longest = Math.max(longest, formatRaceValue(b.value, dataset.unit).length);
+      }
+    }
+    return longest * valueFont * 0.58;
+  }, [tape, dataset.unit, valueFont]);
+  const maxBarWidth = Math.max(
+    300,
+    RACE_RIGHT - barX0 - 12 - flagSize - 12 - maxValueW - 16,
+  );
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -244,15 +270,6 @@ const BarRace: React.FC<{
     }
     return null;
   })();
-  const cardAppear = cardContent
-    ? interpolate(
-        frame,
-        [cardContent.start, cardContent.start + 12, cardContent.end - 12, cardContent.end],
-        [0, 1, 1, 0],
-        { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' },
-      )
-    : 0;
-
   const featured = useMemo(() => {
     if (activeHighlight) {
       const e = entityById.get(activeHighlight.entityId);
@@ -265,14 +282,35 @@ const BarRace: React.FC<{
       .filter((e): e is FrameTapeEntity => !!e);
   }, [activeHighlight, rows, entityById]);
 
-  const panelAppear = cardAppear;
   const chromeAppear = interpolate(frame, [0, 12], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   // Progress across the whole race (all segments), not just this one.
   const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
 
+  // Info-panel content: an active highlight or a fresh story segment takes
+  // precedence; otherwise the panel shows the live leader (name + value).
+  // The year counter always tracks the current period either way.
+  const leaderRow = useMemo(() => {
+    let best: (typeof rows)[number] | undefined;
+    for (const r of rows) {
+      if (!best || r.value > best.value) best = r;
+    }
+    return best;
+  }, [rows]);
+  const leaderEntity = leaderRow ? entityById.get(leaderRow.id) : undefined;
+  const panelKicker = cardContent ? 'SPOTLIGHT' : 'LEADER';
+  const panelHeadline = cardContent
+    ? cardContent.title
+    : leaderEntity?.name;
+  const panelBody = cardContent ? cardContent.body : undefined;
+  const panelStat = cardContent
+    ? undefined
+    : leaderRow
+      ? formatRaceValue(leaderRow.value, dataset.unit)
+      : undefined;
+
   return (
     <AbsoluteFill style={{ background: '#ffffff' }}>
-      <RaceHeader title={input.videoSpec.metadata.title} yearLabel={currentLabel} appear={chromeAppear} />
+      <RaceHeader title={input.videoSpec.metadata.title} appear={chromeAppear} />
       {rows.map((row) => {
         const entity = entityById.get(row.id);
         if (!entity) return null;
@@ -289,40 +327,31 @@ const BarRace: React.FC<{
             rowHeight={rowHeight}
             x0={barX0}
             maxBarWidth={maxBarWidth}
+            raceRight={RACE_RIGHT}
             appear={Math.max(0, Math.min(1, row.appear * introAppear))}
             flagBaseUrl={flagBaseUrl}
           />
         );
       })}
-      {/* Bottom banner zone (y 612..700): spotlight banner when a highlight /
-          story segment is active, otherwise the topic strip. Both live in
-          the same reserved zone, so swapping them never moves a bar. */}
-      {cardContent ? (
-        <SpotlightBanner
-          title={cardContent.title}
-          body={cardContent.body}
-          featured={featured}
-          flagBaseUrl={flagBaseUrl}
-          appear={panelAppear}
-        />
-      ) : (
-        (() => {
-          const title = input.videoSpec.metadata.title;
-          const years = input.videoSpec.metadata.subtitle || '';
-          let topicTitle = title
-            .replace(/^Top \d+\s*/i, '')
-            .replace(/by annual.*$/i, '')
-            .replace(/countries$/i, 'COUNTRIES')
-            .trim()
-            .toUpperCase();
-          if (!topicTitle) topicTitle = 'DATA RACE';
-          const yearMatch = years.match(/(\d{4})\s*[-–to]+\s*(\d{4})/i);
-          const yearRange = yearMatch ? `${yearMatch[1]}-${yearMatch[2]}` : '';
-          return <TopicStrip topicTitle={topicTitle} yearRange={yearRange} appear={chromeAppear} />;
-        })()
-      )}
-      {/* Slim progress track under the banner zone. */}
-      <div style={{ position: 'absolute', left: 48, right: 48, top: 706, height: 4, background: '#eef0f3', borderRadius: 2, overflow: 'hidden', opacity: chromeAppear }}>
+      {/* Right-side info panel (x 904..1232): giant live year + headline /
+          narrative. Ranking rows are geometrically barred from this zone
+          (maxBarWidth + ellipsis caps), so it can never overlap a bar. */}
+      <InfoPanel
+        yearLabel={currentLabel}
+        kicker={panelKicker}
+        headline={panelHeadline}
+        body={panelBody}
+        stat={panelStat}
+        featured={featured}
+        flagBaseUrl={flagBaseUrl}
+        appear={chromeAppear}
+        x={PANEL_X}
+        y={raceTop}
+        width={PANEL_W}
+        height={raceBottom - raceTop}
+      />
+      {/* Slim progress track along the very bottom. */}
+      <div style={{ position: 'absolute', left: 48, right: 48, top: 690, height: 4, background: '#eef0f3', borderRadius: 2, overflow: 'hidden', opacity: chromeAppear }}>
         <div style={{ width: `${Math.max(0, Math.min(100, progress * 100))}%`, height: '100%', background: '#e11d2e', borderRadius: 2 }} />
       </div>
     </AbsoluteFill>
