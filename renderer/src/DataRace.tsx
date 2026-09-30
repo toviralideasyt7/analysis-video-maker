@@ -198,7 +198,7 @@ const BarRace: React.FC<{
   // fewer rows with vacant space below instead of ballooning the first rows
   // big and then shrinking them when newcomers arrive.
   const rowHeight = (raceBottom - raceTop) / Math.max(1, tape.topN || barCount);
-  const barX0 = 96;
+  const barX0 = 190;
   const flagSize = Math.min(rowHeight * 0.72, 46);
   const valueFont = Math.max(19, rowHeight * 0.4);
   // Longest formatted value label in the whole tape -> reserved label width.
