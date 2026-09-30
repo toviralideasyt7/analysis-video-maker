@@ -2,20 +2,20 @@
 """
 Generate a YouTube thumbnail for data-race videos.
 
-Design (per user spec):
-  - Background: a real frame from the rendered video (the race itself)
-  - Topic icon on the top-right: a vector illustration about the video's topic
-    (car for car videos, phone for mobile, factory for CO2, etc.)
-  - The caption comes from the frame itself: the video's own green bottom
-    banner (topic title + year range), so no text is drawn on top of it.
+Design (per user spec, matching their reference example):
+  - Left ~58%: a real frame from the rendered video (the race itself),
+    full height.
+  - Right ~42%: white panel with the topic title in big bold Eczar, the
+    year range on a yellow highlight bar, a red rising arrow, and a small
+    bar chart at the bottom.
   - Output: 3840x2160 JPEG, highest quality that stays under YouTube's 2MB
     thumbnail limit.
 
 Usage:
   python3 tools/make-thumbnail.py \
     --video projects/<id>/renders/<id>-final.mp4 \
-    --topic "Mobile phone vendor market share, 2010-2026" \
-    --years "2010 - 2026" \
+    --topic "Most popular websites, 1995-2023" \
+    --years "1995 - 2023" \
     --out projects/<id>/renders/<id>-thumbnail.jpg
 """
 import argparse
@@ -24,23 +24,38 @@ import re
 import subprocess
 import sys
 
-from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from PIL import Image, ImageDraw, ImageFont
 
 W, H = 3840, 2160  # YouTube's max thumbnail resolution (its upload cap is 2MB)
 WHITE = (255, 255, 255)
-BLACK = (10, 10, 10)
-NAVY = (8, 48, 110)
-GREEN_TOP = (34, 197, 94)
-GREEN_BOT = (21, 128, 61)
+BLACK = (17, 24, 39)
+GRAY = (107, 114, 128)
+YELLOW = (250, 204, 21)
+RED = (225, 29, 46)
 YT_THUMB_MAX_BYTES = 1_900_000  # stay safely under YouTube's 2MB thumbnail limit
+
+# Right-hand text panel geometry.
+PANEL_X = 2240
+PANEL_W = W - PANEL_X  # 1600
 
 
 def find_font() -> str:
     here = os.path.dirname(os.path.abspath(__file__))
-    beb = os.path.join(here, "fonts", "BebasNeue.ttf")
-    if os.path.exists(beb):
-        return beb
+    eczar = os.path.join(here, "fonts", "Eczar.ttf")
+    if os.path.exists(eczar):
+        return eczar
     return "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+
+
+def load_font(path: str, size: int, weight: int = 800) -> ImageFont.FreeTypeFont:
+    """Load Eczar at a variable-font weight (falls back gracefully)."""
+    f = ImageFont.truetype(path, size)
+    try:
+        # Eczar is a variable font with a wght axis.
+        f.set_variation_by_axes([weight])
+    except Exception:
+        pass
+    return f
 
 
 def grab_frame(video: str, at: float, out_path: str) -> None:
@@ -49,11 +64,14 @@ def grab_frame(video: str, at: float, out_path: str) -> None:
         "-of", "default=noprint_wrappers=1:nokey=1", video,
     ]).decode().strip())
     ts = max(0.5, dur * at)
-    # Grab at the video's native resolution, then upscale to 4K with
-    # Lanczos for maximum sharpness.
+    # Grab at a late-race moment (bars are at their most dramatic), then
+    # crop/scale to fill the left panel exactly.
     subprocess.check_call([
         "ffmpeg", "-y", "-v", "error", "-ss", f"{ts:.2f}", "-i", video,
-        "-frames:v", "1", "-vf", f"scale={W}:{H}:flags=lanczos", out_path,
+        "-frames:v", "1",
+        "-vf", f"scale={PANEL_X}:{H}:force_original_aspect_ratio=increase:flags=lanczos,"
+               f"crop={PANEL_X}:{H}",
+        out_path,
     ])
 
 
@@ -66,12 +84,12 @@ def save_under_limit(img: Image.Image, out_path: str) -> None:
             return
         quality -= 5
     # Last resort: even at 70 the frame was too busy -- keep the smallest.
-    print(f"WARNING: thumbnail still >2MB at quality 70; keeping it anyway",
+    print("WARNING: thumbnail still >2MB at quality 70; keeping it anyway",
           file=sys.stderr)
 
 
 def clean_topic(title: str) -> str:
-    """Mirror the in-video side-panel title cleaning (DataRace.tsx)."""
+    """Build a punchy all-caps title from the video spec title."""
     t = title or ""
     t = re.sub(r"^Top \d+\s*", "", t, flags=re.I)
     t = re.sub(r"\s+by annual.*$", "", t, flags=re.I)
@@ -79,148 +97,10 @@ def clean_topic(title: str) -> str:
     t = re.sub(r",?\s*\d{4}\s*[-\u2013\u2014]\s*\d{4}\.?$", "", t)
     t = re.sub(r"\s+from\s+\d+.*$", "", t, flags=re.I)
     t = t.strip().rstrip(".")
-    # keep a leading "Top" when it has no number (e.g. "Top car producing countries")
-    return t.upper()
+    return t.upper() or "DATA RACE"
 
 
-# ---------------------------------------------------------------- icons ---
-
-def draw_car(d, cx, cy, s):
-    body = [(cx - 150 * s, cy + 40 * s), (cx - 140 * s, cy - 10 * s),
-            (cx - 80 * s, cy - 18 * s), (cx - 55 * s, cy - 62 * s),
-            (cx + 45 * s, cy - 62 * s), (cx + 75 * s, cy - 18 * s),
-            (cx + 140 * s, cy - 10 * s), (cx + 150 * s, cy + 40 * s)]
-    d.polygon(body, fill=WHITE)
-    d.polygon([(cx - 45 * s, cy - 54 * s), (cx + 35 * s, cy - 54 * s),
-               (cx + 55 * s, cy - 22 * s), (cx - 65 * s, cy - 22 * s)], fill=NAVY)
-    for wx in (cx - 85 * s, cx + 85 * s):
-        d.ellipse([wx - 32 * s, cy + 12 * s, wx + 32 * s, cy + 76 * s], fill=BLACK)
-        d.ellipse([wx - 14 * s, cy + 30 * s, wx + 14 * s, cy + 58 * s], fill=(180, 180, 180))
-    d.ellipse([cx + 118 * s, cy - 4 * s, cx + 142 * s, cy + 14 * s], fill=(255, 213, 0))
-
-
-def draw_phone(d, cx, cy, s):
-    w, h = 104 * s, 208 * s
-    d.rounded_rectangle([cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2],
-                        radius=20 * s, fill=WHITE)
-    m = 12 * s
-    d.rounded_rectangle([cx - w / 2 + m, cy - h / 2 + m + 16 * s,
-                         cx + w / 2 - m, cy + h / 2 - m - 24 * s],
-                        radius=8 * s, fill=NAVY)
-    d.rounded_rectangle([cx - 20 * s, cy - h / 2 + 7 * s,
-                         cx + 20 * s, cy - h / 2 + 11 * s], radius=2 * s, fill=(130, 130, 130))
-    d.ellipse([cx - 11 * s, cy + h / 2 - 20 * s, cx + 11 * s, cy + h / 2 + 2 * s],
-              outline=(130, 130, 130), width=max(2, int(3 * s)))
-
-
-def draw_factory(d, cx, cy, s):
-    # chimneys
-    d.rectangle([cx - 85 * s, cy - 95 * s, cx - 52 * s, cy,], fill=WHITE)
-    d.rectangle([cx + 52 * s, cy - 115 * s, cx + 85 * s, cy], fill=WHITE)
-    # smoke puffs
-    for ox, oy, r in [(-68, -125, 15), (-58, -158, 20), (68, -145, 17), (80, -182, 22)]:
-        d.ellipse([cx + ox * s - r * s, cy + oy * s - r * s,
-                   cx + ox * s + r * s, cy + oy * s + r * s], fill=(215, 215, 215, 170))
-    # main hall
-    d.rectangle([cx - 125 * s, cy - 10 * s, cx + 125 * s, cy + 70 * s], fill=WHITE)
-    d.polygon([(cx - 125 * s, cy - 10 * s), (cx + 125 * s, cy - 10 * s),
-               (cx + 95 * s, cy - 55 * s), (cx - 95 * s, cy - 55 * s)], fill=WHITE)
-    # windows
-    for i in range(4):
-        wx = cx - 105 * s + i * 58 * s
-        d.rectangle([wx, cy + 12 * s, wx + 38 * s, cy + 48 * s], fill=NAVY)
-
-
-def draw_gamepad(d, cx, cy, s):
-    w, h = 230 * s, 135 * s
-    d.rounded_rectangle([cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2],
-                        radius=48 * s, fill=WHITE)
-    # d-pad
-    d.rectangle([cx - 82 * s, cy - 13 * s, cx - 42 * s, cy + 13 * s], fill=NAVY)
-    d.rectangle([cx - 74 * s, cy - 21 * s, cx - 50 * s, cy + 21 * s], fill=NAVY)
-    # buttons
-    d.ellipse([cx + 42 * s, cy - 22 * s, cx + 64 * s, cy, ], fill=NAVY)
-    d.ellipse([cx + 68 * s, cy - 2 * s, cx + 90 * s, cy + 20 * s], fill=NAVY)
-
-
-def draw_globe(d, cx, cy, s):
-    r = 88 * s
-    wd = max(3, int(9 * s))
-    d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=WHITE, width=wd)
-    d.ellipse([cx - 36 * s, cy - r, cx + 36 * s, cy + r], outline=WHITE, width=max(2, int(6 * s)))
-    d.line([cx - r, cy, cx + r, cy], fill=WHITE, width=max(2, int(6 * s)))
-    d.arc([cx - 62 * s, cy - 62 * s, cx + 62 * s, cy + 62 * s], 205, 335,
-          fill=WHITE, width=max(2, int(6 * s)))
-
-
-def draw_crown(d, cx, cy, s):
-    pts = [(cx - 112 * s, cy + 52 * s), (cx - 112 * s, cy - 28 * s),
-           (cx - 56 * s, cy + 12 * s), (cx, cy - 58 * s),
-           (cx + 56 * s, cy + 12 * s), (cx + 112 * s, cy - 28 * s),
-           (cx + 112 * s, cy + 52 * s)]
-    d.polygon(pts, fill=WHITE)
-    for tx, ty in [(-112, -42), (0, -72), (112, -42)]:
-        d.ellipse([cx + tx * s - 14 * s, cy + ty * s - 14 * s,
-                   cx + tx * s + 14 * s, cy + ty * s + 14 * s], fill=WHITE)
-    d.rectangle([cx - 112 * s, cy + 60 * s, cx + 112 * s, cy + 80 * s], fill=WHITE)
-    d.ellipse([cx - 16 * s, cy + 2 * s, cx + 16 * s, cy + 34 * s], fill=NAVY)
-
-
-def draw_people(d, cx, cy, s):
-    for ox, ps in ((-95, 0.68), (0, 1.0), (95, 0.68)):
-        px = cx + ox * s
-        d.ellipse([px - 32 * ps * s, cy - 78 * ps * s,
-                   px + 32 * ps * s, cy - 14 * ps * s], fill=WHITE)
-        d.rounded_rectangle([px - 46 * ps * s, cy - 2 * ps * s,
-                             px + 46 * ps * s, cy + 68 * ps * s],
-                            radius=20 * s, fill=WHITE)
-
-
-def draw_chart(d, cx, cy, s):
-    wd = max(3, int(9 * s))
-    d.line([cx - 115 * s, cy + 72 * s, cx + 115 * s, cy + 72 * s], fill=WHITE, width=wd)
-    for i, h in enumerate((72, 112, 152)):
-        x0 = cx - 100 * s + i * 72 * s
-        d.rectangle([x0, cy + 72 * s - h * s, x0 + 52 * s, cy + 72 * s], fill=WHITE)
-
-
-def draw_star(d, cx, cy, s):
-    r = 90 * s
-    d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=WHITE)
-    f = ImageFont.truetype(find_font(), int(110 * s))
-    tw = d.textlength("\u2605", font=f)
-    d.text((cx - tw / 2, cy - 80 * s), "\u2605", font=f, fill=NAVY)
-
-
-ICONS = {
-    "car": draw_car, "phone": draw_phone, "factory": draw_factory,
-    "gamepad": draw_gamepad, "globe": draw_globe, "crown": draw_crown,
-    "people": draw_people, "chart": draw_chart, "star": draw_star,
-}
-
-ICON_MAP = [
-    (("car", "vehicle", "automobile", "auto"), "car"),
-    (("phone", "mobile", "smartphone", "iphone", "android"), "phone"),
-    (("co2", "carbon", "emission", "pollution", "factory", "industr"), "factory"),
-    (("console", "game", "gaming", "playstation", "xbox", "nintendo"), "gamepad"),
-    (("browser", "internet", "website", "web "), "globe"),
-    (("empire", "kingdom", "richest", "billionaire"), "crown"),
-    (("population", "people", "census", "demographic"), "people"),
-    (("econom", "gdp", "market", "revenue", "trade", "export"), "chart"),
-]
-
-
-def pick_icon(topic: str) -> str:
-    t = (topic or "").lower()
-    for keys, icon in ICON_MAP:
-        if any(k in t for k in keys):
-            return icon
-    return "star"
-
-
-# ------------------------------------------------------------ caption ---
-
-def wrap_lines(d, text, font, max_w):
+def wrap_lines(d, text, font, max_w, max_lines=4):
     words = text.split()
     lines, cur = [], ""
     for w_ in words:
@@ -230,44 +110,96 @@ def wrap_lines(d, text, font, max_w):
         else:
             lines.append(cur)
             cur = w_
-    if cur:
+            if len(lines) >= max_lines:
+                break
+    if cur and len(lines) < max_lines:
         lines.append(cur)
     return lines
+
+
+def draw_rising_arrow(d, x0, y0, x1, y1, color, width):
+    """A bold rising arrow from (x0, y0) to (x1, y1)."""
+    d.line([x0, y0, x1, y1], fill=color, width=width, joint="curve")
+    # Arrowhead: two short strokes at the tip, angled back along the shaft.
+    import math
+    ang = math.atan2(y1 - y0, x1 - x0)
+    head_len = width * 3.2
+    for delta in (math.pi * 0.82, -math.pi * 0.82):
+        a = ang + delta
+        d.line([x1, y1, x1 + head_len * math.cos(a), y1 + head_len * math.sin(a)],
+               fill=color, width=width, joint="curve")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--video", required=True)
     ap.add_argument("--topic", default="", help="video topic / spec title")
-    ap.add_argument("--years", default="", help='e.g. "2010 - 2026"')
-    ap.add_argument("--hook", default="", help="deprecated, ignored")
-    ap.add_argument("--icon", default="", help="force icon kind")
+    ap.add_argument("--years", default="", help='e.g. "1995 - 2023"')
     ap.add_argument("--out", required=True)
-    ap.add_argument("--at", type=float, default=0.55,
+    ap.add_argument("--at", type=float, default=0.72,
                     help="fraction of video duration to grab the background frame")
     args = ap.parse_args()
 
     topic = clean_topic(args.topic)
-    icon_kind = args.icon or pick_icon(topic)
-    years = (args.years or "").replace(" ", "")
-
+    years = " ".join((args.years or "").split())
     font_path = find_font()
 
-    # --- background: real video frame, slightly darkened for contrast ---
+    # --- left: real video frame, full height ---
     tmp = args.out + ".frame.png"
     grab_frame(args.video, args.at, tmp)
-    img = Image.open(tmp).convert("RGB")
-    img = ImageEnhance.Brightness(img).enhance(0.86)
-    d = ImageDraw.Draw(img, "RGBA")
+    frame_img = Image.open(tmp).convert("RGB")
+    # Expand the canvas to full thumbnail size; the frame fills the left,
+    # the text panel is drawn on the right.
+    img = Image.new("RGB", (W, H), WHITE)
+    img.paste(frame_img, (0, 0))
+    d = ImageDraw.Draw(img)
 
-    # soft dark backdrop behind the icon for pop (top-right, 3x of old coords)
-    icon_cx, icon_cy = 3015, 555
-    d.ellipse([icon_cx - 450, icon_cy - 390, icon_cx + 450, icon_cy + 390],
-              fill=(0, 0, 0, 45))
+    # --- right: white text panel ---
+    d.rectangle([PANEL_X, 0, W, H], fill=WHITE)
+    # subtle left divider
+    d.line([PANEL_X, 0, PANEL_X, H], fill=(229, 231, 235), width=6)
 
-    # --- topic icon (the caption already lives in the frame: the video's
-    # --- own green side panel. Drawing another box would duplicate it.) ---
-    ICONS.get(icon_kind, draw_star)(d, icon_cx, icon_cy, 3.0)
+    px = PANEL_X + 120          # panel content left
+    content_w = PANEL_W - 240   # panel content width
+    y = 250
+
+    # red rising arrow (top of panel, like the reference)
+    draw_rising_arrow(d, px, y + 180, px + 620, y - 60, RED, 46)
+    y += 300
+
+    # big bold title
+    title_font = load_font(font_path, 168, weight=900)
+    for line in wrap_lines(d, topic, title_font, content_w):
+        d.text((px, y), line, font=title_font, fill=BLACK)
+        y += 196
+    y += 40
+
+    # year range on a yellow highlight bar
+    if years:
+        year_font = load_font(font_path, 120, weight=800)
+        tw = d.textlength(years, font=year_font)
+        pad_x, pad_y = 48, 26
+        d.rounded_rectangle(
+            [px, y, px + tw + pad_x * 2, y + 120 + pad_y * 2],
+            radius=18, fill=YELLOW,
+        )
+        d.text((px + pad_x, y + pad_y - 8), years, font=year_font, fill=BLACK)
+        y += 120 + pad_y * 2 + 90
+
+    # small bar chart at the bottom (ascending, brand blues)
+    chart_colors = [(37, 99, 235), (59, 130, 246), (96, 165, 250), (147, 197, 253), (29, 78, 216)]
+    chart_x, chart_y0, chart_y1 = px, H - 560, H - 200
+    n = 5
+    gap = 36
+    bw = (content_w - gap * (n - 1)) // n
+    heights = [150, 210, 180, 260, 330]
+    for i in range(n):
+        x0 = chart_x + i * (bw + gap)
+        hgt = heights[i]
+        d.rounded_rectangle([x0, chart_y1 - hgt, x0 + bw, chart_y1],
+                            radius=14, fill=chart_colors[i])
+    # baseline
+    d.line([chart_x, chart_y1, chart_x + content_w, chart_y1], fill=GRAY, width=8)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     save_under_limit(img, args.out)
@@ -276,7 +208,7 @@ def main() -> int:
     except OSError:
         pass
     size = os.path.getsize(args.out)
-    print(f"thumbnail written: {args.out} (icon={icon_kind} topic={topic!r} "
+    print(f"thumbnail written: {args.out} (topic={topic!r} years={years!r} "
           f"{size/1024:.0f}KB)")
     return 0
 
