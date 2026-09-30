@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "title": "The World's Richest Person",
+  "subtitle": "Net worth rankings from 1987 to 2022",
+  "hook": "See how the title of the world's richest person changed over time.",
+  "setup": "This data race visualizes the shifts in estimated net worth among top global figures.",
+  "sequence": [
+    {
+      "atLabel": "1987",
+      "text": "In 1987, Keizo Saji entered as a newcomer at rank 1 with a value of 10."
+    },
+    {
+      "atLabel": "1993",
+      "text": "In 1993, Carlos Slim entered as a newcomer and took rank 1 with a value of 10."
+    },
+    {
+      "atLabel": "1998",
+      "text": "In 1998, Karl and Theo Albrecht made a jump from rank 8 to rank 5 with a value of 10."
+    },
+    {
+      "atLabel": "2000",
+      "text": "In 2000, Alice Walton arrived as a newcomer and claimed rank 1 with a value of 10."
+    },
+    {
+      "atLabel": "2005",
+      "text": "In 2005, Li Ka-shing entered the rankings as a newcomer at rank 3 with a value of 10."
+    }
+  ],
+  "highlights": [
+    {
+      "atLabel": "1993",
+      "entityId": "Carlos Slim",
+      "headline": "Carlos Slim takes lead",
+      "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+      "factBox": {
+        "heading": "Top Position",
+        "body": "Carlos Slim reached rank 1 in 1993.",
+        "dateLabel": "1993",
+        "wordmark": "Carlos Slim"
+      }
+    }
+  ],
+  "ending": "The race reflects the changing landscape of global wealth leaders.",
+  "sourcesLine": "Data: Historical Records"
+}

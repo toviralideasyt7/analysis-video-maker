@@ -1,0 +1,528 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "larry-ellison",
+      "type": "logo",
+      "query": "Larry Ellison logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "warren-buffett",
+      "type": "logo",
+      "query": "Warren Buffett logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amancio-ortega",
+      "type": "logo",
+      "query": "Amancio Ortega logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "s-robson-walton",
+      "type": "logo",
+      "query": "S. Robson Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "karl-and-theo-albrecht",
+      "type": "logo",
+      "query": "Karl�and�Theo Albrecht logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bill-gates",
+      "type": "logo",
+      "query": "Bill Gates logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kenneth-thomson",
+      "type": "logo",
+      "query": "Kenneth Thomson logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "jim-walton",
+      "type": "logo",
+      "query": "Jim Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "al-waleed-bin-talal",
+      "type": "logo",
+      "query": "Al-Waleed bin Talal logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "carlos-slim",
+      "type": "logo",
+      "query": "Carlos Slim logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bernard-arnault",
+      "type": "logo",
+      "query": "Bernard Arnault logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "karl-albrecht",
+      "type": "logo",
+      "query": "Karl Albrecht logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mukesh-ambani",
+      "type": "logo",
+      "query": "Mukesh Ambani logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "paul-allen",
+      "type": "logo",
+      "query": "Paul Allen logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "charles-koch",
+      "type": "logo",
+      "query": "Charles Koch logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "david-koch",
+      "type": "logo",
+      "query": "David Koch logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "alice-walton",
+      "type": "logo",
+      "query": "Alice Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "shin-kyuk-ho",
+      "type": "logo",
+      "query": "Shin Kyuk-ho logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "lakshmi-mittal",
+      "type": "logo",
+      "query": "Lakshmi Mittal logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "li-ka-shing",
+      "type": "logo",
+      "query": "Li Ka-shing logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mark-zuckerberg",
+      "type": "logo",
+      "query": "Mark Zuckerberg logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "hans-and-gad-rausing",
+      "type": "logo",
+      "query": "Hans�and�Gad Rausing logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "helen-walton",
+      "type": "logo",
+      "query": "Helen Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tsai-wan-lin-family",
+      "type": "logo",
+      "query": "Tsai Wan-lin�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yoshiaki-tsutsumi",
+      "type": "logo",
+      "query": "Yoshiaki Tsutsumi logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eitaro-itoyama",
+      "type": "logo",
+      "query": "Eitaro Itoyama logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kitaro-watanabe-ja",
+      "type": "logo",
+      "query": "Kitaro Watanabe�[ja] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "john-walton",
+      "type": "logo",
+      "query": "John Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "lee-shau-kee",
+      "type": "logo",
+      "query": "Lee Shau-kee logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "michael-bloomberg",
+      "type": "logo",
+      "query": "Michael Bloomberg logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ingvar-kamprad",
+      "type": "logo",
+      "query": "Ingvar Kamprad logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "larry-page",
+      "type": "logo",
+      "query": "Larry Page logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "eike-batista",
+      "type": "logo",
+      "query": "Eike Batista logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "christy-walton-family",
+      "type": "logo",
+      "query": "Christy Walton�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "li-ka-shing-family",
+      "type": "logo",
+      "query": "Li Ka-shing�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kenkichi-nakajima-wikidata",
+      "type": "logo",
+      "query": "Kenkichi Nakajima�[Wikidata] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sergey-brin",
+      "type": "logo",
+      "query": "Sergey Brin logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "erivan-haub",
+      "type": "logo",
+      "query": "Erivan Haub logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "forrest-mars-sr-family",
+      "type": "logo",
+      "query": "Forrest Mars Sr.�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "michael-dell",
+      "type": "logo",
+      "query": "Michael Dell logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "du-pont-family",
+      "type": "logo",
+      "query": "du Pont family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "jeff-bezos",
+      "type": "logo",
+      "query": "Jeff Bezos logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "paul-reichmann-brothers",
+      "type": "logo",
+      "query": "Paul Reichmann�& brothers logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sheldon-adelson",
+      "type": "logo",
+      "query": "Sheldon Adelson logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kwok-brothers",
+      "type": "logo",
+      "query": "Kwok brothers logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "paul-sacher-hoffman-family",
+      "type": "logo",
+      "query": "Paul Sacher�& Hoffman family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "walton-family",
+      "type": "logo",
+      "query": "Walton family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "taikichiro-mori",
+      "type": "logo",
+      "query": "Taikichiro Mori logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "chung-ju-yung",
+      "type": "logo",
+      "query": "Chung Ju-yung logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "david-thomson",
+      "type": "logo",
+      "query": "David Thomson logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "haruhiko-yoshimoto-wikidata",
+      "type": "logo",
+      "query": "Haruhiko Yoshimoto�[Wikidata] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "keizo-saji",
+      "type": "logo",
+      "query": "Keizo Saji logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "liliane-bettencourt",
+      "type": "logo",
+      "query": "Liliane Bettencourt logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "bernard-arnault-family",
+      "type": "logo",
+      "query": "Bernard Arnault�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "liliane-bettencourt-family",
+      "type": "logo",
+      "query": "Liliane Bettencourt�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "oleg-deripaska",
+      "type": "logo",
+      "query": "Oleg Deripaska logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "steve-ballmer",
+      "type": "logo",
+      "query": "Steve Ballmer logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "theo-albrecht",
+      "type": "logo",
+      "query": "Theo Albrecht logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "christy-walton",
+      "type": "logo",
+      "query": "Christy Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "david-sainsbury-family",
+      "type": "logo",
+      "query": "David Sainsbury�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "haruhiko-yoshimoto-wikidata-family",
+      "type": "logo",
+      "query": "Haruhiko Yoshimoto�[Wikidata]& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kushal-pal-singh",
+      "type": "logo",
+      "query": "Kushal Pal Singh logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "masayoshi-son",
+      "type": "logo",
+      "query": "Masayoshi Son logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sid-and-lee-bass-brothers",
+      "type": "logo",
+      "query": "Sid�and�Lee Bass�& brothers logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "stefan-persson",
+      "type": "logo",
+      "query": "Stefan Persson logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tsai-wan-lin",
+      "type": "logo",
+      "query": "Tsai Wan-lin logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "yohachiro-iwasaki-ja",
+      "type": "logo",
+      "query": "Yohachiro Iwasaki�[ja] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "haas-family",
+      "type": "logo",
+      "query": "Haas family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "paul-reichmann",
+      "type": "logo",
+      "query": "Paul Reichmann logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "reichmann-brothers",
+      "type": "logo",
+      "query": "Reichmann brothers logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sam-walton",
+      "type": "logo",
+      "query": "Sam Walton logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "samuel-and-donald-newhouse",
+      "type": "logo",
+      "query": "Samuel�and�Donald Newhouse logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "anil-ambani",
+      "type": "logo",
+      "query": "Anil Ambani logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "haniel-family",
+      "type": "logo",
+      "query": "Haniel family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "hirotomo-takei-ja-family",
+      "type": "logo",
+      "query": "Hirotomo Takei�[ja]�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "jay-and-robert-pritzker",
+      "type": "logo",
+      "query": "Jay�and�Robert Pritzker logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "carlos-slim-family",
+      "type": "logo",
+      "query": "Carlos Slim�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "minoru-and-akira-mori",
+      "type": "logo",
+      "query": "Minoru�and�Akira Mori logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "philip-anschutz",
+      "type": "logo",
+      "query": "Philip Anschutz logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "salim-ahmed-bin-mahfouz-ar",
+      "type": "logo",
+      "query": "Salim Ahmed Bin Mahfouz�[ar] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "k-c-irving",
+      "type": "logo",
+      "query": "K. C. Irving logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "oeri-hoffman-sacher-families",
+      "type": "logo",
+      "query": "Oeri, Hoffman & Sacher families logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "steven-ballmer",
+      "type": "logo",
+      "query": "Steven Ballmer logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "elon-musk",
+      "type": "logo",
+      "query": "Elon Musk logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sam-walton-family",
+      "type": "logo",
+      "query": "Sam Walton�& family logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "shigeru-kobayashi-ja",
+      "type": "logo",
+      "query": "Shigeru Kobayashi�[ja] logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "mars-family",
+      "type": "logo",
+      "query": "Mars family logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

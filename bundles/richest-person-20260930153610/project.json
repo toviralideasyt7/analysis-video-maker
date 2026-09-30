@@ -1,0 +1,92 @@
+{
+  "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+  "title": "make video on richest person -",
+  "topic": "make video on richest person -",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-09-30T16:15:49.997Z",
+  "updatedAt": "2026-09-30T16:16:19.310Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-www-kaggle-com-datasets-belayethossainds-the-worlds-bi",
+      "sourceName": "kaggle.com",
+      "publisher": "kaggle.com",
+      "url": "https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-09-30T16:16:01.425Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-09-30T16:16:01.424Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-09-30T16:16:01.425Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-09-30T16:16:01.443Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-09-30T16:16:01.444Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-09-30T16:16:01.457Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-09-30T16:16:01.473Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-09-30T16:16:19.281Z"
+    },
+    {
+      "projectId": "make-video-on-richest-person-20260930161549-sxi1ir",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-09-30T16:16:19.292Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "agent mode: entityKind=custom, range=1987-2022",
+    "agent direct URL: https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022 (362 rows)",
+    "value column \"Yearly ranking \" was chosen by fallback (first free column) - verify it is the metric column",
+    "direct table https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022: 362 observations (unit: USD)",
+    "primary source: kaggle.com (https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022) - all 362 dataset values come from this one source",
+    "verification: 362 observations (VERIFIED 0, SUPPORTED 362, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 362 valued cells confirmed by 2+ independent publishers; 362 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - kaggle.com (https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022), covering 362 cells; 0 other source(s) used for verification only, never merged",
+    "single-source: dataset values come from ONE source - kaggle.com (https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022), covering 362 cells; 0 other source(s) used for verification only, never merged"
+  ]
+}

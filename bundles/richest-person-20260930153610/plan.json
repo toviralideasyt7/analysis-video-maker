@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "topic": "The World's Richest Person",
+  "metric": "Estimated Net Worth (Nominal USD)",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Nominal Net Worth",
+      "description": "The estimated net worth in current US dollars as published by Forbes in the specific annual billionaire ranking year.",
+      "measurableDefinition": "Total estimated value of assets minus liabilities evaluated at market prices during the Forbes annual compilation window, measured in USD.",
+      "caveats": [
+        "Does not account for inflation across different decades.",
+        "Stock prices and asset valuations fluctuate daily, making the annual snapshot date crucial."
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Inflation-Adjusted Net Worth",
+      "description": "The net worth adjusted for inflation to reflect constant purchasing power in a base target year (e.g., 2022 dollars).",
+      "measurableDefinition": "Nominal net worth adjusted using the US Consumer Price Index (CPI) to a common baseline year, measured in constant USD.",
+      "caveats": [
+        "Inflation adjustments can vary depending on the consumer index or methodology used.",
+        "Asset-price inflation often outpaces general consumer price inflation."
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "1987",
+    "end": "2022"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Yoshiaki Tsutsumi",
+    "Taikichiro Mori",
+    "Sam Walton",
+    "Bill Gates",
+    "Warren Buffett",
+    "Carlos Slim",
+    "Jeff Bezos",
+    "Elon Musk"
+  ],
+  "preferredSources": [
+    "Forbes World's Billionaires List",
+    "Bloomberg Billionaires Index"
+  ],
+  "knownRisks": [
+    "Private wealth estimates involve significant opacity and reliance on self-reported or estimated asset values.",
+    "Methodological shifts by Forbes over the decades regarding family fortunes versus individuals (e.g., Walton family vs. Sam Walton)."
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

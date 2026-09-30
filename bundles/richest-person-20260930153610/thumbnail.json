@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "THE WORLD'S",
+  "subtitle": "RICHEST PERSON",
+  "entities": [
+    "Karl Albrecht",
+    "Liliane Bettencourt",
+    "Mukesh Ambani"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

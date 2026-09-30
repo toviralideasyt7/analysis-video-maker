@@ -1,0 +1,596 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "The World's Richest Person",
+    "subtitle": "1987 - 2022",
+    "language": "en",
+    "durationSeconds": 320
+  },
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#ffffff",
+    "surface": "#f4f5f7",
+    "primaryText": "#111827",
+    "secondaryText": "#6b7280",
+    "mutedText": "#c8ccd4",
+    "accent": "#e11d2e",
+    "barTrack": "#eef0f3",
+    "fontFamily": "Inter"
+  },
+  "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "The World's Richest Person",
+      "subtitle": "1987 - 2022"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "See how the title of the world's richest person changed over time.",
+      "subtitle": "This data race visualizes the shifts in estimated net worth among top global figures."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 18,
+      "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "highlights": [
+          {
+            "atFrame": 132,
+            "atLabel": "1993",
+            "entityId": "Carlos Slim",
+            "headline": "Carlos Slim takes lead",
+            "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+            "factBox": {
+              "heading": "Top Position",
+              "body": "Carlos Slim reached rank 1 in 1993.",
+              "dateLabel": "1993",
+              "wordmark": "Carlos Slim"
+            }
+          }
+        ],
+        "notes": [
+          "6521 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Estimated Net Worth (Nominal USD)",
+          "value": 10,
+          "entityName": "Karl Albrecht",
+          "entityId": "karl-albrecht",
+          "year": "2022",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "karl-albrecht",
+              "name": "Karl Albrecht",
+              "color": "#b91c1c"
+            },
+            {
+              "id": "liliane-bettencourt",
+              "name": "Liliane Bettencourt",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "mukesh-ambani",
+              "name": "Mukesh Ambani",
+              "color": "#4d7c0f"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          59
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_1990",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Eitaro Itoyama rules the 1990s",
+      "props": {
+        "kicker": "THE 1990S",
+        "atLabel": "1990",
+        "body": "As the 1990s began, Eitaro Itoyama led the world with 10 USD. Shin Kyuk-ho was the previous decade's biggest climber, rising 11 places into the top 10.",
+        "entityIds": [
+          "eitaro-itoyama",
+          "keizo-saji",
+          "kenneth-thomson"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "highlights": [
+          {
+            "atFrame": 132,
+            "atLabel": "1993",
+            "entityId": "Carlos Slim",
+            "headline": "Carlos Slim takes lead",
+            "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+            "factBox": {
+              "heading": "Top Position",
+              "body": "Carlos Slim reached rank 1 in 1993.",
+              "dateLabel": "1993",
+              "wordmark": "Carlos Slim"
+            }
+          }
+        ],
+        "notes": [
+          "6521 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Estimated Net Worth (Nominal USD)",
+          "value": 10,
+          "entityName": "Karl Albrecht",
+          "entityId": "karl-albrecht",
+          "year": "2022",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "karl-albrecht",
+              "name": "Karl Albrecht",
+              "color": "#b91c1c"
+            },
+            {
+              "id": "liliane-bettencourt",
+              "name": "Liliane Bettencourt",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "mukesh-ambani",
+              "name": "Mukesh Ambani",
+              "color": "#4d7c0f"
+            }
+          ]
+        },
+        "tapeRange": [
+          60,
+          259
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2000",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Alice Walton rules the 2000s",
+      "props": {
+        "kicker": "THE 2000S",
+        "atLabel": "2000",
+        "body": "As the 2000s began, Alice Walton led the world with 10 USD. Alice Walton was the previous decade's biggest climber, rising 14 places into the top 10.",
+        "entityIds": [
+          "alice-walton",
+          "carlos-slim",
+          "chung-ju-yung"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "highlights": [
+          {
+            "atFrame": 132,
+            "atLabel": "1993",
+            "entityId": "Carlos Slim",
+            "headline": "Carlos Slim takes lead",
+            "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+            "factBox": {
+              "heading": "Top Position",
+              "body": "Carlos Slim reached rank 1 in 1993.",
+              "dateLabel": "1993",
+              "wordmark": "Carlos Slim"
+            }
+          }
+        ],
+        "notes": [
+          "6521 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Estimated Net Worth (Nominal USD)",
+          "value": 10,
+          "entityName": "Karl Albrecht",
+          "entityId": "karl-albrecht",
+          "year": "2022",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "karl-albrecht",
+              "name": "Karl Albrecht",
+              "color": "#b91c1c"
+            },
+            {
+              "id": "liliane-bettencourt",
+              "name": "Liliane Bettencourt",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "mukesh-ambani",
+              "name": "Mukesh Ambani",
+              "color": "#4d7c0f"
+            }
+          ]
+        },
+        "tapeRange": [
+          260,
+          459
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Christy Walton�& family rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, Christy Walton�& family led the world with 10 USD. Christy Walton�& family was the previous decade's biggest climber, rising 14 places into the top 10.",
+        "entityIds": [
+          "christy-walton-family",
+          "david-thomson",
+          "karl-albrecht"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_4",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "highlights": [
+          {
+            "atFrame": 132,
+            "atLabel": "1993",
+            "entityId": "Carlos Slim",
+            "headline": "Carlos Slim takes lead",
+            "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+            "factBox": {
+              "heading": "Top Position",
+              "body": "Carlos Slim reached rank 1 in 1993.",
+              "dateLabel": "1993",
+              "wordmark": "Carlos Slim"
+            }
+          }
+        ],
+        "notes": [
+          "6521 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Estimated Net Worth (Nominal USD)",
+          "value": 10,
+          "entityName": "Karl Albrecht",
+          "entityId": "karl-albrecht",
+          "year": "2022",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "karl-albrecht",
+              "name": "Karl Albrecht",
+              "color": "#b91c1c"
+            },
+            {
+              "id": "liliane-bettencourt",
+              "name": "Liliane Bettencourt",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "mukesh-ambani",
+              "name": "Mukesh Ambani",
+              "color": "#4d7c0f"
+            }
+          ]
+        },
+        "tapeRange": [
+          460,
+          659
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Karl Albrecht rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2022, Karl Albrecht leads the world with 10 USD.",
+        "entityIds": [
+          "karl-albrecht",
+          "liliane-bettencourt",
+          "mukesh-ambani"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_5",
+      "type": "bar_race",
+      "duration": 18,
+      "datasetRef": "dataset_make-video-on-richest-person-20260930161549-sxi1ir",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "1987",
+          "1988",
+          "1989",
+          "1990",
+          "1991",
+          "1992",
+          "1993",
+          "1994",
+          "1995",
+          "1996",
+          "1997",
+          "1998",
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022"
+        ],
+        "highlights": [
+          {
+            "atFrame": 132,
+            "atLabel": "1993",
+            "entityId": "Carlos Slim",
+            "headline": "Carlos Slim takes lead",
+            "detail": "Carlos Slim entered the rankings in 1993 and claimed the top position.",
+            "factBox": {
+              "heading": "Top Position",
+              "body": "Carlos Slim reached rank 1 in 1993.",
+              "dateLabel": "1993",
+              "wordmark": "Carlos Slim"
+            }
+          }
+        ],
+        "notes": [
+          "6521 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Estimated Net Worth (Nominal USD)",
+          "value": 10,
+          "entityName": "Karl Albrecht",
+          "entityId": "karl-albrecht",
+          "year": "2022",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "karl-albrecht",
+              "name": "Karl Albrecht",
+              "color": "#b91c1c"
+            },
+            {
+              "id": "liliane-bettencourt",
+              "name": "Liliane Bettencourt",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "mukesh-ambani",
+              "name": "Mukesh Ambani",
+              "color": "#4d7c0f"
+            }
+          ]
+        },
+        "tapeRange": [
+          660,
+          719
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "The race reflects the changing landscape of global wealth leaders."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://www.kaggle.com/datasets/belayethossainds/the-worlds-billionaires-dataset-19872022",
+      "publisher": "kaggle.com",
+      "publishedAt": null,
+      "retrievedAt": "2026-09-30T16:16:01.425Z",
+      "identifier": "picked_https-www-kaggle-com-datasets-belayethossainds-the-worlds-bi"
+    }
+  ]
+}
