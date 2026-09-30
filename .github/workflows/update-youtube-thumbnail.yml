@@ -1,0 +1,41 @@
+name: update-youtube-thumbnail
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "YouTube video ID to update"
+        required: true
+      thumbnail_url:
+        description: "Direct URL to the thumbnail JPG (release asset)"
+        required: true
+
+jobs:
+  update-thumbnail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download thumbnail
+        run: |
+          curl -sL "${{ inputs.thumbnail_url }}" -o thumbnail.jpg
+          ls -lh thumbnail.jpg
+          file thumbnail.jpg
+
+      - name: Set YouTube thumbnail
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          # Refresh access token
+          TOKEN=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -d "client_id=${YOUTUBE_CLIENT_ID}&client_secret=${YOUTUBE_CLIENT_SECRET}&refresh_token=${YOUTUBE_REFRESH_TOKEN}&grant_type=refresh_token" \
+            | python3 -c "import json,sys; print(json.load(sys.stdin)['access_token'])")
+          # Set thumbnail
+          curl -s -X POST \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Content-Type: image/jpeg" \
+            --data-binary @thumbnail.jpg \
+            "https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=${{ inputs.video_id }}"
+          echo ""
+          echo "Thumbnail updated for video ${{ inputs.video_id }}"
+          echo "https://www.youtube.com/watch?v=${{ inputs.video_id }}"

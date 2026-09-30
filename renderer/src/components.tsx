@@ -523,9 +523,24 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
         overflow: 'hidden',
       }}
     >
-      {/* kicker + live year */}
+      {/* kicker */}
       <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '0.28em', color: accent }}>
-        {kicker} · {yearLabel}
+        {kicker}
+      </div>
+      {/* hero year — big bold Eczar, the live period label as a design element */}
+      <div
+        style={{
+          marginTop: 6,
+          fontSize: 64,
+          fontWeight: 900,
+          color: '#ffffff',
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
+          fontFamily: 'Eczar, serif',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {yearLabel}
       </div>
       {/* headline */}
       {headline ? (
