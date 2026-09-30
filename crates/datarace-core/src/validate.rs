@@ -321,7 +321,7 @@ mod tests {
             .iter()
             .enumerate()
             .map(|(i, n)| ObservationInput {
-                entity: n.to_string(),
+                entity: n.to_string().into(),
                 date: "2022".into(),
                 value: Some((i + 1) as f64),
                 unit: Some("USD".into()),
@@ -349,7 +349,7 @@ mod tests {
             .iter()
             .enumerate()
             .map(|(i, v)| ObservationInput {
-                entity: format!("E{}", i),
+                entity: format!("E{}", i).into(),
                 date: "2022".into(),
                 value: Some(*v),
                 unit: Some("USD".into()),
