@@ -1044,6 +1044,30 @@ export function typescriptQualityReport(dataset: Dataset, maxDate: string): Data
   }
   push('outlier', outlierDetails);
 
+  // Rank-as-value: if a period's values are exactly the integers 1..N (a
+  // permutation), the extractor grabbed a RANK column, not the magnitude.
+  // (Root cause of the 2026-09-30 richest-person video showing "10"/"9"/"8"
+  // as net worth.) Genuine race data is never exactly 1..N across 5+ entities.
+  const rankValueDetails: string[] = [];
+  const byDate = new Map<string, number[]>();
+  for (const o of obs) {
+    if (o.value === null || !Number.isFinite(o.value)) continue;
+    const list = byDate.get(o.date) ?? [];
+    list.push(o.value);
+    byDate.set(o.date, list);
+  }
+  for (const [date, values] of byDate) {
+    if (values.length < 5) continue;
+    const sorted = [...values].sort((a, b) => a - b);
+    const isRanks = sorted.every((v, i) => v === i + 1);
+    if (isRanks) {
+      rankValueDetails.push(
+        `period ${date}: values are exactly 1..${values.length} - a rank column was extracted instead of the magnitude`,
+      );
+    }
+  }
+  push('rank-as-value', rankValueDetails);
+
   const sorted = [...obs].sort((a, b) => a.date.localeCompare(b.date));
   let rankingOk = true;
   for (const o of sorted) {
