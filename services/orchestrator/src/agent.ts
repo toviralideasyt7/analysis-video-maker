@@ -19,7 +19,7 @@ import { execFile } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { getText, parseCsv } from './connectors';
+import { getText, parseCsv, kaggleRefFromUrl, kaggleDatasetCsvText } from './connectors';
 import { createAIClient } from './providers/ai';
 import { tableFromJsonArray } from './research';
 import { logger } from './runtime';
@@ -423,7 +423,21 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
     const looksZip = /\.zip(\?|$)/i.test(url);
     let columns: string[] = [];
     let rows: string[][] = [];
-    if (looksZip) {
+    // Kaggle dataset pages sit behind a login wall: a plain fetch only ever
+    // sees HTML with no data tables. Route dataset-page URLs through the
+    // authenticated Kaggle file-download API and parse the largest CSV
+    // inside. (Root-cause fix 2026-09-30: this pre-plan ingest path never
+    // tried the download API, so a prompt Kaggle link was marked "unusable"
+    // and the research-phase Kaggle block — which only sees picked sources —
+    // never got a chance to download it either.)
+    const kaggleRef = kaggleRefFromUrl(url);
+    if (kaggleRef) {
+      const { fileName, text } = await kaggleDatasetCsvText(kaggleRef);
+      const parsed = parseCsv(text);
+      columns = parsed.columns;
+      rows = parsed.rows;
+      notes.push(`kaggle ${kaggleRef}: downloaded ${fileName}, ${rows.length} rows`);
+    } else if (looksZip) {
       const res = await fetch(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
