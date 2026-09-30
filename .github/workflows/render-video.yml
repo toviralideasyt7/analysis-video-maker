@@ -1,7 +1,4 @@
 name: render-video
-# The run name carries the project id so monitors can map a run back to its
-# studio project.
-run-name: "render: ${{ inputs.projectId }}"
 
 # The render layer. Dispatched by the backend only after a project is APPROVED.
 #
@@ -99,6 +96,10 @@ jobs:
             --in "projects/${PROJECT_ID}/dataset.json" \
             --out "projects/${PROJECT_ID}/quality.ci.json" \
             --strict
+          # Deterministic content sanity (same backstop as research.yml):
+          # fail fast when the dataset shape contradicts its own metric
+          # instead of relying on the non-deterministic LLM AI-QA verdict.
+          python3 tools/validate-dataset-content.py "projects/${PROJECT_ID}"
 
       - name: Verify the frame tape matches the dataset
         run: npx tsx tools/verify-tape.ts "projects/${PROJECT_ID}"
@@ -257,7 +258,7 @@ jobs:
           ffmpeg -version | head -n 1
 
       # Concatenate the independently-rendered chunks. All chunks use
-      # identical codec settings (h264, 20M), so stream-copy concat is
+      # identical codec settings (h264, 8M), so stream-copy concat is
       # lossless and seamless.
       - name: Concatenate chunks
         run: |
@@ -317,7 +318,7 @@ jobs:
           set -euo pipefail
           ./target/release/datarace probe \
             --in "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            --expect-size 1920x1080 \
+            --expect-size 1280x720 \
             --out "projects/${PROJECT_ID}/renders/probe.json"
 
       - name: Video QA gate (bars, layout, transitions)
@@ -358,13 +359,8 @@ jobs:
           YEARS=$(python3 -c "
           import json
           d=json.load(open('projects/${PROJECT_ID}/dataset.json'))
-          # Prefer timeRange (canonical), fall back to periods[].year (legacy)
-          tr=d.get('timeRange') or {}
-          if tr.get('start') and tr.get('end'):
-              print(f\"{tr['start']} - {tr['end']}\")
-          else:
-              ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
-              print(f'{min(ys)} - {max(ys)}' if ys else '')")
+          ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
+          print(f'{min(ys)} - {max(ys)}' if ys else '')")
           TOPIC=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('metadata',{}).get('title',''))")
           python3 tools/make-thumbnail.py \
             --video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \

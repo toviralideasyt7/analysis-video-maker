@@ -168,6 +168,12 @@ jobs:
             echo "validating $dir"
             npx tsx tools/validate-spec.ts "$dir"
             ./target/release/datarace validate --in "$dir/dataset.json" --strict --out "$dir/quality.ci.json"
+            # Deterministic content sanity: fail fast when the dataset shape
+            # contradicts its own metric (e.g. monetary metric with unit
+            # "count", or comma-joined multi-value entity names). The LLM
+            # AI-QA gate is non-deterministic; this is the hard backstop so a
+            # bad bundle never commits or triggers a render.
+            python3 tools/validate-dataset-content.py "$dir"
           done
 
       - name: AI QA review of the bundle
