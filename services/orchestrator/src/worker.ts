@@ -7,7 +7,7 @@
 
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { KVProjectStore, type KVNamespaceLike, type WorkerLimits } from './kv-store';
+import { KVProjectStore, type KVNamespaceLike, type WorkerLimits, type WorkerProjectState } from './kv-store';
 
 interface Env {
   PROJECTS_KV: KVNamespaceLike;
@@ -140,6 +140,7 @@ app.post('/api/hooks/render-complete', async (c) => {
   if (given !== expected) return c.json({ error: 'bad hook secret' }, 403);
   const body = (await c.req.json().catch(() => ({}))) as {
     projectId?: string; status?: string; runId?: number | null; assetName?: string; artifactUrl?: string; error?: string;
+    topic?: string; title?: string;
   };
   if (!body.projectId) return c.json({ error: 'projectId is required' }, 400);
   const store = new KVProjectStore(c.env.PROJECTS_KV);
@@ -147,7 +148,26 @@ app.post('/api/hooks/render-complete', async (c) => {
   try {
     project = await store.load(body.projectId);
   } catch {
-    return c.json({ error: 'project not found' }, 404);
+    // The full-auto loop dispatches workflows directly with a projectId that was
+    // never registered through the studio UI. Create the record so the studio
+    // shows the finished render instead of the project staying invisible (the
+    // old 404 'project not found' here left loop projects stuck showing
+    // RENDERING forever).
+    const now = new Date().toISOString();
+    const topic = body.topic ?? body.projectId;
+    project = {
+      projectId: body.projectId,
+      title: body.title ?? topic,
+      topic,
+      status: 'DRAFT',
+      createdAt: now,
+      updatedAt: now,
+      sources: [],
+      checkpoints: [],
+      revisions: [],
+      limits: getLimits(c.env),
+      notes: ['auto-registered by the render-complete hook (loop-dispatched project)'],
+    } as WorkerProjectState;
   }
   const succeeded = body.status === 'success';
   project.status = succeeded ? 'COMPLETED' : 'FAILED';
@@ -464,10 +484,6 @@ app.post('/api/projects/:id/research', async (c) => {
           fromYear: String(body.fromYear ?? ''),
           toYear: String(body.toYear ?? ''),
           skipAi: body.skipAi ? 'true' : 'false',
-          // Full-auto loop: research -> auto-render -> YouTube upload with
-          // zero manual steps (user decision 2026-09-30). research.yml passes
-          // this through to render-video.yml's upload step.
-          upload_youtube: 'true',
         },
       }),
     }
@@ -485,27 +501,6 @@ app.post('/api/projects/:id/research', async (c) => {
   if (prompt) {
     (project as Record<string, unknown>).prompt = prompt;
     (project as Record<string, unknown>).autoRender = true;
-  }
-  // Remember WHICH workflow run we dispatched: the status endpoint checks
-  // this run's conclusion directly. (Matching by display_title never worked —
-  // for workflow_dispatch the title is always the workflow name, so failed
-  // runs left projects stuck on RESEARCHING forever.)
-  try {
-    const runsRes = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/actions/workflows/research.yml/runs?per_page=3&event=workflow_dispatch`,
-      { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': `Bearer ${token}`, 'User-Agent': 'avm-orchestrator-worker' } }
-    );
-    if (runsRes.ok) {
-      const runsData = (await runsRes.json()) as { workflow_runs?: Array<{ id: number; created_at: string }> };
-      const latest = (runsData.workflow_runs ?? [])[0];
-      // Only trust it if it was created just now (within 5 min of dispatch).
-      if (latest && Date.now() - new Date(latest.created_at).getTime() < 5 * 60 * 1000) {
-        (project as Record<string, unknown>).researchRunId = latest.id;
-        (project as Record<string, unknown>).researchDispatchedAt = latest.created_at;
-      }
-    }
-  } catch {
-    // Non-fatal: the timeout sweeper below still reconciles stuck projects.
   }
   await store.save(project);
 
@@ -561,74 +556,13 @@ app.get('/api/projects/:id/research/status', async (c) => {
     await store.save(project);
   }
 
-  // Reconcile the research run's outcome so a project never sits on
-  // RESEARCHING forever:
-  //  1. If we stored the dispatched run id, check ITS conclusion directly.
-  //     (The old display_title.includes(projectId) match never hit — for
-  //     workflow_dispatch the title is always the workflow name.)
-  //  2. Timeout sweeper: a research run never takes more than ~60 min
-  //     (workflow timeout). RESEARCHING with no bundle after 2h is dead.
+  // If the research workflow itself failed, surface that instead of leaving
+  // the project stuck on RESEARCHING forever (frontend would poll forever).
   let researchError: string | null = null;
   if (!bundleReady && project.status === 'RESEARCHING' && token) {
-    const fail = (msg: string) => {
-      project.status = 'FAILED';
-      researchError = msg;
-      (project as Record<string, unknown>).error = msg;
-      project.updatedAt = new Date().toISOString();
-    };
-    const runId = (project as Record<string, unknown>).researchRunId as number | undefined;
-    let reconciled = false;
-    if (runId) {
-      try {
-        const runRes = await fetch(
-          `https://api.github.com/repos/${owner}/${repo}/actions/runs/${runId}`,
-          {
-            headers: {
-              'Accept': 'application/vnd.github+json',
-              'Authorization': `Bearer ${token}`,
-              'User-Agent': 'avm-orchestrator-worker',
-            },
-          }
-        );
-        if (runRes.ok) {
-          const run = (await runRes.json()) as { status?: string; conclusion?: string | null; html_url?: string; name?: string };
-          if (run.conclusion === 'failure' || run.conclusion === 'cancelled' || run.conclusion === 'timed_out') {
-            fail(`Research workflow ${run.conclusion} (run ${runId}). See ${run.html_url ?? 'GitHub Actions'} for the log.`);
-            reconciled = true;
-          } else if (run.conclusion === 'success') {
-            // The run finished but committed no bundle — the commit step
-            // failed silently. Do not leave the project hanging.
-            fail(`Research workflow finished but no data bundle was committed for this project (run ${runId}). Re-run research.`);
-            reconciled = true;
-          }
-        }
-      } catch {
-        // leave RESEARCHING; next poll retries
-      }
-    }
-    if (!reconciled) {
-      const updatedAt = new Date(project.updatedAt ?? 0).getTime();
-      if (Number.isFinite(updatedAt) && Date.now() - updatedAt > 2 * 60 * 60 * 1000) {
-        fail('Research timed out: no result after 2 hours. Re-run research to try again.');
-        reconciled = true;
-      }
-    }
-    if (reconciled) await store.save(project);
-  }
-
-  // Agent mode: research just landed and the user asked for a hands-off run —
-  // fire the render immediately so prompt -> video needs zero clicks.
-  // The research workflow's own auto-trigger usually fires first; only
-  // dispatch here if it did not (prevents double renders).
-  const wantsAutoRender = (project as Record<string, unknown>).autoRender === true;
-  let autoRenderDispatched = false;
-  if (project.status === 'READY' && wantsAutoRender && token) {
-    let renderAlreadyTriggered = false;
     try {
-      const dispatchedAt = (project as Record<string, unknown>).researchDispatchedAt as string | undefined;
-      const since = dispatchedAt ?? new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
-      const rr = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/actions/workflows/render-video.yml/runs?per_page=10&event=workflow_dispatch&created=>${encodeURIComponent(since)}`,
+      const runsRes = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/actions/workflows/research.yml/runs?per_page=5&event=workflow_dispatch`,
         {
           headers: {
             'Accept': 'application/vnd.github+json',
@@ -637,31 +571,36 @@ app.get('/api/projects/:id/research/status', async (c) => {
           },
         }
       );
-      if (rr.ok) {
-        const data = (await rr.json()) as { workflow_runs?: Array<{ status?: string; conclusion?: string | null; created_at: string }> };
-        renderAlreadyTriggered = (data.workflow_runs ?? []).some(
-          (r) => new Date(r.created_at).getTime() >= new Date(since).getTime() && r.conclusion !== 'failure' && r.conclusion !== 'cancelled'
+      if (runsRes.ok) {
+        const runs = (await runsRes.json()) as { workflow_runs?: { name?: string; conclusion?: string | null; display_title?: string; html_url?: string }[] };
+        const failed = (runs.workflow_runs ?? []).find(
+          (r) => r.conclusion === 'failure' && (r.display_title ?? '').includes(id)
         );
+        if (failed) {
+          project.status = 'FAILED';
+          researchError = `Research workflow failed (${failed.display_title ?? 'run'}). See ${failed.html_url ?? 'GitHub Actions'} for the log.`;
+          (project as Record<string, unknown>).error = researchError;
+          project.updatedAt = new Date().toISOString();
+          await store.save(project);
+        }
       }
     } catch {
-      renderAlreadyTriggered = false;
+      // leave RESEARCHING; next poll retries
     }
-    if (renderAlreadyTriggered) {
-      // research.yml's auto-trigger already started the render (with YouTube
-      // upload armed). Just follow it.
+  }
+
+  // Agent mode: research just landed and the user asked for a hands-off run —
+  // fire the render immediately so prompt -> video needs zero clicks.
+  const wantsAutoRender = (project as Record<string, unknown>).autoRender === true;
+  let autoRenderDispatched = false;
+  if (project.status === 'READY' && wantsAutoRender) {
+    const result = await dispatchRenderWorkflow(c.env, id);
+    if (result.ok) {
       (project as Record<string, unknown>).autoRender = false;
       project.status = 'RENDERING';
       project.updatedAt = new Date().toISOString();
       await store.save(project);
-    } else {
-      const result = await dispatchRenderWorkflow(c.env, id, { uploadYoutube: true });
-      if (result.ok) {
-        (project as Record<string, unknown>).autoRender = false;
-        project.status = 'RENDERING';
-        project.updatedAt = new Date().toISOString();
-        await store.save(project);
-        autoRenderDispatched = true;
-      }
+      autoRenderDispatched = true;
     }
   }
 
@@ -670,9 +609,7 @@ app.get('/api/projects/:id/research/status', async (c) => {
 
 // --- Render: dispatch the GitHub Actions render-video workflow ---
 // Shared by the manual Render button and the agent auto-render below.
-// opts.uploadYoutube arms the workflow's YouTube upload step; it defaults to
-// false so manual renders stay opt-in, while the automatic loop passes true.
-async function dispatchRenderWorkflow(env: Env, id: string, opts?: { uploadYoutube?: boolean }): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
+async function dispatchRenderWorkflow(env: Env, id: string): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
   const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
   const token = env.GITHUB_TOKEN;
@@ -715,7 +652,6 @@ async function dispatchRenderWorkflow(env: Env, id: string, opts?: { uploadYoutu
           projectId: id,
           renderScale: '0.5',
           skipAiQa: 'true',
-          upload_youtube: opts?.uploadYoutube ? 'true' : 'false',
         },
       }),
     }

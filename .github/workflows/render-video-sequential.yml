@@ -329,9 +329,34 @@ jobs:
           set -uo pipefail
           STATUS="failure"
           if [ "${{ job.status }}" = "success" ]; then STATUS="success"; fi
+          # Build the hook payload with python so title/topic strings are safely
+          # JSON-escaped. The worker uses topic/title to auto-register projects
+          # that were dispatched directly (full-auto loop) and never created
+          # through the studio UI; without them the hook could not record them.
+          HOOK_PAYLOAD=$(STATUS="$STATUS" python3 - <<'PY'
+          import json, os
+          pid = "${{ inputs.projectId }}"
+          spec = {}
+          try:
+              spec = json.load(open('projects/%s/video-spec.json' % pid))
+          except Exception:
+              pass
+          title = spec.get('title') or 'Data Race'
+          topic = spec.get('topic') or title
+          print(json.dumps({
+              "projectId": pid,
+              "status": os.environ.get('STATUS', 'failure'),
+              "runId": ${{ github.run_id }},
+              "assetName": "%s-final.mp4" % pid,
+              "artifactUrl": "${{ steps.temphost.outputs.url }}",
+              "title": title,
+              "topic": topic,
+          }))
+          PY
+          )
           curl -fsS --max-time 30 -X POST "$HOOK_URL" \
             -H "Content-Type: application/json" \
             -H "x-hook-secret: $AVM_HOOK_SECRET" \
-            -d "{\"projectId\": \"${{ inputs.projectId }}\", \"status\": \"$STATUS\", \"runId\": ${{ github.run_id }}, \"assetName\": \"${{ inputs.projectId }}-final.mp4\", \"artifactUrl\": \"${{ steps.temphost.outputs.url }}\"}" \
+            -d "$HOOK_PAYLOAD" \
             && echo "orchestrator notified: $STATUS" \
             || echo "hook notify failed (non-fatal)"
