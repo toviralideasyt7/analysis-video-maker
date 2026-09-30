@@ -86,6 +86,12 @@ MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
                         # allows the relative tolerance OR this absolute
                         # slack, whichever is larger, so a few-px miss on a
                         # small bar is not mistaken for disproportionality.
+MAX_BAR_W = 860         # renderer (DataRace.tsx): barX0=96, maxBarWidth=860;
+                        # a bar's intended width is widthFrac * MAX_BAR_W.
+MEASURE_CAP_SLACK_PX = 15  # slack on the intended-width cap below: covers
+                        # pill-edge AA and 1080p->720p resampling (±3px);
+                        # far below the 12px badge gap + ~35px badge glyph,
+                        # so badge absorption always exceeds the cap.
 BAR_X1 = 1180            # bars/labels must stay left of the spotlight card
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
@@ -352,7 +358,7 @@ class VideoQA:
         full[RACE_TOP:RACE_BOT, BAR_X0:ZONE_X1] = mask
         return full
 
-    def measure_bar(self, img, eid, ymid, row_h):
+    def measure_bar(self, img, eid, ymid, row_h, width_frac=None):
         """Width (px) of entity eid's bar. Returns (width, x0) or (None, None).
 
         Full-height column profile through the bar's vertical span: for each
@@ -370,6 +376,17 @@ class VideoQA:
         as runs of brand-colored columns: the walk extends across interior
         gaps (name text, fringe specks) and stops at the first clean white
         gap -- the 12px gap before the flag badge.
+
+        Badge-glyph guard: inverted monogram badges carry the brand color
+        in their glyph, and when the glyph hugs the badge's left edge its
+        antialiased fringe leaks into the 12px inter-badge gap, defeating
+        the "clean white gap" stop (120px measured for a 74px bar). The
+        tape carries the renderer's intended width (width_frac), so
+        gap-crossing is capped at the intended bar end (+ slack): interior
+        gaps resume inside the intended span, while the badge glyph starts
+        12px past it and is never absorbed. runs[0] itself is never capped,
+        so a genuinely over-drawn bar (the min-width-clamp bug class C1
+        hunts) is still measured truthfully.
         """
         mask = self._color_mask(img, eid)
         bar_h = row_h - 16
@@ -386,6 +403,9 @@ class VideoQA:
         if i >= 12:
             return None, None  # bar does not start at the left margin
         x0 = BAR_X0 + i
+        # Intended bar end from the tape (renderer: widthFrac * maxBarWidth).
+        # Caps gap-crossing only -- see the badge-glyph guard in the docstring.
+        intended_w = (width_frac * MAX_BAR_W) if width_frac else None
         # Runs of brand-colored columns from the bar start. The bar ends
         # at the first clean white gap: the 12px gap before the flag badge
         # (badge pixels are excluded by the zone edge/scan). Interior gaps
@@ -411,6 +431,10 @@ class VideoQA:
             gap_cov = cov[end + 1:s1].mean() if s1 > end + 1 else 0.0
             if gap >= 10 and gap_cov <= 0.05:
                 break  # clean white gap: the bar end
+            new_w = (BAR_X0 + e1 + 1) - x0
+            if (intended_w is not None
+                    and new_w > intended_w + MEASURE_CAP_SLACK_PX):
+                break  # would absorb the badge glyph past the intended end
             end = e1  # interior gap (name text / fringe): keep going
         return (BAR_X0 + end + 1) - x0, x0
 
@@ -428,7 +452,8 @@ class VideoQA:
     def frame_rows(self, tape_idx):
         f = self.frames[tape_idx]
         bars = sorted(f["bars"], key=lambda b: b["rank"])
-        return [(b["entityId"], b["value"], b["rank"]) for b in bars]
+        return [(b["entityId"], b["value"], b["rank"], b.get("width"))
+                for b in bars]
 
     def measure_frame(self, screen_idx, tape_idx):
         img = self.img(screen_idx)
@@ -436,9 +461,9 @@ class VideoQA:
         n = len(rows)
         row_h = self.row_h(n)
         out = []
-        for k, (eid, value, rank) in enumerate(rows):
+        for k, (eid, value, rank, wfrac) in enumerate(rows):
             ymid = RACE_TOP + (k + 0.5) * row_h
-            w, x0 = self.measure_bar(img, eid, ymid, row_h)
+            w, x0 = self.measure_bar(img, eid, ymid, row_h, wfrac)
             out.append({"entity": eid, "value": value, "rank": rank,
                         "width": w, "x0": x0, "ymid": ymid, "row_h": row_h})
         return img, out
