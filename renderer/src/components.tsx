@@ -153,6 +153,8 @@ export interface RankingRowProps {
   /** X where the bar starts (page margin applied by the parent). */
   x0: number;
   maxBarWidth: number;
+  /** Hard right edge (design px) the row's content may never cross. */
+  raceRight: number;
   appear: number;
   flagBaseUrl: string;
 }
@@ -163,7 +165,9 @@ export interface RankingRowProps {
  * name in white bold LEFT-aligned inside the bar, flag attached to the bar
  * end, value in dark type just past the flag. When the name cannot fit inside
  * even at the minimum readable size it is set outside past the value - it is
- * always rendered exactly once, never dropped.
+ * always rendered exactly once, never dropped. The whole row's rightward
+ * extent is capped at raceRight (ellipsis on the outside name) so rows can
+ * never cross into the reserved info-panel zone.
  */
 export const RankingRow: React.FC<RankingRowProps> = ({
   entity,
@@ -176,6 +180,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
   rowHeight,
   x0,
   maxBarWidth,
+  raceRight,
   appear,
   flagBaseUrl,
 }) => {
@@ -189,6 +194,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
   const baseFont = Math.max(20, rowHeight * 0.44);
   const flagSize = Math.min(rowHeight * 0.72, 46);
   const valueFont = Math.max(19, rowHeight * 0.4);
+  const formattedValue = formatRaceValue(value, unit);
 
   // Does the name fit inside the bar at a readable size? Estimate width with
   // a 0.58 average glyph ratio for bold type.
@@ -202,6 +208,12 @@ export const RankingRow: React.FC<RankingRowProps> = ({
   const nameFitsInside = insideFont >= MIN_INSIDE_FONT;
   const nameFont = nameFitsInside ? Math.min(baseFont, insideFont) : baseFont;
   const rankLabel = String(Math.max(1, Math.round(rank)));
+  // Rightward extent so far: bar + flag + value. The outside name (when used)
+  // is ellipsis-capped to whatever space remains before raceRight, so the
+  // row can never cross into the reserved info-panel zone by construction.
+  const valueW = formattedValue.length * valueFont * 0.58;
+  const usedX = x0 + barW + 12 + flagSize + 12 + valueW;
+  const outsideNameMaxW = Math.max(40, raceRight - usedX - 14 - 8);
 
   return (
     <div
@@ -250,7 +262,9 @@ export const RankingRow: React.FC<RankingRowProps> = ({
           overflow: 'hidden',
         }}
       >
-        {/* premium gloss: bright top sheen fading into a soft bottom shade */}
+        {/* premium gloss: subtle top sheen fading into a soft bottom shade.
+            Kept light on purpose: a heavy white sheen washes the brand
+            colours out and the bars read as pale/pastel. */}
         <div
           style={{
             position: 'absolute',
@@ -260,7 +274,7 @@ export const RankingRow: React.FC<RankingRowProps> = ({
             bottom: 0,
             borderRadius: 'inherit',
             background:
-              'linear-gradient(180deg, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.10) 42%, rgba(255,255,255,0) 62%, rgba(0,0,0,0.12) 100%)',
+              'linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.06) 42%, rgba(255,255,255,0) 62%, rgba(0,0,0,0.14) 100%)',
             pointerEvents: 'none',
           }}
         />
@@ -314,14 +328,19 @@ export const RankingRow: React.FC<RankingRowProps> = ({
             marginRight: nameFitsInside ? 0 : 14,
           }}
         >
-          {formatRaceValue(value, unit)}
+          {formattedValue}
         </div>
 
-        {/* name outside the bar when too narrow to hold it - always rendered */}
+        {/* name outside the bar when too narrow to hold it - always rendered.
+            Ellipsis-capped to the remaining space before raceRight so it can
+            never spill into the info-panel zone. */}
         {!nameFitsInside ? (
           <div
             style={{
               whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: outsideNameMaxW,
               color: '#1f2937',
               fontWeight: 800,
               fontSize: nameFont,
@@ -359,101 +378,121 @@ export function formatNarrativeNumbers(text: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Bottom banner zone (y 612..700): spotlight card and idle topic strip.
+// Right-side info panel (the "never overlap" zone).
 // ---------------------------------------------------------------------------
 
-export interface SpotlightBannerProps {
-  title?: string;
+export interface InfoPanelProps {
+  /** Current period label, e.g. "2022" - always live, never frozen. */
+  yearLabel: string;
+  /** Small caps kicker, e.g. "SPOTLIGHT" or "LEADER". */
+  kicker: string;
+  /** Headline, e.g. highlight headline or leader name. */
+  headline?: string;
+  /** Narrative body, up to a few lines. */
   body?: string;
+  /** Big stat line, e.g. the leader's formatted value. */
+  stat?: string;
   featured: FrameTapeEntity[];
   flagBaseUrl: string;
   appear: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 /**
- * Bottom spotlight banner (root-cause fix 2026-09-30: the old right-hand
- * panel sat at x=730..1250 while leader rows extended to ~x=946, so the
- * leader's value label was visibly occluded). The banner lives in a reserved
- * zone (y 612..700) that ranking rows never enter (rows end at y=596) --
- * overlap is impossible by construction, not by pixel-tuning.
+ * Right-side info panel. It lives in a RESERVED zone (x 904..1232 in design
+ * space) that ranking rows are geometrically barred from entering (see
+ * BarRace: maxBarWidth + ellipsis caps), so the panel can never overlap a
+ * bar, flag, value or name - by construction, not by pixel-tuning. The year
+ * counter always tracks the live period; only the headline/body swap as
+ * highlights and story segments come and go.
  */
-export const SpotlightBanner: React.FC<SpotlightBannerProps> = ({ title, body, featured, flagBaseUrl, appear }) => {
+export const InfoPanel: React.FC<InfoPanelProps> = ({
+  yearLabel,
+  kicker,
+  headline,
+  body,
+  stat,
+  featured,
+  flagBaseUrl,
+  appear,
+  x,
+  y,
+  width,
+  height,
+}) => {
   const accent = featured[0]?.color ?? '#e11d2e';
   return (
     <div
       style={{
         position: 'absolute',
-        left: 48,
-        right: 48,
-        top: 612,
-        height: 88,
-        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+        left: x,
+        top: y,
+        width,
+        height,
+        background: 'linear-gradient(160deg, #ffffff 0%, #f6f7f9 100%)',
         border: '2px solid #e5e7eb',
-        borderLeft: `8px solid ${accent}`,
-        borderRadius: 16,
-        boxShadow: '0 12px 32px rgba(17,24,39,0.14)',
-        padding: '10px 24px',
-        opacity: appear,
-        transform: `translateY(${(1 - appear) * 12}px)`,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 20,
+        borderRadius: 22,
+        boxShadow: '0 18px 44px rgba(17,24,39,0.13)',
         boxSizing: 'border-box',
+        padding: '26px 26px 22px',
+        opacity: appear,
+        transform: `translateX(${(1 - appear) * 26}px)`,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
       }}
     >
-      {featured.length > 0 ? (
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
-          {featured.slice(0, 2).map((entity) => (
-            <div
-              key={entity.id}
-              style={{
-                borderRadius: 10,
-                padding: 3,
-                background: `linear-gradient(135deg, ${entity.color}, ${entity.color}88)`,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
-              }}
-            >
-              <FlagImage
-                entity={entity}
-                size={50}
-                variant="w160"
-                baseUrl={flagBaseUrl}
-                style={{ borderRadius: 7, display: 'block', background: '#fff' }}
-              />
-            </div>
-          ))}
+      {/* giant live year */}
+      <div
+        style={{
+          fontSize: 92,
+          fontWeight: 900,
+          color: '#111827',
+          letterSpacing: '-0.045em',
+          lineHeight: 1,
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {yearLabel}
+      </div>
+      <div style={{ marginTop: 14, height: 5, borderRadius: 3, background: accent, width: 64 }} />
+      {/* kicker */}
+      <div style={{ marginTop: 16, fontSize: 14, fontWeight: 800, letterSpacing: '0.30em', color: accent }}>
+        {kicker}
+      </div>
+      {/* headline */}
+      {headline ? (
+        <div
+          style={{
+            marginTop: 8,
+            fontSize: 30,
+            fontWeight: 800,
+            color: '#111827',
+            lineHeight: 1.18,
+            letterSpacing: '-0.02em',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {headline}
         </div>
       ) : null}
-      <div style={{ minWidth: 0, flexShrink: 0, maxWidth: 460 }}>
-        <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.28em', color: accent, marginBottom: 4 }}>✨ SPOTLIGHT</div>
-        {title ? (
-          <div
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              color: '#111111',
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {title}
-          </div>
-        ) : null}
-      </div>
+      {/* body */}
       {body ? (
         <div
           style={{
-            flex: 1,
-            minWidth: 0,
+            marginTop: 10,
             fontSize: 17,
             fontWeight: 500,
             color: '#4b5563',
-            lineHeight: 1.4,
+            lineHeight: 1.45,
             display: '-webkit-box',
-            WebkitLineClamp: 2,
+            WebkitLineClamp: 5,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
           }}
@@ -461,15 +500,49 @@ export const SpotlightBanner: React.FC<SpotlightBannerProps> = ({ title, body, f
           {formatNarrativeNumbers(body)}
         </div>
       ) : null}
+      {/* big stat */}
+      {stat ? (
+        <div style={{ marginTop: 'auto', paddingTop: 12 }}>
+          <div style={{ fontSize: 40, fontWeight: 900, color: '#111827', letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
+            {stat}
+          </div>
+        </div>
+      ) : null}
+      {/* featured logos */}
+      {featured.length > 0 ? (
+        <div style={{ marginTop: stat ? 10 : 'auto', paddingTop: 10, display: 'flex', gap: 12, alignItems: 'center' }}>
+          {featured.slice(0, 3).map((entity) => (
+            <div
+              key={entity.id}
+              style={{
+                borderRadius: 12,
+                padding: 3,
+                background: '#ffffff',
+                border: '1px solid #e5e7eb',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.10)',
+              }}
+            >
+              <FlagImage
+                entity={entity}
+                size={54}
+                variant="w160"
+                baseUrl={flagBaseUrl}
+                style={{ borderRadius: 8, display: 'block', background: '#fff' }}
+              />
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };
 
 /**
- * The race header: video title on the left, the giant current-year counter on
- * the right, separated from the race by a hairline. Gives the scene its frame.
+ * The race header: video title on the left, separated from the race by a
+ * hairline. The giant current-year counter lives in the right-side info
+ * panel. Gives the scene its frame.
  */
-export const RaceHeader: React.FC<{ title: string; yearLabel: string; appear: number }> = ({ title, yearLabel, appear }) => (
+export const RaceHeader: React.FC<{ title: string; appear: number }> = ({ title, appear }) => (
   <div
     style={{
       position: 'absolute',
@@ -491,16 +564,13 @@ export const RaceHeader: React.FC<{ title: string; yearLabel: string; appear: nu
       color: '#111827',
       letterSpacing: '-0.01em',
       lineHeight: 1.25,
-      maxWidth: 780,
+      maxWidth: 1080,
       display: '-webkit-box',
       WebkitLineClamp: 2,
       WebkitBoxOrient: 'vertical',
       overflow: 'hidden',
     }}>
       {title}
-    </div>
-    <div style={{ marginLeft: 'auto', fontSize: 68, fontWeight: 800, color: '#111827', letterSpacing: '-0.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums', flexShrink: 0, paddingLeft: 24 }}>
-      {yearLabel}
     </div>
   </div>
 );
@@ -793,71 +863,6 @@ export const NoteStrip: React.FC<{ notes: string[]; theme: Theme; opacity?: numb
     </div>
   );
 };
-/** Idle bottom strip: the topic title + year range, shown in the reserved
- * banner zone (y 612..700) when no spotlight is active. Same zone as the
- * spotlight banner, so nothing ever moves or overlaps when they swap. */
-export interface TopicStripProps {
-  topicTitle: string; // e.g. "MOST POPULAR WEBSITES"
-  yearRange: string;  // e.g. "1995-2023"
-  appear: number;
-}
-
-export const TopicStrip: React.FC<TopicStripProps> = ({ topicTitle, yearRange, appear }) => (
-  <div
-    style={{
-      position: 'absolute',
-      left: 48,
-      right: 48,
-      top: 612,
-      height: 88,
-      background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
-      borderRadius: 16,
-      boxShadow: '0 12px 32px rgba(34,197,94,0.30), inset 0 1px 0 rgba(255,255,255,0.2)',
-      border: '1px solid rgba(255,255,255,0.15)',
-      opacity: appear,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 28,
-      padding: '0 32px',
-      boxSizing: 'border-box',
-    }}
-  >
-    <div
-      style={{
-        fontSize: 32,
-        fontWeight: 900,
-        color: '#ffffff',
-        letterSpacing: '0.04em',
-        textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        maxWidth: '70%',
-      }}
-    >
-      {topicTitle}
-    </div>
-    {yearRange ? (
-      <div
-        style={{
-          fontSize: 28,
-          fontWeight: 800,
-          color: '#ffffff',
-          letterSpacing: '0.08em',
-          textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-          fontVariantNumeric: 'tabular-nums',
-          whiteSpace: 'nowrap',
-          borderLeft: '2px solid rgba(255,255,255,0.35)',
-          paddingLeft: 28,
-        }}
-      >
-        {yearRange}
-      </div>
-    ) : null}
-  </div>
-);
-
 /**
  * Design-space scaler: the whole layout is authored in 1280x720 coordinates;
  * this wrapper scales it to the composition's real canvas (e.g. 1920x1080)
