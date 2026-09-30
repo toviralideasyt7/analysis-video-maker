@@ -19,7 +19,7 @@ import { execFile } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { getText, parseCsv } from './connectors';
+import { getText, parseCsv, kaggleRefFromUrl, kaggleDatasetCsvText } from './connectors';
 import { createAIClient } from './providers/ai';
 import { tableFromJsonArray } from './research';
 import { logger } from './runtime';
@@ -329,7 +329,19 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
     const looksZip = /\.zip(\?|$)/i.test(url);
     let columns: string[] = [];
     let rows: string[][] = [];
-    if (looksZip) {
+    // Kaggle dataset page URLs only ever return the login wall on plain fetch
+    // (HTTP 200 HTML with no data). Route them through the authenticated
+    // Kaggle file-download API first — a user-provided Kaggle link is the
+    // highest-signal source in the whole run, so it must never be dropped
+    // because the HTML scrape found no tables. 2026-09-30.
+    const kaggleRef = kaggleRefFromUrl(url);
+    if (kaggleRef) {
+      const { fileName, text } = await kaggleDatasetCsvText(kaggleRef);
+      const parsed = parseCsv(text, fileName.toLowerCase().endsWith('.tsv') ? '\t' : ',');
+      columns = parsed.columns;
+      rows = parsed.rows;
+      notes.push(`kaggle ${kaggleRef} (${fileName}): ${rows.length} rows via download API`);
+    } else if (looksZip) {
       const res = await fetch(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
