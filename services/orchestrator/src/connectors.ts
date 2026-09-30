@@ -10,7 +10,8 @@
  * without touching the pipeline.
  */
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { createReadStream, createWriteStream, mkdirSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { env, logger } from './runtime';
 import { directFetch, hostOf, type SearchProvider } from './providers/search';
@@ -513,6 +514,134 @@ export async function kaggleDatasetCsvText(
   const text = await readBodyCapped(response, KAGGLE_CSV_MAX_BYTES, `Kaggle file ${ref}/${fileName}`);
   if (text.length < 50) throw new Error(`Kaggle file ${ref}/${fileName} came back empty`);
   return { fileName, text };
+}
+// ---------------------------------------------------------------------------
+// Streaming Kaggle CSV ingestion (for files above the in-memory cap)
+// ---------------------------------------------------------------------------
+
+export interface StreamedKaggleCsv {
+  fileName: string;
+  /** Temp file holding the full download; caller must delete via cleanup(). */
+  tmpPath: string;
+  /** Remove the temp file and its parent dir. Safe to call twice. */
+  cleanup: () => void;
+  totalBytes: number;
+  columns: string[];
+  /** First data rows, for header sniffing without reading the whole file. */
+  sampleRows: string[][];
+  delimiter: string;
+}
+
+/**
+ * Download the largest CSV of a Kaggle dataset by streaming it to a temp file
+ * on disk, never buffering the whole body in memory. Datasets above
+ * KAGGLE_CSV_MAX_BYTES (e.g. the ~634MB TMDB movies file) cannot go through
+ * kaggleDatasetCsvText at all — buffering them OOM'd the runner (exit 134,
+ * 2026-09-30) — so this is the fallback that keeps large datasets usable.
+ */
+export async function kaggleDatasetCsvToFile(
+  ref: string,
+  options: { baseUrl?: string; sampleRows?: number } = {},
+): Promise<StreamedKaggleCsv> {
+  const files = await kaggleListFiles(ref, options);
+  const csvs = files.filter((f) => /\.csv$/i.test(f.name)).sort((a, b) => b.totalBytes - a.totalBytes);
+  if (csvs.length === 0) throw new Error(`Kaggle dataset ${ref}: no CSV file found`);
+  const biggest = csvs[0];
+  const base = (options.baseUrl ?? 'https://www.kaggle.com/api/v1').replace(/\/$/, '');
+  const [owner, slug] = ref.split('/');
+  const response = await fetch(
+    `${base}/datasets/download/${owner}/${slug}/${encodeURIComponent(biggest.name)}`,
+    { headers: kaggleAuthHeader() },
+  );
+  if (!response.ok) throw new Error(`Kaggle file download failed for ${ref}/${biggest.name}: ${response.status}`);
+  if (!response.body) throw new Error(`Kaggle file download for ${ref}/${biggest.name} returned no body`);
+  const dir = mkdtempSync(join(tmpdir(), 'avm-kaggle-'));
+  const safeName = biggest.name.replace(/[^A-Za-z0-9_.-]/g, '_').slice(0, 80) || 'data.csv';
+  const tmpPath = join(dir, safeName);
+  const out = createWriteStream(tmpPath);
+  try {
+    for await (const chunk of response.body as unknown as AsyncIterable<Uint8Array>) {
+      await new Promise<void>((resolve, reject) =>
+        out.write(chunk, (err) => (err ? reject(err) : resolve())),
+      );
+    }
+  } finally {
+    await new Promise<void>((resolve) => out.end(() => resolve()));
+  }
+  const delimiter = /\.tsv$/i.test(biggest.name) ? '\t' : ',';
+  const sampleRows: string[][] = [];
+  let columns: string[] = [];
+  let first = true;
+  for await (const row of streamCsvFileRows(tmpPath, delimiter)) {
+    if (first) {
+      columns = row;
+      first = false;
+      continue;
+    }
+    if (row.some((c) => c.trim() !== '')) sampleRows.push(row);
+    if (sampleRows.length >= (options.sampleRows ?? 500)) break;
+  }
+  let cleaned = false;
+  const cleanup = () => {
+    if (cleaned) return;
+    cleaned = true;
+    try {
+      rmSync(dir, { recursive: true, force: true });
+    } catch {
+      // best effort
+    }
+  };
+  return { fileName: biggest.name, tmpPath, cleanup, totalBytes: biggest.totalBytes, columns, sampleRows, delimiter };
+}
+
+/**
+ * Stream the rows of a CSV file (excluding the header) without loading the
+ * file into memory. Uses the same quoting rules as parseCsv, keeping parser
+ * state across read chunks so quoted fields may span chunk boundaries.
+ */
+export async function* streamCsvFileRows(tmpPath: string, delimiter = ','): AsyncGenerator<string[]> {
+  const stream = createReadStream(tmpPath, { encoding: 'utf8', highWaterMark: 512 * 1024 });
+  let field = '';
+  let row: string[] = [];
+  let inQuotes = false;
+  let sawAny = false;
+  for await (const chunk of stream) {
+    const text = chunk as string;
+    for (let i = 0; i < text.length; i += 1) {
+      const ch = text[i];
+      sawAny = true;
+      if (inQuotes) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') {
+            field += '"';
+            i += 1;
+          } else {
+            inQuotes = false;
+          }
+        } else {
+          field += ch;
+        }
+        continue;
+      }
+      if (ch === '"') {
+        inQuotes = true;
+      } else if (ch === delimiter) {
+        row.push(field);
+        field = '';
+      } else if (ch === '\n') {
+        row.push(field);
+        yield row;
+        row = [];
+        field = '';
+      } else if (ch !== '\r') {
+        field += ch;
+      }
+    }
+  }
+  if (sawAny && (field.length > 0 || row.length > 0)) {
+    row.push(field);
+    yield row;
+  }
 }
 // ---------------------------------------------------------------------------
 // CKAN (data.gov and friends)

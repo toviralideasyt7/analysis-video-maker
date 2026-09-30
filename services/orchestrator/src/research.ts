@@ -390,11 +390,8 @@ export async function normalizeDrafts(drafts: ExtractedDraft[], defaultUnit: str
   return drafts.map((d) => ({ ...d, unit: d.unit || defaultUnit }));
 }
 
-/** Extract observations from a connector payload.
- *  fallbackDate: when the table is a single snapshot with no date column
- *  (e.g. a headerless rank/domain CSV), stamp every row with this date
- *  instead of rejecting the whole table as dateless. Must be date-like. */
-export function draftsFromTable(columns: string[], rows: string[][], defaultUnit: string, fallbackDate?: string): { drafts: ExtractedDraft[]; problems: string[] } {
+/** Extract observations from a connector payload. */
+export function draftsFromTable(columns: string[], rows: string[][], defaultUnit: string): { drafts: ExtractedDraft[]; problems: string[] } {
   const problems: string[] = [];
   const detected = detectColumns(columns, rows);
   if (!detected.entity || !detected.date || !detected.value) {
@@ -403,19 +400,9 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
     const yearCols = columns
       .map((c, i) => ({ name: c, index: i }))
       .filter(({ name }) => /^(19|20)\d{2}$/.test(name.trim()));
-    const entityIdx = (() => {
-      const hit = columns.findIndex((c) =>
-        ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'nation',
-          // root-cause fix 2026-09-30: non-country races (websites, brands,
-          // platforms) use their own entity headers.
-          'website', 'site', 'domain', 'platform', 'company', 'brand', 'app', 'browser',
-          'team', 'club', 'movie', 'song', 'artist', 'language', 'city'].includes(c.toLowerCase().trim())
-      );
-      if (hit >= 0) return hit;
-      // First-column fallback: in a wide year-column table the entity column
-      // is almost always column 0, whatever its header says.
-      return 0;
-    })();
+    const entityIdx = columns.findIndex((c) =>
+      ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'nation'].includes(c.toLowerCase().trim())
+    );
     if (entityIdx >= 0 && yearCols.length >= 2) {
       problems.push(`wide-format table detected: melting ${yearCols.length} year columns into long format`);
       const drafts: ExtractedDraft[] = [];
@@ -472,26 +459,6 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
         return { drafts, problems };
       }
     }
-    // Snapshot fallback: entity + value found but no date column, and the
-    // wide-format melts above did not apply. A single snapshot (one list,
-    // one file) is still usable when the caller knows the snapshot's date
-    // (from the URL, the API call, or the plan) — stamp every row with it
-    // instead of rejecting the whole table as dateless.
-    if (!detected.date && detected.entity && detected.value && fallbackDate && looksLikeDate(fallbackDate)) {
-      const ci = { entity: columns.indexOf(detected.entity), value: columns.indexOf(detected.value) };
-      const drafts: ExtractedDraft[] = [];
-      for (const row of rows) {
-        const entity = stripCorporateSuffix((row[ci.entity] ?? '').trim());
-        const rawValue = (row[ci.value] ?? '').trim();
-        if (!entity || !rawValue) continue;
-        const parsed = parseScaledNumber(rawValue);
-        const value = parsed.value !== null && Number.isFinite(parsed.value) ? parsed.value : null;
-        if (value === null) continue;
-        drafts.push({ entity, date: fallbackDate, value, unit: parsed.unitHint ?? defaultUnit });
-      }
-      problems.push(`no date column: stamped ${drafts.length} rows with snapshot date ${fallbackDate}`);
-      return { drafts, problems };
-    }
     problems.push(`could not identify entity/date/value columns in [${columns.join(', ')}]`);
     return { drafts: [], problems };
   }
@@ -541,6 +508,170 @@ function looksLikeDate(date: string): boolean {
   if (/^(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\s+-?\d{1,5}$/i.test(d)) return true;
   if (/^-?\d{1,5}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*$/i.test(d)) return true;
   return false;
+}
+
+/** Names inside JSON cast arrays: {"name": "Tom Hanks", ...}. */
+const NAME_KV_RE = /"name"\s*:\s*"((?:[^"\\]|\\.)+)"/g;
+
+/**
+ * Split an entity cell into person names. Handles JSON name arrays
+ * (TMDB-style cast columns, possibly dozens of names) and plain single
+ * names. Returns [] for empty/unusable cells.
+ */
+function expandEntityNames(cell: string): string[] {
+  const names: string[] = [];
+  NAME_KV_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = NAME_KV_RE.exec(cell)) !== null) {
+    const n = m[1].replace(/\\"/g, '"').trim();
+    if (n.length > 1 && !names.includes(n)) names.push(n);
+    if (names.length >= 60) break;
+  }
+  if (names.length >= 1) return names;
+  const single = cell.trim();
+  return single.length > 1 ? [single] : [];
+}
+
+/** Unit for a streamed table: the agent's unit beats header sniffing. */
+function sniffStreamUnit(columns: string[], prompt: string, agentUnit?: string): string {
+  if (agentUnit) return agentUnit;
+  const hay = `${columns.join(' ')} ${prompt}`.toLowerCase();
+  if (/%|percent|share|rate|ratio/.test(hay)) return 'percent';
+  if (/\b(usd|dollar|revenue|gross|box office|budget|income|price|cost|spend|gdp)\b/.test(hay)) return 'USD';
+  if (/\b(population|people)\b/.test(hay)) return 'people';
+  return 'count';
+}
+
+export interface StreamedExtraction {
+  fileName: string;
+  drafts: ExtractedDraft[];
+  unit: string;
+  note: string;
+}
+
+/**
+ * Streaming extraction for Kaggle CSVs too large to buffer in memory.
+ * Downloads to a temp file on disk, sniffs columns from the head, then
+ * streams rows with constant memory:
+ * - single-entity rows become drafts (capped at 200k, like the in-memory path)
+ * - multi-entity rows (JSON name arrays, e.g. TMDB cast columns) expand to one
+ *   draft per name, aggregated by (name, year) while streaming so a 930k-row
+ *   file never materializes as objects.
+ * Dates collapse to the year (annual frequency), matching the race grain.
+ */
+export async function extractKaggleCsvStreaming(
+  ref: string,
+  plan: DataPlan,
+  agentUnit: string | undefined,
+): Promise<StreamedExtraction> {
+  const { kaggleDatasetCsvToFile, streamCsvFileRows } = await import('./connectors');
+  const info = await kaggleDatasetCsvToFile(ref);
+  const note = (extra: string) =>
+    `kaggle ${ref} (${info.fileName}, ~${Math.round(info.totalBytes / 1048576)}MB streamed): ${extra}`;
+  try {
+    const detected = detectColumns(info.columns, info.sampleRows);
+    // Lenient date fallback: 'release_date'-style headers never match the
+    // detectColumns date list, so accept any *date*/*year* header whose sample
+    // cells parse as dates.
+    let dateCol = detected.date;
+    if (!dateCol) {
+      const idx = info.columns.findIndex((c, i) => {
+        if (!/(date|year)/i.test(c)) return false;
+        return info.sampleRows.some((r) => {
+          const cell = (r[i] ?? '').trim();
+          return cell.length > 0 && looksLikeDate(cell);
+        });
+      });
+      if (idx >= 0) dateCol = info.columns[idx];
+    }
+    if (!detected.entity || !dateCol || !detected.value) {
+      return {
+        fileName: info.fileName,
+        drafts: [],
+        unit: 'count',
+        note: note(`could not identify entity/date/value columns in [${info.columns.join(', ')}]`),
+      };
+    }
+    // Prefer a JSON name-array column (cast/actors/...) over the plain entity
+    // pick when one exists: the TMDB file's detectColumns pick is 'title',
+    // but the actors live in 'cast'.
+    let entityIdx = info.columns.indexOf(detected.entity);
+    const personHint = /cast|actor|actress|player|athlete|artist|performer|starring|people|personnel/i;
+    for (let i = 0; i < info.columns.length; i++) {
+      if (!personHint.test(info.columns[i])) continue;
+      const looksMulti = info.sampleRows.some((r) => expandEntityNames(r[i] ?? '').length >= 2);
+      if (looksMulti) {
+        entityIdx = i;
+        break;
+      }
+    }
+    const dateIdx = info.columns.indexOf(dateCol);
+    const valueIdx = info.columns.indexOf(detected.value);
+    const multiEntity = expandEntityNames(info.sampleRows[0]?.[entityIdx] ?? '').length >= 2 ||
+      info.sampleRows.some((r) => expandEntityNames(r[entityIdx] ?? '').length >= 2);
+    const unit = sniffStreamUnit(info.columns, `${plan.topic} ${plan.metric}`, agentUnit);
+    const drafts: ExtractedDraft[] = [];
+    const aggregated = new Map<string, { entity: string; date: string; value: number }>();
+    let rowCount = 0;
+    let skipped = 0;
+    for await (const row of streamCsvFileRows(info.tmpPath, info.delimiter)) {
+      rowCount += 1;
+      const entityCell = (row[entityIdx] ?? '').trim();
+      const dateCell = (row[dateIdx] ?? '').trim();
+      const rawValue = (row[valueIdx] ?? '').trim();
+      if (!entityCell || !dateCell || !rawValue) {
+        skipped += 1;
+        continue;
+      }
+      const yearMatch = /(-?\d{1,5})/.exec(dateCell);
+      const year = yearMatch ? yearMatch[1] : '';
+      if (!year || !looksLikeDate(year)) {
+        skipped += 1;
+        continue;
+      }
+      const parsed = parseScaledNumber(rawValue);
+      const value = parsed.value;
+      if (value === null || !Number.isFinite(value) || value <= 0) {
+        skipped += 1;
+        continue;
+      }
+      const names = expandEntityNames(entityCell).map((n) => stripCorporateSuffix(n));
+      if (names.length === 0) {
+        skipped += 1;
+        continue;
+      }
+      if (multiEntity) {
+        for (const name of names) {
+          const key = `${name}\0${year}`;
+          const existing = aggregated.get(key);
+          if (existing) existing.value += value;
+          else aggregated.set(key, { entity: name, date: year, value });
+        }
+      } else {
+        drafts.push({ entity: stripCorporateSuffix(names[0]), date: year, value, unit: parsed.unitHint ?? unit });
+        if (drafts.length >= 200_000) break;
+      }
+    }
+    if (multiEntity) {
+      // Keep the highest-value pairs: a bar race only ever shows the top N.
+      const pairs = [...aggregated.values()].sort((a, b) => b.value - a.value).slice(0, 200_000);
+      for (const p of pairs) drafts.push({ entity: p.entity, date: p.date, value: p.value, unit });
+      return {
+        fileName: info.fileName,
+        drafts,
+        unit,
+        note: note(`aggregated ${rowCount} rows into ${aggregated.size.toLocaleString()} (name, year) pairs; kept top ${drafts.length.toLocaleString()}`),
+      };
+    }
+    return {
+      fileName: info.fileName,
+      drafts,
+      unit,
+      note: note(`streamed ${rowCount.toLocaleString()} rows, ${drafts.length.toLocaleString()} drafts (skipped ${skipped.toLocaleString()})`),
+    };
+  } finally {
+    info.cleanup();
+  }
 }
 
 /**
@@ -882,10 +1013,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   if (options.preloadedTable) {
     const t = options.preloadedTable;
     const candidate = state.sources[0];
-    // Single-snapshot tables (one list/file, no date column) get stamped with
-    // the snapshot's date instead of being rejected as dateless.
-    const snapshotDate = t.yearMin !== undefined && t.yearMin === t.yearMax ? String(t.yearMin) : undefined;
-    const { drafts: tableDrafts, problems } = draftsFromTable(t.columns, t.rows, t.unit, snapshotDate);
+    const { drafts: tableDrafts, problems } = draftsFromTable(t.columns, t.rows, t.unit);
     extractionNotes.push(...problems);
     const drafts = await canonicalizeDrafts(tableDrafts.slice(0, 200_000), { countryOnly: plan.entityType === 'country' });
     const normalized = await normalizeDrafts(drafts, t.unit);
@@ -992,7 +1120,29 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
         extractedUrls.add(url);
         extractionNotes.push(`kaggle ${ref} (${fileName}): ${normalized.length} observations`);
       } catch (error) {
-        extractionNotes.push(`kaggle ${ref}: ${error instanceof Error ? error.message : String(error)}`);
+        const msg = error instanceof Error ? error.message : String(error);
+        if (/in-memory ingest limit/.test(msg)) {
+          // The dataset is real and downloadable but too big to buffer (the
+          // ~634MB TMDB file OOM'd the runner, 2026-09-30). Stream it from
+          // disk instead of dropping it.
+          try {
+            const stream = await extractKaggleCsvStreaming(ref, plan, options.agentUnit);
+            extractionNotes.push(stream.note);
+            if (stream.drafts.length > 0) {
+              const drafts = await canonicalizeDrafts(stream.drafts, { countryOnly: plan.entityType === 'country' && /country|nation|population/i.test(plan.topic) });
+              const normalized = await normalizeDrafts(drafts, stream.unit);
+              collected.push(...normalized.map((d) => toObservation(d, candidate, timeRange)));
+              extractedUrls.add(url);
+              extractionNotes.push(`kaggle ${ref} (${stream.fileName}): ${normalized.length} observations via streaming`);
+            }
+          } catch (streamError) {
+            extractionNotes.push(
+              `kaggle ${ref} streaming fallback failed: ${streamError instanceof Error ? streamError.message : String(streamError)}`,
+            );
+          }
+        } else {
+          extractionNotes.push(`kaggle ${ref}: ${msg}`);
+        }
       }
     }
   }
@@ -1231,8 +1381,8 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // --- 6. Frame tape ------------------------------------------------------
   let tape: FrameTape = {
     fps: 30,
-    width: 1920,
-    height: 1080,
+    width: 1280,
+    height: 720,
     topN: 0,
     framesPerTransition: 0,
     durationInFrames: 0,
