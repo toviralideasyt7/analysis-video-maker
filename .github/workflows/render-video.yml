@@ -42,6 +42,14 @@ on:
         description: "true to also publish the finished video to YouTube (default off)"
         required: false
         default: "false"
+      notify_only:
+        description: "true to skip rendering and only re-send the render-complete hook (backfills studio status for an already-finished render)"
+        required: false
+        default: "false"
+      artifact_url:
+        description: "artifact URL for the hook payload when notify_only=true (temp-host download link)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -49,6 +57,7 @@ permissions:
 jobs:
   # ---------------------------------------------------------------- prepare
   prepare:
+    if: inputs.notify_only != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     outputs:
@@ -143,6 +152,7 @@ jobs:
   # Each matrix job renders 1/N of the frames. Remotion frame rendering is
   # deterministic, so the chunks concatenate seamlessly with ffmpeg.
   render-chunk:
+    if: inputs.notify_only != 'true'
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -201,6 +211,7 @@ jobs:
 
   # ---------------------------------------------------------------- finalize
   finalize:
+    if: inputs.notify_only != 'true'
     needs: [prepare, render-chunk]
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -523,3 +534,54 @@ jobs:
             -d "$HOOK_PAYLOAD" \
             && echo "orchestrator notified: $STATUS" \
             || echo "hook notify failed (non-fatal)"
+
+  # ------------------------------------------------------------ notify-only
+  # Backfill path: re-send the render-complete hook WITHOUT re-rendering.
+  # Used when a render finished (video + YouTube upload done) but the
+  # orchestrator never recorded it — e.g. the hook 404'd because the project
+  # was dispatched directly by the full-auto loop and never registered
+  # through the studio UI. Dispatch with notify_only=true, the projectId,
+  # and (when known) the temp-host artifact_url.
+  notify-only:
+    if: inputs.notify_only == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PROJECT_ID: ${{ inputs.projectId }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Notify orchestrator of completion
+        if: env.AVM_HOOK_SECRET != '' && inputs.projectId != ''
+        env:
+          AVM_HOOK_SECRET: ${{ secrets.AVM_HOOK_SECRET }}
+          HOOK_URL: https://avm-orchestrator.${{ vars.CLOUDFLARE_WORKERS_SUBDOMAIN }}.workers.dev/api/hooks/render-complete
+        run: |
+          set -uo pipefail
+          HOOK_PAYLOAD=$(python3 - <<'PY'
+          import json
+          pid = "${{ inputs.projectId }}"
+          spec = {}
+          try:
+              spec = json.load(open('projects/%s/video-spec.json' % pid))
+          except Exception:
+              pass
+          title = spec.get('title') or 'Data Race'
+          topic = spec.get('topic') or title
+          print(json.dumps({
+              "projectId": pid,
+              "status": "success",
+              "runId": ${{ github.run_id }},
+              "assetName": "%s-final.mp4" % pid,
+              "artifactUrl": "${{ inputs.artifact_url }}",
+              "title": title,
+              "topic": topic,
+          }))
+          PY
+          )
+          curl -fsS --max-time 30 -X POST "$HOOK_URL" \
+            -H "Content-Type: application/json" \
+            -H "x-hook-secret: $AVM_HOOK_SECRET" \
+            -d "$HOOK_PAYLOAD" \
+            && echo "orchestrator notified: success" \
+            || { echo "hook notify failed"; exit 1; }
