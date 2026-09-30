@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "title": "The World's Billionaires Dataset 1987~2022",
+  "subtitle": "1987~2022",
+  "hook": "Explore the shifting landscape of global wealth across decades.",
+  "setup": "This animation tracks net worth rankings over time using historical dataset records.",
+  "sequence": [
+    {
+      "atLabel": "1987",
+      "text": "Keizo Saji enters the ranking as a newcomer in 1987."
+    },
+    {
+      "atLabel": "1991",
+      "text": "Bill Gates appears as a newcomer in the 1991 rankings."
+    },
+    {
+      "atLabel": "1998",
+      "text": "Karl and Theo Albrecht experience a dramatic jump in the 1998 rankings."
+    },
+    {
+      "atLabel": "2000",
+      "text": "Alice Walton enters the rankings as a newcomer in 2000."
+    },
+    {
+      "atLabel": "2005",
+      "text": "Larry Ellison appears as a newcomer in the 2005 rankings."
+    }
+  ],
+  "highlights": [],
+  "ending": "These shifting positions illustrate the dynamic nature of global wealth over time.",
+  "sourcesLine": "Data: The World's Billionaires Dataset"
+}

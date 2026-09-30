@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "topic": "The World's Billionaires Dataset 1987~2022",
+  "metric": "Net Worth",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Nominal Net Worth",
+      "description": "Total estimated wealth in current USD for each given year without adjusting for inflation.",
+      "measurableDefinition": "USD (United States Dollars) in nominal terms as of the annual valuation date.",
+      "caveats": [
+        "Does not account for inflation over time",
+        "Valuations fluctuate with public stock prices and asset values"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Inflation-Adjusted Real Net Worth",
+      "description": "Total estimated wealth adjusted to a common base year currency value to allow historical purchasing power comparisons.",
+      "measurableDefinition": "USD adjusted to a fixed base year using the Consumer Price Index (CPI).",
+      "caveats": [
+        "Inflation adjustment depends on the chosen base year index",
+        "General consumer inflation may not reflect asset-class inflation accurately"
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "1987",
+    "end": "2022"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Jeff Bezos",
+    "Elon Musk",
+    "Bill Gates",
+    "Warren Buffett",
+    "Bernard Arnault",
+    "Carlos Slim Helu",
+    "Amancio Ortega",
+    "Mark Zuckerberg",
+    "Larry Ellison",
+    "Larry Page"
+  ],
+  "preferredSources": [
+    "Forbes Billionaires List",
+    "Bloomberg Billionaires Index",
+    "Historical Wealth Records"
+  ],
+  "knownRisks": [
+    "Fluctuating stock and asset valuations",
+    "Inaccuracies in estimating private wealth holdings",
+    "Methodological changes in wealth calculation across reporting years"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}
