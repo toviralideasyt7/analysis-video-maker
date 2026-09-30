@@ -442,12 +442,45 @@ export async function kaggleListFiles(
 }
 
 /**
+ * Largest CSV we will buffer into a Node string for ingestion.
+ * The research run OOM'd fatally (exit 134) on the multi-GB TMDB 930k-movies
+ * CSV (2026-09-30): even before hitting V8's ~512MB max string length,
+ * buffering a file that size blows the ~4GB runner heap. Above the cap we
+ * throw a catchable error instead so callers record a note and move on to
+ * the next source. 2026-10-01.
+ */
+const KAGGLE_CSV_MAX_BYTES = 200 * 1024 * 1024;
+
+/**
+ * Read a fetch body into a string, aborting cleanly once the byte budget is
+ * exceeded (backstop for file-list sizes that are missing or stale).
+ */
+async function readBodyCapped(response: Response, maxBytes: number, what: string): Promise<string> {
+  if (!response.body) return await response.text();
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > maxBytes) {
+      await reader.cancel().catch(() => {});
+      throw new Error(`${what} exceeds the ${Math.round(maxBytes / 1048576)}MB in-memory ingest limit`);
+    }
+    chunks.push(value);
+  }
+  return Buffer.concat(chunks).toString('utf-8');
+}
+
+/**
  * Download the largest .csv inside a Kaggle dataset as text, using the
  * authenticated per-file download endpoint. This avoids zip handling and —
  * critically — the login-wall HTML that plain page fetches of kaggle.com
  * URLs return (HTTP 200, so it looks like success but has no data).
- * Throws when credentials are missing, the dataset has no CSV, or the
- * download fails; callers must catch and move on.
+ * Throws when credentials are missing, the dataset has no CSV, every CSV is
+ * above the in-memory size cap, or the download fails; callers must catch
+ * and move on.
  */
 export async function kaggleDatasetCsvText(
   ref: string,
@@ -456,15 +489,28 @@ export async function kaggleDatasetCsvText(
   const files = await kaggleListFiles(ref, options);
   const csvs = files.filter((f) => /\.csv$/i.test(f.name)).sort((a, b) => b.totalBytes - a.totalBytes);
   if (csvs.length === 0) throw new Error(`Kaggle dataset ${ref}: no CSV file found`);
+  // Never buffer multi-GB files into a string: prefer the largest CSV that
+  // fits the in-memory cap. Throwing here (catchably) is what keeps a huge
+  // dataset from fatally OOM-ing the research process.
+  const fitting = csvs.filter((f) => f.totalBytes <= KAGGLE_CSV_MAX_BYTES);
+  if (fitting.length === 0) {
+    const biggest = csvs[0];
+    const mb = Math.max(1, Math.round(biggest.totalBytes / 1048576));
+    throw new Error(
+      `Kaggle dataset ${ref}: largest CSV ${biggest.name} is ~${mb}MB, above the ${KAGGLE_CSV_MAX_BYTES / 1048576}MB in-memory ingest limit — skipping dataset`,
+    );
+  }
   const base = (options.baseUrl ?? 'https://www.kaggle.com/api/v1').replace(/\/$/, '');
   const [owner, slug] = ref.split('/');
-  const fileName = csvs[0].name;
+  const fileName = fitting[0].name;
   const response = await fetch(
     `${base}/datasets/download/${owner}/${slug}/${encodeURIComponent(fileName)}`,
     { headers: kaggleAuthHeader() },
   );
   if (!response.ok) throw new Error(`Kaggle file download failed for ${ref}/${fileName}: ${response.status}`);
-  const text = await response.text();
+  // totalBytes is the size inside the dataset bundle; the wire size can
+  // differ, so enforce the cap on the actual bytes read as well.
+  const text = await readBodyCapped(response, KAGGLE_CSV_MAX_BYTES, `Kaggle file ${ref}/${fileName}`);
   if (text.length < 50) throw new Error(`Kaggle file ${ref}/${fileName} came back empty`);
   return { fileName, text };
 }
