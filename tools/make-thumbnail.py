@@ -64,16 +64,16 @@ def grab_frame(video: str, at: float, out_path: str) -> None:
         "-of", "default=noprint_wrappers=1:nokey=1", video,
     ]).decode().strip())
     ts = max(0.5, dur * at)
-    # Grab at a late-race moment (bars are at their most dramatic), then
-    # crop/scale to fill the left panel exactly. We crop the CENTER-LEFT
-    # portion to avoid the video's own info panel (which lives on the right
-    # at x 904..1232 in the 1280-wide design = right ~28% of frame).
-    # By taking only the left ~72% of the video frame, we get clean bars
-    # without the info card bleeding into the thumbnail's text panel.
+    # Grab at a late-race moment (bars are at their most dramatic).
+    # CRITICAL: Crop to the LEFT 62% of the video frame BEFORE scaling.
+    # The video's own info panel lives on the right side of the frame;
+    # by taking only the left 62% we guarantee no info-panel bleed-through
+    # into the thumbnail's text panel, regardless of renderer layout changes.
     subprocess.check_call([
         "ffmpeg", "-y", "-v", "error", "-ss", f"{ts:.2f}", "-i", video,
         "-frames:v", "1",
-        "-vf", f"scale={PANEL_X}:{H}:force_original_aspect_ratio=increase:flags=lanczos,"
+        "-vf", f"crop=iw*0.62:ih:0:0,"
+               f"scale={PANEL_X}:{H}:force_original_aspect_ratio=increase:flags=lanczos,"
                f"crop={PANEL_X}:{H}",
         out_path,
     ])

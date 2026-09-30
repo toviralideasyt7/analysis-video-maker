@@ -358,8 +358,13 @@ jobs:
           YEARS=$(python3 -c "
           import json
           d=json.load(open('projects/${PROJECT_ID}/dataset.json'))
-          ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
-          print(f'{min(ys)} - {max(ys)}' if ys else '')")
+          # Prefer timeRange (canonical), fall back to periods[].year (legacy)
+          tr=d.get('timeRange') or {}
+          if tr.get('start') and tr.get('end'):
+              print(f\"{tr['start']} - {tr['end']}\")
+          else:
+              ys=[p.get('year') for p in d.get('periods',[]) if isinstance(p,dict) and p.get('year')]
+              print(f'{min(ys)} - {max(ys)}' if ys else '')")
           TOPIC=$(python3 -c "import json;print(json.load(open('projects/${PROJECT_ID}/video-spec.json')).get('metadata',{}).get('title',''))")
           python3 tools/make-thumbnail.py \
             --video "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
