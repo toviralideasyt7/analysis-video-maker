@@ -77,7 +77,7 @@ except ImportError:
 RACE_TOP = 112          # bars live between y=112 and y=656
 RACE_BOT = 656          # raceBottom in DataRace.tsx; rows never enter the
                         # progress track below (y 688..700)
-BAR_X0 = 96             # every bar starts at x=96
+BAR_X0 = 190             # every bar starts at x=96
 RACE_RIGHT = 880        # right edge of the race zone; the info panel starts
                         # at x=904 and is RESERVED - bars, flags, value
                         # labels and name labels all end before 880.
@@ -411,7 +411,7 @@ class VideoQA:
         then behaves as if uncapped.
         """
         mask = self._color_mask(img, eid)
-        bar_h = row_h - 16
+        bar_h = min(row_h - 10, 46)
         top = max(0, int(round(ymid - bar_h / 2)))
         bot = min(mask.shape[0], int(round(ymid + bar_h / 2)))
         seg = mask[top:bot, BAR_X0:ZONE_X1]
@@ -646,7 +646,7 @@ class VideoQA:
         img = self.img(screen_idx)
         bgr = img.astype(np.int16)
         mx, mn = bgr.max(axis=2), bgr.min(axis=2)
-        dark_text = (mx < 90) & ((mx - mn) < 40)
+        bright_text = (mn > 150) & ((mx - mn) < 60)  # dark theme: white text on black
         rows = sorted(measured, key=lambda m: m["ymid"])
         # Displayed ranks at this tape: with the renderer's integer-rank
         # glide, rows only sit close together mid-transition; the gate
@@ -662,13 +662,13 @@ class VideoQA:
                     and abs(sr0 - sr1) < 0.75):
                 continue  # mid-swap: crossing labels are expected, not a bug
             yb = int((r0["ymid"] + r1["ymid"]) / 2)
-            strip = dark_text[max(0, yb - 5):yb + 5, BAR_X0:BAR_X1]
+            strip = bright_text[max(0, yb - 5):yb + 5, BAR_X0:BAR_X1]
             if int(strip.sum()) > 500:
                 self.add(
                     "C3b-label-overlap",
                     f"text/label pixels cross the boundary between "
                     f"'{r0['entity']}' and '{r1['entity']}' rows "
-                    f"({int(strip.sum())} dark px in the boundary strip)",
+                    f"({int(strip.sum())} bright px in the boundary strip)",
                     frame=screen_idx, scene=scene_id)
                 break  # one report per frame is enough
 
