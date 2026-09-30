@@ -1130,8 +1130,8 @@ export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
   topN: 10,
   framesPerTransition: 30,
   fps: 30,
-  width: 1280,
-  height: 720,
+  width: 1920,
+  height: 1080,
   moverThreshold: 2,
   policy: 'carryForward',
   // A long-dead entity should not haunt the chart: the trailing carry past

@@ -17,12 +17,13 @@ import { DEFAULT_FLAG_BASE, type RenderInput } from './types';
 import {
   BrandMark,
   Canvas,
-  EraPanel,
+  DesignScale,
   RaceHeader,
   RankingRow,
-  SidePanel,
+  SpotlightBanner,
   SpotlightCard,
   TitleBlock,
+  TopicStrip,
 } from './components';
 
 interface Highlight {
@@ -171,24 +172,24 @@ const BarRace: React.FC<{
     return { rows: out.slice(0, count + 2), barCount: count };
   }, [f0, f1, t, te, i0, i1]);
 
-  // Layout: header occupies the top 96px; bars live between y=112 and y=648.
+  // Layout: header occupies the top 96px; bars live between y=112 and y=596.
+  // The bottom banner zone (y 612..700) is RESERVED: ranking rows never
+  // enter it, so the spotlight banner / topic strip can never overlap a bar
+  // no matter how long a value label gets.
   const raceTop = 112;
-  const raceBottom = 648;
+  const raceBottom = 596;
   // Row height is CONSTANT for the whole video, based on the tape's topN:
   // bars must never resize as entities enter or leave. Early periods show
   // fewer rows with vacant space below instead of ballooning the first rows
   // big and then shrinking them when newcomers arrive.
   const rowHeight = (raceBottom - raceTop) / Math.max(1, tape.topN || barCount);
   const barX0 = 96;
-  // The spotlight card lives at x=960. The race width is CONSTANT on purpose:
-  // it used to be `740 - 150 * panelAppear`, so every time the spotlight card
-  // faded in or out (once per story segment - i.e. nearly every year) ALL bars
-  // visibly shrank and grew back even though no value changed. That read as
-  // the bars "refreshing"/resetting on every year tick. 600 keeps the
-  // leader's flag + value labels clear of the card (x=960) at all times
-  // (worst case: 96 + 600 + 12 + 46 + 12 + ~180px value < 960), so the card
-  // can fade freely without moving a single bar.
-  const maxBarWidth = 600;
+  // The race width is CONSTANT on purpose: it used to shrink/grow with the
+  // spotlight card's fade, which read as the bars "refreshing" on every year
+  // tick. 860 fills the freed right side (the old right-hand panel is gone):
+  // worst case 96 + 860 + 12 + 46 + 12 + ~150px value label = ~1176 < 1232,
+  // so labels stay inside the canvas with the banner zone untouched below.
+  const maxBarWidth = 860;
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -293,43 +294,37 @@ const BarRace: React.FC<{
           />
         );
       })}
-      {/* Right-side panel: car + topic box (like reference). Hidden when spotlight active. */}
-      {!cardContent && (() => {
-        const title = input.videoSpec.metadata.title;
-        // Extract topic and years from title, e.g. "Top 15 car producing countries..." → "TOP CAR PRODUCING COUNTRIES"
-        const years = input.videoSpec.metadata.subtitle || '';
-        // Build topic title: uppercase, remove "Top 15", keep it punchy
-        let topicTitle = title
-          .replace(/^Top \d+\s*/i, '')
-          .replace(/by annual.*$/i, '')
-          .replace(/countries$/i, 'COUNTRIES')
-          .trim()
-          .toUpperCase();
-        if (!topicTitle) topicTitle = 'DATA RACE';
-        // Year range: extract from subtitle or use dataset range
-        const yearMatch = years.match(/(\d{4})\s*[-–to]+\s*(\d{4})/i);
-        const yearRange = yearMatch ? `${yearMatch[1]}-${yearMatch[2]}` : '';
-        // Only show car illustration for car-related topics
-        const isCarTopic = /car|vehicle|auto/i.test(topicTitle);
-        return (
-          <SidePanel
-            topicTitle={topicTitle}
-            yearRange={yearRange}
-            carColor="#e53e3e"
-            iconType={isCarTopic ? 'car' : 'none'}
-            appear={chromeAppear}
-          />
-        );
-      })()}
+      {/* Bottom banner zone (y 612..700): spotlight banner when a highlight /
+          story segment is active, otherwise the topic strip. Both live in
+          the same reserved zone, so swapping them never moves a bar. */}
       {cardContent ? (
-        <EraPanel
+        <SpotlightBanner
           title={cardContent.title}
           body={cardContent.body}
           featured={featured}
           flagBaseUrl={flagBaseUrl}
           appear={panelAppear}
         />
-      ) : null}
+      ) : (
+        (() => {
+          const title = input.videoSpec.metadata.title;
+          const years = input.videoSpec.metadata.subtitle || '';
+          let topicTitle = title
+            .replace(/^Top \d+\s*/i, '')
+            .replace(/by annual.*$/i, '')
+            .replace(/countries$/i, 'COUNTRIES')
+            .trim()
+            .toUpperCase();
+          if (!topicTitle) topicTitle = 'DATA RACE';
+          const yearMatch = years.match(/(\d{4})\s*[-–to]+\s*(\d{4})/i);
+          const yearRange = yearMatch ? `${yearMatch[1]}-${yearMatch[2]}` : '';
+          return <TopicStrip topicTitle={topicTitle} yearRange={yearRange} appear={chromeAppear} />;
+        })()
+      )}
+      {/* Slim progress track under the banner zone. */}
+      <div style={{ position: 'absolute', left: 48, right: 48, top: 706, height: 4, background: '#eef0f3', borderRadius: 2, overflow: 'hidden', opacity: chromeAppear }}>
+        <div style={{ width: `${Math.max(0, Math.min(100, progress * 100))}%`, height: '100%', background: '#e11d2e', borderRadius: 2 }} />
+      </div>
     </AbsoluteFill>
   );
 };
@@ -369,6 +364,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
 
   return (
     <Canvas theme={theme}>
+      <DesignScale>
       {titleScene ? (
         <Sequence from={titleScene.from} durationInFrames={titleScene.durationInFrames}>
           <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', padding: '0 90px' }}>
@@ -484,6 +480,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
         </Sequence>
       ) : null}
 
+      </DesignScale>
     </Canvas>
   );
 };

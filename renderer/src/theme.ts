@@ -26,7 +26,7 @@ export const DEFAULT_THEME: Theme = {
   mutedText: '#c8ccd4',
   accent: '#e11d2e',
   barTrack: '#eef0f3',
-  fontFamily: '"Bebas Neue", "Arial Narrow", sans-serif',
+  fontFamily: '"Eczar", Georgia, serif',
 };
 
 export function makeTheme(overrides: Record<string, string | number> | undefined): Theme {

@@ -257,7 +257,7 @@ jobs:
           ffmpeg -version | head -n 1
 
       # Concatenate the independently-rendered chunks. All chunks use
-      # identical codec settings (h264, 8M), so stream-copy concat is
+      # identical codec settings (h264, 20M), so stream-copy concat is
       # lossless and seamless.
       - name: Concatenate chunks
         run: |
@@ -317,7 +317,7 @@ jobs:
           set -euo pipefail
           ./target/release/datarace probe \
             --in "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            --expect-size 1280x720 \
+            --expect-size 1920x1080 \
             --out "projects/${PROJECT_ID}/renders/probe.json"
 
       - name: Video QA gate (bars, layout, transitions)

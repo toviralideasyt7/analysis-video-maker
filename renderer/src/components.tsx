@@ -2,8 +2,8 @@
  * Reusable visual components.
  *
  * Everything is deterministic: the same frame always produces the same pixels.
- * No remote fonts, no remote images except optional flag assets, and no
- * third-party logos - entity identity is rendered as a monogram badge.
+ * No remote fonts at render time, and all flag/logo assets are embedded as
+ * data URIs by the render CLI before rendering starts.
  */
 
 import React, { useState } from 'react';
@@ -105,9 +105,9 @@ export const LogoBadge: React.FC<{ name: string; color: string; size?: number; i
 };
 
 /**
- * Flag image with a monogram fallback. Flag CDNs can hiccup (or be blocked);
- * a broken-image glyph on a YouTube video is worse than no flag at all, so a
- * failed load swaps to the entity's LogoBadge.
+ * Flag image with logo + monogram fallbacks. Priority: the entity's embedded
+ * brand logo (favicon) for domain-like entities, then the flag, then the
+ * monogram badge. A failed load swaps down one level.
  */
 export const FlagImage: React.FC<{
   entity: FrameTapeEntity;
@@ -118,8 +118,12 @@ export const FlagImage: React.FC<{
   baseUrl?: string;
 }> = ({ entity, size, variant = 'w160', style, invertBadge = false, baseUrl = DEFAULT_FLAG_BASE }) => {
   const [failed, setFailed] = useState(false);
-  const srcUrl = entity.flagDataUri ?? (entity.flagCode ? `${baseUrl}/${variant}/${entity.flagCode}.png` : undefined);
-  if (!srcUrl || failed) {
+  const srcUrl = failed
+    ? undefined
+    : (entity.logoDataUri ??
+      entity.flagDataUri ??
+      (entity.flagCode ? `${baseUrl}/${variant}/${entity.flagCode}.png` : undefined));
+  if (!srcUrl) {
     return <LogoBadge name={entity.name} color={entity.color} size={size} invert={invertBadge} />;
   }
   return (
@@ -355,10 +359,10 @@ export function formatNarrativeNumbers(text: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Era panel (the right-hand column: giant year, era title, narrative, flags)
+// Bottom banner zone (y 612..700): spotlight card and idle topic strip.
 // ---------------------------------------------------------------------------
 
-export interface EraPanelProps {
+export interface SpotlightBannerProps {
   title?: string;
   body?: string;
   featured: FrameTapeEntity[];
@@ -367,41 +371,38 @@ export interface EraPanelProps {
 }
 
 /**
- * The right-hand panel: a bordered card with a soft shadow so it reads as a
- * distinct surface instead of text floating in empty space. It sits LOW on
- * the right (below the main bar zone) so it never overlaps the leader's
- * value label at the top.
+ * Bottom spotlight banner (root-cause fix 2026-09-30: the old right-hand
+ * panel sat at x=730..1250 while leader rows extended to ~x=946, so the
+ * leader's value label was visibly occluded). The banner lives in a reserved
+ * zone (y 612..700) that ranking rows never enter (rows end at y=596) --
+ * overlap is impossible by construction, not by pixel-tuning.
  */
-export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagBaseUrl, appear }) => {
+export const SpotlightBanner: React.FC<SpotlightBannerProps> = ({ title, body, featured, flagBaseUrl, appear }) => {
   const accent = featured[0]?.color ?? '#e11d2e';
   return (
     <div
       style={{
         position: 'absolute',
-        left: 730,
-        bottom: 80,
-        width: 520,
+        left: 48,
+        right: 48,
+        top: 612,
+        height: 88,
         background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
         border: '2px solid #e5e7eb',
         borderLeft: `8px solid ${accent}`,
-        borderRadius: 24,
-        boxShadow: '0 24px 64px rgba(17,24,39,0.18)',
-        padding: '32px 32px 36px',
+        borderRadius: 16,
+        boxShadow: '0 12px 32px rgba(17,24,39,0.14)',
+        padding: '10px 24px',
         opacity: appear,
-        transform: `translateY(${(1 - appear) * 16}px) scale(${0.95 + appear * 0.05})`,
+        transform: `translateY(${(1 - appear) * 12}px)`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 20,
+        boxSizing: 'border-box',
       }}
     >
-      <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '0.28em', color: accent, marginBottom: 14 }}>✨ SPOTLIGHT</div>
-      {title ? (
-        <div style={{ fontSize: 40, fontWeight: 900, color: '#111111', lineHeight: 1.15, letterSpacing: '-0.02em' }}>{title}</div>
-      ) : null}
-      {body ? (
-        <div style={{ marginTop: 14, fontSize: 22, fontWeight: 500, color: '#4b5563', lineHeight: 1.5 }}>
-          {formatNarrativeNumbers(body)}
-        </div>
-      ) : null}
       {featured.length > 0 ? (
-        <div style={{ marginTop: 20, display: 'flex', gap: 12, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
           {featured.slice(0, 2).map((entity) => (
             <div
               key={entity.id}
@@ -414,16 +415,50 @@ export const EraPanel: React.FC<EraPanelProps> = ({ title, body, featured, flagB
             >
               <FlagImage
                 entity={entity}
-                size={62}
+                size={50}
                 variant="w160"
                 baseUrl={flagBaseUrl}
                 style={{ borderRadius: 7, display: 'block', background: '#fff' }}
               />
             </div>
           ))}
-          {featured[0] ? (
-            <div style={{ fontSize: 17, fontWeight: 800, color: '#111827', lineHeight: 1.25 }}>{featured[0].name}</div>
-          ) : null}
+        </div>
+      ) : null}
+      <div style={{ minWidth: 0, flexShrink: 0, maxWidth: 460 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.28em', color: accent, marginBottom: 4 }}>✨ SPOTLIGHT</div>
+        {title ? (
+          <div
+            style={{
+              fontSize: 25,
+              fontWeight: 800,
+              color: '#111111',
+              lineHeight: 1.2,
+              letterSpacing: '-0.02em',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {title}
+          </div>
+        ) : null}
+      </div>
+      {body ? (
+        <div
+          style={{
+            flex: 1,
+            minWidth: 0,
+            fontSize: 17,
+            fontWeight: 500,
+            color: '#4b5563',
+            lineHeight: 1.4,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {formatNarrativeNumbers(body)}
         </div>
       ) : null}
     </div>
@@ -758,109 +793,92 @@ export const NoteStrip: React.FC<{ notes: string[]; theme: Theme; opacity?: numb
     </div>
   );
 };
-/** Right-side panel: topic illustration + topic title box, like the reference.
- * Shows when no spotlight is active. */
-export interface SidePanelProps {
-  topicTitle: string; // e.g. "TOP CAR PRODUCING COUNTRIES"
-  yearRange: string;  // e.g. "1950-2025"
-  carColor: string;   // car body color (used when iconType='car')
-  iconType?: 'car' | 'factory' | 'globe' | 'none'; // topic-specific icon
+/** Idle bottom strip: the topic title + year range, shown in the reserved
+ * banner zone (y 612..700) when no spotlight is active. Same zone as the
+ * spotlight banner, so nothing ever moves or overlaps when they swap. */
+export interface TopicStripProps {
+  topicTitle: string; // e.g. "MOST POPULAR WEBSITES"
+  yearRange: string;  // e.g. "1995-2023"
   appear: number;
 }
 
-/** Simple side-view car SVG. */
-const CarIllustration: React.FC<{ color: string }> = ({ color }) => (
-  <svg viewBox="0 0 400 160" width="100%" height="140" style={{ display: 'block' }}>
-    {/* Body */}
-    <path
-      d="M20 110 L40 70 L90 65 L120 35 L260 35 L290 65 L370 70 L380 110 L360 115 L340 115 L330 100 L80 100 L70 115 L40 115 Z"
-      fill={color}
-      stroke="#1a1a1a"
-      strokeWidth="3"
-    />
-    {/* Windows */}
-    <path d="M130 42 L155 42 L155 62 L125 62 Z" fill="#2d3748" />
-    <path d="M165 42 L250 42 L270 62 L165 62 Z" fill="#2d3748" />
-    {/* Wheels */}
-    <circle cx="110" cy="115" r="28" fill="#1a1a1a" />
-    <circle cx="110" cy="115" r="14" fill="#cbd5e0" />
-    <circle cx="110" cy="115" r="6" fill="#4a5568" />
-    <circle cx="300" cy="115" r="28" fill="#1a1a1a" />
-    <circle cx="300" cy="115" r="14" fill="#cbd5e0" />
-    <circle cx="300" cy="115" r="6" fill="#4a5568" />
-    {/* Headlight */}
-    <ellipse cx="365" cy="85" rx="10" ry="6" fill="#fefcbf" stroke="#1a1a1a" strokeWidth="2" />
-    {/* Taillight */}
-    <ellipse cx="25" cy="85" rx="8" ry="6" fill="#fc8181" stroke="#1a1a1a" strokeWidth="2" />
-    {/* Door line */}
-    <line x1="205" y1="42" x2="205" y2="100" stroke="#1a1a1a" strokeWidth="2" />
-    {/* Handle */}
-    <rect x="215" y="68" width="18" height="5" rx="2" fill="#1a1a1a" />
-  </svg>
-);
-
-export const SidePanel: React.FC<SidePanelProps> = ({
-  topicTitle,
-  yearRange,
-  carColor,
-  iconType = 'car',
-  appear,
-}) => (
+export const TopicStrip: React.FC<TopicStripProps> = ({ topicTitle, yearRange, appear }) => (
   <div
     style={{
       position: 'absolute',
-      left: 750,
-      bottom: 80,
-      width: 480,
+      left: 48,
+      right: 48,
+      top: 612,
+      height: 88,
+      background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
+      borderRadius: 16,
+      boxShadow: '0 12px 32px rgba(34,197,94,0.30), inset 0 1px 0 rgba(255,255,255,0.2)',
+      border: '1px solid rgba(255,255,255,0.15)',
       opacity: appear,
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
+      justifyContent: 'center',
+      gap: 28,
+      padding: '0 32px',
+      boxSizing: 'border-box',
     }}
   >
-    {/* Topic illustration - only show for car topics, otherwise just the title box */}
-    {iconType === 'car' && (
-    <div style={{ width: 400, marginBottom: 16, filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.15))' }}>
-      <CarIllustration color={carColor} />
-    </div>
-    )}
-    {/* Green topic box - premium typography */}
     <div
       style={{
-        width: 440,
-        background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
-        borderRadius: 12,
-        padding: '32px 28px',
-        boxShadow: '0 16px 40px rgba(34,197,94,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
-        textAlign: 'center',
-        border: '1px solid rgba(255,255,255,0.15)',
-      }}
-    >
-      <div style={{
-        fontSize: 34,
+        fontSize: 32,
         fontWeight: 900,
         color: '#ffffff',
-        lineHeight: 1.15,
         letterSpacing: '0.04em',
         textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-        fontFamily: '"Bebas Neue", "Arial Narrow", sans-serif',
-      }}>
-        {topicTitle}
-      </div>
-      <div style={{
-        marginTop: 12,
-        paddingTop: 12,
-        borderTop: '2px solid rgba(255,255,255,0.25)',
-        fontSize: 40,
-        fontWeight: 800,
-        color: '#ffffff',
-        letterSpacing: '0.08em',
-        textShadow: '0 2px 12px rgba(0,0,0,0.3)',
-        fontFamily: '"Bebas Neue", "Arial Narrow", sans-serif',
-        fontVariantNumeric: 'tabular-nums',
-      }}>
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: '70%',
+      }}
+    >
+      {topicTitle}
+    </div>
+    {yearRange ? (
+      <div
+        style={{
+          fontSize: 28,
+          fontWeight: 800,
+          color: '#ffffff',
+          letterSpacing: '0.08em',
+          textShadow: '0 2px 12px rgba(0,0,0,0.3)',
+          fontVariantNumeric: 'tabular-nums',
+          whiteSpace: 'nowrap',
+          borderLeft: '2px solid rgba(255,255,255,0.35)',
+          paddingLeft: 28,
+        }}
+      >
         {yearRange}
       </div>
-    </div>
+    ) : null}
   </div>
 );
+
+/**
+ * Design-space scaler: the whole layout is authored in 1280x720 coordinates;
+ * this wrapper scales it to the composition's real canvas (e.g. 1920x1080)
+ * so one layout serves every output resolution without re-tuning geometry.
+ */
+export const DesignScale: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { width } = useVideoConfig();
+  const scale = width / 1280;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: 1280,
+        height: 720,
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}
+    >
+      {children}
+    </div>
+  );
+};

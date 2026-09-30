@@ -6,8 +6,10 @@ Design (per user spec):
   - Background: a real frame from the rendered video (the race itself)
   - Topic icon on the top-right: a vector illustration about the video's topic
     (car for car videos, phone for mobile, factory for CO2, etc.)
-  - The caption comes from the frame itself: the video's own green side panel
-    (topic title + year range), so no text is drawn on top of it.
+  - The caption comes from the frame itself: the video's own green bottom
+    banner (topic title + year range), so no text is drawn on top of it.
+  - Output: 3840x2160 JPEG, highest quality that stays under YouTube's 2MB
+    thumbnail limit.
 
 Usage:
   python3 tools/make-thumbnail.py \
@@ -24,12 +26,13 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 
-W, H = 1280, 720
+W, H = 3840, 2160  # YouTube's max thumbnail resolution (its upload cap is 2MB)
 WHITE = (255, 255, 255)
 BLACK = (10, 10, 10)
 NAVY = (8, 48, 110)
 GREEN_TOP = (34, 197, 94)
 GREEN_BOT = (21, 128, 61)
+YT_THUMB_MAX_BYTES = 1_900_000  # stay safely under YouTube's 2MB thumbnail limit
 
 
 def find_font() -> str:
@@ -46,10 +49,25 @@ def grab_frame(video: str, at: float, out_path: str) -> None:
         "-of", "default=noprint_wrappers=1:nokey=1", video,
     ]).decode().strip())
     ts = max(0.5, dur * at)
+    # Grab at the video's native resolution, then upscale to 4K with
+    # Lanczos for maximum sharpness.
     subprocess.check_call([
         "ffmpeg", "-y", "-v", "error", "-ss", f"{ts:.2f}", "-i", video,
-        "-frames:v", "1", "-vf", f"scale={W}:{H}", out_path,
+        "-frames:v", "1", "-vf", f"scale={W}:{H}:flags=lanczos", out_path,
     ])
+
+
+def save_under_limit(img: Image.Image, out_path: str) -> None:
+    """Save as JPEG at the highest quality that stays under YouTube's 2MB limit."""
+    quality = 96
+    while quality >= 70:
+        img.save(out_path, "JPEG", quality=quality, optimize=True)
+        if os.path.getsize(out_path) <= YT_THUMB_MAX_BYTES:
+            return
+        quality -= 5
+    # Last resort: even at 70 the frame was too busy -- keep the smallest.
+    print(f"WARNING: thumbnail still >2MB at quality 70; keeping it anyway",
+          file=sys.stderr)
 
 
 def clean_topic(title: str) -> str:
@@ -242,22 +260,24 @@ def main() -> int:
     img = ImageEnhance.Brightness(img).enhance(0.86)
     d = ImageDraw.Draw(img, "RGBA")
 
-    # soft dark backdrop behind the icon for pop
-    icon_cx, icon_cy = 1005, 185
-    d.ellipse([icon_cx - 150, icon_cy - 130, icon_cx + 150, icon_cy + 130],
+    # soft dark backdrop behind the icon for pop (top-right, 3x of old coords)
+    icon_cx, icon_cy = 3015, 555
+    d.ellipse([icon_cx - 450, icon_cy - 390, icon_cx + 450, icon_cy + 390],
               fill=(0, 0, 0, 45))
 
     # --- topic icon (the caption already lives in the frame: the video's
     # --- own green side panel. Drawing another box would duplicate it.) ---
-    ICONS.get(icon_kind, draw_star)(d, icon_cx, icon_cy, 1.0)
+    ICONS.get(icon_kind, draw_star)(d, icon_cx, icon_cy, 3.0)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
-    img.save(args.out, "JPEG", quality=92)
+    save_under_limit(img, args.out)
     try:
         os.remove(tmp)
     except OSError:
         pass
-    print(f"thumbnail written: {args.out} (icon={icon_kind} topic={topic!r})")
+    size = os.path.getsize(args.out)
+    print(f"thumbnail written: {args.out} (icon={icon_kind} topic={topic!r} "
+          f"{size/1024:.0f}KB)")
     return 0
 
 

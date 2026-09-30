@@ -408,7 +408,7 @@ describe('video spec', () => {
   });
 
   it('exposes sane default frame options', () => {
-    expect(DEFAULT_FRAME_OPTIONS.width).toBe(1280);
+    expect(DEFAULT_FRAME_OPTIONS.width).toBe(1920);
     expect(DEFAULT_FRAME_OPTIONS.fps).toBe(30);
     expect(DEFAULT_FRAME_OPTIONS.policy).toBe('carryForward');
   });

@@ -12,7 +12,7 @@ import { demoInput } from './demo';
  */
 export const RemotionRoot: React.FC = () => (
   <>
-    <style>{`@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');`}</style>
+    <style>{`@import url('https://fonts.googleapis.com/css2?family=Eczar:wght@400..800&display=swap');`}</style>
     <Composition
       id="DataRace"
       component={DataRace}

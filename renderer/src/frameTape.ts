@@ -15,6 +15,12 @@ export interface FrameTapeEntity {
    * render time. Components prefer this over `flagBaseUrl` + `flagCode`.
    */
   flagDataUri?: string;
+  /**
+   * Optional data-URI for the entity's brand logo (favicon), populated by
+   * the render CLI for domain-like entities (e.g. "Google.com"). Components
+   * prefer this over the monogram LogoBadge fallback.
+   */
+  logoDataUri?: string;
 }
 
 export interface FrameTapeBar {

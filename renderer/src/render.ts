@@ -107,6 +107,74 @@ async function embedFlags(input: RenderInput): Promise<void> {
   process.stdout.write(`embedded ${embedded}/${codes.length} flags\n`);
 }
 
+/** Fetch a URL as a data-URI image (favicon/logo). Undefined on any failure. */
+function fetchImageDataUri(url: string, timeoutMs = 15000): Promise<string | undefined> {
+  return new Promise((resolvePromise) => {
+    const timer = setTimeout(() => resolvePromise(undefined), timeoutMs);
+    get(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } }, (res) => {
+      if (res.statusCode !== 200) {
+        clearTimeout(timer);
+        res.resume();
+        resolvePromise(undefined);
+        return;
+      }
+      const chunks: Buffer[] = [];
+      res.on('data', (c: Buffer) => chunks.push(c));
+      res.on('end', () => {
+        clearTimeout(timer);
+        const buf = Buffer.concat(chunks);
+        if (buf.length === 0 || buf.length > 300_000) {
+          resolvePromise(undefined);
+          return;
+        }
+        const kind = res.headers['content-type'] ?? '';
+        const mime = /png/i.test(kind) ? 'image/png' : /svg/i.test(kind) ? 'image/svg+xml' : /jpeg|jpg/i.test(kind) ? 'image/jpeg' : 'image/x-icon';
+        resolvePromise(`data:${mime};base64,${buf.toString('base64')}`);
+      });
+      res.on('error', () => {
+        clearTimeout(timer);
+        resolvePromise(undefined);
+      });
+    }).on('error', () => {
+      clearTimeout(timer);
+      resolvePromise(undefined);
+    });
+  });
+}
+
+/**
+ * Populate `logoDataUri` on domain-like entities (root-cause fix 2026-09-30:
+ * the video showed letter monograms like "GC"/"NC" instead of real site
+ * logos). Tries Google's favicon service first, then DuckDuckGo's; entities
+ * with a flagCode keep their flag (flags win over favicons for countries).
+ */
+async function embedLogos(input: RenderInput): Promise<void> {
+  const looksDomain = (name: string): boolean => /^[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(name.trim());
+  const targets = input.frameTape.entities.filter(
+    (e) => !e.flagCode && !e.logoDataUri && looksDomain(e.name),
+  );
+  if (targets.length === 0) return;
+  process.stdout.write(`embedding ${targets.length} domain favicons\n`);
+  const results = await Promise.all(
+    targets.map(async (e) => {
+      const domain = e.name.trim().toLowerCase();
+      const google = await fetchImageDataUri(
+        `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`,
+      );
+      if (google) return google;
+      return fetchImageDataUri(`https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`);
+    }),
+  );
+  let embedded = 0;
+  targets.forEach((e, i) => {
+    if (results[i]) {
+      e.logoDataUri = results[i];
+      embedded += 1;
+    }
+  });
+  process.stdout.write(`embedded ${embedded}/${targets.length} favicons\n`);
+}
+
 async function loadInput(projectDir: string): Promise<{ input: RenderInput; spec: VideoSpec; quality: unknown }> {
   const spec = readJson<VideoSpec>(join(projectDir, 'video-spec.json'));
   const dataset = readJson<Dataset>(join(projectDir, 'dataset.json'));
@@ -118,6 +186,7 @@ async function loadInput(projectDir: string): Promise<{ input: RenderInput; spec
   const quality = existsSync(join(projectDir, 'quality.json')) ? readJson<unknown>(join(projectDir, 'quality.json')) : undefined;
   const input: RenderInput = { videoSpec: spec, dataset, frameTape, thumbnail, story };
   await embedFlags(input);
+  await embedLogos(input);
   return { input, spec, quality };
 }
 
@@ -215,7 +284,7 @@ async function main(): Promise<void> {
     outputLocation: out,
     inputProps: props,
     concurrency: CONCURRENCY,
-    videoBitrate: '8M',
+    videoBitrate: '20M',
     ...(frameRange ? { frameRange } : {}),
     onProgress: ({ renderedFrames, encodedFrames }) => {
       if (renderedFrames % 150 === 0) process.stdout.write(`  ${renderedFrames}/${composition.durationInFrames} frames (${encodedFrames} encoded)\n`);

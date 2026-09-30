@@ -403,9 +403,19 @@ export function draftsFromTable(columns: string[], rows: string[][], defaultUnit
     const yearCols = columns
       .map((c, i) => ({ name: c, index: i }))
       .filter(({ name }) => /^(19|20)\d{2}$/.test(name.trim()));
-    const entityIdx = columns.findIndex((c) =>
-      ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'nation'].includes(c.toLowerCase().trim())
-    );
+    const entityIdx = (() => {
+      const hit = columns.findIndex((c) =>
+        ['entity', 'country', 'country name', 'name', 'region', 'territory', 'location', 'nation',
+          // root-cause fix 2026-09-30: non-country races (websites, brands,
+          // platforms) use their own entity headers.
+          'website', 'site', 'domain', 'platform', 'company', 'brand', 'app', 'browser',
+          'team', 'club', 'movie', 'song', 'artist', 'language', 'city'].includes(c.toLowerCase().trim())
+      );
+      if (hit >= 0) return hit;
+      // First-column fallback: in a wide year-column table the entity column
+      // is almost always column 0, whatever its header says.
+      return 0;
+    })();
     if (entityIdx >= 0 && yearCols.length >= 2) {
       problems.push(`wide-format table detected: melting ${yearCols.length} year columns into long format`);
       const drafts: ExtractedDraft[] = [];
@@ -1221,8 +1231,8 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   // --- 6. Frame tape ------------------------------------------------------
   let tape: FrameTape = {
     fps: 30,
-    width: 1280,
-    height: 720,
+    width: 1920,
+    height: 1080,
     topN: 0,
     framesPerTransition: 0,
     durationInFrames: 0,

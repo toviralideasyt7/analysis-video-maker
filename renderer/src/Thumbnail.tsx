@@ -4,7 +4,7 @@ import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 import { makeTheme } from './theme';
 import type { RenderInput } from './types';
-import { BrandMark, LogoBadge } from './components';
+import { BrandMark, DesignScale, FlagImage, LogoBadge } from './components';
 
 export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
   const frame = useCurrentFrame();
@@ -16,6 +16,7 @@ export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
 
   return (
     <AbsoluteFill style={{ background: spec?.backgroundColor ?? theme.background, fontFamily: theme.fontFamily }}>
+      <DesignScale>
       <div style={{ position: 'absolute', left: 46, top: 40 }}>
         <BrandMark theme={theme} />
       </div>
@@ -30,7 +31,17 @@ export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
       <div style={{ position: 'absolute', left: 46, bottom: 70, display: 'flex', gap: 20, opacity: appear }}>
         {entities.map((name, index) => {
           const entity = tapeEntities.find((e) => e.name === name);
-          return <LogoBadge key={name} name={name} color={entity?.color ?? ['#2563eb', '#dc2626', '#059669'][index % 3]} size={74} />;
+          if (!entity) {
+            return <LogoBadge key={name} name={name} color={['#2563eb', '#dc2626', '#059669'][index % 3]} size={74} />;
+          }
+          return (
+            <FlagImage
+              key={name}
+              entity={entity}
+              size={74}
+              style={{ borderRadius: 14, background: '#fff' }}
+            />
+          );
         })}
       </div>
       <div style={{ position: 'absolute', right: 46, bottom: 60, textAlign: 'right', opacity: appear }}>
@@ -39,6 +50,7 @@ export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
           {input.dataset.timeRange.start}–{input.dataset.timeRange.end}
         </div>
       </div>
+      </DesignScale>
     </AbsoluteFill>
   );
 };

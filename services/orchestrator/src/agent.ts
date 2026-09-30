@@ -19,20 +19,47 @@ import { execFile } from 'node:child_process';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { getText, parseCsv, kaggleRefFromUrl, kaggleDatasetCsvText } from './connectors';
+import { getText, parseCsv } from './connectors';
 import { createAIClient } from './providers/ai';
 import { tableFromJsonArray } from './research';
 import { logger } from './runtime';
 
 /**
- * Parse HTML tables into a unified {columns, rows}. Handles Wikipedia-style
- * pages with multiple tables covering different year ranges: tables with
- * compatible headers (entity + year columns) are merged.
+ * Parse a possibly-scaled number for column-type detection (local copy: the
+ * full parser lives in research.ts, which agent.ts must not import at module
+ * load for this helper's sake). Handles "37,485,000", "1.2M", "45%".
  */
-function parseHtmlTables(html: string): { columns: string[]; rows: string[][] } | null {
+function sniffNumeric(cell: string): number | null {
+  const t = (cell ?? '').trim().replace(/[,\s]/g, '');
+  if (!t) return null;
+  const m = /^(-?\d+(?:\.\d+)?)\s*([kmbt%]?)$/i.exec(t);
+  if (!m) return null;
+  const mult: Record<string, number> = { k: 1e3, m: 1e6, b: 1e9, t: 1e12, '%': 1 };
+  const v = Number(m[1]) * (mult[m[2].toLowerCase()] ?? 1);
+  return Number.isFinite(v) ? v : null;
+}
+
+/** Year mentioned in a heading, e.g. "The 10 Most Visited Websites in 1995". */
+function headingYear(text: string): string | null {
+  const m = text.match(/\b((?:19|20)\d{2})\b/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Parse HTML tables into a unified {columns, rows}. Handles two shapes:
+ *
+ * 1. Wikipedia-style: tables with year columns in the headers (entity +
+ *    year columns) are merged across tables.
+ * 2. Ranked-list articles (root-cause fix 2026-09-30): one table per year
+ *    with the year in a PRECEDING heading, e.g. hosting.com's "most visited
+ *    websites every year since 1995" (Rank | Website | Monthly Visits under
+ *    "The 10 Most Visited Websites in 1995"). Each table's rows are stamped
+ *    with its heading year and merged into the same wide format.
+ */
+export function parseHtmlTables(html: string): { columns: string[]; rows: string[][] } | null {
   // Simple regex-based table parser (no external deps). Extracts text content
   // from <table> -> <tr> -> <td>/<th>, stripping inner tags and citations.
-  const tables: string[][][] = [];
+  const tables: { rows: string[][]; offset: number }[] = [];
   const tableRe = /<table[\s>][\s\S]*?<\/table\s*>/gi;
   let tableMatch: RegExpExecArray | null;
   while ((tableMatch = tableRe.exec(html)) !== null) {
@@ -57,49 +84,116 @@ function parseHtmlTables(html: string): { columns: string[]; rows: string[][] } 
       }
       if (cells.length > 0) rows.push(cells);
     }
-    if (rows.length >= 2) tables.push(rows); // need header + at least 1 data row
+    if (rows.length >= 2) tables.push({ rows, offset: tableMatch.index }); // need header + at least 1 data row
   }
   if (tables.length === 0) return null;
 
-  // Find tables that look like data tables: first cell of header is an entity
-  // label, remaining headers contain 4-digit years.
   const yearRe = /\b(19|20)\d{2}\b/;
-  const dataTables = tables.filter((t) => {
-    const header = t[0];
+  // entity -> year -> value, fed by both table shapes below.
+  const mergedRows = new Map<string, Map<string, string>>();
+  let entityHeader = 'entity';
+  const put = (entity: string, year: string, value: string): void => {
+    const e = entity.trim();
+    const v = value.trim();
+    if (!e || !v) return;
+    if (!mergedRows.has(e)) mergedRows.set(e, new Map());
+    const years = mergedRows.get(e)!;
+    if (!years.has(year)) years.set(year, v);
+  };
+
+  // Shape 1: tables whose headers already contain year columns.
+  const yearHeaderTables = tables.filter(({ rows }) => {
+    const header = rows[0];
     return header.length >= 2 && header.slice(1).some((h) => yearRe.test(h));
   });
-  if (dataTables.length === 0) return null;
-
-  // Merge tables with compatible structure. Use the first table's entity
-  // column header; collect all year columns across tables.
-  const entityHeader = dataTables[0][0][0];
-  const yearCols = new Map<string, number>(); // year -> column index in merged
-  const mergedRows = new Map<string, Map<string, string>>(); // entity -> year -> value
-
-  for (const table of dataTables) {
-    const header = table[0];
-    // Map this table's column indices to years
-    const colToYear = new Map<number, string>();
-    for (let c = 1; c < header.length; c++) {
-      const m = header[c].match(yearRe);
-      if (m) colToYear.set(c, m[0]);
-    }
-    if (colToYear.size === 0) continue;
-    for (let r = 1; r < table.length; r++) {
-      const row = table[r];
-      const entity = (row[0] ?? '').trim();
-      if (!entity) continue;
-      if (!mergedRows.has(entity)) mergedRows.set(entity, new Map());
-      const entityYears = mergedRows.get(entity)!;
-      for (const [colIdx, year] of colToYear) {
-        const val = (row[colIdx] ?? '').trim();
-        if (val && !entityYears.has(year)) entityYears.set(year, val);
+  if (yearHeaderTables.length > 0) {
+    entityHeader = yearHeaderTables[0].rows[0][0];
+    for (const { rows } of yearHeaderTables) {
+      const header = rows[0];
+      const colToYear = new Map<number, string>();
+      for (let c = 1; c < header.length; c++) {
+        const m = header[c].match(yearRe);
+        if (m) colToYear.set(c, m[0]);
+      }
+      if (colToYear.size === 0) continue;
+      for (let r = 1; r < rows.length; r++) {
+        const row = rows[r];
+        const entity = (row[0] ?? '').trim();
+        if (!entity) continue;
+        for (const [colIdx, year] of colToYear) {
+          put(entity, year, row[colIdx] ?? '');
+        }
       }
     }
   }
 
+  // Shape 2: per-year ranked-list tables ("Top 10 X in 1995" heading + a
+  // Rank | Entity | Value table). The year is stamped from the heading.
+  const entityHeaderRe = /website|domain|site|entity|countr|nation|state|name|platform|app|brand|compan|browser|empire|kingdom|dynasty|club|team|player|movie|song|artist|language|city/i;
+  const valueHeaderRe = /visits?|views?|users?|population|value|amount|total|count|number|sales|revenue|production|share|percent|emissions?|cases|deaths/i;
+  let stampedYears = 0;
+  for (const { rows, offset } of tables) {
+    const header = rows[0];
+    if (header.length >= 2 && header.slice(1).some((h) => yearRe.test(h))) continue; // shape 1 handled above
+    // Nearest preceding heading carries the year.
+    const before = html.slice(Math.max(0, offset - 3000), offset);
+    const headings = [...before.matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)];
+    if (headings.length === 0) continue;
+    const headingText = headings[headings.length - 1][1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const year = headingYear(headingText);
+    if (!year) continue;
+    // Entity column: header keyword, else the first mostly-non-numeric column.
+    let entityCol = header.findIndex((h) => entityHeaderRe.test(h));
+    if (entityCol < 0) {
+      const dataRows = rows.slice(1);
+      entityCol = header.findIndex((_, c) => {
+        let text = 0, total = 0;
+        for (const row of dataRows.slice(0, 20)) {
+          const cell = (row[c] ?? '').trim();
+          if (!cell) continue;
+          total += 1;
+          if (sniffNumeric(cell) === null) text += 1;
+        }
+        return total > 0 && text / total >= 0.5;
+      });
+    }
+    if (entityCol < 0) continue;
+    // Value column: numeric columns, excluding a rank sequence (1..n in
+    // order), preferring measurement-like headers, else largest magnitude.
+    const dataRows = rows.slice(1);
+    const numericCols: Array<{ col: number; median: number; headerHit: boolean }> = [];
+    for (let c = 0; c < header.length; c++) {
+      if (c === entityCol) continue;
+      const vals: number[] = [];
+      for (const row of dataRows.slice(0, 30)) {
+        const v = sniffNumeric(row[c] ?? '');
+        if (v !== null) vals.push(v);
+      }
+      if (vals.length < Math.max(1, Math.min(3, dataRows.length))) continue;
+      const isRankSeq = vals.length === dataRows.slice(0, 30).length &&
+        vals.every((v, i) => v === i + 1);
+      if (isRankSeq) continue; // "Rank" column, not the measurement
+      const sorted = [...vals].sort((a, b) => a - b);
+      numericCols.push({ col: c, median: sorted[Math.floor(sorted.length / 2)], headerHit: valueHeaderRe.test(header[c]) });
+    }
+    if (numericCols.length === 0) continue;
+    numericCols.sort((a, b) => Number(b.headerHit) - Number(a.headerHit) || b.median - a.median);
+    const valueCol = numericCols[0].col;
+    if (entityHeader === 'entity' && header[entityCol]) entityHeader = header[entityCol];
+    let stamped = 0;
+    for (const row of dataRows) {
+      const before_len = mergedRows.get((row[entityCol] ?? '').trim())?.size ?? 0;
+      put(row[entityCol] ?? '', year, row[valueCol] ?? '');
+      if ((mergedRows.get((row[entityCol] ?? '').trim())?.size ?? 0) > before_len) stamped += 1;
+    }
+    if (stamped > 0) stampedYears += 1;
+  }
+
   const allYears = [...new Set([...mergedRows.values()].flatMap((m) => [...m.keys()]))].sort();
   if (allYears.length === 0 || mergedRows.size === 0) return null;
+  // A single per-year table is a snapshot, not a series — the snapshot-date
+  // path in research.ts handles those; the merger needs a real time range.
+  if (yearHeaderTables.length === 0 && stampedYears < 2) return null;
 
   const columns = [entityHeader, ...allYears];
   const rows: string[][] = [];
@@ -329,19 +423,7 @@ export async function ingestUrl(url: string, prompt: string): Promise<PreloadedT
     const looksZip = /\.zip(\?|$)/i.test(url);
     let columns: string[] = [];
     let rows: string[][] = [];
-    // Kaggle dataset page URLs only ever return the login wall on plain fetch
-    // (HTTP 200 HTML with no data). Route them through the authenticated
-    // Kaggle file-download API first — a user-provided Kaggle link is the
-    // highest-signal source in the whole run, so it must never be dropped
-    // because the HTML scrape found no tables. 2026-09-30.
-    const kaggleRef = kaggleRefFromUrl(url);
-    if (kaggleRef) {
-      const { fileName, text } = await kaggleDatasetCsvText(kaggleRef);
-      const parsed = parseCsv(text, fileName.toLowerCase().endsWith('.tsv') ? '\t' : ',');
-      columns = parsed.columns;
-      rows = parsed.rows;
-      notes.push(`kaggle ${kaggleRef} (${fileName}): ${rows.length} rows via download API`);
-    } else if (looksZip) {
+    if (looksZip) {
       const res = await fetch(url, { headers: { 'User-Agent': 'analysis-video-maker/1.0' } });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
@@ -469,7 +551,11 @@ export function monthDayHint(prompt: string): string {
   };
   const named = new RegExp(`\\b(${Object.keys(monthNames).join('|')})\\s+(\\d{1,2})\\b`, 'i').exec(prompt);
   if (named) return `${monthNames[named[1].toLowerCase()]}${named[2].padStart(2, '0')}`;
-  return '0101';
+  // Mid-year default, not Jan 1: some date APIs only go back to a mid-year
+  // start (Tranco's lists begin Feb 2019, so every 20190101 +/- a week
+  // 404s and the whole 2019 snapshot was silently dropped — root-cause fix
+  // 2026-09-30). A July snapshot exists for every covered year.
+  return '0701';
 }
 
 function addDaysToStamp(stamp: string, days: number): string {
@@ -573,6 +659,10 @@ export async function ingestDateTemplatedUrl(
   notes.push(
     `date-templated ${templateUrl}: ${longRows.length} rows across ${covered.length} years (${covered.join(', ')})`,
   );
+  // The table's span is what was ACTUALLY ingested, not the plan range:
+  // years with no usable snapshot (e.g. before the source existed) must not
+  // be claimed as covered.
+  const coveredYears = covered.map((c) => Number(c.slice(0, 4))).filter(Number.isFinite);
   return {
     table: {
       columns: ['domain', 'year', 'score'],
@@ -580,8 +670,8 @@ export async function ingestDateTemplatedUrl(
       unit: sniffUnit(['domain', 'year', 'score'], prompt),
       sourceName: hostOf(templateUrl),
       sourceUrl: templateUrl,
-      yearMin: years.from,
-      yearMax: years.to,
+      yearMin: coveredYears.length > 0 ? Math.min(...coveredYears) : years.from,
+      yearMax: coveredYears.length > 0 ? Math.max(...coveredYears) : years.to,
     },
     notes,
   };
@@ -810,51 +900,29 @@ export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
   // Known-topic source memory (root-cause fix 2026-09-30): the planner may
   // know a direct data URL for this topic (e.g. Tranco's date-templated API
   // for "most popular websites") even when the prompt's own links are dead.
-  // Fold those URLs into the direct-URL ingestion list so the known source
-  // fires first, and let a known year range back up an absent prompt range.
+  // But THE USER'S OWN URLs WIN (root-cause fix 2026-09-30): a prompt that
+  // links a data source must have that source ingested FIRST — previously
+  // the known URL was tried first and its success meant the user's own
+  // source (e.g. the hosting.com yearly-top-websites article) was silently
+  // never fetched. Known-topic URLs are the fallback, not the priority.
   const knownDecision = deterministicDecide(prompt, directUrls);
   const knownUrls = knownDecision.directUrls.filter((u) => !directUrls.includes(u));
-  const ingestUrls = [...knownUrls, ...directUrls];
+  const orderedUrls = [...directUrls, ...knownUrls];
   const ingestYears = parseYearPreference(prompt);
   const ingestFrom = ingestYears.from ?? knownDecision.yearFrom;
   const ingestTo = ingestYears.to ?? knownDecision.yearTo;
 
-  // Date-templated URLs (e.g. https://tranco-list.eu/api/lists/date/YYYYMMDD)
-  // expand to one snapshot per plan year. This runs before the plain
-  // direct-URL path: prompts for this recipe also contain a single example
-  // URL that would otherwise win outright with one dateless snapshot.
-  const templateUrls = ingestUrls.filter((u) => DATE_TEMPLATE_RE.test(u));
-  if (templateUrls.length > 0) {
-    if (
-      ingestFrom !== undefined &&
-      ingestTo !== undefined &&
-      ingestTo >= ingestFrom &&
-      ingestTo - ingestFrom <= 60
-    ) {
-      const { table, notes: templateNotes } = await ingestDateTemplatedUrl(
-        templateUrls[0],
-        { from: ingestFrom, to: ingestTo },
-        prompt,
-      );
-      notes.push(...templateNotes);
-      if (table && table.rows.length >= 10) {
-        return {
-          ...deterministicDecide(prompt, directUrls),
-          table,
-          yearFrom: ingestFrom,
-          yearTo: ingestTo,
-          notes: [...notes, 'direct-URL mode: multi-year dataset from date-templated URL'],
-        };
-      }
-      notes.push('date-templated URL yielded no usable table; falling back to plain direct URLs');
-    } else {
-      notes.push('date-templated URL found but no usable year range in prompt; falling back');
-    }
-  }
+  // Ingestion order (root-cause fix 2026-09-30): the USER'S OWN plain URLs go
+  // first — an explicit data link in the prompt must beat any known-topic
+  // source. Date-templated URLs run after, in user-then-known order, and the
+  // plain branch never sees an un-expanded template literal (fetching the
+  // literal would return one dateless snapshot that then wins outright).
+  const templateUrls = orderedUrls.filter((u) => DATE_TEMPLATE_RE.test(u));
+  const plainUrls = orderedUrls.filter((u) => !DATE_TEMPLATE_RE.test(u));
 
   // Direct data links win outright: download and normalize now.
-  if (ingestUrls.length > 0) {
-    const { table, notes: ingestNotes } = await ingestDirectUrls(ingestUrls, prompt);
+  if (plainUrls.length > 0) {
+    const { table, notes: ingestNotes } = await ingestDirectUrls(plainUrls, prompt);
     notes.push(...ingestNotes);
     if (table) {
       const years = parseYearPreference(prompt);
@@ -872,17 +940,57 @@ export async function decideAgentPlan(prompt: string): Promise<AgentDecision> {
       // names that are clearly historical polities (empires, dynasties...).
       const polityRe = /empire|dynasty|kingdom|caliphate|khanate|sultanate|confederacy|republic/i;
       const countryRe =
-        /\b(afghanistan|albania|algeria|argentina|armenia|australia|austria|azerbaijan|bangladesh|belgium|benin|bolivia|brazil|bulgaria|cameroon|canada|chad|chile|china|colombia|cuba|czechia|denmark|ecuador|egypt|ethiopia|finland|france|georgia|germany|ghana|greece|guatemala|guinea|haiti|honduras|hungary|india|indonesia|iran|iraq|ireland|israel|italy|japan|jordan|kazakhstan|kenya|kuwait|lebanon|libya|malaysia|mali|mexico|mongolia|morocco|mozambique|myanmar|nepal|netherlands|nicaragua|niger|nigeria|norway|oman|pakistan|paraguay|peru|philippines|poland|portugal|qatar|romania|russia|rwanda|saudi arabia|senegal|serbia|somalia|south africa|south korea|spain|sudan|sweden|switzerland|syria|taiwan|tanzania|thailand|togo|tunisia|turkey|uganda|ukraine|united arab emirates|united kingdom|united states|uruguay|uzbekistan|venezuela|vietnam|yemen|zambia|zimbabwe)\b/;
+        /\b(afghanistan|albania|algeria|argentina|armenia|australia|austria|azerbaijan|bangladesh|belgium|benin|bolivia|brazil|bulgaria|cameroon|canada|chad|chile|china|colombia|cuba|czechia|denmark|ecuador|egypt|ethiopia|finland|france|georgia|germany|ghana|greece|guatemala|guinea|haiti|honduras|hungary|india|indonesia|iran|iraq|ireland|israel|italy|japan|jordan|kazakhstan|kenya|kuwait|libya|malaysia|mali|mexico|mongolia|morocco|mozambique|myanmar|nepal|netherlands|nicaragua|niger|nigeria|norway|oman|pakistan|paraguay|peru|philippines|poland|portugal|qatar|romania|russia|rwanda|saudi arabia|senegal|serbia|somalia|south africa|south korea|spain|sudan|sweden|switzerland|syria|taiwan|tanzania|thailand|togo|tunisia|turkey|uganda|ukraine|united arab emirates|united kingdom|united states|uruguay|uzbekistan|venezuela|vietnam|yemen|zambia|zimbabwe)\b/;
       const distinctNames = [...new Set(table.rows.slice(0, 60).map((r) => String(r[0] ?? '')))].filter(
         (n) => n && !polityRe.test(n),
       );
       const countryHits = distinctNames.filter((n) => countryRe.test(n.toLowerCase()));
-      if (countryHits.length >= 3) decision.entityKind = 'country';
+      if (countryHits.length >= 5 && decision.entityKind === 'custom') {
+        decision.entityKind = 'country';
+        notes.push(`direct-URL mode: entityKind -> country (${countryHits.length} country names)`);
+      }
       return decision;
     }
-    notes.push('no direct URL yielded a table; falling back to source search');
+    notes.push('plain direct URLs yielded no usable table; trying date-templated URLs');
   }
 
+  // Date-templated URLs (e.g. https://tranco-list.eu/api/lists/date/YYYYMMDD)
+  // expand to one snapshot per plan year. Try each in order (user's first)
+  // until one yields a usable table.
+  if (templateUrls.length > 0) {
+    if (
+      ingestFrom !== undefined &&
+      ingestTo !== undefined &&
+      ingestTo >= ingestFrom &&
+      ingestTo - ingestFrom <= 60
+    ) {
+      let templatedTable = null;
+      for (const templateUrl of templateUrls) {
+        const { table, notes: templateNotes } = await ingestDateTemplatedUrl(
+          templateUrl,
+          { from: ingestFrom, to: ingestTo },
+          prompt,
+        );
+        notes.push(...templateNotes);
+        if (table && table.rows.length >= 10) {
+          templatedTable = table;
+          break;
+        }
+      }
+      if (templatedTable) {
+        return {
+          ...deterministicDecide(prompt, directUrls),
+          table: templatedTable,
+          yearFrom: ingestFrom,
+          yearTo: ingestTo,
+          notes: [...notes, 'direct-URL mode: multi-year dataset from date-templated URL'],
+        };
+      }
+      notes.push('date-templated URLs yielded no usable table; falling back to tier sources');
+    } else {
+      notes.push('date-templated URL found but no usable year range in prompt; falling back');
+    }
+  }
   const base = deterministicDecide(prompt, directUrls);
   const aiPartial = await decideWithAi(prompt, directUrls);
   // The deterministic baseline always applies; the AI only refines fields it

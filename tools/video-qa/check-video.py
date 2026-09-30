@@ -7,8 +7,8 @@ video-spec.json) and flags the visual/animation bug classes that have shipped
 to users before:
 
   C1  non-proportional bars   (a min-width clamp made 7% and 1% bars identical)
-  C2  unstable layout         (leader bar width/position must not move when the
-                               spotlight card fades in/out)
+  C2  unstable layout         (leader bar width/position must stay constant --
+                               bars must never resize or shift mid-race)
   C3a non-monotonic tweens    (bars must glide toward next year's values, never
                                jump back toward zero mid-transition)
   C3b overlapping text labels (heuristic: no dark label text may cross a row
@@ -67,13 +67,14 @@ except ImportError:
     sys.exit(2)
 
 # ------------------------------------------------- renderer layout consts --
-RACE_TOP = 112          # bars live between y=112 and y=648
-RACE_BOT = 648
+RACE_TOP = 112          # bars live between y=112 and y=596
+RACE_BOT = 596          # rows never enter the reserved bottom banner zone below
 BAR_X0 = 96             # every bar starts at x=96
-ZONE_X1 = 955           # right edge of the bar scan zone: the EraPanel
-                        # (fact box) starts at x=960 and spotlights the top-2
-                        # entities in their brand colors -- scanning to x=1000
-                        # let panel pixels outvote tiny bars in the bottom rows
+ZONE_X1 = 960           # right edge of the bar scan zone: bars at most reach
+                        # x=956, so 960 keeps logos + value labels out of the
+                        # bar measurements.
+BAR_X1 = 1180           # end of the label-row boundary strip (right of the
+                        # longest possible value label)
 C3C_X1 = 135            # right edge for the C3c rank-order scan: country
                         # flags sit at the bar end (x~140+) and their colors
                         # can match other entities' brands; the bar's left
@@ -85,7 +86,7 @@ MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
                         # allows the relative tolerance OR this absolute
                         # slack, whichever is larger, so a few-px miss on a
                         # small bar is not mistaken for disproportionality.
-BAR_X1 = 960            # bars/labels must stay left of the spotlight card
+BAR_X1 = 1180            # bars/labels must stay left of the spotlight card
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
 for _bin in ("ffprobe", "ffmpeg"):
@@ -296,8 +297,11 @@ class VideoQA:
             chunk = idxs[b:b + 48]
             sel = "+".join(f"eq(n\\,{i})" for i in chunk)
             out_pat = os.path.join(tmp, f"c{b:04d}-%03d.png")
+            # The renderer composes in a 1280x720 design space and scales to
+            # the output canvas (1920x1080). Analyze the design space so all
+            # geometry constants below hold for any output resolution.
             r = run(["ffmpeg", "-v", "error", "-i", self.video,
-                     "-vf", f"select='{sel}'", "-vsync", "0", out_pat])
+                     "-vf", f"select='{sel}',scale=1280:720", "-vsync", "0", out_pat])
             if r.returncode != 0:
                 sys.stderr.write(
                     f"ERROR: ffmpeg frame extraction failed:\n{r.stderr}\n")
@@ -410,13 +414,6 @@ class VideoQA:
             end = e1  # interior gap (name text / fringe): keep going
         return (BAR_X0 + end + 1) - x0, x0
 
-    def card_present(self, img):
-        """Is the spotlight card visible? Its accent edge is a saturated
-        vertical strip at x~963, y 180..360 (accent = leader's color)."""
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        col = (hsv[180:360, 955:975, 1] > 80).sum(axis=0)
-        return bool(col.max() > 100)
-
     # ---------------------------------------------------------- checks ----
     def add(self, check, detail, **kw):
         v = {"check": check, "detail": detail}
@@ -494,46 +491,30 @@ class VideoQA:
 
     # C2: layout stable across spotlight cycle ------------------------------
     def check_layout_stable(self, samples):
-        # Group leader widths by spotlight-card state: the card must never
-        # change any bar's geometry. Compare both within and across states.
-        by_card = {True: [], False: []}
+        # The leader's value fraction is always 1.0 on a settled frame, so
+        # its bar width must be identical across samples (the race width is
+        # constant by design). Any spread means the layout is resizing bars
+        # mid-race (the old spotlight-card fade bug). No card-state grouping:
+        # the bottom banner zone is reserved, so the card can never touch a
+        # bar by construction.
+        widths = []
         x0s = []
         for screen_idx, tape_idx, scene_id, measured in samples:
             lead = min(measured, key=lambda m: m["rank"])
             if not lead["width"]:
                 continue
-            card = self.card_present(self.img(screen_idx))
-            by_card[card].append((screen_idx, lead["width"]))
+            widths.append(lead["width"])
             x0s.append(lead["x0"])
-        widths = [w for grp in by_card.values() for _, w in grp]
-        both_states = len(by_card[True]) >= 1 and len(by_card[False]) >= 1
-        enough = len(widths) >= 3 or (both_states and len(widths) >= 2)
-        fired = False
-        if enough:
+        if len(widths) >= 3:
             spread = max(widths) - min(widths)
             if spread > 12:
-                fired = True
-                shown = [w for _, w in by_card[True]]
-                hidden = [w for _, w in by_card[False]]
                 self.add(
                     "C2-layout-unstable",
                     f"leader bar width varies {min(widths)}px..{max(widths)}px "
                     f"(spread {spread}px) across sampled frames while its "
                     f"value fraction is 1.0 -- the race width must stay "
-                    f"constant; the spotlight card's fade must not resize "
-                    f"any bar (card shown widths: "
-                    f"{min(shown) if shown else 'n/a'}.."
-                    f"{max(shown) if shown else 'n/a'}px; card hidden: "
-                    f"{min(hidden) if hidden else 'n/a'}.."
-                    f"{max(hidden) if hidden else 'n/a'}px)",
+                    f"constant",
                     widths=widths)
-        if not fired and not both_states and len(widths) >= 2:
-            self.warn(
-                "C2-inconclusive",
-                f"spotlight card was {'shown' if by_card[True] else 'hidden'} "
-                f"in all {len(widths)} sampled frames -- could not observe "
-                f"both card states, layout-vs-card comparison skipped",
-                widths=widths)
         if len(x0s) >= 3:
             spread = max(x0s) - min(x0s)
             if spread > 6:
@@ -797,10 +778,11 @@ def main():
         return 2
 
     info = probe_video(a.video)
-    if info["width"] != 1280 or info["height"] != 720:
+    if info["width"] != 1920 or info["height"] != 1080:
         sys.stderr.write(
-            f"WARNING: expected 1280x720, got "
-            f"{info['width']}x{info['height']} -- layout checks may be off.\n")
+            f"WARNING: expected 1920x1080, got "
+            f"{info['width']}x{info['height']} -- frames will be downscaled "
+            f"to the 1280x720 design space for analysis.\\n")
 
     with open(frames_path) as fh:
         tape = json.load(fh)
