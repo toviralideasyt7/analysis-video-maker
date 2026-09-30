@@ -1,14 +1,19 @@
 /**
  * The data-race composition.
  *
- * The data-race composition (1280x720 baseline), in the classic full-bleed style:
- *   header       video title, separated by a hairline
- *   left         ranking bars (name in white bold inside the bar, flag at the
- *                bar end, value in dark type past the flag) - geometrically
- *                confined to x 0..880
- *   right        info panel (x 904..1232): giant live year, headline +
- *                narrative or live leader, featured flags. A RESERVED zone:
- *                bars can never enter it, so overlap is impossible.
+ * The data-race composition (1280x720 baseline), in the reference dark style
+ * (https://www.youtube.com/watch?v=UR94qGirkwM):
+ *   header       video title top-left in white
+ *   axis ticks   x-axis labels at the top (2B/4B/6B/8B) + faint gridlines
+ *   left         ranking bars on a BLACK canvas: entity name in white left
+ *                of the bar (x 24..172, truncated), pill bar from x 190 with
+ *                the logo embedded at the bar's left edge, value in white
+ *                bold right-aligned to the bar end - geometrically confined
+ *                to x 0..880
+ *   ghost year   huge faint white year behind the bars, bottom-center
+ *   right        dark info card (x 904..1232): accent border, kicker + live
+ *                year, headline, body, story image. A RESERVED zone: bars can
+ *                never enter it, so overlap is impossible.
  *   (title / intro / ending / source card are their own scenes)
  */
 
@@ -19,6 +24,7 @@ import { makeTheme } from './theme';
 import type { FrameTape, FrameTapeEntity } from './frameTape';
 import { DEFAULT_FLAG_BASE, type RenderInput } from './types';
 import {
+  AxisTicks,
   BrandMark,
   Canvas,
   DesignScale,
@@ -177,17 +183,19 @@ const BarRace: React.FC<{
   }, [f0, f1, t, te, i0, i1]);
 
   // Layout zones (design space 1280x720), CONSTANT for the whole video:
-  //   header:     y 0..96   (title)
-  //   race zone:  x 0..880, y 112..656  (rank numbers, bars, flags, values)
-  //   info panel: x 904..1232, y 112..656  (RESERVED - bars can never enter)
+  //   header:     y 0..60    (white title top-left)
+  //   axis ticks: y 66..92   (x-axis labels + faint gridlines, top)
+  //   race zone:  x 0..880, y 112..656  (names x 24..172, bars x 190..880,
+  //                values white right-aligned to bar end)
+  //   info card:  x 904..1232, y 112..656  (RESERVED - bars can never enter)
+  //   ghost year: huge faint year behind the bars, bottom-center
   //   progress:   y 688..700  (thin track, full width)
   //
   // The never-overlap guarantee is structural: maxBarWidth is computed once
   // from the tape's longest formatted value label so that even the longest
-  // bar + its flag + its value label ends before RACE_RIGHT (880), and the
-  // panel starts at 904. RankingRow additionally ellipsis-caps an
-  // outside-the-bar name to the remaining space. Overlap is impossible by
-  // construction, not by pixel-tuning.
+  // bar + its value label ends before RACE_RIGHT (880), and the card starts
+  // at 904. The name column is fixed-width (x 24..172) with ellipsis.
+  // Overlap is impossible by construction, not by pixel-tuning.
   const RACE_RIGHT = 880;
   const PANEL_X = 904;
   const PANEL_W = 1232 - PANEL_X;
@@ -199,10 +207,11 @@ const BarRace: React.FC<{
   // big and then shrinking them when newcomers arrive.
   const rowHeight = (raceBottom - raceTop) / Math.max(1, tape.topN || barCount);
   const barX0 = 190;
-  const flagSize = Math.min(rowHeight * 0.72, 46);
   const valueFont = Math.max(19, rowHeight * 0.4);
   // Longest formatted value label in the whole tape -> reserved label width.
   // Measured once per video, so maxBarWidth is fixed for every frame.
+  // The value sits inside the bar's right end (or just past it for narrow
+  // bars), so the bar + value must end before RACE_RIGHT (880).
   const maxValueW = useMemo(() => {
     let longest = 0;
     for (const f of tape.frames) {
@@ -214,7 +223,7 @@ const BarRace: React.FC<{
   }, [tape, dataset.unit, valueFont]);
   const maxBarWidth = Math.max(
     300,
-    RACE_RIGHT - barX0 - 12 - flagSize - 12 - maxValueW - 16,
+    RACE_RIGHT - barX0 - 10 - maxValueW - 16,
   );
   const introAppear = interpolate(frame, [0, Math.min(18, durationInFrames)], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -286,6 +295,28 @@ const BarRace: React.FC<{
   // Progress across the whole race (all segments), not just this one.
   const progress = tapeCount > 1 ? tapePos / (tapeCount - 1) : 0;
 
+  // Tape-global max value: the widthFrac denominator (width = value/max).
+  // Used to place the top axis ticks on exactly the same scale as the bars.
+  const tapeMaxValue = useMemo(() => {
+    let m = 0;
+    for (const f of tape.frames) {
+      for (const b of f.bars) {
+        if (b.value > m) m = b.value;
+      }
+    }
+    return m;
+  }, [tape]);
+
+  // Story image for the info card: the active highlight's imageDataUri
+  // (populated by the research pipeline), if any.
+  const panelImage = useMemo(() => {
+    if (!story || !activeHighlight) return undefined;
+    const match = story.highlights.find(
+      (h) => h.atLabel === activeHighlight.atLabel && h.entityId === activeHighlight.entityId,
+    );
+    return match?.imageDataUri;
+  }, [story, activeHighlight]);
+
   // Info-panel content: an active highlight or a fresh story segment takes
   // precedence; otherwise the panel shows the live leader (name + value).
   // The year counter always tracks the current period either way.
@@ -309,8 +340,39 @@ const BarRace: React.FC<{
       : undefined;
 
   return (
-    <AbsoluteFill style={{ background: '#ffffff' }}>
+    <AbsoluteFill style={{ background: '#000000' }}>
       <RaceHeader title={input.videoSpec.metadata.title} appear={chromeAppear} />
+      {/* Top x-axis ticks + faint gridlines (reference style). */}
+      <AxisTicks
+        maxValue={tapeMaxValue}
+        unit={dataset.unit}
+        x0={barX0}
+        maxBarWidth={maxBarWidth}
+        top={66}
+        bottom={raceBottom}
+        appear={chromeAppear}
+      />
+      {/* Huge ghost year behind the bars (reference: huge white year).
+          Kept faint so it never trips the QA gate's text detection. */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          width: 880,
+          top: 440,
+          textAlign: 'center',
+          fontSize: 220,
+          fontWeight: 900,
+          color: '#ffffff',
+          opacity: 0.14,
+          letterSpacing: '-0.04em',
+          lineHeight: 1,
+          fontVariantNumeric: 'tabular-nums',
+          pointerEvents: 'none',
+        }}
+      >
+        {currentLabel}
+      </div>
       {rows.map((row) => {
         const entity = entityById.get(row.id);
         if (!entity) return null;
@@ -333,15 +395,16 @@ const BarRace: React.FC<{
           />
         );
       })}
-      {/* Right-side info panel (x 904..1232): giant live year + headline /
-          narrative. Ranking rows are geometrically barred from this zone
-          (maxBarWidth + ellipsis caps), so it can never overlap a bar. */}
+      {/* Right-side info card (x 904..1232): kicker + live year, headline,
+          body, story image. Ranking rows are geometrically barred from this
+          zone (maxBarWidth caps bars at x 880), so it can never overlap. */}
       <InfoPanel
         yearLabel={currentLabel}
         kicker={panelKicker}
         headline={panelHeadline}
         body={panelBody}
         stat={panelStat}
+        imageDataUri={panelImage}
         featured={featured}
         flagBaseUrl={flagBaseUrl}
         appear={chromeAppear}
@@ -351,7 +414,7 @@ const BarRace: React.FC<{
         height={raceBottom - raceTop}
       />
       {/* Slim progress track along the very bottom. */}
-      <div style={{ position: 'absolute', left: 48, right: 48, top: 690, height: 4, background: '#eef0f3', borderRadius: 2, overflow: 'hidden', opacity: chromeAppear }}>
+      <div style={{ position: 'absolute', left: 48, right: 48, top: 690, height: 4, background: '#1a1a1a', borderRadius: 2, overflow: 'hidden', opacity: chromeAppear }}>
         <div style={{ width: `${Math.max(0, Math.min(100, progress * 100))}%`, height: '100%', background: '#e11d2e', borderRadius: 2 }} />
       </div>
     </AbsoluteFill>

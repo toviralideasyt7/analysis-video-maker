@@ -160,14 +160,16 @@ export interface RankingRowProps {
 }
 
 /**
- * One ranking bar in the polished race style:
- * rank number in the left margin, pill-shaped bar with a soft shadow, entity
- * name in white bold LEFT-aligned inside the bar, flag attached to the bar
- * end, value in dark type just past the flag. When the name cannot fit inside
- * even at the minimum readable size it is set outside past the value - it is
- * always rendered exactly once, never dropped. The whole row's rightward
- * extent is capped at raceRight (ellipsis on the outside name) so rows can
- * never cross into the reserved info-panel zone.
+ * One ranking bar in the reference dark style
+ * (https://www.youtube.com/watch?v=UR94qGirkwM):
+ * entity name in WHITE, left of the bar in a fixed name column (x 24..172,
+ * truncated with ellipsis); pill-shaped brand-colored bar starting at x0
+ * (190) with the entity logo embedded at the bar's LEFT edge; value in
+ * WHITE bold, right-aligned to the bar's right end (inside the bar, or just
+ * past the end when the bar is too narrow to hold it). The leader row gets
+ * a "!" badge. Geometry is capped so rows can never cross raceRight (880):
+ * the name column is fixed-width, and maxBarWidth (computed by the parent
+ * from the tape's longest value label) bounds the bar + outside value.
  */
 export const RankingRow: React.FC<RankingRowProps> = ({
   entity,
@@ -184,36 +186,23 @@ export const RankingRow: React.FC<RankingRowProps> = ({
   appear,
   flagBaseUrl,
 }) => {
-  const barHeight = rowHeight - 16;
+  // Bar height matches the QA gate's bar_h = min(row_h - 10, 46).
+  const barHeight = Math.min(rowHeight - 10, 46);
   // Bar width is strictly proportional to value: widthFrac is value/maxValue
   // from the frame tape. The minimum is a stub only (4px) so the pill still
-  // renders - a large clamp (this used to be 110px) makes every small bar
-  // identical width and destroys the visual ranking. Names that cannot fit
-  // inside a narrow bar are rendered outside past the value (see below).
+  // renders - a large clamp makes every small bar identical width and
+  // destroys the visual ranking.
   const barW = Math.max(4, widthFrac * maxBarWidth);
-  const baseFont = Math.max(20, rowHeight * 0.44);
-  const flagSize = Math.min(rowHeight * 0.72, 46);
+  const nameFont = Math.max(20, rowHeight * 0.42);
   const valueFont = Math.max(19, rowHeight * 0.4);
   const formattedValue = formatRaceValue(value, unit);
-
-  // Does the name fit inside the bar at a readable size? Estimate width with
-  // a 0.58 average glyph ratio for bold type.
-  const MIN_INSIDE_FONT = 20;
-  const estimateWidth = (fontSize: number) => entity.name.length * fontSize * 0.58;
-  const insideAvailable = barW - 44; // 24px left pad + 20px right pad
-  let insideFont = baseFont;
-  if (estimateWidth(baseFont) > insideAvailable) {
-    insideFont = (insideAvailable / Math.max(1, entity.name.length)) * 1.72;
-  }
-  const nameFitsInside = insideFont >= MIN_INSIDE_FONT;
-  const nameFont = nameFitsInside ? Math.min(baseFont, insideFont) : baseFont;
-  const rankLabel = String(Math.max(1, Math.round(rank)));
-  // Rightward extent so far: bar + flag + value. The outside name (when used)
-  // is ellipsis-capped to whatever space remains before raceRight, so the
-  // row can never cross into the reserved info-panel zone by construction.
+  const isLeader = Math.round(rank) === 1;
+  // Value sits inside the bar's right end when it fits; otherwise just past
+  // the bar end (still white). Either way the row's rightward extent stays
+  // left of raceRight: maxBarWidth already reserves the longest value label.
   const valueW = formattedValue.length * valueFont * 0.58;
-  const usedX = x0 + barW + 12 + flagSize + 12 + valueW;
-  const outsideNameMaxW = Math.max(40, raceRight - usedX - 14 - 8);
+  const valueFitsInside = barW >= valueW + 56; // logo + padding + value
+  const logoSize = Math.max(24, barHeight - 10);
 
   return (
     <div
@@ -227,25 +216,51 @@ export const RankingRow: React.FC<RankingRowProps> = ({
         transform: `translateY(${(1 - appear) * 14}px)`,
       }}
     >
-      {/* rank number in the left margin */}
+      {/* entity name: white, left of the bar, fixed column x 24..172 */}
       <div
         style={{
           position: 'absolute',
-          left: x0 - 46,
+          left: 24,
           top: 0,
           bottom: 0,
-          width: 36,
+          width: 148,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end',
-          fontSize: Math.max(18, rowHeight * 0.36),
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          color: '#ffffff',
           fontWeight: 800,
-          color: '#9ca3af',
-          fontVariantNumeric: 'tabular-nums',
+          fontSize: nameFont,
+          letterSpacing: '-0.01em',
         }}
       >
-        {rankLabel}
+        {entity.name}
       </div>
+
+      {/* "!" badge on the leader bar */}
+      {isLeader ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: x0 - 36,
+            top: (rowHeight - 26) / 2,
+            width: 26,
+            height: 26,
+            borderRadius: '50%',
+            background: '#e11d2e',
+            color: '#ffffff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 900,
+            fontSize: 17,
+            lineHeight: 1,
+          }}
+        >
+          !
+        </div>
+      ) : null}
 
       {/* bar */}
       <div
@@ -257,33 +272,34 @@ export const RankingRow: React.FC<RankingRowProps> = ({
           width: barW,
           background: entity.color,
           borderRadius: barHeight / 2,
-          boxShadow: '0 4px 16px rgba(17,24,39,0.20), 0 1px 4px rgba(17,24,39,0.14)',
           opacity: held ? 0.55 : 1,
           overflow: 'hidden',
         }}
       >
-        {/* premium gloss: subtle top sheen fading into a soft bottom shade.
-            Kept light on purpose: a heavy white sheen washes the brand
-            colours out and the bars read as pale/pastel. */}
+        {/* logo embedded at the bar's left edge */}
         <div
           style={{
             position: 'absolute',
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 'inherit',
-            background:
-              'linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.06) 42%, rgba(255,255,255,0) 62%, rgba(0,0,0,0.14) 100%)',
-            pointerEvents: 'none',
+            left: 5,
+            top: (barHeight - logoSize) / 2,
+            width: logoSize,
+            height: logoSize,
+            borderRadius: logoSize * 0.24,
+            overflow: 'hidden',
+            background: 'rgba(255,255,255,0.92)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        />
-        {/* name: white bold, left-aligned inside the bar (only when it fits) */}
-        {nameFitsInside ? (
+        >
+          <FlagImage entity={entity} size={logoSize} variant="w80" baseUrl={flagBaseUrl} style={{ borderRadius: logoSize * 0.24 }} />
+        </div>
+        {/* value: white bold, right-aligned to the bar end */}
+        {valueFitsInside ? (
           <div
             style={{
               position: 'absolute',
-              left: 22,
+              right: 14,
               top: 0,
               bottom: 0,
               display: 'flex',
@@ -291,66 +307,36 @@ export const RankingRow: React.FC<RankingRowProps> = ({
               whiteSpace: 'nowrap',
               color: '#ffffff',
               fontWeight: 800,
-              fontSize: nameFont,
-              letterSpacing: '-0.01em',
-              textShadow: '0 1px 3px rgba(0,0,0,0.28)',
-              zIndex: 1,
+              fontSize: valueFont,
+              fontVariantNumeric: 'tabular-nums',
+              textShadow: '0 1px 3px rgba(0,0,0,0.35)',
             }}
           >
-            {entity.name}
+            {formattedValue}
           </div>
         ) : null}
       </div>
 
-      {/* flag + value + (outside name when it can't fit inside), in one row */}
-      <div
-        style={{
-          position: 'absolute',
-          left: x0 + barW + 12,
-          top: 0,
-          bottom: 0,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ marginRight: 12 }}>
-          <FlagImage entity={entity} size={flagSize} variant="w80" invertBadge baseUrl={flagBaseUrl} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.25)' }} />
-        </div>
-
-        {/* value in dark type past the flag */}
+      {/* value just past the bar end when the bar is too narrow to hold it */}
+      {!valueFitsInside ? (
         <div
           style={{
+            position: 'absolute',
+            left: x0 + barW + 10,
+            top: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
             whiteSpace: 'nowrap',
+            color: '#ffffff',
+            fontWeight: 800,
             fontSize: valueFont,
-            fontWeight: 700,
-            color: '#1f2937',
             fontVariantNumeric: 'tabular-nums',
-            marginRight: nameFitsInside ? 0 : 14,
           }}
         >
           {formattedValue}
         </div>
-
-        {/* name outside the bar when too narrow to hold it - always rendered.
-            Ellipsis-capped to the remaining space before raceRight so it can
-            never spill into the info-panel zone. */}
-        {!nameFitsInside ? (
-          <div
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              maxWidth: outsideNameMaxW,
-              color: '#1f2937',
-              fontWeight: 800,
-              fontSize: nameFont,
-              letterSpacing: '-0.01em',
-            }}
-          >
-            {entity.name}
-          </div>
-        ) : null}
-      </div>
+      ) : null}
     </div>
   );
 };
@@ -378,6 +364,94 @@ export function formatNarrativeNumbers(text: string): string {
 }
 
 // ---------------------------------------------------------------------------
+// Top axis ticks + faint gridlines (reference dark style).
+// ---------------------------------------------------------------------------
+
+export interface AxisTicksProps {
+  /** Tape-global max value (the widthFrac denominator: width = value/max). */
+  maxValue: number;
+  unit: string;
+  /** X where bars start (190). */
+  x0: number;
+  /** Pixel width of a full-scale bar. */
+  maxBarWidth: number;
+  /** Y of the tick labels. */
+  top: number;
+  /** Y where the gridlines end (race zone bottom). */
+  bottom: number;
+  appear: number;
+}
+
+/** Nice round tick values in (0, max], e.g. max=8.3B -> [2B, 4B, 6B, 8B]. */
+function niceTickValues(max: number, count = 4): number[] {
+  if (!(max > 0)) return [];
+  const raw = max / count;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  const step = (norm > 5 ? 10 : norm > 2 ? 5 : norm > 1 ? 2 : 1) * mag;
+  const ticks: number[] = [];
+  for (let v = step; v < max * 0.9999; v += step) ticks.push(v);
+  return ticks;
+}
+
+/**
+ * X-axis labels at the TOP of the race zone with faint vertical gridlines,
+ * like the reference (2B/4B/6B/8B). Tick x positions use the same scale as
+ * the bars (x0 + value/maxValue * maxBarWidth) so labels always agree with
+ * bar lengths.
+ */
+export const AxisTicks: React.FC<AxisTicksProps> = ({
+  maxValue,
+  unit,
+  x0,
+  maxBarWidth,
+  top,
+  bottom,
+  appear,
+}) => {
+  const ticks = niceTickValues(maxValue, 4);
+  if (ticks.length === 0) return null;
+  return (
+    <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', opacity: appear, pointerEvents: 'none' }}>
+      {ticks.map((v) => {
+        const x = x0 + (v / maxValue) * maxBarWidth;
+        return (
+          <div key={v}>
+            {/* faint gridline through the race zone */}
+            <div
+              style={{
+                position: 'absolute',
+                left: x,
+                top: top + 26,
+                width: 1,
+                height: Math.max(0, bottom - top - 26),
+                background: 'rgba(255,255,255,0.09)',
+              }}
+            />
+            {/* tick label */}
+            <div
+              style={{
+                position: 'absolute',
+                left: x - 60,
+                top,
+                width: 120,
+                textAlign: 'center',
+                fontSize: 20,
+                fontWeight: 700,
+                color: '#8a8a8a',
+                fontVariantNumeric: 'tabular-nums',
+              }}
+            >
+              {compactNumber(v)}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Right-side info panel (the "never overlap" zone).
 // ---------------------------------------------------------------------------
 
@@ -392,6 +466,8 @@ export interface InfoPanelProps {
   body?: string;
   /** Big stat line, e.g. the leader's formatted value. */
   stat?: string;
+  /** Optional story image (data URI) rendered inside the card. */
+  imageDataUri?: string;
   featured: FrameTapeEntity[];
   flagBaseUrl: string;
   appear: number;
@@ -402,12 +478,12 @@ export interface InfoPanelProps {
 }
 
 /**
- * Right-side info panel. It lives in a RESERVED zone (x 904..1232 in design
- * space) that ranking rows are geometrically barred from entering (see
- * BarRace: maxBarWidth + ellipsis caps), so the panel can never overlap a
- * bar, flag, value or name - by construction, not by pixel-tuning. The year
- * counter always tracks the live period; only the headline/body swap as
- * highlights and story segments come and go.
+ * Right-side info card in the reference dark style: near-black card
+ * (#111111) with a colored accent border, kicker + live year, headline,
+ * body, story image, big stat and featured logos. It lives in a RESERVED
+ * zone (x 904..1232 in design space) that ranking rows are geometrically
+ * barred from entering (maxBarWidth caps bars at x 880), so the panel can
+ * never overlap a bar, value or name - by construction, not by pixel-tuning.
  */
 export const InfoPanel: React.FC<InfoPanelProps> = ({
   yearLabel,
@@ -415,6 +491,7 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
   headline,
   body,
   stat,
+  imageDataUri,
   featured,
   flagBaseUrl,
   appear,
@@ -432,12 +509,13 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
         top: y,
         width,
         height,
-        background: 'linear-gradient(160deg, #ffffff 0%, #f6f7f9 100%)',
-        border: '2px solid #e5e7eb',
-        borderRadius: 22,
-        boxShadow: '0 18px 44px rgba(17,24,39,0.13)',
+        background: '#111111',
+        border: '1px solid rgba(255,255,255,0.14)',
+        borderLeft: `6px solid ${accent}`,
+        borderRadius: 18,
+        boxShadow: '0 18px 44px rgba(0,0,0,0.55)',
         boxSizing: 'border-box',
-        padding: '26px 26px 22px',
+        padding: '24px 24px 20px',
         opacity: appear,
         transform: `translateX(${(1 - appear) * 26}px)`,
         display: 'flex',
@@ -445,32 +523,18 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
         overflow: 'hidden',
       }}
     >
-      {/* giant live year */}
-      <div
-        style={{
-          fontSize: 92,
-          fontWeight: 900,
-          color: '#111827',
-          letterSpacing: '-0.045em',
-          lineHeight: 1,
-          fontVariantNumeric: 'tabular-nums',
-        }}
-      >
-        {yearLabel}
-      </div>
-      <div style={{ marginTop: 14, height: 5, borderRadius: 3, background: accent, width: 64 }} />
-      {/* kicker */}
-      <div style={{ marginTop: 16, fontSize: 14, fontWeight: 800, letterSpacing: '0.30em', color: accent }}>
-        {kicker}
+      {/* kicker + live year */}
+      <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '0.28em', color: accent }}>
+        {kicker} · {yearLabel}
       </div>
       {/* headline */}
       {headline ? (
         <div
           style={{
-            marginTop: 8,
+            marginTop: 10,
             fontSize: 30,
             fontWeight: 800,
-            color: '#111827',
+            color: '#ffffff',
             lineHeight: 1.18,
             letterSpacing: '-0.02em',
             display: '-webkit-box',
@@ -489,10 +553,10 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
             marginTop: 10,
             fontSize: 17,
             fontWeight: 500,
-            color: '#4b5563',
+            color: '#a0a0a0',
             lineHeight: 1.45,
             display: '-webkit-box',
-            WebkitLineClamp: 5,
+            WebkitLineClamp: 4,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
           }}
@@ -500,10 +564,21 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
           {formatNarrativeNumbers(body)}
         </div>
       ) : null}
+      {/* story image */}
+      {imageDataUri ? (
+        <div style={{ marginTop: 14, borderRadius: 12, overflow: 'hidden', flex: '0 1 auto', minHeight: 0 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imageDataUri}
+            alt=""
+            style={{ width: '100%', height: '100%', maxHeight: 220, objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+      ) : null}
       {/* big stat */}
       {stat ? (
         <div style={{ marginTop: 'auto', paddingTop: 12 }}>
-          <div style={{ fontSize: 40, fontWeight: 900, color: '#111827', letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
+          <div style={{ fontSize: 40, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>
             {stat}
           </div>
         </div>
@@ -517,9 +592,8 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
               style={{
                 borderRadius: 12,
                 padding: 3,
-                background: '#ffffff',
-                border: '1px solid #e5e7eb',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.10)',
+                background: 'rgba(255,255,255,0.92)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
               }}
             >
               <FlagImage
@@ -527,7 +601,7 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
                 size={54}
                 variant="w160"
                 baseUrl={flagBaseUrl}
-                style={{ borderRadius: 8, display: 'block', background: '#fff' }}
+                style={{ borderRadius: 8, display: 'block' }}
               />
             </div>
           ))}
@@ -538,30 +612,23 @@ export const InfoPanel: React.FC<InfoPanelProps> = ({
 };
 
 /**
- * The race header: video title on the left, separated from the race by a
- * hairline. The giant current-year counter lives in the right-side info
- * panel. Gives the scene its frame.
+ * The race header: video title top-left in white on the black canvas,
+ * like the reference. The x-axis ticks sit just below it.
  */
 export const RaceHeader: React.FC<{ title: string; appear: number }> = ({ title, appear }) => (
   <div
     style={{
       position: 'absolute',
       left: 0,
-      right: 0,
       top: 0,
-      minHeight: 96,
-      display: 'flex',
-      alignItems: 'center',
-      padding: '12px 48px',
-      background: '#ffffff',
-      borderBottom: '1px solid #e5e7eb',
+      padding: '20px 48px',
       opacity: appear,
     }}
   >
     <div style={{
-      fontSize: 26,
+      fontSize: 30,
       fontWeight: 800,
-      color: '#111827',
+      color: '#ffffff',
       letterSpacing: '-0.01em',
       lineHeight: 1.25,
       maxWidth: 1080,
@@ -578,10 +645,10 @@ export const RaceHeader: React.FC<{ title: string; appear: number }> = ({ title,
 /** Thin progress track along the bottom of the race scene. */
 export const RaceProgress: React.FC<{ progress: number; caption: string; appear: number }> = ({ progress, caption, appear }) => (
   <div style={{ position: 'absolute', left: 48, right: 48, bottom: 26, opacity: appear }}>
-    <div style={{ height: 6, background: '#eef0f3', borderRadius: 3, overflow: 'hidden' }}>
+    <div style={{ height: 6, background: '#1a1a1a', borderRadius: 3, overflow: 'hidden' }}>
       <div style={{ width: `${Math.max(0, Math.min(100, progress * 100))}%`, height: '100%', background: '#e11d2e', borderRadius: 3 }} />
     </div>
-    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 600, color: '#9ca3af' }}>
+    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'space-between', fontSize: 14, fontWeight: 600, color: '#8a8a8a' }}>
       <span>{caption}</span>
       <span>{Math.round(Math.max(0, Math.min(1, progress)) * 100)}%</span>
     </div>
@@ -600,14 +667,14 @@ export interface SpotlightCardProps {
 
 /** Full-scene decade-spotlight card: the race pauses and a key moment is told. */
 export const SpotlightCard: React.FC<SpotlightCardProps> = ({ kicker, yearLabel, headline, body, featured, flagBaseUrl, appear }) => (
-  <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: '#ffffff' }}>
+  <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', background: '#000000' }}>
     <div
       style={{
         width: 880,
-        background: '#ffffff',
-        border: '1px solid #e5e7eb',
+        background: '#111111',
+        border: '1px solid rgba(255,255,255,0.14)',
         borderRadius: 28,
-        boxShadow: '0 24px 64px rgba(17,24,39,0.12)',
+        boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
         padding: '54px 64px 58px',
         opacity: appear,
         transform: `translateY(${(1 - appear) * 24}px)`,
@@ -615,11 +682,11 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({ kicker, yearLabel,
       }}
     >
       <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '0.3em', color: '#e11d2e', marginBottom: 18 }}>{kicker}</div>
-      <div style={{ fontSize: 120, fontWeight: 800, color: '#111827', letterSpacing: '-0.04em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+      <div style={{ fontSize: 120, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.04em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
         {yearLabel}
       </div>
-      <div style={{ marginTop: 22, fontSize: 46, fontWeight: 800, color: '#111827', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{headline}</div>
-      <div style={{ marginTop: 18, fontSize: 25, fontWeight: 500, color: '#5c5c5c', lineHeight: 1.5 }}>{formatNarrativeNumbers(body)}</div>
+      <div style={{ marginTop: 22, fontSize: 46, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{headline}</div>
+      <div style={{ marginTop: 18, fontSize: 25, fontWeight: 500, color: '#a0a0a0', lineHeight: 1.5 }}>{formatNarrativeNumbers(body)}</div>
       {featured.length > 0 ? (
         <div style={{ marginTop: 30, display: 'flex', gap: 16, justifyContent: 'center' }}>
           {featured.slice(0, 3).map((entity) => (
@@ -629,7 +696,7 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({ kicker, yearLabel,
               size={96}
               variant="w160"
               baseUrl={flagBaseUrl}
-              style={{ borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.22)' }}
+              style={{ borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
             />
           ))}
         </div>
@@ -844,9 +911,8 @@ export const SourceCard: React.FC<{ sourcesLine: string; sources: Array<{ url: s
 export const Canvas: React.FC<{ theme: Theme; children: React.ReactNode }> = ({ theme, children }) => (
   <AbsoluteFill
     style={{
-      backgroundColor: theme.background,
+      backgroundColor: '#000000',
       fontFamily: theme.fontFamily,
-      backgroundImage: `radial-gradient(circle at 50% 45%, ${theme.background} 55%, #eef0f3 100%)`,
     }}
   >
     {children}

@@ -1,10 +1,11 @@
 /**
- * Visual identity.
+ * Visual identity — reference-style DARK theme.
  *
- * Deliberately original: a clean white canvas, one accent red, big black
- * headline type and generous spacing. Entity logos are rendered as monogram
- * badges in the entity's own colour, so no third-party artwork is embedded and
- * no copyrighted asset has to be shipped.
+ * Matches the "most popular websites" reference: pure black canvas,
+ * white text, brand-colored bars with logos embedded at the bar's left
+ * edge, values in white bold right-aligned to the bar end, huge white
+ * year bottom-center, and a dark info card on the right with accent
+ * border, headline, body, and image.
  */
 
 export interface Theme {
@@ -19,13 +20,13 @@ export interface Theme {
 }
 
 export const DEFAULT_THEME: Theme = {
-  background: '#ffffff',
-  surface: '#f4f5f7',
-  primaryText: '#111827',
-  secondaryText: '#6b7280',
-  mutedText: '#c8ccd4',
+  background: '#000000',
+  surface: '#111111',
+  primaryText: '#ffffff',
+  secondaryText: '#a0a0a0',
+  mutedText: '#555555',
   accent: '#e11d2e',
-  barTrack: '#eef0f3',
+  barTrack: '#1a1a1a',
   fontFamily: '"Eczar", Georgia, serif',
 };
 

@@ -266,6 +266,9 @@ export interface StoryHighlight {
   headline: string;
   detail: string;
   factBox?: { heading: string; body: string; dateLabel?: string; wordmark?: string };
+  /** Optional data-URI (or URL) for the highlight's story image, shown in the
+   * right-side info card. Populated by the research pipeline when available. */
+  imageDataUri?: string;
 }
 
 export interface Story {
