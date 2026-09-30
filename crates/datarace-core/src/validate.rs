@@ -8,7 +8,7 @@ use crate::model::DatasetInput;
 use crate::rank::rank_dataset;
 use crate::units;
 use serde::Serialize;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -190,6 +190,40 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
     }
     checks.push(check("ranking", d));
 
+    // --- rank-as-value -----------------------------------------------------
+    // If a period's values are exactly the integers 1..N (a permutation),
+    // the extractor grabbed a RANK column, not the magnitude. (Root cause of
+    // the 2026-09-30 richest-person video showing "10"/"9"/"8" as net
+    // worth.) Genuine race data is never exactly 1..N across 5+ entities.
+    let mut d = Vec::new();
+    let mut by_date: HashMap<String, Vec<f64>> = HashMap::new();
+    for o in &dataset.observations {
+        if let Some(v) = o.value {
+            if v.is_finite() {
+                by_date.entry(o.date.clone()).or_default().push(v);
+            }
+        }
+    }
+    for (date, values) in &by_date {
+        if values.len() < 5 {
+            continue;
+        }
+        let mut sorted = values.clone();
+        sorted.sort_by(|a, b| a.partial_cmp(b).unwrap());
+        let is_ranks = sorted
+            .iter()
+            .enumerate()
+            .all(|(i, v)| *v == (i + 1) as f64);
+        if is_ranks {
+            d.push(format!(
+                "period {}: values are exactly 1..{} - a rank column was extracted instead of the magnitude",
+                date,
+                values.len()
+            ));
+        }
+    }
+    checks.push(check("rank-as-value", d));
+
     // --- citation ----------------------------------------------------------
     let mut d = Vec::new();
     let important: Vec<_> = dataset.observations.iter().filter(|o| o.value.is_some()).collect();
@@ -276,5 +310,61 @@ mod tests {
         };
         let r = validate_dataset(&ds, "2026-09-21");
         assert!(r.checks.iter().any(|c| c.name == "temporal" && !c.passed));
+    }
+
+    #[test]
+    fn rank_column_as_values_is_a_violation() {
+        // A period whose values are exactly 1..N means the extractor grabbed
+        // the rank column, not the magnitude (richest-person 2026-09-30).
+        let names = ["A", "B", "C", "D", "E", "F"];
+        let observations: Vec<ObservationInput> = names
+            .iter()
+            .enumerate()
+            .map(|(i, n)| ObservationInput {
+                entity: n.to_string(),
+                date: "2022".into(),
+                value: Some((i + 1) as f64),
+                unit: Some("USD".into()),
+                source: Some("x".into()),
+                source_url: Some("https://example.com".into()),
+                ..Default::default()
+            })
+            .collect();
+        let ds = DatasetInput {
+            unit: Some("USD".into()),
+            observations,
+            ..Default::default()
+        };
+        let r = validate_dataset(&ds, "2026-09-30");
+        let check = r.checks.iter().find(|c| c.name == "rank-as-value").expect("rank-as-value check present");
+        assert!(!check.passed, "rank column must be flagged");
+        assert!(!r.passed);
+    }
+
+    #[test]
+    fn genuine_magnitudes_pass_rank_check() {
+        // Real magnitudes that merely start at 1 must not trip the check.
+        let values = [1.0, 2.5, 3.0, 10.0, 25.0, 100.0];
+        let observations: Vec<ObservationInput> = values
+            .iter()
+            .enumerate()
+            .map(|(i, v)| ObservationInput {
+                entity: format!("E{}", i),
+                date: "2022".into(),
+                value: Some(*v),
+                unit: Some("USD".into()),
+                source: Some("x".into()),
+                source_url: Some("https://example.com".into()),
+                ..Default::default()
+            })
+            .collect();
+        let ds = DatasetInput {
+            unit: Some("USD".into()),
+            observations,
+            ..Default::default()
+        };
+        let r = validate_dataset(&ds, "2026-09-30");
+        let check = r.checks.iter().find(|c| c.name == "rank-as-value").expect("rank-as-value check present");
+        assert!(check.passed, "genuine magnitudes must pass: {:?}", check.details);
     }
 }
