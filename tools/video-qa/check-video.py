@@ -67,14 +67,25 @@ except ImportError:
     sys.exit(2)
 
 # ------------------------------------------------- renderer layout consts --
-RACE_TOP = 112          # bars live between y=112 and y=596
-RACE_BOT = 596          # rows never enter the reserved bottom banner zone below
+# Mirror of renderer/src/DataRace.tsx (1280x720 design space). Layout was
+# redesigned 2026-09-30: the info panel moved to the RIGHT (x 904..1232,
+# RESERVED by construction - no scan may enter it) and the race zone is now
+# x 0..880, y 112..656. The bottom banner / spotlight card at x=960 are gone.
+# Keep these in lockstep with DataRace.tsx: stale geometry here makes the
+# gate measure the wrong pixels and fail good renders (C1 row-band drift
+# from RACE_BOT, C3b panel-text intrusion from BAR_X1 -- run 36750720421).
+RACE_TOP = 112          # bars live between y=112 and y=656
+RACE_BOT = 656          # raceBottom in DataRace.tsx; rows never enter the
+                        # progress track below (y 688..700)
 BAR_X0 = 96             # every bar starts at x=96
-ZONE_X1 = 960           # right edge of the bar scan zone: bars at most reach
-                        # x=956, so 960 keeps logos + value labels out of the
-                        # bar measurements.
-BAR_X1 = 1180           # end of the label-row boundary strip (right of the
-                        # longest possible value label)
+RACE_RIGHT = 880        # right edge of the race zone; the info panel starts
+                        # at x=904 and is RESERVED - bars, flags, value
+                        # labels and name labels all end before 880.
+ZONE_X1 = RACE_RIGHT    # right edge of the bar scan zone: the longest bar +
+                        # flag + value label ends before 880, so the scan
+                        # never reaches panel pixels.
+BAR_X1 = RACE_RIGHT     # end of the label-row boundary strip (right of the
+                        # longest possible value label, left of the panel)
 C3C_X1 = 135            # right edge for the C3c rank-order scan: country
                         # flags sit at the bar end (x~140+) and their colors
                         # can match other entities' brands; the bar's left
@@ -86,7 +97,16 @@ MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
                         # allows the relative tolerance OR this absolute
                         # slack, whichever is larger, so a few-px miss on a
                         # small bar is not mistaken for disproportionality.
-BAR_X1 = 1180            # bars/labels must stay left of the spotlight card
+# NOTE: there is deliberately NO hardcoded max-bar-width constant here.
+# DataRace.tsx computes maxBarWidth per video (data-driven: the longest
+# formatted value label reserves label space), so a stale constant (the old
+# 860) makes any intended-width cap wrong. measure_frame() derives the
+# px-per-widthFrac scale from the leader bar (rank 1, widthFrac == 1.0 by
+# construction: widthFrac = value/maxValue) and passes it in.
+MEASURE_CAP_SLACK_PX = 15  # slack on the intended-width cap below: covers
+                        # pill-edge AA and 1080p->720p resampling (±3px);
+                        # far below the 12px badge gap + ~35px badge glyph,
+                        # so badge absorption always exceeds the cap.
 MARGIN_X0, MARGIN_X1 = 50, 90   # rank-number margin box
 
 for _bin in ("ffprobe", "ffmpeg"):
@@ -352,7 +372,8 @@ class VideoQA:
         full[RACE_TOP:RACE_BOT, BAR_X0:ZONE_X1] = mask
         return full
 
-    def measure_bar(self, img, eid, ymid, row_h):
+    def measure_bar(self, img, eid, ymid, row_h, width_frac=None,
+                    px_per_frac=None):
         """Width (px) of entity eid's bar. Returns (width, x0) or (None, None).
 
         Full-height column profile through the bar's vertical span: for each
@@ -370,6 +391,24 @@ class VideoQA:
         as runs of brand-colored columns: the walk extends across interior
         gaps (name text, fringe specks) and stops at the first clean white
         gap -- the 12px gap before the flag badge.
+
+        Badge-glyph guard: inverted monogram badges carry the brand color
+        in their glyph, and when the glyph hugs the badge's left edge its
+        antialiased fringe can defeat even the middle-of-gap judgment below
+        (120px measured for a 74px bar). The tape carries the renderer's
+        intended width (width_frac), so gap-crossing is additionally capped
+        at the intended bar end (+ slack): interior gaps resume inside the
+        intended span, while the badge glyph starts 12px past it and is
+        never absorbed. runs[0] itself is never capped, so a genuinely
+        over-drawn bar (the min-width-clamp bug class C1 hunts) is still
+        measured truthfully.
+
+        px_per_frac is the leader-derived px scale (widthFrac * px_per_frac
+        = intended px width). The renderer's maxBarWidth is data-driven per
+        video, so no constant can serve here; measure_frame() derives it
+        from the rank-1 bar (widthFrac == 1.0 by construction) measured
+        first. None (leader unmeasurable) disables the cap -- the walk
+        then behaves as if uncapped.
         """
         mask = self._color_mask(img, eid)
         bar_h = row_h - 16
@@ -386,6 +425,12 @@ class VideoQA:
         if i >= 12:
             return None, None  # bar does not start at the left margin
         x0 = BAR_X0 + i
+        # Intended bar end from the tape (renderer: widthFrac * maxBarWidth,
+        # with the px scale derived per video from the leader bar -- see
+        # measure_frame). Caps gap-crossing only -- see the badge-glyph
+        # guard in the docstring.
+        intended_w = ((width_frac * px_per_frac)
+                      if (width_frac and px_per_frac) else None)
         # Runs of brand-colored columns from the bar start. The bar ends
         # at the first clean white gap: the 12px gap before the flag badge
         # (badge pixels are excluded by the zone edge/scan). Interior gaps
@@ -420,6 +465,10 @@ class VideoQA:
             gap_cov = cov[g0:g1].mean() if g1 > g0 else 1.0
             if gap >= 10 and gap_cov <= 0.05:
                 break  # clean white gap: the bar end
+            new_w = (BAR_X0 + e1 + 1) - x0
+            if (intended_w is not None
+                    and new_w > intended_w + MEASURE_CAP_SLACK_PX):
+                break  # would absorb the badge glyph past the intended end
             end = e1  # interior gap (name text / fringe): keep going
         return (BAR_X0 + end + 1) - x0, x0
 
