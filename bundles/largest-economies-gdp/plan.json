@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "topic": "Largest economies by GDP",
+  "metric": "Gross Domestic Product",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Nominal GDP",
+      "description": "Total economic output valued at current market prices in US Dollars",
+      "measurableDefinition": "Gross Domestic Product in current USD",
+      "caveats": [
+        "Affected by exchange rate fluctuations",
+        "Does not account for differences in local price levels"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "GDP PPP",
+      "description": "Total economic output adjusted for differences in purchasing power parity across countries",
+      "measurableDefinition": "Gross Domestic Product based on purchasing power parity in international dollars",
+      "caveats": [
+        "PPP estimates are model-dependent and subject to periodic baseline revisions"
+      ]
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1960",
+    "end": "2025"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "United States",
+    "China",
+    "Japan",
+    "Germany",
+    "India",
+    "United Kingdom",
+    "France",
+    "Brazil",
+    "Italy",
+    "Canada"
+  ],
+  "preferredSources": [
+    "World Bank World Development Indicators",
+    "IMF World Economic Outlook",
+    "United Nations Statistics Division"
+  ],
+  "knownRisks": [
+    "Historical data for certain economies may be incomplete or subject to retrospective revisions prior to 1980",
+    "Changes in national accounting standards over the multi-decade time span"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "title": "Largest economies by GDP",
+  "subtitle": "1960 to 2025",
+  "hook": "Watch how global economic power has shifted across the decades.",
+  "setup": "This data race tracks the changing Gross Domestic Product of the world's leading nations.",
+  "sequence": [
+    {
+      "atLabel": "1960",
+      "text": "Brazil enters the ranking as a top global economy in 1962."
+    },
+    {
+      "atLabel": "1965",
+      "text": "Spain appears on the leaderboard as one of the largest economies."
+    },
+    {
+      "atLabel": "1977",
+      "text": "The Netherlands joins the top economic rankings in 1977."
+    },
+    {
+      "atLabel": "1979",
+      "text": "Mexico enters the top economies list in 1979."
+    },
+    {
+      "atLabel": "1987",
+      "text": "Russia enters the global economic rankings at seventh place in 1987."
+    },
+    {
+      "atLabel": "2000",
+      "text": "The United States economy reaches 10,250,952,000,000 USD."
+    },
+    {
+      "atLabel": "2015",
+      "text": "India makes a dramatic jump to seventh place among the world's largest economies."
+    },
+    {
+      "atLabel": "2024",
+      "text": "The United States economy scales up to a record 29,298,013,000,000 USD."
+    }
+  ],
+  "highlights": [],
+  "ending": "Global economic output has expanded significantly over the decades.",
+  "sourcesLine": "Data: World Bank"
+}
