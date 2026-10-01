@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "POOREST COUNTRIES BY",
+  "subtitle": "GDP PER CAPITA",
+  "entities": [
+    "Ireland",
+    "Luxembourg",
+    "Switzerland"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#ffffff",
+  "accentColor": "#e11d2e"
+}

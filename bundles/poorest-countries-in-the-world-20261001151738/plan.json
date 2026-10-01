@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "topic": "Poorest countries by GDP per capita",
+  "metric": "GDP per capita",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Nominal GDP per capita",
+      "description": "Gross Domestic Product divided by midyear population, expressed in current US dollars without adjusting for differences in cost of living between countries.",
+      "measurableDefinition": "Nominal GDP in current USD divided by total population (USD per person)",
+      "caveats": [
+        "Highly sensitive to exchange rate fluctuations",
+        "Does not reflect local purchasing power or price level differences"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "GDP per capita, PPP",
+      "description": "Gross Domestic Product converted to international dollars using purchasing power parity rates, dividing by population, reflecting differences in local price levels.",
+      "measurableDefinition": "GDP based on purchasing power parity divided by total population (Current international dollars per person)",
+      "caveats": [
+        "PPP conversion factors are complex estimates subject to periodic international benchmark revisions",
+        "Data quality and statistical capacity vary significantly across low-income economies"
+      ]
+    }
+  ],
+  "entityType": "country",
+  "timeRange": {
+    "start": "1960",
+    "end": "2025"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Burundi",
+    "South Sudan",
+    "Central African Republic",
+    "Democratic Republic of the Congo",
+    "Mozambique",
+    "Niger",
+    "Malawi",
+    "Chad",
+    "Liberia",
+    "Madagascar",
+    "Afghanistan",
+    "Sierra Leone",
+    "Somalia",
+    "Yemen"
+  ],
+  "preferredSources": [
+    "World Bank World Development Indicators",
+    "International Monetary Fund World Economic Outlook",
+    "United Nations National Accounts Main Aggregates Database"
+  ],
+  "knownRisks": [
+    "Sparse or missing historical economic data for developing and conflict-affected nations prior to the 1980s or 1990s",
+    "Inconsistent national accounting standards and informal economy measurement challenges",
+    "Country boundary changes and state dissolutions impacting long-term time-series consistency"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10
+}

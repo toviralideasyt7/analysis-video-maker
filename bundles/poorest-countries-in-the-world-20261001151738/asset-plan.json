@@ -1,0 +1,194 @@
+{
+  "flags": [
+    {
+      "entityId": "luxembourg",
+      "type": "flag",
+      "code": "lu"
+    },
+    {
+      "entityId": "switzerland",
+      "type": "flag",
+      "code": "ch"
+    },
+    {
+      "entityId": "norway",
+      "type": "flag",
+      "code": "no"
+    },
+    {
+      "entityId": "qatar",
+      "type": "flag",
+      "code": "qa"
+    },
+    {
+      "entityId": "united-arab-emirates",
+      "type": "flag",
+      "code": "ae"
+    },
+    {
+      "entityId": "united-states",
+      "type": "flag",
+      "code": "us"
+    },
+    {
+      "entityId": "denmark",
+      "type": "flag",
+      "code": "dk"
+    },
+    {
+      "entityId": "australia",
+      "type": "flag",
+      "code": "au"
+    },
+    {
+      "entityId": "iceland",
+      "type": "flag",
+      "code": "is"
+    },
+    {
+      "entityId": "ireland",
+      "type": "flag",
+      "code": "ie"
+    },
+    {
+      "entityId": "sweden",
+      "type": "flag",
+      "code": "se"
+    },
+    {
+      "entityId": "saudi-arabia",
+      "type": "flag",
+      "code": "sa"
+    },
+    {
+      "entityId": "singapore",
+      "type": "flag",
+      "code": "sg"
+    },
+    {
+      "entityId": "kuwait",
+      "type": "flag",
+      "code": "kw"
+    },
+    {
+      "entityId": "new-zealand",
+      "type": "flag",
+      "code": "nz"
+    },
+    {
+      "entityId": "canada",
+      "type": "flag",
+      "code": "ca"
+    },
+    {
+      "entityId": "united-kingdom",
+      "type": "flag",
+      "code": "gb"
+    }
+  ],
+  "logos": [
+    {
+      "entityId": "luxembourg",
+      "type": "logo",
+      "query": "Luxembourg logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "switzerland",
+      "type": "logo",
+      "query": "Switzerland logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "norway",
+      "type": "logo",
+      "query": "Norway logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "qatar",
+      "type": "logo",
+      "query": "Qatar logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "united-arab-emirates",
+      "type": "logo",
+      "query": "United Arab Emirates logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "united-states",
+      "type": "logo",
+      "query": "United States logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "denmark",
+      "type": "logo",
+      "query": "Denmark logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "australia",
+      "type": "logo",
+      "query": "Australia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "iceland",
+      "type": "logo",
+      "query": "Iceland logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "ireland",
+      "type": "logo",
+      "query": "Ireland logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "sweden",
+      "type": "logo",
+      "query": "Sweden logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "saudi-arabia",
+      "type": "logo",
+      "query": "Saudi Arabia logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "singapore",
+      "type": "logo",
+      "query": "Singapore logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "kuwait",
+      "type": "logo",
+      "query": "Kuwait logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "new-zealand",
+      "type": "logo",
+      "query": "New Zealand logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "canada",
+      "type": "logo",
+      "query": "Canada logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "united-kingdom",
+      "type": "logo",
+      "query": "United Kingdom logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

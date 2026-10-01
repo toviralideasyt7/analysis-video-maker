@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "title": "Poorest countries by GDP per capita",
+  "subtitle": "1960 to 2025 GDP per capita ranking",
+  "hook": "Explore the historical trajectory of global economies over six decades.",
+  "setup": "This race visualizes GDP per capita rankings from 1960 to 2025, highlighting shifting economic standings across nations.",
+  "sequence": [
+    {
+      "atLabel": "1960",
+      "text": "Switzerland takes the initial lead in 1960 with a GDP per capita of 36,945.47 USD."
+    },
+    {
+      "atLabel": "1965",
+      "text": "Iceland enters the rankings in 1965 at rank 10 with a value of 19,538.98 USD."
+    },
+    {
+      "atLabel": "1969",
+      "text": "Qatar makes a dramatic entrance in 1969, immediately seizing the top rank with 79,709.48 USD."
+    },
+    {
+      "atLabel": "1973",
+      "text": "The United Arab Emirates captures the lead in 1973, reaching 107,395.10 USD."
+    },
+    {
+      "atLabel": "1986",
+      "text": "Switzerland reclaims the top position in 1986 with a value of 65,532.80 USD."
+    },
+    {
+      "atLabel": "1991",
+      "text": "Luxembourg takes over the lead in 1991, registering 70,783.80 USD."
+    },
+    {
+      "atLabel": "1999",
+      "text": "Ireland appears on the leaderboard in 1999 at rank 9 with 42,599.48 USD."
+    },
+    {
+      "atLabel": "2009",
+      "text": "Singapore joins the rankings in 2009 at rank 10 with a GDP per capita of 48,752.05 USD."
+    }
+  ],
+  "highlights": [
+    {
+      "atLabel": "1960",
+      "entityId": "Switzerland",
+      "headline": "Switzerland Leads",
+      "detail": "Switzerland begins the period in 1960 at the top of the ranking.",
+      "factBox": {
+        "heading": "Top Economy",
+        "body": "Switzerland holds the leading GDP per capita in 1960.",
+        "dateLabel": "1960",
+        "wordmark": "Switzerland"
+      }
+    }
+  ],
+  "ending": "Over six decades, the rankings reflect significant economic shifts among the leading nations.",
+  "sourcesLine": "Data: World Bank"
+}
