@@ -178,6 +178,12 @@ class VideoQA:
         self._imgs = {}
         self._paths = {}
         self._smooth_ranks = None
+        # Rank direction of the tape: "desc" (rank 1 = largest value) or
+        # "asc" (rank 1 = smallest value, e.g. "poorest" topics). Bar widths
+        # are value / max(drawn values), so the fraction-1.0 reference bar
+        # is the rank-1 leader for desc tapes but the rank-N (bottom) row
+        # for asc tapes.
+        self.direction = (tape.get("direction") or "desc").lower()
         self.scenes = self._scene_map()
 
     def row_h(self, n):
@@ -502,18 +508,29 @@ class VideoQA:
         # px-per-widthFrac scale for the badge-glyph cap in measure_bar:
         # the renderer sizes bars as widthFrac * maxBarWidth with a
         # maxBarWidth that is data-driven per video (longest value label),
-        # so it is derived here from the leader bar (rank 1, widthFrac ==
-        # 1.0 by construction: widthFrac = value/maxValue). Rows come in
-        # rank order, so the leader is measured first and the scale is
-        # available for every other row. If the leader is unmeasurable the
-        # scale stays None and the cap is simply disabled for the frame.
+        # so it is derived here from the fraction-1.0 bar (widthFrac == 1.0
+        # by construction: widthFrac = value/maxValue). That is the rank-1
+        # leader on "desc" tapes but the max-rank (bottom) row on "asc"
+        # tapes, where rank 1 = smallest value. The reference is pre-measured
+        # below (wherever it sits in rank order) so the scale is available
+        # for every row. If the reference is unmeasurable the scale stays
+        # None and the cap is simply disabled for the frame.
+        ref_rank = max(r[2] for r in rows) if self.direction == "asc" else 1
+        # Pre-measure the reference bar first (wherever it sits in rank
+        # order) so the badge-glyph cap is available for every row.
         px_per_frac = None
+        ref_k = next(k for k, r in enumerate(rows) if r[2] == ref_rank)
+        ref_eid = rows[ref_k][0]
+        ref_wfrac = rows[ref_k][3]
+        ref_ymid = RACE_TOP + (ref_k + 0.5) * row_h
+        ref_w, _ = self.measure_bar(img, ref_eid, ref_ymid, row_h,
+                                    ref_wfrac, None)
+        if ref_w and ref_wfrac:
+            px_per_frac = ref_w / ref_wfrac
         for k, (eid, value, rank, wfrac) in enumerate(rows):
             ymid = RACE_TOP + (k + 0.5) * row_h
             w, x0 = self.measure_bar(img, eid, ymid, row_h, wfrac,
                                      px_per_frac)
-            if rank == 1 and w and wfrac:
-                px_per_frac = w / wfrac
             out.append({"entity": eid, "value": value, "rank": rank,
                         "width": w, "x0": x0, "ymid": ymid, "row_h": row_h})
         return img, out
@@ -566,26 +583,38 @@ class VideoQA:
 
     # C2: layout stable across spotlight cycle ------------------------------
     def check_layout_stable(self, samples):
-        # The leader's value fraction is always 1.0 on a settled frame, so
-        # its bar width must be identical across samples (the race width is
-        # constant by design). Any spread means the layout is resizing bars
-        # mid-race (the old spotlight-card fade bug). No card-state grouping:
-        # the info panel sits in its reserved right-hand zone (x 904..1232),
-        # so the card can never touch a bar by construction.
+        # The fraction-1.0 bar's width must be identical across samples (the
+        # race width is constant by design). Which row carries fraction 1.0
+        # depends on the tape's rank direction: for "desc" tapes the rank-1
+        # leader (largest value) is full width; for "asc" ("poorest") tapes
+        # widths scale to the Nth value, so the bottom row is full width and
+        # the leader's width legitimately varies as the denominator changes
+        # across frames. Measuring the leader on an asc tape falsely fails
+        # (poorest-countries render 36899760932: 182px..339px spread on a
+        # healthy video). Any spread on the true reference bar means the
+        # layout is resizing bars mid-race (the old spotlight-card fade bug).
+        # No card-state grouping: the info panel sits in its reserved
+        # right-hand zone (x 904..1232), so the card can never touch a bar by
+        # construction.
+        asc = self.direction == "asc"
+        ref_desc = "bottom (max-rank) bar" if asc else "leader bar"
         widths = []
         x0s = []
         for screen_idx, tape_idx, scene_id, measured in samples:
-            lead = min(measured, key=lambda m: m["rank"])
-            if not lead["width"]:
+            if asc:
+                ref = max(measured, key=lambda m: m["rank"])
+            else:
+                ref = min(measured, key=lambda m: m["rank"])
+            if not ref["width"]:
                 continue
-            widths.append(lead["width"])
-            x0s.append(lead["x0"])
+            widths.append(ref["width"])
+            x0s.append(ref["x0"])
         if len(widths) >= 3:
             spread = max(widths) - min(widths)
             if spread > 12:
                 self.add(
                     "C2-layout-unstable",
-                    f"leader bar width varies {min(widths)}px..{max(widths)}px "
+                    f"{ref_desc} width varies {min(widths)}px..{max(widths)}px "
                     f"(spread {spread}px) across sampled frames while its "
                     f"value fraction is 1.0 -- the race width must stay "
                     f"constant",
@@ -595,7 +624,7 @@ class VideoQA:
             if spread > 6:
                 self.add(
                     "C2-bar-shifted",
-                    f"leader bar left edge moves {min(x0s)}..{max(x0s)} "
+                    f"{ref_desc} left edge moves {min(x0s)}..{max(x0s)} "
                     f"(spread {spread}px); bars must stay pinned at "
                     f"x={BAR_X0}",
                     x0s=x0s)

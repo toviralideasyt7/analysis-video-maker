@@ -61,6 +61,8 @@ struct Entity {
 struct Tape {
     frames: Vec<TapeFrame>,
     entities: Vec<Entity>,
+    #[serde(default)]
+    direction: Option<String>,
     #[serde(rename = "topN", default)]
     top_n: Option<usize>,
     #[serde(rename = "framesPerTransition", default)]
@@ -662,20 +664,30 @@ impl VideoQA {
     }
 
     /// C2: layout stable across spotlight cycle.
+    /// The fraction-1.0 reference bar (rank-1 leader on "desc" tapes, the
+    /// max-rank row on "asc" tapes, where rank 1 = smallest value) must keep
+    /// a constant width across samples.
     fn check_layout_stable(&mut self, samples: &[(u64, usize, String, Vec<Measured>)]) -> Result<()> {
         let mut by_card: HashMap<bool, Vec<(u64, u32)>> = HashMap::new();
         by_card.insert(true, Vec::new());
         by_card.insert(false, Vec::new());
         let mut x0s: Vec<u32> = Vec::new();
+        let asc = self.tape.direction.as_deref().unwrap_or("desc") == "asc";
+        let ref_desc = if asc { "bottom (max-rank) bar" } else { "leader bar" };
 
         for (screen_idx, _tape_idx, _scene_id, measured) in samples {
-            let lead = measured.iter().min_by_key(|m| m.rank).unwrap();
-            if lead.width.is_none() {
+            let reference = if asc {
+                measured.iter().max_by_key(|m| m.rank)
+            } else {
+                measured.iter().min_by_key(|m| m.rank)
+            }
+            .unwrap();
+            if reference.width.is_none() {
                 continue;
             }
             let card = self.card_present(*screen_idx)?;
-            by_card.get_mut(&card).unwrap().push((*screen_idx, lead.width.unwrap()));
-            if let Some(x0) = lead.x0 {
+            by_card.get_mut(&card).unwrap().push((*screen_idx, reference.width.unwrap()));
+            if let Some(x0) = reference.x0 {
                 x0s.push(x0);
             }
         }
@@ -696,8 +708,8 @@ impl VideoQA {
                 self.add_violation(
                     "C2-layout-unstable",
                     format!(
-                        "leader bar width varies {}px..{}px (spread {}px) across sampled frames while its value fraction is 1.0 -- the race width must stay constant",
-                        min_w, max_w, spread
+                        "{} width varies {}px..{}px (spread {}px) across sampled frames while its value fraction is 1.0 -- the race width must stay constant",
+                        ref_desc, min_w, max_w, spread
                     ),
                     None, None, None,
                 );
@@ -723,8 +735,8 @@ impl VideoQA {
                 self.add_violation(
                     "C2-bar-shifted",
                     format!(
-                        "leader bar left edge moves {}..{} (spread {}px); bars must stay pinned at x={}",
-                        min_x, max_x, spread, BAR_X0
+                        "{} left edge moves {}..{} (spread {}px); bars must stay pinned at x={}",
+                        ref_desc, min_x, max_x, spread, BAR_X0
                     ),
                     None, None, None,
                 );
