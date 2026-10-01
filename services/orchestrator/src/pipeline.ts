@@ -1379,14 +1379,14 @@ function buildDecadeSpotlights(tape: FrameTape, dataset: Dataset): DecadeSpot[] 
 }
 
 export const DEFAULT_THEME = {
-  background: '#ffffff',
-  surface: '#f4f5f7',
-  primaryText: '#111827',
-  secondaryText: '#6b7280',
-  mutedText: '#c8ccd4',
+  background: '#000000',
+  surface: '#111111',
+  primaryText: '#ffffff',
+  secondaryText: '#a0a0a0',
+  mutedText: '#555555',
   accent: '#e11d2e',
-  barTrack: '#eef0f3',
-  fontFamily: 'Inter',
+  barTrack: '#1a1a1a',
+  fontFamily: '"Eczar", Georgia, serif',
 } as const;
 
 /**

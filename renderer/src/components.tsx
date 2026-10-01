@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { AbsoluteFill, Img, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { DEFAULT_FLAG_BASE } from './types';
 import { compactNumber, formatValue, type Theme } from './theme';
 import type { FrameTapeBar, FrameTapeEntity } from './frameTape';
@@ -16,35 +16,12 @@ import type { FrameTapeBar, FrameTapeEntity } from './frameTape';
 // Identity
 // ---------------------------------------------------------------------------
 
-/** The small circular accent mark in the top-left corner. */
-export const BrandMark: React.FC<{ theme: Theme; size?: number }> = ({ theme, size = 54 }) => (
-  <div
-    style={{
-      width: size,
-      height: size,
-      borderRadius: '50%',
-      background: theme.accent,
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-      gap: size * 0.11,
-      paddingBottom: size * 0.26,
-      boxSizing: 'border-box',
-      boxShadow: '0 6px 18px rgba(17,24,39,0.18)',
-    }}
-  >
-    {[0.5, 0.85, 0.65].map((factor, index) => (
-      <div
-        key={index}
-        style={{
-          width: size * 0.11,
-          height: size * 0.52 * factor,
-          background: '#ffffff',
-          borderRadius: size * 0.05,
-        }}
-      />
-    ))}
-  </div>
+/** Channel logo — the user-supplied globe mark, served from renderer/public. */
+export const ChannelLogo: React.FC<{ size?: number; style?: React.CSSProperties }> = ({ size = 54, style }) => (
+  <Img
+    src={staticFile('channel-logo.png')}
+    style={{ width: size, height: size, objectFit: 'contain', ...style }}
+  />
 );
 
 /** Country flag chip with a text fallback when the asset cannot be loaded. */

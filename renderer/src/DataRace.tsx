@@ -25,7 +25,7 @@ import type { FrameTape, FrameTapeEntity } from './frameTape';
 import { DEFAULT_FLAG_BASE, type RenderInput } from './types';
 import {
   AxisTicks,
-  BrandMark,
+  ChannelLogo,
   Canvas,
   DesignScale,
   InfoPanel,
@@ -352,27 +352,6 @@ const BarRace: React.FC<{
         bottom={raceBottom}
         appear={chromeAppear}
       />
-      {/* Huge ghost year behind the bars (reference: huge white year).
-          Kept faint so it never trips the QA gate's text detection. */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          width: 880,
-          top: 440,
-          textAlign: 'center',
-          fontSize: 220,
-          fontWeight: 900,
-          color: '#ffffff',
-          opacity: 0.14,
-          letterSpacing: '-0.04em',
-          lineHeight: 1,
-          fontVariantNumeric: 'tabular-nums',
-          pointerEvents: 'none',
-        }}
-      >
-        {currentLabel}
-      </div>
       {rows.map((row) => {
         const entity = entityById.get(row.id);
         if (!entity) return null;
@@ -460,7 +439,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
       {titleScene ? (
         <Sequence from={titleScene.from} durationInFrames={titleScene.durationInFrames}>
           <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', padding: '0 90px' }}>
-            <BrandMark theme={theme} size={74} />
+            <ChannelLogo size={74} />
             <div style={{ marginTop: 30, width: '100%' }}>
               <TitleBlock
                 title={spec.metadata.title}
@@ -493,7 +472,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
                   fontSize: 24,
                   fontWeight: 800,
                   letterSpacing: '0.18em',
-                  color: theme.background,
+                  color: '#ffffff',
                   background: theme.accent,
                   padding: '12px 30px',
                   borderRadius: 999,
@@ -559,7 +538,7 @@ export const DataRace: React.FC<{ input: RenderInput }> = ({ input }) => {
                   fontSize: 22,
                   fontWeight: 800,
                   letterSpacing: '0.18em',
-                  color: theme.background,
+                  color: '#ffffff',
                   background: theme.accent,
                   padding: '11px 28px',
                   borderRadius: 999,

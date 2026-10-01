@@ -4,7 +4,7 @@ import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
 import { makeTheme } from './theme';
 import type { RenderInput } from './types';
-import { BrandMark, DesignScale, FlagImage, LogoBadge } from './components';
+import { ChannelLogo, DesignScale, FlagImage, LogoBadge } from './components';
 
 export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
   const frame = useCurrentFrame();
@@ -18,7 +18,7 @@ export const Thumbnail: React.FC<{ input: RenderInput }> = ({ input }) => {
     <AbsoluteFill style={{ background: spec?.backgroundColor ?? theme.background, fontFamily: theme.fontFamily }}>
       <DesignScale>
       <div style={{ position: 'absolute', left: 46, top: 40 }}>
-        <BrandMark theme={theme} />
+        <ChannelLogo size={54} />
       </div>
       <div style={{ position: 'absolute', left: 46, top: 150, width: 900, opacity: appear }}>
         <div style={{ fontSize: 92, fontWeight: 900, color: theme.primaryText, letterSpacing: '-0.04em', lineHeight: 0.98 }}>
