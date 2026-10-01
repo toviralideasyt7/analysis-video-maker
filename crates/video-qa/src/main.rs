@@ -40,6 +40,8 @@ struct Bar {
     entity_id: String,
     value: f64,
     rank: i64,
+    #[serde(default)]
+    width: Option<f64>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -61,8 +63,6 @@ struct Entity {
 struct Tape {
     frames: Vec<TapeFrame>,
     entities: Vec<Entity>,
-    #[serde(default)]
-    direction: Option<String>,
     #[serde(rename = "topN", default)]
     top_n: Option<usize>,
     #[serde(rename = "framesPerTransition", default)]
@@ -545,24 +545,6 @@ impl VideoQA {
         (Some(BAR_X0 + last as u32 + 1 - x0), Some(x0))
     }
 
-    /// Is the spotlight card visible? Saturated vertical strip at x~963.
-    fn card_present(&mut self, screen_idx: u64) -> Result<bool> {
-        let img = self.img(screen_idx)?.clone();
-        let mut max_col = 0;
-        for x in 955..975 {
-            let mut count = 0;
-            for y in 180..360 {
-                let p = img.get_pixel(x, y);
-                let (_, s, _) = rgb_to_hsv(p[0], p[1], p[2]);
-                if s > 80 {
-                    count += 1;
-                }
-            }
-            max_col = max_col.max(count);
-        }
-        Ok(max_col > 100)
-    }
-
     // ---------------------------------------------------------- checks
     fn add_violation(&mut self, check: &str, detail: String, frame: Option<u64>, tape_index: Option<usize>, scene: Option<String>) {
         self.violations.push(Violation {
@@ -664,68 +646,76 @@ impl VideoQA {
     }
 
     /// C2: layout stable across spotlight cycle.
-    /// The fraction-1.0 reference bar (rank-1 leader on "desc" tapes, the
-    /// max-rank row on "asc" tapes, where rank 1 = smallest value) must keep
-    /// a constant width across samples.
+    ///
+    /// The race width (the renderer's data-driven maxBarWidth) must be
+    /// identical across sampled frames. It is estimated per frame as the
+    /// median of measured_px / tape widthFrac over the frame's rows, then
+    /// required constant across frames. The median rejects rows caught
+    /// mid entry/exit animation, whose measured width is far below the
+    /// tape expectation. Anchoring on a single reference row (rank-1
+    /// leader on "desc" tapes, bottom row on "asc" tapes) false-fails on
+    /// healthy videos: on "asc" ("poorest") tapes the bottom row churns
+    /// constantly, so a mid-entry sample (37px for a 586px bar,
+    /// poorest-countries render 36899760932) trips a raw min/max spread.
+    /// Mirrors the Python gate (tools/video-qa/check-video.py).
     fn check_layout_stable(&mut self, samples: &[(u64, usize, String, Vec<Measured>)]) -> Result<()> {
-        let mut by_card: HashMap<bool, Vec<(u64, u32)>> = HashMap::new();
-        by_card.insert(true, Vec::new());
-        by_card.insert(false, Vec::new());
+        let mut scales: Vec<f64> = Vec::new();
         let mut x0s: Vec<u32> = Vec::new();
-        let asc = self.tape.direction.as_deref().unwrap_or("desc") == "asc";
-        let ref_desc = if asc { "bottom (max-rank) bar" } else { "leader bar" };
 
-        for (screen_idx, _tape_idx, _scene_id, measured) in samples {
-            let reference = if asc {
-                measured.iter().max_by_key(|m| m.rank)
-            } else {
-                measured.iter().min_by_key(|m| m.rank)
+        for (_screen_idx, tape_idx, _scene_id, measured) in samples {
+            let frame = match self.tape.frames.get(*tape_idx) {
+                Some(f) => f,
+                None => continue,
+            };
+            // (px_per_frac, widthFrac) per measurable row.
+            let mut ratios: Vec<(f64, f64)> = Vec::new();
+            for m in measured {
+                let wf = frame
+                    .bars
+                    .iter()
+                    .find(|b| b.entity_id == m.entity)
+                    .and_then(|b| b.width);
+                if let (Some(w), Some(frac)) = (m.width, wf) {
+                    if frac > 0.0 {
+                        ratios.push((w as f64 / frac, frac));
+                    }
+                }
             }
-            .unwrap();
-            if reference.width.is_none() {
-                continue;
+            // Tiny bars carry too much pixel-measurement noise; prefer
+            // rows with widthFrac >= 0.2, falling back to all rows.
+            let mut cands: Vec<f64> = ratios
+                .iter()
+                .filter(|(_, wf)| *wf >= 0.2)
+                .map(|(r, _)| *r)
+                .collect();
+            if cands.len() < 3 {
+                cands = ratios.iter().map(|(r, _)| *r).collect();
             }
-            let card = self.card_present(*screen_idx)?;
-            by_card.get_mut(&card).unwrap().push((*screen_idx, reference.width.unwrap()));
-            if let Some(x0) = reference.x0 {
-                x0s.push(x0);
+            if cands.len() >= 3 {
+                cands.sort_by(|a, b| a.partial_cmp(b).unwrap());
+                scales.push(cands[cands.len() / 2]);
+            }
+            let mut edges: Vec<u32> = measured.iter().filter_map(|m| m.x0).collect();
+            if edges.len() >= 3 {
+                edges.sort_unstable();
+                x0s.push(edges[edges.len() / 2]);
             }
         }
 
-        let widths: Vec<u32> = by_card.values().flat_map(|v| v.iter().map(|(_, w)| *w)).collect();
-        let both_states = !by_card[&true].is_empty() && !by_card[&false].is_empty();
-        let enough = widths.len() >= 3 || (both_states && widths.len() >= 2);
-        let mut fired = false;
-
-        if enough {
-            let min_w = *widths.iter().min().unwrap();
-            let max_w = *widths.iter().max().unwrap();
-            let spread = max_w - min_w;
-            if spread > 12 {
-                fired = true;
-                let shown: Vec<u32> = by_card[&true].iter().map(|(_, w)| *w).collect();
-                let hidden: Vec<u32> = by_card[&false].iter().map(|(_, w)| *w).collect();
+        if scales.len() >= 3 {
+            let min_s = scales.iter().cloned().fold(f64::INFINITY, f64::min);
+            let max_s = scales.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+            let spread = max_s - min_s;
+            if spread > 12.0 {
                 self.add_violation(
                     "C2-layout-unstable",
                     format!(
-                        "{} width varies {}px..{}px (spread {}px) across sampled frames while its value fraction is 1.0 -- the race width must stay constant",
-                        ref_desc, min_w, max_w, spread
+                        "race width (median px-per-widthFrac) varies {:.0}px..{:.0}px (spread {:.0}px) across sampled frames -- the race width must stay constant",
+                        min_s, max_s, spread
                     ),
                     None, None, None,
                 );
-                let _ = (shown, hidden);
             }
-        }
-        if !fired && !both_states && widths.len() >= 2 {
-            let state = if !by_card[&true].is_empty() { "shown" } else { "hidden" };
-            self.add_warning(
-                "C2-inconclusive",
-                format!(
-                    "spotlight card was {} in all {} sampled frames -- could not observe both card states, layout-vs-card comparison skipped",
-                    state, widths.len()
-                ),
-                None, None, None,
-            );
         }
         if x0s.len() >= 3 {
             let min_x = *x0s.iter().min().unwrap();
@@ -735,8 +725,8 @@ impl VideoQA {
                 self.add_violation(
                     "C2-bar-shifted",
                     format!(
-                        "{} left edge moves {}..{} (spread {}px); bars must stay pinned at x={}",
-                        ref_desc, min_x, max_x, spread, BAR_X0
+                        "bar left edge moves {}..{} (spread {}px); bars must stay pinned at x={}",
+                        min_x, max_x, spread, BAR_X0
                     ),
                     None, None, None,
                 );

@@ -7,7 +7,7 @@ video-spec.json) and flags the visual/animation bug classes that have shipped
 to users before:
 
   C1  non-proportional bars   (a min-width clamp made 7% and 1% bars identical)
-  C2  unstable layout         (leader bar width/position must stay constant --
+  C2  unstable layout         (race width must stay constant --
                                bars must never resize or shift mid-race)
   C3a non-monotonic tweens    (bars must glide toward next year's values, never
                                jump back toward zero mid-transition)
@@ -103,8 +103,9 @@ MEASURE_SLACK_PX = 10   # bar widths are measured off rendered pixels (rounded
 # DataRace.tsx computes maxBarWidth per video (data-driven: the longest
 # formatted value label reserves label space), so a stale constant (the old
 # 860) makes any intended-width cap wrong. measure_frame() derives the
-# px-per-widthFrac scale from the leader bar (rank 1, widthFrac == 1.0 by
-# construction: widthFrac = value/maxValue) and passes it in.
+# px-per-widthFrac scale per frame as the median of measured/widthFrac
+# over the frame's rows (robust to rows mid entry/exit animation) and
+# passes it in.
 MEASURE_CAP_SLACK_PX = 15  # slack on the intended-width cap below: covers
                         # pill-edge AA and 1080p->720p resampling (±3px);
                         # far below the 12px badge gap + ~35px badge glyph,
@@ -178,12 +179,6 @@ class VideoQA:
         self._imgs = {}
         self._paths = {}
         self._smooth_ranks = None
-        # Rank direction of the tape: "desc" (rank 1 = largest value) or
-        # "asc" (rank 1 = smallest value, e.g. "poorest" topics). Bar widths
-        # are value / max(drawn values), so the fraction-1.0 reference bar
-        # is the rank-1 leader for desc tapes but the rank-N (bottom) row
-        # for asc tapes.
-        self.direction = (tape.get("direction") or "desc").lower()
         self.scenes = self._scene_map()
 
     def row_h(self, n):
@@ -413,12 +408,12 @@ class VideoQA:
         over-drawn bar (the min-width-clamp bug class C1 hunts) is still
         measured truthfully.
 
-        px_per_frac is the leader-derived px scale (widthFrac * px_per_frac
-        = intended px width). The renderer's maxBarWidth is data-driven per
-        video, so no constant can serve here; measure_frame() derives it
-        from the rank-1 bar (widthFrac == 1.0 by construction) measured
-        first. None (leader unmeasurable) disables the cap -- the walk
-        then behaves as if uncapped.
+        px_per_frac is the robust per-frame px scale (median of
+        measured/widthFrac over the frame's rows, derived by
+        measure_frame() in two passes). The renderer's maxBarWidth is
+        data-driven per video, so no constant can serve here. None
+        (no scale derivable) disables the cap -- the walk then behaves
+        as if uncapped.
         """
         mask = self._color_mask(img, eid)
         bar_h = min(row_h - 10, 46)
@@ -436,8 +431,8 @@ class VideoQA:
             return None, None  # bar does not start at the left margin
         x0 = BAR_X0 + i
         # Intended bar end from the tape (renderer: widthFrac * maxBarWidth,
-        # with the px scale derived per video from the leader bar -- see
-        # measure_frame). Caps gap-crossing only -- see the badge-glyph
+        # with the robust per-frame px scale -- see measure_frame).
+        # Caps gap-crossing only -- see the badge-glyph
         # guard in the docstring.
         intended_w = ((width_frac * px_per_frac)
                       if (width_frac and px_per_frac) else None)
@@ -504,35 +499,40 @@ class VideoQA:
         rows = self.frame_rows(tape_idx)
         n = len(rows)
         row_h = self.row_h(n)
-        out = []
         # px-per-widthFrac scale for the badge-glyph cap in measure_bar:
         # the renderer sizes bars as widthFrac * maxBarWidth with a
         # maxBarWidth that is data-driven per video (longest value label),
-        # so it is derived here from the fraction-1.0 bar (widthFrac == 1.0
-        # by construction: widthFrac = value/maxValue). That is the rank-1
-        # leader on "desc" tapes but the max-rank (bottom) row on "asc"
-        # tapes, where rank 1 = smallest value. The reference is pre-measured
-        # below (wherever it sits in rank order) so the scale is available
-        # for every row. If the reference is unmeasurable the scale stays
-        # None and the cap is simply disabled for the frame.
-        ref_rank = max(r[2] for r in rows) if self.direction == "asc" else 1
-        # Pre-measure the reference bar first (wherever it sits in rank
-        # order) so the badge-glyph cap is available for every row.
+        # so it is derived per frame here. Two passes: first measure every
+        # row WITHOUT the cap and take the median of measured/widthFrac
+        # over rows with widthFrac >= 0.2 (tiny bars carry too much pixel
+        # noise; fall back to all rows when fewer than 3 qualify). The
+        # median rejects rows caught mid entry/exit animation, whose width
+        # is far below the tape expectation. Deriving the scale from a
+        # SINGLE reference bar is fragile: on "asc" ("poorest") tapes the
+        # bottom row churns constantly, and a mid-entry reference (37px
+        # for a 586px bar) poisoned the cap for every other row in the
+        # frame (poorest-countries render 36899760932). The second pass
+        # re-measures with the robust cap. If no scale can be derived the
+        # cap stays disabled.
+        ymids = [RACE_TOP + (k + 0.5) * row_h for k in range(n)]
+        raw = [self.measure_bar(img, eid, ymid, row_h, wfrac, None)[0]
+               for (eid, _v, _r, wfrac), ymid in zip(rows, ymids)]
+        ratios = [(w / wf, wf) for w, (_e, _v, _r, wf)
+                  in zip(raw, rows) if w and wf]
+        cands = [r for r, wf in ratios if wf >= 0.2]
+        if len(cands) < 3:
+            cands = [r for r, _wf in ratios]
         px_per_frac = None
-        ref_k = next(k for k, r in enumerate(rows) if r[2] == ref_rank)
-        ref_eid = rows[ref_k][0]
-        ref_wfrac = rows[ref_k][3]
-        ref_ymid = RACE_TOP + (ref_k + 0.5) * row_h
-        ref_w, _ = self.measure_bar(img, ref_eid, ref_ymid, row_h,
-                                    ref_wfrac, None)
-        if ref_w and ref_wfrac:
-            px_per_frac = ref_w / ref_wfrac
+        if cands:
+            cands.sort()
+            px_per_frac = cands[len(cands) // 2]
+        out = []
         for k, (eid, value, rank, wfrac) in enumerate(rows):
-            ymid = RACE_TOP + (k + 0.5) * row_h
-            w, x0 = self.measure_bar(img, eid, ymid, row_h, wfrac,
+            w, x0 = self.measure_bar(img, eid, ymids[k], row_h, wfrac,
                                      px_per_frac)
             out.append({"entity": eid, "value": value, "rank": rank,
-                        "width": w, "x0": x0, "ymid": ymid, "row_h": row_h})
+                        "width": w, "x0": x0, "ymid": ymids[k],
+                        "row_h": row_h})
         return img, out
 
     # C1: bars strictly proportional to values ------------------------------
@@ -583,48 +583,63 @@ class VideoQA:
 
     # C2: layout stable across spotlight cycle ------------------------------
     def check_layout_stable(self, samples):
-        # The fraction-1.0 bar's width must be identical across samples (the
-        # race width is constant by design). Which row carries fraction 1.0
-        # depends on the tape's rank direction: for "desc" tapes the rank-1
-        # leader (largest value) is full width; for "asc" ("poorest") tapes
-        # widths scale to the Nth value, so the bottom row is full width and
-        # the leader's width legitimately varies as the denominator changes
-        # across frames. Measuring the leader on an asc tape falsely fails
-        # (poorest-countries render 36899760932: 182px..339px spread on a
-        # healthy video). Any spread on the true reference bar means the
-        # layout is resizing bars mid-race (the old spotlight-card fade bug).
+        # The race width (the renderer's data-driven maxBarWidth) must be
+        # identical across sampled frames. It is estimated per frame as the
+        # median of measured_px / tape widthFrac over the frame's rows, then
+        # required constant across frames. The median rejects rows caught
+        # mid entry/exit animation, whose measured width is far below the
+        # tape expectation.
+        #
+        # Why not a single reference row: the fraction-1.0 bar is the
+        # rank-1 leader on "desc" tapes but the bottom row on "asc"
+        # ("poorest") tapes, and the bottom row churns constantly -- a
+        # mid-entry sample measures 37px for a 586px bar on a healthy video
+        # (poorest-countries render 36899760932) and a raw min/max spread
+        # false-fails. The median over rows is direction-agnostic and
+        # immune to any single transitioning row. (Rows with widthFrac <
+        # 0.2 are excluded from the median: on long-tail tapes their tiny
+        # bars carry too much pixel-measurement noise; the fallback uses
+        # all rows when fewer than 3 qualify.)
+        #
         # No card-state grouping: the info panel sits in its reserved
-        # right-hand zone (x 904..1232), so the card can never touch a bar by
-        # construction.
-        asc = self.direction == "asc"
-        ref_desc = "bottom (max-rank) bar" if asc else "leader bar"
-        widths = []
+        # right-hand zone (x 904..1232), so the card can never touch a bar
+        # by construction.
+        scales = []
         x0s = []
         for screen_idx, tape_idx, scene_id, measured in samples:
-            if asc:
-                ref = max(measured, key=lambda m: m["rank"])
-            else:
-                ref = min(measured, key=lambda m: m["rank"])
-            if not ref["width"]:
-                continue
-            widths.append(ref["width"])
-            x0s.append(ref["x0"])
-        if len(widths) >= 3:
-            spread = max(widths) - min(widths)
+            wfrac = {eid: wf for eid, _v, _r, wf
+                     in self.frame_rows(tape_idx)}
+            ratios = []
+            for m in measured:
+                wf = wfrac.get(m["entity"])
+                if m["width"] and wf:
+                    ratios.append((m["width"] / wf, wf))
+            cands = [r for r, wf in ratios if wf >= 0.2]
+            if len(cands) < 3:
+                cands = [r for r, _wf in ratios]
+            if len(cands) >= 3:
+                cands.sort()
+                scales.append(cands[len(cands) // 2])
+            edges = [m["x0"] for m in measured if m["x0"] is not None]
+            if len(edges) >= 3:
+                edges.sort()
+                x0s.append(edges[len(edges) // 2])
+        if len(scales) >= 3:
+            spread = max(scales) - min(scales)
             if spread > 12:
                 self.add(
                     "C2-layout-unstable",
-                    f"{ref_desc} width varies {min(widths)}px..{max(widths)}px "
-                    f"(spread {spread}px) across sampled frames while its "
-                    f"value fraction is 1.0 -- the race width must stay "
-                    f"constant",
-                    widths=widths)
+                    f"race width (median px-per-widthFrac) varies "
+                    f"{min(scales):.0f}px..{max(scales):.0f}px "
+                    f"(spread {spread:.0f}px) across sampled frames -- "
+                    f"the race width must stay constant",
+                    scales=scales)
         if len(x0s) >= 3:
             spread = max(x0s) - min(x0s)
             if spread > 6:
                 self.add(
                     "C2-bar-shifted",
-                    f"{ref_desc} left edge moves {min(x0s)}..{max(x0s)} "
+                    f"bar left edge moves {min(x0s)}..{max(x0s)} "
                     f"(spread {spread}px); bars must stay pinned at "
                     f"x={BAR_X0}",
                     x0s=x0s)
