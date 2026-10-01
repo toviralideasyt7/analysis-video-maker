@@ -248,7 +248,7 @@ fn run() -> Result<()> {
             let ds = load_dataset(input)?;
             let top = args.get_usize("top", usize::MAX / 2);
             let mover = args.get_i64("mover", 2);
-            let direction = RankDirection::from_hint(args.get("direction").unwrap_or("desc"));
+            let direction = RankDirection::from_name(args.get("direction").unwrap_or("desc"));
             let (ranking, _) = rank::rank_dataset(&ds, top, mover, direction);
             emit(out.as_deref(), &serde_json::to_value(&ranking)?)?;
         }
@@ -269,7 +269,7 @@ fn run() -> Result<()> {
                 mover_threshold: args.get_i64("mover", 2),
                 policy,
                 max_carry: args.get("max-carry").and_then(|s| s.parse::<usize>().ok()),
-                direction: RankDirection::from_hint(args.get("direction").unwrap_or("desc")),
+                direction: RankDirection::from_name(args.get("direction").unwrap_or("desc")),
             };
             let tape = build_frame_tape(&ds, &opts);
             emit(out.as_deref(), &serde_json::to_value(&tape)?)?;
