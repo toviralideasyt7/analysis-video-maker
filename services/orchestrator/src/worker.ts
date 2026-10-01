@@ -484,6 +484,10 @@ app.post('/api/projects/:id/research', async (c) => {
           fromYear: String(body.fromYear ?? ''),
           toYear: String(body.toYear ?? ''),
           skipAi: body.skipAi ? 'true' : 'false',
+          // Full-auto loop: research -> auto-render -> YouTube upload with
+          // zero manual steps (user decision 2026-09-30). research.yml passes
+          // this through to render-video.yml's upload step.
+          upload_youtube: 'true',
         },
       }),
     }
@@ -594,7 +598,7 @@ app.get('/api/projects/:id/research/status', async (c) => {
   const wantsAutoRender = (project as Record<string, unknown>).autoRender === true;
   let autoRenderDispatched = false;
   if (project.status === 'READY' && wantsAutoRender) {
-    const result = await dispatchRenderWorkflow(c.env, id);
+    const result = await dispatchRenderWorkflow(c.env, id, { uploadYoutube: true });
     if (result.ok) {
       (project as Record<string, unknown>).autoRender = false;
       project.status = 'RENDERING';
@@ -609,7 +613,7 @@ app.get('/api/projects/:id/research/status', async (c) => {
 
 // --- Render: dispatch the GitHub Actions render-video workflow ---
 // Shared by the manual Render button and the agent auto-render below.
-async function dispatchRenderWorkflow(env: Env, id: string): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
+async function dispatchRenderWorkflow(env: Env, id: string, opts?: { uploadYoutube?: boolean }): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
   const owner = env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = env.GITHUB_REPO ?? 'analysis-video-maker';
   const token = env.GITHUB_TOKEN;
@@ -652,6 +656,7 @@ async function dispatchRenderWorkflow(env: Env, id: string): Promise<{ ok: true 
           projectId: id,
           renderScale: '0.5',
           skipAiQa: 'true',
+          upload_youtube: opts?.uploadYoutube ? 'true' : 'false',
         },
       }),
     }
