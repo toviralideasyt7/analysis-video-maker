@@ -327,9 +327,20 @@ jobs:
       - name: Validate the rendered MP4
         run: |
           set -euo pipefail
+          # Expected size is read from the project's video-spec.json canvas,
+          # never hardcoded: renders follow the spec (currently 1920x1080
+          # max-quality), and a stale hardcoded size fails healthy renders.
+          EXPECT_SIZE=$(python3 - <<PY
+          import json
+          spec = json.load(open("projects/${PROJECT_ID}/video-spec.json"))
+          canvas = spec.get("canvas", {})
+          print("%dx%d" % (canvas.get("width", 1920), canvas.get("height", 1080)))
+          PY
+          )
+          echo "expected video size: $EXPECT_SIZE"
           ./target/release/datarace probe \
             --in "projects/${PROJECT_ID}/renders/${PROJECT_ID}-final.mp4" \
-            --expect-size 1280x720 \
+            --expect-size "$EXPECT_SIZE" \
             --out "projects/${PROJECT_ID}/renders/probe.json"
 
       - name: Video QA gate (bars, layout, transitions)
