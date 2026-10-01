@@ -681,7 +681,10 @@ app.post('/api/projects/:id/render', async (c) => {
 
   const owner = c.env.GITHUB_OWNER ?? 'toviralideasyt7';
   const repo = c.env.GITHUB_REPO ?? 'analysis-video-maker';
-  const result = await dispatchRenderWorkflow(c.env, id);
+  // Manual dashboard renders upload to YouTube too (user decision 2026-09-30:
+  // auto-upload ON). The missing flag here is why the "poorest countries"
+  // video rendered "completed" in the dashboard but never reached YouTube.
+  const result = await dispatchRenderWorkflow(c.env, id, { uploadYoutube: true });
   if (!result.ok) return c.json({ error: result.error }, result.status as 409 | 500 | 502);
 
   // Mark project as rendering

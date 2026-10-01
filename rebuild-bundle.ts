@@ -1,6 +1,6 @@
 /** Rebuild a project's frames.json / story.json / video-spec.json from its dataset.json. */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { buildFrameTape, deterministicStory, buildVideoSpec } from './services/orchestrator/src/pipeline';
+import { buildFrameTape, deterministicStory, buildVideoSpec, detectRankDirection } from './services/orchestrator/src/pipeline';
 
 const projectId = process.argv[2];
 if (!projectId) {
@@ -12,8 +12,10 @@ const dir = `services/orchestrator/projects/${projectId}`;
 async function main() {
   const dataset = JSON.parse(readFileSync(`${dir}/dataset.json`, 'utf8'));
   console.log(`[${projectId}] dataset: ${dataset.observations.length} observations`);
+  const direction = detectRankDirection(String(dataset.name ?? projectId));
+  console.log(`[${projectId}] rank direction: ${direction}`);
 
-  const tape = await buildFrameTape(dataset, { topN: 10 });
+  const tape = await buildFrameTape(dataset, { topN: 10, direction });
   console.log(`[${projectId}] tape: ${tape.frames.length} frames, ${tape.periodLabels.length} periods, topN=${tape.topN}`);
   console.log(`[${projectId}] last periods: ${tape.periodLabels.slice(-3).join(', ')}`);
   const lastBars = tape.frames[tape.frames.length - 1]?.bars.slice(0, 5) ?? [];
@@ -26,7 +28,7 @@ async function main() {
   console.log(`[${projectId}] story facts: ${story.sequence.length}`);
   for (const s of story.sequence) console.log(`  - ${s.text}`);
 
-  const spec = buildVideoSpec({ dataset, story, tape });
+  const spec = buildVideoSpec({ dataset, story, tape, options: { rankDirection: direction } });
   console.log(`[${projectId}] spec duration: ${(spec.metadata.durationSeconds / 60).toFixed(1)} min`);
 
   writeFileSync(`${dir}/frames.json`, JSON.stringify(tape));

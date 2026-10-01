@@ -26,6 +26,7 @@ import {
   dataQualityReport,
   datasetToCoreInput,
   deterministicStory,
+  detectRankDirection,
   inferFrequency,
   majorityUnit,
   observedTimeRange,
@@ -117,6 +118,7 @@ export function deterministicPlan(topic: string, options: ResearchOptions = { to
     missingDataPolicy: 'STRICT',
     targetEntityCount: options.entityCount ?? 10,
     generatedBy: { agent: 'deterministic-planner', at: new Date().toISOString() },
+    rankDirection: detectRankDirection(topic),
   } as DataPlan;
 }
 
@@ -928,6 +930,11 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     }
   }
   state.dataPlan = plan;
+  // Rank direction is a deterministic guard, not an AI judgment: stamp it from
+  // the topic words on every plan (AI or deterministic) so a "poorest ..."
+  // topic can never again produce a descending (richest-first) tape.
+  plan.rankDirection = detectRankDirection(plan.topic);
+  state.notes.push(`rank direction: ${plan.rankDirection} (from topic "${plan.topic}")`);
   store.checkpoint(state, 'PLAN_COMPLETE');
 
   // Agent mode: the prompt already decided the entity kind (countries vs
@@ -1431,6 +1438,7 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     tape = await buildFrameTape(tapeDataset, {
       topN: options.topN ?? Math.min(10, Math.max(3, plan.targetEntityCount)),
       framesPerTransition: options.framesPerTransition ?? 30,
+      direction: plan.rankDirection ?? 'desc',
     });
   } catch (error) {
     errors.push(`frame tape: ${error instanceof Error ? error.message : String(error)}`);
@@ -1438,13 +1446,13 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
   state.frameTape = tape;
 
   // --- 7. Story -----------------------------------------------------------
-  const story: Story = options.skipAi ? deterministicStory(dataset, tape) : await safeStory(dataset, tape, ctx);
+  const story: Story = options.skipAi ? deterministicStory(dataset, tape) : await safeStory(dataset, tape, ctx, plan.rankDirection ?? 'desc');
   state.story = story;
   store.checkpoint(state, 'STORY_COMPLETE');
 
   // --- 8. Video spec ------------------------------------------------------
   const { buildVideoSpec, buildThumbnailSpec } = await import('./pipeline');
-  const videoSpec: VideoSpec = buildVideoSpec({ dataset, story, tape });
+  const videoSpec: VideoSpec = buildVideoSpec({ dataset, story, tape, options: { rankDirection: plan.rankDirection ?? 'desc' } });
   const thumbnail: ThumbnailSpec = buildThumbnailSpec({ dataset, story, tape });
   state.videoSpec = videoSpec;
   state.thumbnail = thumbnail;
@@ -1485,10 +1493,10 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
 }
 
 
-async function safeStory(dataset: Dataset, tape: FrameTape, ctx: AgentContext): Promise<Story> {
+async function safeStory(dataset: Dataset, tape: FrameTape, ctx: AgentContext, direction: 'asc' | 'desc' = 'desc'): Promise<Story> {
   try {
     const { draftStory } = await import('./agents');
-    return await draftStory(dataset, tape, ctx);
+    return await draftStory(dataset, tape, ctx, direction);
   } catch (error) {
     logger.warn('story generation failed; using the deterministic story', { error: String(error) });
     return deterministicStory(dataset, tape);

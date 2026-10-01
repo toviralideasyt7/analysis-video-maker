@@ -9,6 +9,7 @@ import {
   canonicalEntityKey,
   datasetStats,
   deterministicStory,
+  detectRankDirection,
   inferFrequency,
   majorityUnit,
   parseScaledNumber,
@@ -430,5 +431,38 @@ describe('video spec', () => {
     const trimmed = trimSparseHead(observations, 10);
     expect(trimmed.trimmedFrom).toBeNull();
     expect(trimmed.observations).toHaveLength(3);
+  });
+});
+describe('detectRankDirection', () => {
+  // The "poorest countries" bug: the topic named the bottom of the
+  // distribution but every ranker hardcoded descending order, shipping a
+  // video of the richest countries. Detection is deterministic — never AI.
+  it('detects ascending for poorest/smallest/lowest topics', () => {
+    expect(detectRankDirection('poorest countries in the world')).toBe('asc');
+    expect(detectRankDirection('Smallest economies by GDP')).toBe('asc');
+    expect(detectRankDirection('countries with the lowest life expectancy')).toBe('asc');
+    expect(detectRankDirection('least visited countries')).toBe('asc');
+    expect(detectRankDirection('cheapest cities to live in')).toBe('asc');
+    expect(detectRankDirection('slowest animals on earth')).toBe('asc');
+    expect(detectRankDirection('bottom 10 stock market crashes')).toBe('asc');
+  });
+
+  it('detects descending for richest/largest/most topics', () => {
+    expect(detectRankDirection('richest people in the world')).toBe('desc');
+    expect(detectRankDirection('largest economies by GDP')).toBe('desc');
+    expect(detectRankDirection('most popular websites')).toBe('desc');
+    expect(detectRankDirection('biggest companies by revenue')).toBe('desc');
+    expect(detectRankDirection('highest mountains')).toBe('desc');
+    expect(detectRankDirection('fastest cars ever made')).toBe('desc');
+  });
+
+  it('defaults to descending for directionless topics', () => {
+    expect(detectRankDirection('world population over time')).toBe('desc');
+    expect(detectRankDirection('olympic medal counts')).toBe('desc');
+  });
+
+  it('prefers the ascending family on mixed topics', () => {
+    // "poorest" is the rarer, more surprising signal — check it first.
+    expect(detectRankDirection('poorest and richest countries compared')).toBe('asc');
   });
 });

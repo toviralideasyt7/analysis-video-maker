@@ -1136,6 +1136,8 @@ export interface FrameTape {
   entities: FrameTapeEntity[];
   frames: FrameTapeFrame[];
   notes: string[];
+  /** Which end of the value distribution the tape covers. Optional for tapes built before direction support. */
+  direction?: 'asc' | 'desc';
 }
 
 export interface FrameOptions {
@@ -1148,6 +1150,36 @@ export interface FrameOptions {
   policy: 'strict' | 'carryForward';
   /** Max trailing periods past an entity's last observation its value is carried. Undefined = unlimited. */
   maxCarryPeriods?: number;
+  /**
+   * Which end of the value distribution the tape covers: 'desc' (default,
+   * rank 1 = largest value) or 'asc' (rank 1 = smallest value, for
+   * "poorest"/"smallest"/"least" topics). The pipeline used to hardcode
+   * descending, so "poorest countries" rendered the richest ones.
+   */
+  direction?: 'asc' | 'desc';
+}
+
+/**
+ * Which end of the value distribution a topic ranks. Detected deterministically
+ * from the topic words — never left to the AI planner — because getting this
+ * wrong ships a video of the *opposite* of what was asked (the "poorest
+ * countries" topic rendered the richest ones: every ranker hardcoded
+ * descending order and nothing in the chain knew the topic wanted the bottom).
+ *
+ * 'asc'  = rank 1 is the SMALLEST value: poorest, smallest, lowest, least,
+ *          cheapest, slowest, shortest, bottom, worst ...
+ * 'desc' = rank 1 is the LARGEST value (default): richest, largest, biggest,
+ *          most, highest, fastest, longest, top, best, greatest ...
+ */
+export function detectRankDirection(topic: string): 'asc' | 'desc' {
+  const t = ` ${topic.toLowerCase()} `;
+  const asc = /\b(poorest|smallest|lowest|least|cheapest|slowest|shortest|bottom|worst|least-populous|smallest-population)\b/;
+  const desc = /\b(richest|largest|biggest|most|highest|fastest|longest|top|best|greatest|most-populous|largest-population)\b/;
+  // Check the "smallest" family first: it is the rarer, more surprising case,
+  // and the one the pipeline historically got wrong.
+  if (asc.test(t)) return 'asc';
+  if (desc.test(t)) return 'desc';
+  return 'desc';
 }
 
 export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
@@ -1158,6 +1190,7 @@ export const DEFAULT_FRAME_OPTIONS: FrameOptions = {
   height: 1080,
   moverThreshold: 2,
   policy: 'carryForward',
+  direction: 'desc',
   // A long-dead entity should not haunt the chart: the trailing carry past
   // the final observation is capped at ~10 years (buildFrameTape sizes it
   // from the dataset's years/period). Gaps within the observed lifespan are
@@ -1216,6 +1249,8 @@ export async function buildFrameTape(dataset: Dataset, options: Partial<FrameOpt
       String(opts.moverThreshold),
       '--policy',
       opts.policy,
+      '--direction',
+      opts.direction ?? 'desc',
       ...(opts.maxCarryPeriods !== undefined ? ['--max-carry', String(opts.maxCarryPeriods)] : []),
     ],
     { timeoutMs: 300_000 },
@@ -1265,6 +1300,8 @@ export interface VideoSpecOptions {
   targetDurationSeconds?: number;
   /** Seconds per decade-spotlight card. Default 14. */
   spotlightSeconds?: number;
+  /** Rank direction of the tape: 'desc' (rank 1 = largest) or 'asc' (rank 1 = smallest). Recorded in metadata. */
+  rankDirection?: 'asc' | 'desc';
 }
 
 /** Format a race value the same way the renderer does (duplicated to avoid a renderer import). */
@@ -1537,6 +1574,9 @@ export function buildVideoSpec(input: { dataset: Dataset; story: Story; tape: Fr
       subtitle: `${dataset.timeRange.start} - ${dataset.timeRange.end}`,
       language: options.language ?? 'en',
       durationSeconds: Number(total.toFixed(2)),
+      // Rank direction, so QA and any consumer can verify the tape matches the
+      // topic's intent ("poorest" must be asc, never desc).
+      rankDirection: options.rankDirection ?? 'desc',
     },
     canvas: { width: tape.width, height: tape.height, fps: tape.fps },
     theme: theme as unknown as VideoSpec['theme'],

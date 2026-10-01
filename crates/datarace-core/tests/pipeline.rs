@@ -53,7 +53,7 @@ fn full_core_pipeline_runs() {
     let ds = dataset_from_fixture();
     assert_eq!(ds.observations.len(), 6);
 
-    let (ranking, _) = rank::rank_dataset(&ds, 10, 2);
+    let (ranking, _) = rank::rank_dataset(&ds, 10, 2, rank::RankDirection::Descending);
     assert_eq!(ranking.periods.len(), 2);
     assert_eq!(ranking.rows.len(), 6);
     assert_eq!(ranking.rows[0].entity, "Nokia");
@@ -81,6 +81,6 @@ fn missing_values_are_never_filled() {
     ds.observations[1].value = None;
     let tape = build_frame_tape(&ds, &FrameOptions { frames_per_transition: 4, ..Default::default() });
     assert!(tape.notes.iter().any(|n| n.contains("no value")));
-    let (ranking, _) = rank::rank_dataset(&ds, 10, 2);
+    let (ranking, _) = rank::rank_dataset(&ds, 10, 2, rank::RankDirection::Descending);
     assert_eq!(ranking.dropped_missing_value, 1);
 }

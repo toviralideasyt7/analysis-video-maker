@@ -27,7 +27,7 @@ const dataset = JSON.parse(readFileSync(join(dir, 'dataset.json'), 'utf8')) as {
   unit?: string;
   observations: Array<{ entity: { name: string }; date: string; value: number | null; unit: string }>;
 };
-const shipped = JSON.parse(readFileSync(join(dir, 'frames.json'), 'utf8')) as { topN: number; framesPerTransition: number };
+const shipped = JSON.parse(readFileSync(join(dir, 'frames.json'), 'utf8')) as { topN: number; framesPerTransition: number; direction?: string };
 
 const coreInput = {
   name: dataset.name,
@@ -47,6 +47,9 @@ const args = [
   '--out', outFile,
   '--top', String(shipped.topN),
   '--frames-per-transition', String(shipped.framesPerTransition),
+  // Recompute with the same rank direction the tape was built with (old tapes
+  // predate the direction field and were all descending).
+  '--direction', shipped.direction ?? 'desc',
 ];
 const result = spawnSync(bin, args, { encoding: 'utf8' });
 if (result.status !== 0) {

@@ -146,7 +146,7 @@ app.patch('/api/projects/:id/dataset', async (c) => {
   });
   state.dataset = updated;
   try {
-    state.frameTape = await buildFrameTape(updated, { topN: state.frameTape?.topN ?? 10 });
+    state.frameTape = await buildFrameTape(updated, { topN: state.frameTape?.topN ?? 10, direction: state.frameTape?.direction ?? 'desc' });
   } catch (error) {
     logger.warn('frame tape rebuild failed after dataset edit', { error: String(error) });
   }
@@ -208,7 +208,7 @@ app.post('/api/projects/:id/revise', async (c) => {
   state.dataset = updated;
   if (plan.storyOverrides?.title) state.story = { ...(state.story as NonNullable<typeof state.story>), title: plan.storyOverrides.title };
   try {
-    state.frameTape = await buildFrameTape(updated, { topN: plan.videoOverrides?.topN ?? state.frameTape?.topN ?? 10 });
+    state.frameTape = await buildFrameTape(updated, { topN: plan.videoOverrides?.topN ?? state.frameTape?.topN ?? 10, direction: state.frameTape?.direction ?? 'desc' });
   } catch (error) {
     logger.warn('frame tape rebuild failed after revision', { error: String(error) });
   }

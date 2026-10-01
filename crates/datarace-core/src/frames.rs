@@ -10,7 +10,7 @@
 
 use crate::entities;
 use crate::model::DatasetInput;
-use crate::rank::rank_dataset;
+use crate::rank::{rank_dataset, RankDirection};
 use serde::Serialize;
 use std::collections::BTreeMap;
 
@@ -80,6 +80,9 @@ pub struct FrameTape {
     pub entities: Vec<EntityMeta>,
     pub frames: Vec<FrameState>,
     pub notes: Vec<String>,
+    /// Which end of the value distribution the tape covers. Recorded so
+    /// verifiers (verify-tape.ts) can recompute with the same direction.
+    pub direction: RankDirection,
 }
 
 /// Distinct, high-contrast palette used when a dataset does not assign colors.
@@ -97,6 +100,12 @@ pub struct FrameOptions {
     pub height: u32,
     pub mover_threshold: i64,
     pub policy: InterpolationPolicy,
+    /// Which end of the value distribution the tape covers: `Descending`
+    /// (default, rank 1 = largest value) or `Ascending` (rank 1 = smallest
+    /// value, for "poorest"/"smallest"/"least" topics). The whole pipeline
+    /// used to hardcode descending, so "poorest countries" rendered the
+    /// richest ones.
+    pub direction: RankDirection,
     /// Max consecutive trailing periods (past the entity's last observation)
     /// an entity's last value is carried across. `None` = unlimited (legacy).
     /// Gaps *within* the observed lifespan are always carried; only the
@@ -116,13 +125,14 @@ impl Default for FrameOptions {
             height: 720,
             mover_threshold: 2,
             policy: InterpolationPolicy::CarryForward,
+            direction: RankDirection::Descending,
             max_carry: None,
         }
     }
 }
 
 pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTape {
-    let (ranking, _) = rank_dataset(dataset, opts.top_n, opts.mover_threshold);
+    let (ranking, _) = rank_dataset(dataset, opts.top_n, opts.mover_threshold, opts.direction);
     let period_labels: Vec<String> = ranking.periods.iter().map(|p| p.label.clone()).collect();
 
     // entity -> period label -> (value, rank)
@@ -228,8 +238,8 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
             .filter_map(|(id, series)| series.get(label).map(|(v, _)| (id, *v)))
             .collect();
         vals.sort_by(|a, b| {
-            b.1.partial_cmp(&a.1)
-                .unwrap_or(std::cmp::Ordering::Equal)
+            opts.direction
+                .cmp_values(a.1, b.1)
                 .then_with(|| a.0.cmp(b.0))
         });
         vals.iter()
@@ -256,6 +266,7 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
             entities: entities_meta,
             frames,
             notes: vec!["no rankable observations: nothing to render".to_string()],
+            direction: opts.direction,
         };
     }
 
@@ -288,8 +299,21 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
                 };
                 vals.push((id.clone(), value, held));
             }
-            vals.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal).then_with(|| a.0.cmp(&b.0)));
-            let max_value = vals.first().map(|v| v.1).unwrap_or(0.0).max(f64::EPSILON);
+            vals.sort_by(|a, b| {
+                opts.direction
+                    .cmp_values(a.1, b.1)
+                    .then_with(|| a.0.cmp(&b.0))
+            });
+            // Bar-width denominator: the largest value among the bars actually
+            // drawn. For descending tapes that is the global max (rank 1); for
+            // ascending ("poorest") tapes it is the Nth value — scaling to the
+            // global max would shrink every poorest-country bar to a sliver.
+            let max_value = vals
+                .iter()
+                .take(opts.top_n)
+                .map(|v| v.1)
+                .fold(f64::MIN, f64::max)
+                .max(f64::EPSILON);
             let mut bars: Vec<BarState> = Vec::new();
             let mut ranks: BTreeMap<String, usize> = BTreeMap::new();
             for (rank_zero, (id, value, held)) in vals.iter().take(opts.top_n).enumerate() {
@@ -381,6 +405,7 @@ pub fn build_frame_tape(dataset: &DatasetInput, opts: &FrameOptions) -> FrameTap
         entities: entities_meta,
         frames,
         notes,
+        direction: opts.direction,
     }
 }
 

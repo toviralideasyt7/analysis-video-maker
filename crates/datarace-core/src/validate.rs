@@ -5,7 +5,7 @@
 use crate::dates::parse_date;
 use crate::entities;
 use crate::model::DatasetInput;
-use crate::rank::rank_dataset;
+use crate::rank::{rank_dataset, RankDirection};
 use crate::units;
 use serde::Serialize;
 use std::collections::{HashMap, HashSet};
@@ -171,8 +171,8 @@ pub fn validate_dataset(dataset: &DatasetInput, max_allowed_date: &str) -> DataQ
 
     // --- ranking reproducibility ------------------------------------------
     let mut d = Vec::new();
-    let (a, _) = rank_dataset(dataset, usize::MAX / 2, 2);
-    let (b, _) = rank_dataset(dataset, usize::MAX / 2, 2);
+    let (a, _) = rank_dataset(dataset, usize::MAX / 2, 2, RankDirection::Descending);
+    let (b, _) = rank_dataset(dataset, usize::MAX / 2, 2, RankDirection::Descending);
     if a.rows.len() != b.rows.len() {
         d.push("ranking is not reproducible across two identical runs".to_string());
     } else {

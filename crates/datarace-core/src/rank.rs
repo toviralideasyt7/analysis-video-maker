@@ -45,6 +45,53 @@ pub struct RankingOutput {
     pub duplicate_cells: usize,
     pub top_n: usize,
     pub mover_threshold: i64,
+    pub direction: RankDirection,
+}
+
+/// Which end of the value distribution a ranking covers.
+///
+/// * `Descending` (default): rank 1 = largest value ("richest", "largest",
+///   "most popular", ...).
+/// * `Ascending`: rank 1 = smallest value ("poorest", "smallest", "least",
+///   ...). The pipeline was blind to this distinction: a "poorest countries"
+///   topic rendered the *richest* countries because every ranker hardcoded
+///   descending order.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+pub enum RankDirection {
+    /// Serializes as "desc" to match the TypeScript `'asc' | 'desc'` union.
+    #[serde(rename = "desc")]
+    Descending,
+    /// Serializes as "asc" to match the TypeScript `'asc' | 'desc'` union.
+    #[serde(rename = "asc")]
+    Ascending,
+}
+
+impl RankDirection {
+    pub fn from_str(s: &str) -> Self {
+        match s.to_ascii_lowercase().as_str() {
+            "asc" | "ascending" | "bottom" => RankDirection::Ascending,
+            _ => RankDirection::Descending,
+        }
+    }
+
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            RankDirection::Descending => "desc",
+            RankDirection::Ascending => "asc",
+        }
+    }
+
+    /// Compare two values so the ranked end of the distribution sorts first
+    /// (rank 1): larger-first for descending, smaller-first for ascending.
+    pub fn cmp_values(&self, a: f64, b: f64) -> std::cmp::Ordering {
+        let ord = a
+            .partial_cmp(&b)
+            .unwrap_or(std::cmp::Ordering::Equal);
+        match self {
+            RankDirection::Descending => ord.reverse(),
+            RankDirection::Ascending => ord,
+        }
+    }
 }
 
 struct CellAcc {
@@ -55,13 +102,16 @@ struct CellAcc {
 
 /// Compute per-period rankings for a dataset.
 ///
-/// * rows are sorted by value (descending) inside each period
+/// * rows are sorted by value inside each period — descending by default,
+///   ascending when `direction` is `RankDirection::Ascending` (rank 1 = the
+///   smallest value, for "poorest"/"smallest"/"least" topics)
 /// * `rank_delta` compares against the previous period the entity appeared in
 /// * `is_mover` is true when |rank_delta| >= `mover_threshold`
 pub fn rank_dataset(
     dataset: &DatasetInput,
     top_n: usize,
     mover_threshold: i64,
+    direction: RankDirection,
 ) -> (RankingOutput, BTreeMap<String, Frequency>) {
     let mut dropped_date = 0usize;
     let mut dropped_value = 0usize;
@@ -89,9 +139,15 @@ pub fn rank_dataset(
         match period.get_mut(&key) {
             Some(existing) => {
                 existing.count += 1;
-                // Keep the maximum value and mark the cell as a duplicate so the
-                // validator can surface it instead of hiding it.
-                if value > existing.value {
+                // Keep the extreme value and mark the cell as a duplicate so the
+                // validator can surface it instead of hiding it. "Extreme" follows
+                // the ranking direction: the maximum for descending rankings, the
+                // minimum for ascending ("poorest") ones.
+                let is_more_extreme = match direction {
+                    RankDirection::Descending => value > existing.value,
+                    RankDirection::Ascending => value < existing.value,
+                };
+                if is_more_extreme {
                     existing.value = value;
                 }
                 existing.status = "DUPLICATE".to_string();
@@ -132,10 +188,11 @@ pub fn rank_dataset(
             continue;
         };
         let mut sorted: Vec<(&String, &CellAcc)> = cells_in_period.iter().collect();
+        // Rank 1 = the extreme end of the ranking direction: largest value for
+        // descending, smallest for ascending ("poorest") topics.
         sorted.sort_by(|a, b| {
-            b.1.value
-                .partial_cmp(&a.1.value)
-                .unwrap_or(std::cmp::Ordering::Equal)
+            direction
+                .cmp_values(a.1.value, b.1.value)
                 .then_with(|| a.0.cmp(b.0))
         });
         for (rank_zero, (entity_id, acc)) in sorted.iter().enumerate() {
@@ -181,10 +238,12 @@ pub fn rank_dataset(
     }
 
     let mut entity_order: Vec<String> = order_score.keys().cloned().collect();
+    // "Most prominent first": the entities that dominate the ranked end of the
+    // distribution — highest totals for descending, lowest for ascending.
     entity_order.sort_by(|a, b| {
-        order_score[b]
-            .partial_cmp(&order_score[a])
-            .unwrap_or(std::cmp::Ordering::Equal)
+        direction
+            .cmp_values(order_score[a], order_score[b])
+            .then_with(|| a.cmp(b))
     });
 
     (
@@ -197,6 +256,7 @@ pub fn rank_dataset(
             duplicate_cells,
             top_n,
             mover_threshold,
+            direction,
         },
         meta.iter().map(|(k, (_, f))| (k.to_string(), *f)).collect(),
     )
@@ -227,11 +287,33 @@ mod tests {
             ],
             ..Default::default()
         };
-        let (out, _) = rank_dataset(&ds, 10, 2);
+        let (out, _) = rank_dataset(&ds, 10, 2, RankDirection::Descending);
         assert_eq!(out.periods.len(), 2);
         assert_eq!(out.rows.iter().filter(|r| r.period_iso == "1991-01-01").count(), 1);
         assert_eq!(out.dropped_missing_value, 1);
         assert_eq!(out.rows[0].rank, 1);
+    }
+
+    #[test]
+    fn ranks_ascending_for_poorest_topics() {
+        // "Poorest countries" must rank the SMALLEST value first — the bug that
+        // rendered the richest countries for a "poorest" topic.
+        let ds = DatasetInput {
+            observations: vec![
+                obs("Switzerland", "1990", Some(36945.0)),
+                obs("Burundi", "1990", Some(180.0)),
+                obs("Malawi", "1990", Some(210.0)),
+            ],
+            ..Default::default()
+        };
+        let (out, _) = rank_dataset(&ds, 10, 2, RankDirection::Ascending);
+        assert_eq!(out.direction, RankDirection::Ascending);
+        let first = out.rows.iter().find(|r| r.rank == 1).unwrap();
+        assert_eq!(first.entity, "Burundi");
+        let last = out.rows.iter().find(|r| r.rank == 3).unwrap();
+        assert_eq!(last.entity, "Switzerland");
+        // entity_order leads with the most prominent (poorest) entity.
+        assert_eq!(out.entity_order[0], "burundi");
     }
 
     #[test]
@@ -245,7 +327,7 @@ mod tests {
             ],
             ..Default::default()
         };
-        let (out, _) = rank_dataset(&ds, 10, 1);
+        let (out, _) = rank_dataset(&ds, 10, 1, RankDirection::Descending);
         let a_2001 = out.rows.iter().find(|r| r.entity == "A" && r.period_label == "2001").unwrap();
         assert_eq!(a_2001.rank, 1);
         assert_eq!(a_2001.rank_delta, Some(1));

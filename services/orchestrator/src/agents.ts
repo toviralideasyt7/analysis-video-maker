@@ -309,17 +309,22 @@ Reply with JSON only:
 // 4. Story Director
 // ---------------------------------------------------------------------------
 
-export async function draftStory(dataset: Dataset, tape: FrameTape, ctx: AgentContext): Promise<Story> {
+export async function draftStory(dataset: Dataset, tape: FrameTape, ctx: AgentContext, direction: 'asc' | 'desc' = 'desc'): Promise<Story> {
   const fallback = deterministicStory(dataset, tape);
   try {
     // The side facts card shows roughly one fact per minute of video — never
     // a per-period "X leads." narration, which the bars already show.
     const factCount = factCountForTape(tape, dataset);
     const events = tapeEvents(tape);
+    const rankMeaning = direction === 'asc'
+      ? 'rank #1 is the SMALLEST value (this video ranks the bottom of the distribution — e.g. the POOREST countries, the smallest economies). The "leader" is the smallest, not the biggest.'
+      : 'rank #1 is the LARGEST value (this video ranks the top of the distribution — e.g. the richest countries, the biggest economies).';
     const facts = {
       topic: dataset.name,
       metric: dataset.metric,
       unit: dataset.unit,
+      rankDirection: direction,
+      rankMeaning,
       periodLabels: tape.periodLabels,
       entities: tape.entities.slice(0, 12).map((e) => e.name),
       leaders: tape.frames
@@ -352,6 +357,12 @@ The video is published on YouTube for a general audience: the hook, setup,
 sequence and ending are viewer-facing copy. NEVER mention pipeline internals —
 no entity counts, no observation counts, no verification counts, no mention of
 publishers, sources or methodology. Describe what the race shows, not how it was built.
+
+Rank direction for this video: ${rankMeaning}
+Write the title, hook, setup, facts and ending to match that direction — for an
+ascending ("poorest"/"smallest") video, "takes the lead" means becoming the
+poorest/smallest, and record values are record LOWS, not highs. Never describe
+the ranked entities as the opposite end (never call the poorest "richest").
 
 The "sequence" array feeds the side facts card shown during the race. Rules:
 - Write EXACTLY ${factCount} facts (about one per minute of video).

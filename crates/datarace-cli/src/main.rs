@@ -6,6 +6,7 @@
 
 use anyhow::{bail, Context, Result};
 use datarace_core::frames::{build_frame_tape, FrameOptions, InterpolationPolicy};
+use datarace_core::rank::RankDirection;
 use datarace_core::model::{DatasetInput, EntityInput};
 use datarace_core::{dates, entities, hash, ingest, probe, rank, units, validate};
 use std::path::PathBuf;
@@ -24,11 +25,13 @@ COMMANDS
             Missing values stay missing (status UNKNOWN).
 
   rank      --in <dataset.json> [--out <file>] [--top N] [--mover N]
+            [--direction asc|desc]
             Reproducible per-period rankings.
 
   frames    --in <dataset.json> [--out <file>] [--top N]
             [--frames-per-transition N] [--fps N] [--width N] [--height N]
             [--policy strict|carryForward] [--mover N] [--max-carry N]
+            [--direction asc|desc]
             Per-frame bar-race tape consumed by the renderer.
 
   validate  --in <dataset.json> [--out <file>] [--max-date YYYY-MM-DD] [--strict]
@@ -245,7 +248,8 @@ fn run() -> Result<()> {
             let ds = load_dataset(input)?;
             let top = args.get_usize("top", usize::MAX / 2);
             let mover = args.get_i64("mover", 2);
-            let (ranking, _) = rank::rank_dataset(&ds, top, mover);
+            let direction = RankDirection::from_str(args.get("direction").unwrap_or("desc"));
+            let (ranking, _) = rank::rank_dataset(&ds, top, mover, direction);
             emit(out.as_deref(), &serde_json::to_value(&ranking)?)?;
         }
         "frames" => {
@@ -265,6 +269,7 @@ fn run() -> Result<()> {
                 mover_threshold: args.get_i64("mover", 2),
                 policy,
                 max_carry: args.get("max-carry").and_then(|s| s.parse::<usize>().ok()),
+                direction: RankDirection::from_str(args.get("direction").unwrap_or("desc")),
             };
             let tape = build_frame_tape(&ds, &opts);
             emit(out.as_deref(), &serde_json::to_value(&tape)?)?;

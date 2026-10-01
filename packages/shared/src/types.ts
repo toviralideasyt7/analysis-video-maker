@@ -89,6 +89,14 @@ export interface DataPlan {
   missingDataPolicy: MissingDataPolicy;
   targetEntityCount: number;
   generatedBy: AgentProvenance;
+  /**
+   * Which end of the value distribution the video ranks: 'desc' (default,
+   * rank 1 = largest value — "richest", "largest", "most popular") or 'asc'
+   * (rank 1 = smallest value — "poorest", "smallest", "least"). Detected
+   * deterministically from the topic so a "poorest countries" video can never
+   * again render the richest countries.
+   */
+  rankDirection?: 'asc' | 'desc';
 }
 
 export interface AgentProvenance {
@@ -320,6 +328,8 @@ export interface VideoSpec {
     subtitle?: string;
     language: string;
     durationSeconds: number;
+    /** Which end of the value distribution the video ranks: 'desc' (rank 1 = largest) or 'asc' (rank 1 = smallest). */
+    rankDirection?: 'asc' | 'desc';
   };
   canvas: { width: number; height: number; fps: number };
   theme: Record<string, string | number>;
