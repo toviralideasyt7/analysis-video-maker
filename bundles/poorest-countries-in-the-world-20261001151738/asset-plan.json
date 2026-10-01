@@ -1,192 +1,203 @@
 {
   "flags": [
     {
-      "entityId": "luxembourg",
+      "entityId": "china",
       "type": "flag",
-      "code": "lu"
+      "code": "cn"
     },
     {
-      "entityId": "switzerland",
+      "entityId": "haiti",
       "type": "flag",
-      "code": "ch"
+      "code": "ht"
     },
     {
-      "entityId": "norway",
+      "entityId": "sudan",
       "type": "flag",
-      "code": "no"
+      "code": "sd"
     },
     {
-      "entityId": "qatar",
+      "entityId": "cambodia",
       "type": "flag",
-      "code": "qa"
+      "code": "kh"
     },
     {
-      "entityId": "united-arab-emirates",
+      "entityId": "guinea",
       "type": "flag",
-      "code": "ae"
+      "code": "gn"
     },
     {
-      "entityId": "united-states",
+      "entityId": "tanzania",
       "type": "flag",
-      "code": "us"
+      "code": "tz"
     },
     {
-      "entityId": "denmark",
+      "entityId": "myanmar",
       "type": "flag",
-      "code": "dk"
+      "code": "mm"
     },
     {
-      "entityId": "australia",
+      "entityId": "afghanistan",
       "type": "flag",
-      "code": "au"
+      "code": "af"
     },
     {
-      "entityId": "iceland",
+      "entityId": "mali",
       "type": "flag",
-      "code": "is"
+      "code": "ml"
     },
     {
-      "entityId": "ireland",
+      "entityId": "mozambique",
       "type": "flag",
-      "code": "ie"
+      "code": "mz"
     },
     {
-      "entityId": "sweden",
+      "entityId": "burundi",
       "type": "flag",
-      "code": "se"
+      "code": "bi"
     },
     {
-      "entityId": "saudi-arabia",
+      "entityId": "madagascar",
       "type": "flag",
-      "code": "sa"
+      "code": "mg"
     },
     {
-      "entityId": "singapore",
+      "entityId": "ethiopia",
       "type": "flag",
-      "code": "sg"
+      "code": "et"
     },
     {
-      "entityId": "kuwait",
+      "entityId": "malawi",
       "type": "flag",
-      "code": "kw"
+      "code": "mw"
     },
     {
-      "entityId": "new-zealand",
+      "entityId": "niger",
       "type": "flag",
-      "code": "nz"
+      "code": "ne"
     },
     {
-      "entityId": "canada",
+      "entityId": "chad",
       "type": "flag",
-      "code": "ca"
+      "code": "td"
     },
     {
-      "entityId": "united-kingdom",
+      "entityId": "rwanda",
       "type": "flag",
-      "code": "gb"
+      "code": "rw"
+    },
+    {
+      "entityId": "burkina-faso",
+      "type": "flag",
+      "code": "bf"
     }
   ],
   "logos": [
     {
-      "entityId": "luxembourg",
+      "entityId": "china",
       "type": "logo",
-      "query": "Luxembourg logo png transparent",
+      "query": "China logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "switzerland",
+      "entityId": "haiti",
       "type": "logo",
-      "query": "Switzerland logo png transparent",
+      "query": "Haiti logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "norway",
+      "entityId": "sudan",
       "type": "logo",
-      "query": "Norway logo png transparent",
+      "query": "Sudan logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "qatar",
+      "entityId": "cambodia",
       "type": "logo",
-      "query": "Qatar logo png transparent",
+      "query": "Cambodia logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "united-arab-emirates",
+      "entityId": "guinea",
       "type": "logo",
-      "query": "United Arab Emirates logo png transparent",
+      "query": "Guinea logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "united-states",
+      "entityId": "tanzania",
       "type": "logo",
-      "query": "United States logo png transparent",
+      "query": "Tanzania logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "denmark",
+      "entityId": "myanmar",
       "type": "logo",
-      "query": "Denmark logo png transparent",
+      "query": "Myanmar logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "australia",
+      "entityId": "afghanistan",
       "type": "logo",
-      "query": "Australia logo png transparent",
+      "query": "Afghanistan logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "iceland",
+      "entityId": "mali",
       "type": "logo",
-      "query": "Iceland logo png transparent",
+      "query": "Mali logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "ireland",
+      "entityId": "mozambique",
       "type": "logo",
-      "query": "Ireland logo png transparent",
+      "query": "Mozambique logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "sweden",
+      "entityId": "burundi",
       "type": "logo",
-      "query": "Sweden logo png transparent",
+      "query": "Burundi logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "saudi-arabia",
+      "entityId": "madagascar",
       "type": "logo",
-      "query": "Saudi Arabia logo png transparent",
+      "query": "Madagascar logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "singapore",
+      "entityId": "ethiopia",
       "type": "logo",
-      "query": "Singapore logo png transparent",
+      "query": "Ethiopia logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "kuwait",
+      "entityId": "malawi",
       "type": "logo",
-      "query": "Kuwait logo png transparent",
+      "query": "Malawi logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "new-zealand",
+      "entityId": "niger",
       "type": "logo",
-      "query": "New Zealand logo png transparent",
+      "query": "Niger logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "canada",
+      "entityId": "chad",
       "type": "logo",
-      "query": "Canada logo png transparent",
+      "query": "Chad logo png transparent",
       "license": "verify before publishing"
     },
     {
-      "entityId": "united-kingdom",
+      "entityId": "rwanda",
       "type": "logo",
-      "query": "United Kingdom logo png transparent",
+      "query": "Rwanda logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "burkina-faso",
+      "type": "logo",
+      "query": "Burkina Faso logo png transparent",
       "license": "verify before publishing"
     }
   ],
