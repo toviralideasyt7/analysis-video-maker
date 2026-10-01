@@ -67,7 +67,8 @@ pub enum RankDirection {
 }
 
 impl RankDirection {
-    pub fn from_str(s: &str) -> Self {
+    /// Infallible parse from a CLI/config hint (mirrors `Frequency::from_hint`).
+    pub fn from_hint(s: &str) -> Self {
         match s.to_ascii_lowercase().as_str() {
             "asc" | "ascending" | "bottom" => RankDirection::Ascending,
             _ => RankDirection::Descending,
