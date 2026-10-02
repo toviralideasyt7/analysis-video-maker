@@ -10,9 +10,10 @@
  * without touching the pipeline.
  */
 
-import { createReadStream, createWriteStream, mkdirSync, rmSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { createReadStream, createWriteStream, mkdirSync, rmSync, writeFileSync, mkdtempSync, openSync, closeSync, readSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { env, logger } from './runtime';
 import { directFetch, hostOf, type SearchProvider } from './providers/search';
 import type { SourceCandidate, SourceDefinition } from '@avm/shared';
@@ -453,11 +454,11 @@ export async function kaggleListFiles(
 const KAGGLE_CSV_MAX_BYTES = 200 * 1024 * 1024;
 
 /**
- * Read a fetch body into a string, aborting cleanly once the byte budget is
+ * Read a fetch body into raw bytes, aborting cleanly once the byte budget is
  * exceeded (backstop for file-list sizes that are missing or stale).
  */
-async function readBodyCapped(response: Response, maxBytes: number, what: string): Promise<string> {
-  if (!response.body) return await response.text();
+async function readBodyCappedBytes(response: Response, maxBytes: number, what: string): Promise<Buffer> {
+  if (!response.body) return Buffer.from(await response.arrayBuffer());
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let total = 0;
@@ -471,14 +472,117 @@ async function readBodyCapped(response: Response, maxBytes: number, what: string
     }
     chunks.push(value);
   }
-  return Buffer.concat(chunks).toString('utf-8');
+  return Buffer.concat(chunks);
+}
+
+/**
+ * Read a fetch body into a string, aborting cleanly once the byte budget is
+ * exceeded (backstop for file-list sizes that are missing or stale).
+ */
+async function readBodyCapped(response: Response, maxBytes: number, what: string): Promise<string> {
+  return (await readBodyCappedBytes(response, maxBytes, what)).toString('utf-8');
+}
+
+/** True when the buffer starts with the ZIP local-file-header magic. */
+export function isZipBuffer(buf: Buffer): boolean {
+  return buf.length >= 4 && buf[0] === 0x50 && buf[1] === 0x4b && buf[2] === 0x03 && buf[3] === 0x04;
+}
+
+/**
+ * List the entries of a zip file on disk. Throws when `unzip` is missing or
+ * the file is not a readable zip.
+ */
+export function listZipEntries(zipPath: string): string[] {
+  const res = spawnSync('unzip', ['-Z1', zipPath], { encoding: 'utf-8', timeout: 30_000 });
+  if (res.status !== 0) {
+    const detail = (res.stderr ?? '').toString().trim().slice(0, 200);
+    throw new Error(`could not list zip contents (${detail || `unzip exit ${res.status}`})`);
+  }
+  return (res.stdout ?? '').split('\n').map((s) => s.trim()).filter(Boolean);
+}
+
+/**
+ * Extract the first CSV/TSV/TXT entry of a zip held in memory and return its
+ * name plus decoded text. The output is capped: exceeding maxBytes throws a
+ * catchable "in-memory ingest limit" error so callers fall back to the
+ * streaming path instead of OOM-ing the runner.
+ */
+export function unzipCsvToText(zipBytes: Buffer, maxBytes: number, what: string): { name: string; text: string } {
+  const dir = mkdtempSync(join(tmpdir(), 'avm-zip-'));
+  const zipPath = join(dir, 'data.zip');
+  writeFileSync(zipPath, zipBytes);
+  try {
+    const pick = listZipEntries(zipPath).find((s) => /\.(csv|tsv|txt)$/i.test(s));
+    if (!pick) throw new Error(`${what} is a zip archive containing no CSV/TSV`);
+    const res = spawnSync('unzip', ['-p', zipPath, pick], {
+      encoding: 'buffer',
+      timeout: 60_000,
+      maxBuffer: maxBytes,
+    });
+    if (res.error) {
+      const msg = String(res.error);
+      if (/ENOBUFS/.test(msg)) {
+        throw new Error(`${what} (unzipped ${pick}) exceeds the ${Math.round(maxBytes / 1048576)}MB in-memory ingest limit`);
+      }
+      throw new Error(`${what}: unzip of ${pick} failed (${msg.slice(0, 200)})`);
+    }
+    if (res.status !== 0) throw new Error(`${what}: unzip of ${pick} exited ${res.status}`);
+    const text = (res.stdout as Buffer).toString('utf-8');
+    if (text.length < 50) throw new Error(`${what}: unzipped ${pick} came back empty`);
+    return { name: pick, text };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/**
+ * Extract the first CSV/TSV/TXT entry of a zip file to outDir (streams to
+ * disk, constant memory) and return its path. Used by the streaming ingest
+ * path for datasets whose per-file download returns a zip.
+ */
+export function unzipCsvToFile(zipPath: string, outDir: string): { name: string; csvPath: string } {
+  const pick = listZipEntries(zipPath).find((s) => /\.(csv|tsv|txt)$/i.test(s));
+  if (!pick) throw new Error(`zip ${zipPath} contains no CSV/TSV`);
+  const csvPath = join(outDir, pick.split('/').pop()!.replace(/[^A-Za-z0-9_.-]/g, '_').slice(0, 80) || 'data.csv');
+  const fd = openSync(csvPath, 'w');
+  try {
+    const res = spawnSync('unzip', ['-p', zipPath, pick], {
+      stdio: ['ignore', fd, 'pipe'],
+      timeout: 600_000,
+    });
+    if (res.status !== 0) {
+      const detail = (res.stderr ?? '').toString().trim().slice(0, 200);
+      throw new Error(`unzip of ${pick} exited ${res.status}${detail ? `: ${detail}` : ''}`);
+    }
+  } finally {
+    closeSync(fd);
+  }
+  return { name: pick, csvPath };
+}
+
+/** True when the file at path starts with the ZIP local-file-header magic. */
+export function isZipFile(path: string): boolean {
+  const fd = openSync(path, 'r');
+  try {
+    const head = Buffer.alloc(4);
+    if (readSync(fd, head, 0, 4, 0) < 4) return false;
+    return isZipBuffer(head);
+  } finally {
+    closeSync(fd);
+  }
 }
 
 /**
  * Download the largest .csv inside a Kaggle dataset as text, using the
- * authenticated per-file download endpoint. This avoids zip handling and —
- * critically — the login-wall HTML that plain page fetches of kaggle.com
- * URLs return (HTTP 200, so it looks like success but has no data).
+ * authenticated per-file download endpoint. This avoids — critically — the
+ * login-wall HTML that plain page fetches of kaggle.com URLs return (HTTP
+ * 200, so it looks like success but has no data).
+ *
+ * The per-file endpoint usually returns the raw CSV, but for some datasets it
+ * returns a ZIP wrapper (2026-10-02: guillemservera/forbes-billionaires-1997-2023
+ * came back as PK.. with the CSV inside, which the header sniffer then
+ * choked on). ZIP magic is detected and the inner CSV extracted.
+ *
  * Throws when credentials are missing, the dataset has no CSV, every CSV is
  * above the in-memory size cap, or the download fails; callers must catch
  * and move on.
@@ -511,8 +615,15 @@ export async function kaggleDatasetCsvText(
   if (!response.ok) throw new Error(`Kaggle file download failed for ${ref}/${fileName}: ${response.status}`);
   // totalBytes is the size inside the dataset bundle; the wire size can
   // differ, so enforce the cap on the actual bytes read as well.
-  const text = await readBodyCapped(response, KAGGLE_CSV_MAX_BYTES, `Kaggle file ${ref}/${fileName}`);
-  if (text.length < 50) throw new Error(`Kaggle file ${ref}/${fileName} came back empty`);
+  // Read raw bytes (not a decoded string): some datasets come back as a ZIP
+  // wrapper and binary bytes must not be mangled through utf-8 decoding.
+  const bytes = await readBodyCappedBytes(response, KAGGLE_CSV_MAX_BYTES, `Kaggle file ${ref}/${fileName}`);
+  if (bytes.length < 50) throw new Error(`Kaggle file ${ref}/${fileName} came back empty`);
+  if (isZipBuffer(bytes)) {
+    const { name, text } = unzipCsvToText(bytes, KAGGLE_CSV_MAX_BYTES, `Kaggle file ${ref}/${fileName}`);
+    return { fileName: name, text };
+  }
+  const text = bytes.toString('utf-8');
   return { fileName, text };
 }
 // ---------------------------------------------------------------------------
@@ -568,11 +679,21 @@ export async function kaggleDatasetCsvToFile(
   } finally {
     await new Promise<void>((resolve) => out.end(() => resolve()));
   }
-  const delimiter = /\.tsv$/i.test(biggest.name) ? '\t' : ',';
+  // The per-file endpoint sometimes returns a ZIP wrapper instead of the raw
+  // CSV (2026-10-02: forbes-billionaires). Extract the inner CSV to disk
+  // (constant memory) before sniffing columns.
+  let dataPath = tmpPath;
+  let dataName = biggest.name;
+  if (isZipFile(tmpPath)) {
+    const { name, csvPath } = unzipCsvToFile(tmpPath, dir);
+    dataPath = csvPath;
+    dataName = name;
+  }
+  const delimiter = /\.tsv$/i.test(dataName) ? '\t' : ',';
   const sampleRows: string[][] = [];
   let columns: string[] = [];
   let first = true;
-  for await (const row of streamCsvFileRows(tmpPath, delimiter)) {
+  for await (const row of streamCsvFileRows(dataPath, delimiter)) {
     if (first) {
       columns = row;
       first = false;
@@ -591,7 +712,7 @@ export async function kaggleDatasetCsvToFile(
       // best effort
     }
   };
-  return { fileName: biggest.name, tmpPath, cleanup, totalBytes: biggest.totalBytes, columns, sampleRows, delimiter };
+  return { fileName: dataName, tmpPath: dataPath, cleanup, totalBytes: biggest.totalBytes, columns, sampleRows, delimiter };
 }
 
 /**
