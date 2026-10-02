@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "title": "Forbes Billionaires Evolution",
+  "subtitle": "1997-2024",
+  "hook": "Watch how the Forbes billionaires landscape shifts from 2001 to 2024.",
+  "setup": "This data-race video tracks the evolution of billionaires over the years.",
+  "sequence": [
+    {
+      "atLabel": "2001",
+      "text": "Abraham makes a notable entrance as a newcomer in the 2001 rankings."
+    },
+    {
+      "atLabel": "2007",
+      "text": "Adani enters the distribution as a newcomer in 2007."
+    },
+    {
+      "atLabel": "2012",
+      "text": "Ackman appears as a newcomer in the 2012 rankings."
+    },
+    {
+      "atLabel": "2020",
+      "text": "Aarnio-Wihuri reaches a record value of 4 in 2020."
+    }
+  ],
+  "highlights": [
+    {
+      "atLabel": "2001",
+      "entityId": "Abraham",
+      "headline": "Abraham Leads Early",
+      "detail": "Abraham starts the period with a high value of 7.",
+      "factBox": {
+        "heading": "Top Leader",
+        "body": "Abraham holds the leading position in 2001.",
+        "dateLabel": "2001",
+        "wordmark": "Abraham"
+      }
+    }
+  ],
+  "ending": "The rankings highlight the ongoing evolution of Forbes Billionaires Evolution through 2024.",
+  "sourcesLine": "Data: Forbes"
+}

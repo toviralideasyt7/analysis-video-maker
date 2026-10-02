@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "topic": "Forbes Billionaires Evolution (1997-2024)",
+  "metric": "Net Worth",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Nominal Net Worth",
+      "description": "Total estimated net worth of the individual in current US dollars unadjusted for inflation.",
+      "measurableDefinition": "Total net worth in USD (nominal, unadjusted)",
+      "caveats": [
+        "Does not account for historical inflation or purchasing power changes over the 1997-2024 timeframe."
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Inflation-Adjusted Net Worth",
+      "description": "Total estimated net worth adjusted to a baseline year's US dollars to reflect real purchasing power parity over time.",
+      "measurableDefinition": "Total net worth in constant USD adjusted for inflation",
+      "caveats": [
+        "Requires selection of a specific base year for inflation adjustment."
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "1997",
+    "end": "2024"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Bill Gates",
+    "Warren Buffett",
+    "Jeff Bezos",
+    "Bernard Arnault",
+    "Elon Musk",
+    "Amancio Ortega",
+    "Mark Zuckerberg",
+    "Larry Ellison",
+    "Carlos Slim Helu",
+    "Larry Page"
+  ],
+  "preferredSources": [
+    "Forbes World's Billionaires List historical archives",
+    "Forbes Real-Time Billionaires data snapshots (annualized)"
+  ],
+  "knownRisks": [
+    "Methodological changes in Forbes wealth calculation over long multi-year spans",
+    "Varying publication dates or frequencies in early years (e.g., 1997 was often published periodically rather than as a continuous daily tracker)"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10,
+  "rankDirection": "desc"
+}

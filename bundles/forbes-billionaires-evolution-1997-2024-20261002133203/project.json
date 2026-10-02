@@ -1,0 +1,94 @@
+{
+  "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+  "title": "Forbes Billionaires Evolution (1997-2024)",
+  "topic": "Forbes Billionaires Evolution (1997-2024)",
+  "status": "READY_FOR_REVIEW",
+  "createdAt": "2026-10-02T13:59:41.346Z",
+  "updatedAt": "2026-10-02T14:00:03.791Z",
+  "sources": [
+    {
+      "candidateId": "picked_https-www-kaggle-com-datasets-guillemservera-forbes-billiona",
+      "sourceName": "kaggle.com",
+      "publisher": "kaggle.com",
+      "url": "https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023",
+      "kind": "dataset",
+      "accessMethod": "download",
+      "retrievedAt": "2026-10-02T13:59:46.585Z",
+      "license": "UNKNOWN",
+      "machineReadable": true,
+      "authority": 0.8,
+      "directness": 1,
+      "coverage": 0.8,
+      "methodologyTransparency": 0.6,
+      "recency": 0.8,
+      "consistency": 0.8,
+      "qualityScore": 0.8,
+      "accepts": true,
+      "primary": true,
+      "discoveredBy": "agent-direct-url"
+    }
+  ],
+  "checkpoints": [
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "PLAN_COMPLETE",
+      "at": "2026-10-02T13:59:46.583Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "SOURCES_COMPLETE",
+      "at": "2026-10-02T13:59:46.585Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "EXTRACTION_COMPLETE",
+      "at": "2026-10-02T13:59:47.687Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "NORMALIZATION_COMPLETE",
+      "at": "2026-10-02T13:59:47.689Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "VERIFICATION_COMPLETE",
+      "at": "2026-10-02T13:59:47.936Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "DATASET_COMPLETE",
+      "at": "2026-10-02T13:59:58.633Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "STORY_COMPLETE",
+      "at": "2026-10-02T14:00:03.528Z"
+    },
+    {
+      "projectId": "forbes-billionaires-evolution-1997-2024-20261002135941-ne2nl1",
+      "checkpoint": "VIDEOSPEC_COMPLETE",
+      "at": "2026-10-02T14:00:03.590Z"
+    }
+  ],
+  "revisions": [],
+  "limits": {
+    "maxSearches": 60,
+    "maxSources": 40,
+    "maxAgentRounds": 12,
+    "maxTokens": 400000,
+    "maxRenderAttempts": 2
+  },
+  "notes": [
+    "rank direction: desc (from topic \"Forbes Billionaires Evolution (1997-2024)\")",
+    "agent mode: entityKind=custom, range=1997-2024",
+    "agent direct URL: https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023 (34511 rows)",
+    "value column \"month\" was chosen by fallback (first free column) - verify it is the metric column",
+    "skipped 3689 rows with a blank entity or date",
+    "direct table https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023: 30822 observations (unit: count)",
+    "primary source: kaggle.com (https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023) - all 22250 dataset values come from this one source",
+    "verification: 22250 observations (VERIFIED 0, SUPPORTED 22250, UNKNOWN 0, CONFLICTING 0, REJECTED 0); 0 conflicts",
+    "corroboration: 0 of 22250 valued cells confirmed by 2+ independent publishers; 22250 rest on a single publisher (SUPPORTED, not independently verified)",
+    "single-source: dataset values come from ONE source - kaggle.com (https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023), covering 22250 cells; 0 other source(s) used for verification only, never merged",
+    "single-source: dataset values come from ONE source - kaggle.com (https://www.kaggle.com/datasets/guillemservera/forbes-billionaires-1997-2023), covering 22250 cells; 0 other source(s) used for verification only, never merged"
+  ]
+}
