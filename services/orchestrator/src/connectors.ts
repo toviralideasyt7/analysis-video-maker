@@ -1214,3 +1214,109 @@ export function parseCsv(text: string, delimiter = ','): { columns: string[]; ro
   const columns = rows.shift() ?? [];
   return { columns, rows: rows.filter((r) => r.some((c) => c.trim() !== '')) };
 }
+
+// ---------------------------------------------------------------------------
+// companiesmarketcap.com historical market-cap series
+// ---------------------------------------------------------------------------
+//
+// The canonical source for company market-cap HISTORY (every Kaggle/CSV
+// candidate is a point-in-time snapshot with no date column, which can never
+// form a time series — the 2026-10-02 "World's Largest Companies by Market
+// Cap" research failure). Each per-company page
+//   https://companiesmarketcap.com/<slug>/marketcap/
+// embeds the full daily history as {"d":<unix ts>,"m":<value>} points.
+// Verified 2026-10-02 against Apple's page:
+//   m is in units of USD 1e5 — 1997-03-31 m=23075 -> ~$2.31B,
+//   2020-12-01 m=20864611 -> ~$2.09T, 2026-10-02 m=48408895 -> ~$4.84T.
+
+export interface CompanyMarketCapYear {
+  year: number;
+  /** Year-end market capitalization in USD. */
+  valueUsd: number;
+}
+
+export interface CompanyMarketCapHistory {
+  company: string;
+  slug: string;
+  years: CompanyMarketCapYear[];
+}
+
+/**
+ * Parse a companiesmarketcap.com/<slug>/marketcap/ page: company name from
+ * the <title> and the embedded {"d","m"} history series, aggregated to one
+ * year-end value per calendar year. Pure and unit-testable.
+ */
+export function parseCompaniesMarketCapHtml(html: string): { company: string; points: Array<{ ts: number; m: number }> } {
+  const titleM = /<title>\s*([^<]+?)\s*-\s*Market capitalization/i.exec(html);
+  let company = 'company';
+  if (titleM) {
+    company = titleM[1].replace(/\s*\([A-Za-z0-9.\-]+\)\s*$/, '').trim() || 'company';
+  }
+  const points: Array<{ ts: number; m: number }> = [];
+  const re = /\{"d":(\d+),"m":(\d+(?:\.\d+)?)\}/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    const ts = Number(m[1]);
+    const val = Number(m[2]);
+    if (Number.isFinite(ts) && ts > 0 && Number.isFinite(val) && val > 0) points.push({ ts, m: val });
+  }
+  return { company, points };
+}
+
+/** Collapse daily {"d","m"} points to year-end (last point per year) USD values. */
+export function companiesMarketCapYearEnds(points: Array<{ ts: number; m: number }>): CompanyMarketCapYear[] {
+  const byYear = new Map<number, { ts: number; m: number }>();
+  for (const p of points) {
+    const year = new Date(p.ts * 1000).getUTCFullYear();
+    if (year < 1900 || year > 2100) continue;
+    const cur = byYear.get(year);
+    if (!cur || p.ts > cur.ts) byYear.set(year, p);
+  }
+  return [...byYear.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([year, p]) => ({ year, valueUsd: Math.round(p.m * 1e5) }));
+}
+
+async function fetchCompaniesMarketCapPage(slug: string, timeoutMs: number): Promise<CompanyMarketCapHistory | null> {
+  try {
+    const { text } = await getText(`https://companiesmarketcap.com/${slug}/marketcap/`, { timeoutMs });
+    const { company, points } = parseCompaniesMarketCapHtml(text);
+    const years = companiesMarketCapYearEnds(points);
+    if (years.length < 2) return null;
+    return { company, slug, years };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch the current top-N companies from the companiesmarketcap.com ranking
+ * page (document order == market-cap rank) plus each company's full market-cap
+ * history. Returns histories with at least 2 year-points, in rank order.
+ */
+export async function companiesMarketCapHistories(
+  topN: number,
+  options: { timeoutMs?: number; concurrency?: number } = {},
+): Promise<CompanyMarketCapHistory[]> {
+  const timeoutMs = options.timeoutMs ?? 30_000;
+  const concurrency = options.concurrency ?? 4;
+  const { text } = await getText('https://companiesmarketcap.com/', { timeoutMs });
+  const slugs: string[] = [];
+  const seen = new Set<string>();
+  const re = /href="\/([a-z0-9-]+)\/marketcap\/"/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (!seen.has(m[1])) {
+      seen.add(m[1]);
+      slugs.push(m[1]);
+    }
+    if (slugs.length >= topN) break;
+  }
+  if (slugs.length === 0) throw new Error('companiesmarketcap.com ranking page yielded no company slugs');
+  const results: CompanyMarketCapHistory[] = [];
+  for (let i = 0; i < slugs.length; i += concurrency) {
+    const batch = await Promise.all(slugs.slice(i, i + concurrency).map((s) => fetchCompaniesMarketCapPage(s, timeoutMs)));
+    for (const h of batch) if (h) results.push(h);
+  }
+  return results;
+}

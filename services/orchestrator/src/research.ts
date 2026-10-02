@@ -1175,6 +1175,68 @@ export async function researchTopic(options: ResearchOptions): Promise<ResearchR
     }
   }
 
+  // companiesmarketcap.com per-company history pages: the canonical source
+  // for company market-cap TIME SERIES. Every Kaggle/CSV candidate for these
+  // topics is a point-in-time snapshot with no date column, which can never
+  // form a race series (2026-10-02: two consecutive research failures on
+  // "World's Largest Companies by Market Cap" with 40+ sources each). Runs
+  // before the budget-burning generic loops, and only when nothing else has
+  // produced observations (single-source rule: never mix with another
+  // source's series).
+  if (collected.length === 0 && /market[\s-]?cap/i.test(`${plan.topic} ${plan.metric}`)) {
+    try {
+      const { companiesMarketCapHistories } = await import('./connectors');
+      const topN = Math.min(20, Math.max(12, (Number(options.topN) || 10) + 5));
+      const histories = await companiesMarketCapHistories(topN);
+      if (histories.length > 0) {
+        const columns = ['company', 'year', 'market_cap_usd'];
+        const rows: string[][] = [];
+        for (const h of histories) {
+          for (const y of h.years) rows.push([h.company, String(y.year), String(y.valueUsd)]);
+        }
+        const { drafts: cmcDrafts, problems } = draftsFromTable(columns, rows, 'USD');
+        extractionNotes.push(...problems);
+        if (cmcDrafts.length > 0) {
+          const drafts = await canonicalizeDrafts(cmcDrafts.slice(0, 200_000), { countryOnly: false });
+          const normalized = await normalizeDrafts(drafts, 'USD');
+          const candidate = {
+            candidateId: 'companiesmarketcap:history',
+            sourceName: 'companiesmarketcap.com',
+            publisher: 'companiesmarketcap.com',
+            url: 'https://companiesmarketcap.com/',
+            kind: 'dataset',
+            accessMethod: 'download',
+            retrievedAt: new Date().toISOString(),
+            license: 'UNKNOWN',
+            machineReadable: true,
+            authority: 0.6,
+            directness: 0.85,
+            coverage: 0.8,
+            methodologyTransparency: 0.5,
+            recency: 0.9,
+            consistency: 0.9,
+            qualityScore: 0.75,
+            accepts: null,
+            primary: true,
+            discoveredBy: 'companiesmarketcap-connector',
+          } as (typeof state.sources)[number];
+          appendObservations(collected, normalized, candidate, timeRange);
+          extractionNotes.push(
+            `companiesmarketcap.com: ${normalized.length} observations across ${histories.length} companies (${histories.map((h) => h.company).slice(0, 5).join(', ')}...)`,
+          );
+        } else {
+          extractionNotes.push('companiesmarketcap.com: history pages parsed but produced no drafts');
+        }
+      } else {
+        extractionNotes.push('companiesmarketcap.com: no company histories returned');
+      }
+    } catch (error) {
+      extractionNotes.push(
+        `companiesmarketcap.com: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
   // URLs the picker verified in the pages it actually read.
   for (const dataUrl of selection.dataUrls.slice(0, 5)) {
     if (ctx.budget.exhausted()) break;
