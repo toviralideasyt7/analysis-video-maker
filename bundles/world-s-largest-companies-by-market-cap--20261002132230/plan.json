@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "topic": "World's Largest Companies by Market Cap",
+  "metric": "Market Capitalization",
+  "metricAmbiguous": true,
+  "interpretations": [
+    {
+      "id": "a",
+      "label": "Market Capitalization (Equity Value)",
+      "description": "Total dollar value of a company's outstanding shares of stock",
+      "measurableDefinition": "Share price multiplied by total number of outstanding shares, expressed in USD",
+      "caveats": [
+        "Fluctuates continuously with market prices",
+        "Subject to exchange rate fluctuations when converted to USD"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "Enterprise Value (EV)",
+      "description": "Comprehensive measure of a company's total value including debt and cash",
+      "measurableDefinition": "Market cap plus total debt, preferred stock, and minority interest minus cash and cash equivalents, expressed in USD",
+      "caveats": [
+        "Accounts for debt structure which market cap ignores"
+      ]
+    }
+  ],
+  "entityType": "custom",
+  "timeRange": {
+    "start": "1998",
+    "end": "2025"
+  },
+  "frequency": "annual",
+  "geography": "global",
+  "requiredFields": [
+    "entity",
+    "date",
+    "value",
+    "unit",
+    "source"
+  ],
+  "candidateEntities": [
+    "Apple",
+    "Microsoft",
+    "Alphabet",
+    "Amazon",
+    "General Electric",
+    "ExxonMobil",
+    "Berkshire Hathaway",
+    "Saudi Aramco",
+    "Meta Platforms",
+    "NVIDIA"
+  ],
+  "preferredSources": [
+    "Bloomberg",
+    "Financial Times",
+    "CompaniesMarketCap",
+    "CRSP/Compustat"
+  ],
+  "knownRisks": [
+    "Varying fiscal year-end dates across global entities",
+    "Corporate restructurings, spin-offs, and ticker changes over a 27-year span"
+  ],
+  "missingDataPolicy": "STRICT",
+  "targetEntityCount": 10,
+  "rankDirection": "desc"
+}

@@ -1,0 +1,90 @@
+{
+  "flags": [],
+  "logos": [
+    {
+      "entityId": "apple",
+      "type": "logo",
+      "query": "Apple logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "microsoft",
+      "type": "logo",
+      "query": "Microsoft logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "alphabet-google",
+      "type": "logo",
+      "query": "Alphabet (Google) logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amazon",
+      "type": "logo",
+      "query": "Amazon logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "nvidia",
+      "type": "logo",
+      "query": "NVIDIA logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "saudi-aramco",
+      "type": "logo",
+      "query": "Saudi Aramco logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "meta-platforms-facebook",
+      "type": "logo",
+      "query": "Meta Platforms (Facebook) logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tsmc",
+      "type": "logo",
+      "query": "TSMC logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "tesla",
+      "type": "logo",
+      "query": "Tesla logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "berkshire-hathaway",
+      "type": "logo",
+      "query": "Berkshire Hathaway logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "broadcom",
+      "type": "logo",
+      "query": "Broadcom logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "samsung",
+      "type": "logo",
+      "query": "Samsung logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "micron-technology",
+      "type": "logo",
+      "query": "Micron Technology logo png transparent",
+      "license": "verify before publishing"
+    },
+    {
+      "entityId": "amd",
+      "type": "logo",
+      "query": "AMD logo png transparent",
+      "license": "verify before publishing"
+    }
+  ],
+  "note": "asset acquisition runs in the asset stage; licences must be recorded before publishing"
+}

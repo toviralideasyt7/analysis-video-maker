@@ -1,0 +1,279 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "title": "World's Largest Companies by Market Cap",
+    "subtitle": "2009 - 2026",
+    "language": "en",
+    "durationSeconds": 184,
+    "rankDirection": "desc"
+  },
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "theme": {
+    "background": "#000000",
+    "surface": "#111111",
+    "primaryText": "#ffffff",
+    "secondaryText": "#a0a0a0",
+    "mutedText": "#555555",
+    "accent": "#e11d2e",
+    "barTrack": "#1a1a1a",
+    "fontFamily": "\"Eczar\", Georgia, serif"
+  },
+  "datasetRef": "dataset_world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+  "scenes": [
+    {
+      "id": "scene_title",
+      "type": "title",
+      "duration": 8,
+      "title": "World's Largest Companies by Market Cap",
+      "subtitle": "2009 - 2026"
+    },
+    {
+      "id": "scene_intro",
+      "type": "intro",
+      "duration": 25,
+      "title": "Watch how the world's largest companies by market cap shifted dramatically over nearly two decades.",
+      "subtitle": "This data race tracks market capitalization leaders and major movers from 2009 through 2026."
+    },
+    {
+      "id": "scene_race_1",
+      "type": "bar_race",
+      "duration": 6,
+      "datasetRef": "dataset_world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "224 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Market Capitalization",
+          "value": 5685499455000,
+          "entityName": "NVIDIA",
+          "entityId": "nvidia",
+          "year": "2026",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "nvidia",
+              "name": "NVIDIA",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "apple",
+              "name": "Apple",
+              "color": "#2563eb"
+            },
+            {
+              "id": "alphabet-google",
+              "name": "Alphabet (Google)",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          0,
+          19
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2010",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "Apple rules the 2010s",
+      "props": {
+        "kicker": "THE 2010S",
+        "atLabel": "2010",
+        "body": "As the 2010s began, Apple led the world with 297091.8M USD. Apple was the previous decade's biggest climber, rising 1 place into the top 10.",
+        "entityIds": [
+          "apple",
+          "microsoft",
+          "berkshire-hathaway"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_2",
+      "type": "bar_race",
+      "duration": 60,
+      "datasetRef": "dataset_world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "224 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Market Capitalization",
+          "value": 5685499455000,
+          "entityName": "NVIDIA",
+          "entityId": "nvidia",
+          "year": "2026",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "nvidia",
+              "name": "NVIDIA",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "apple",
+              "name": "Apple",
+              "color": "#2563eb"
+            },
+            {
+              "id": "alphabet-google",
+              "name": "Alphabet (Google)",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          20,
+          219
+        ]
+      }
+    },
+    {
+      "id": "scene_spotlight_2020",
+      "type": "fact_box",
+      "duration": 14,
+      "title": "NVIDIA rules the 2020s",
+      "props": {
+        "kicker": "THE 2020S",
+        "atLabel": "2020",
+        "body": "As of 2026, NVIDIA leads the world with 5685499.5M USD.",
+        "entityIds": [
+          "nvidia",
+          "apple",
+          "alphabet-google"
+        ]
+      }
+    },
+    {
+      "id": "scene_race_3",
+      "type": "bar_race",
+      "duration": 42,
+      "datasetRef": "dataset_world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+      "props": {
+        "tapeRef": "frames.json",
+        "topN": 10,
+        "periodLabels": [
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026"
+        ],
+        "highlights": [],
+        "notes": [
+          "224 bar-frames carry a held (non-observed) value forward; these are drawn for visual continuity only and are flagged held=true"
+        ],
+        "summary": {
+          "heading": "Market Capitalization",
+          "value": 5685499455000,
+          "entityName": "NVIDIA",
+          "entityId": "nvidia",
+          "year": "2026",
+          "unit": "USD",
+          "entities": [
+            {
+              "id": "nvidia",
+              "name": "NVIDIA",
+              "color": "#7c3aed"
+            },
+            {
+              "id": "apple",
+              "name": "Apple",
+              "color": "#2563eb"
+            },
+            {
+              "id": "alphabet-google",
+              "name": "Alphabet (Google)",
+              "color": "#f59e0b"
+            }
+          ]
+        },
+        "tapeRange": [
+          220,
+          359
+        ]
+      }
+    },
+    {
+      "id": "scene_ending",
+      "type": "ending",
+      "duration": 15,
+      "title": "The evolving market capitalization standings highlight the dynamic shifts among the world's most valuable companies up to 2026."
+    }
+  ],
+  "assets": [],
+  "sources": [
+    {
+      "url": "https://companiesmarketcap.com/",
+      "publisher": "companiesmarketcap.com",
+      "publishedAt": null,
+      "retrievedAt": "2026-10-02T14:01:57.401Z",
+      "identifier": "companiesmarketcap:history"
+    }
+  ]
+}

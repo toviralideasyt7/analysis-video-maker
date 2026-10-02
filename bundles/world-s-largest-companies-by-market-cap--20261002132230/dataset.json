@@ -1,0 +1,6320 @@
+{
+  "datasetId": "dataset_world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+  "projectId": "world-s-largest-companies-by-market-cap-20261002140008-p02mau",
+  "name": "World's Largest Companies by Market Cap",
+  "metric": "Market Capitalization",
+  "unit": "USD",
+  "timeRange": {
+    "start": "2009",
+    "end": "2026"
+  },
+  "frequency": "annual",
+  "missingDataPolicy": "STRICT",
+  "version": 1,
+  "frozen": false,
+  "observations": [
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2009",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 10365500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2010",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 8947400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2011",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 8463700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2012",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 7660700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2013",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 9107900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2014",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 10897900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2015",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 17732500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2016",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 57532900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2017",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 117261000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2018",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 81435000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2019",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 144003600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2020",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 323241800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2021",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 735275000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2022",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 364180900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2023",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 1223193400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2024",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 3288762100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2025",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 4638834200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_NVIDIA_2026",
+      "entity": {
+        "id": "nvidia",
+        "name": "NVIDIA"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 5740587100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2009",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 190982700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2010",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 297091800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2011",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 377518900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2012",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 499696000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2013",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 500740600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2014",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 643120100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2015",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 583612700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2016",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 608960200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2017",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 860882500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2018",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 746079100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2019",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 1287643200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2020",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 2255969100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2021",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 2901644900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2022",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 2066939400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2023",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2994371300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2024",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 3766499900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2025",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 3997076800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Apple_2026",
+      "entity": {
+        "id": "apple",
+        "name": "Apple"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 4854827200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2014",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 359503600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2015",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 528168400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2016",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 539067900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2017",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 729458200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2018",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 723558700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2019",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 921138300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2020",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 1185281000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2021",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 1917098300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2022",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 1145016300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2023",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 1756762900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2024",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 2365347600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2025",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 3802144700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Alphabet__Google__2026",
+      "entity": {
+        "id": "alphabet-google",
+        "name": "Alphabet (Google)"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 4180122300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2009",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 268559300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2010",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 234527700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2011",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 218380300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2012",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 223667000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2013",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 310503000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2014",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 381726100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2015",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 439679000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2016",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 483160300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2017",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 659906000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2018",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 780362300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2019",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 1200254700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2020",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 1681605500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2021",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 2522400000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2022",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 1787731100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2023",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2794827000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2024",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 3200938900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2025",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 3625229500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Microsoft_2026",
+      "entity": {
+        "id": "microsoft",
+        "name": "Microsoft"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 3846367900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2009",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 59726900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2010",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 81180000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2011",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 78718000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2012",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 113895000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2013",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 183044600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2014",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 144312800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2015",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 318344200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2016",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 356313100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2017",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 563535100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2018",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 737467300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2019",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 920224300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2020",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 1634168500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2021",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 1691002600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2022",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 856942800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2023",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 1570152600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2024",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 2352731400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2025",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 2485689000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Amazon_2026",
+      "entity": {
+        "id": "amazon",
+        "name": "Amazon"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 2719337400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2009",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 52215200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2010",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 63558700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2011",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 65312700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2012",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 86831600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2013",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 91392000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2014",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 115312800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2015",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 109646900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2016",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 145709000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2017",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 199418800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2018",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 191195000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2019",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 286576200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2020",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 488129900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2021",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 575937100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2022",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 386311100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2023",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 539386600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2024",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 1045764000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2025",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1570681100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_TSMC_2026",
+      "entity": {
+        "id": "tsmc",
+        "name": "TSMC"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 2445630000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2012",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 63141900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2013",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 139191000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2014",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 216739600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2015",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 296606400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2016",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 331593400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2017",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 512759000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2018",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 374130900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2019",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 585373000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2020",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 778232800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2021",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 921935400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2022",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 319887800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2023",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 909627700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2024",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 1514214400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2025",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1671840700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Meta_Platforms__Facebook__2026",
+      "entity": {
+        "id": "meta-platforms-facebook",
+        "name": "Meta Platforms (Facebook)"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1867513100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2009",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 4305300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2010",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 6864200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2011",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 7053600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2012",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 7777900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2013",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 13162100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2014",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 25683800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2015",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 40132500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2016",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 70527800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2017",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 105165200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2018",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 103560800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2019",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 125710300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2020",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 178079300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2021",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 274730500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2022",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 233652600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2023",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 461011300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2024",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 1133169300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2025",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1669544700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Broadcom_2026",
+      "entity": {
+        "id": "broadcom",
+        "name": "Broadcom"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1686547300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2019",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 1880822600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2020",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 2053386200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2021",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 1908214000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2022",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 1881000000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2023",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 2133611300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2024",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 1805039000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2025",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1527673100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Saudi_Aramco_2026",
+      "entity": {
+        "id": "saudi-aramco",
+        "name": "Saudi Aramco"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1628824000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2010",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 2527400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2011",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 2978800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2012",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 3868400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2013",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 18516500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2014",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 27954200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2015",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 31543300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2016",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 34423000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2017",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 52327800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2018",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 57442300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2019",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 75717700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2020",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 668905100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2021",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 1061287000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2022",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 388971700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2023",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 789898000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2024",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 1385654500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2025",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1580396100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Tesla_2026",
+      "entity": {
+        "id": "tesla",
+        "name": "Tesla"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1465282100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2009",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 90126500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2010",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 109325800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2011",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 130668400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2012",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 208135900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2013",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 189440700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2014",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 176456800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2015",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 153777100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2016",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 203991400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2017",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 319264400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2018",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 230365700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2019",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 319735200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2020",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 500834700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2021",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 442077400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2022",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 293008800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2023",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 401549200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2024",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 242979800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2025",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 542118600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Samsung_2026",
+      "entity": {
+        "id": "samsung",
+        "name": "Samsung"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1343662000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2009",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 8820900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2010",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 7994300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2011",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 6212600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2012",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 6478100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2013",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 23011500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2014",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 37635800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2015",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 14655600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2016",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 24097000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2017",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 47547700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2018",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 35570800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2019",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 59742800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2020",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 83969200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2021",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 104328000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2022",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 54537200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2023",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 94207700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2024",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 98748900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2025",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 320533800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Micron_Technology_2026",
+      "entity": {
+        "id": "micron-technology",
+        "name": "Micron Technology"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1228644300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2009",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 153625600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2010",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 198316400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2011",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 189215900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2012",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 220619800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2013",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 292412300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2014",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 370664700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2015",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 325280300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2016",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 401644400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2017",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 489248700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2018",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 502370500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2019",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 551967100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2020",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 543678500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2021",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 669122000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2022",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 681776300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2023",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 777458200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2024",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 983865800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2025",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 1074999900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_Berkshire_Hathaway_2026",
+      "entity": {
+        "id": "berkshire-hathaway",
+        "name": "Berkshire Hathaway"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1074347300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2009",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2009",
+      "frequency": "annual",
+      "value": 6495300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2010",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2010",
+      "frequency": "annual",
+      "value": 5586900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2011",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2011",
+      "frequency": "annual",
+      "value": 3763400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2012",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2012",
+      "frequency": "annual",
+      "value": 1711200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2013",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2013",
+      "frequency": "annual",
+      "value": 2805800000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2014",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2014",
+      "frequency": "annual",
+      "value": 2071900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2015",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2015",
+      "frequency": "annual",
+      "value": 2273000000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2016",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2016",
+      "frequency": "annual",
+      "value": 10510700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2017",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2017",
+      "frequency": "annual",
+      "value": 9918100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2018",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2018",
+      "frequency": "annual",
+      "value": 18552300000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2019",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2019",
+      "frequency": "annual",
+      "value": 53656200000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2020",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2020",
+      "frequency": "annual",
+      "value": 110425700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2021",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2021",
+      "frequency": "annual",
+      "value": 173775100000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2022",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2022",
+      "frequency": "annual",
+      "value": 104432500000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2023",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2023",
+      "frequency": "annual",
+      "value": 238140900000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2024",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2024",
+      "frequency": "annual",
+      "value": 203159600000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2025",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2025",
+      "frequency": "annual",
+      "value": 350012700000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    },
+    {
+      "observationId": "obs_companiesmarketcap_history_AMD_2026",
+      "entity": {
+        "id": "amd",
+        "name": "AMD"
+      },
+      "date": "2026",
+      "frequency": "annual",
+      "value": 1047216400000,
+      "unit": "USD",
+      "geography": "global",
+      "source": {
+        "url": "https://companiesmarketcap.com/",
+        "publisher": "companiesmarketcap.com",
+        "publishedAt": null,
+        "retrievedAt": "2026-10-02T14:01:57.401Z",
+        "identifier": "companiesmarketcap:history"
+      },
+      "evidence": {
+        "datasetUrl": "https://companiesmarketcap.com/",
+        "datasetVersion": "companiesmarketcap:history",
+        "columns": []
+      },
+      "method": "direct",
+      "status": "SUPPORTED",
+      "confidence": 0.75
+    }
+  ],
+  "conflicts": [],
+  "stats": {
+    "observations": 233,
+    "entities": 14,
+    "verified": 0,
+    "supported": 233,
+    "estimated": 0,
+    "unknown": 0,
+    "conflicting": 0,
+    "rejected": 0
+  },
+  "createdAt": "2026-10-02T14:01:57.490Z"
+}

@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "title": "World's Largest Companies by Market Cap",
+  "subtitle": "2009 to 2026",
+  "hook": "Watch how the world's largest companies by market cap shifted dramatically over nearly two decades.",
+  "setup": "This data race tracks market capitalization leaders and major movers from 2009 through 2026.",
+  "sequence": [
+    {
+      "atLabel": "2013",
+      "text": "Alphabet (Google) enters the ranking in 2013 at rank 2 with a market capitalization of 359,503,600,000 USD."
+    },
+    {
+      "atLabel": "2018",
+      "text": "Saudi Aramco debuts in 2018 taking rank 1 with a market capitalization of 1,880,822,600,000 USD."
+    },
+    {
+      "atLabel": "2024",
+      "text": "NVIDIA makes a massive jump in 2024 climbing from rank 6 to rank 2 with 3,288,762,100,000 USD."
+    }
+  ],
+  "highlights": [],
+  "ending": "The evolving market capitalization standings highlight the dynamic shifts among the world's most valuable companies up to 2026.",
+  "sourcesLine": "Data: Market Capitalization Records"
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "title": "WORLD'S LARGEST COMPANIES",
+  "subtitle": "BY MARKET CAP",
+  "entities": [
+    "NVIDIA",
+    "Apple",
+    "Alphabet (Google)"
+  ],
+  "assets": [],
+  "layout": "ranking",
+  "backgroundColor": "#000000",
+  "accentColor": "#e11d2e"
+}

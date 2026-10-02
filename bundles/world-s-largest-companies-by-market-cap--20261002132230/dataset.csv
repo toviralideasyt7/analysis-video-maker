@@ -1,0 +1,234 @@
+date,entity_id,entity_name,value
+2009,amazon,Amazon,59726900000
+2009,amd,AMD,6495300000
+2009,apple,Apple,190982700000
+2009,berkshire-hathaway,Berkshire Hathaway,153625600000
+2009,broadcom,Broadcom,4305300000
+2009,micron-technology,Micron Technology,8820900000
+2009,microsoft,Microsoft,268559300000
+2009,nvidia,NVIDIA,10365500000
+2009,samsung,Samsung,90126500000
+2009,tsmc,TSMC,52215200000
+2010,amazon,Amazon,81180000000
+2010,amd,AMD,5586900000
+2010,apple,Apple,297091800000
+2010,berkshire-hathaway,Berkshire Hathaway,198316400000
+2010,broadcom,Broadcom,6864200000
+2010,micron-technology,Micron Technology,7994300000
+2010,microsoft,Microsoft,234527700000
+2010,nvidia,NVIDIA,8947400000
+2010,samsung,Samsung,109325800000
+2010,tesla,Tesla,2527400000
+2010,tsmc,TSMC,63558700000
+2011,amazon,Amazon,78718000000
+2011,amd,AMD,3763400000
+2011,apple,Apple,377518900000
+2011,berkshire-hathaway,Berkshire Hathaway,189215900000
+2011,broadcom,Broadcom,7053600000
+2011,micron-technology,Micron Technology,6212600000
+2011,microsoft,Microsoft,218380300000
+2011,nvidia,NVIDIA,8463700000
+2011,samsung,Samsung,130668400000
+2011,tesla,Tesla,2978800000
+2011,tsmc,TSMC,65312700000
+2012,amazon,Amazon,113895000000
+2012,amd,AMD,1711200000
+2012,apple,Apple,499696000000
+2012,berkshire-hathaway,Berkshire Hathaway,220619800000
+2012,broadcom,Broadcom,7777900000
+2012,meta-platforms-facebook,Meta Platforms (Facebook),63141900000
+2012,micron-technology,Micron Technology,6478100000
+2012,microsoft,Microsoft,223667000000
+2012,nvidia,NVIDIA,7660700000
+2012,samsung,Samsung,208135900000
+2012,tesla,Tesla,3868400000
+2012,tsmc,TSMC,86831600000
+2013,amazon,Amazon,183044600000
+2013,amd,AMD,2805800000
+2013,apple,Apple,500740600000
+2013,berkshire-hathaway,Berkshire Hathaway,292412300000
+2013,broadcom,Broadcom,13162100000
+2013,meta-platforms-facebook,Meta Platforms (Facebook),139191000000
+2013,micron-technology,Micron Technology,23011500000
+2013,microsoft,Microsoft,310503000000
+2013,nvidia,NVIDIA,9107900000
+2013,samsung,Samsung,189440700000
+2013,tesla,Tesla,18516500000
+2013,tsmc,TSMC,91392000000
+2014,alphabet-google,Alphabet (Google),359503600000
+2014,amazon,Amazon,144312800000
+2014,amd,AMD,2071900000
+2014,apple,Apple,643120100000
+2014,berkshire-hathaway,Berkshire Hathaway,370664700000
+2014,broadcom,Broadcom,25683800000
+2014,meta-platforms-facebook,Meta Platforms (Facebook),216739600000
+2014,micron-technology,Micron Technology,37635800000
+2014,microsoft,Microsoft,381726100000
+2014,nvidia,NVIDIA,10897900000
+2014,samsung,Samsung,176456800000
+2014,tesla,Tesla,27954200000
+2014,tsmc,TSMC,115312800000
+2015,alphabet-google,Alphabet (Google),528168400000
+2015,amazon,Amazon,318344200000
+2015,amd,AMD,2273000000
+2015,apple,Apple,583612700000
+2015,berkshire-hathaway,Berkshire Hathaway,325280300000
+2015,broadcom,Broadcom,40132500000
+2015,meta-platforms-facebook,Meta Platforms (Facebook),296606400000
+2015,micron-technology,Micron Technology,14655600000
+2015,microsoft,Microsoft,439679000000
+2015,nvidia,NVIDIA,17732500000
+2015,samsung,Samsung,153777100000
+2015,tesla,Tesla,31543300000
+2015,tsmc,TSMC,109646900000
+2016,alphabet-google,Alphabet (Google),539067900000
+2016,amazon,Amazon,356313100000
+2016,amd,AMD,10510700000
+2016,apple,Apple,608960200000
+2016,berkshire-hathaway,Berkshire Hathaway,401644400000
+2016,broadcom,Broadcom,70527800000
+2016,meta-platforms-facebook,Meta Platforms (Facebook),331593400000
+2016,micron-technology,Micron Technology,24097000000
+2016,microsoft,Microsoft,483160300000
+2016,nvidia,NVIDIA,57532900000
+2016,samsung,Samsung,203991400000
+2016,tesla,Tesla,34423000000
+2016,tsmc,TSMC,145709000000
+2017,alphabet-google,Alphabet (Google),729458200000
+2017,amazon,Amazon,563535100000
+2017,amd,AMD,9918100000
+2017,apple,Apple,860882500000
+2017,berkshire-hathaway,Berkshire Hathaway,489248700000
+2017,broadcom,Broadcom,105165200000
+2017,meta-platforms-facebook,Meta Platforms (Facebook),512759000000
+2017,micron-technology,Micron Technology,47547700000
+2017,microsoft,Microsoft,659906000000
+2017,nvidia,NVIDIA,117261000000
+2017,samsung,Samsung,319264400000
+2017,tesla,Tesla,52327800000
+2017,tsmc,TSMC,199418800000
+2018,alphabet-google,Alphabet (Google),723558700000
+2018,amazon,Amazon,737467300000
+2018,amd,AMD,18552300000
+2018,apple,Apple,746079100000
+2018,berkshire-hathaway,Berkshire Hathaway,502370500000
+2018,broadcom,Broadcom,103560800000
+2018,meta-platforms-facebook,Meta Platforms (Facebook),374130900000
+2018,micron-technology,Micron Technology,35570800000
+2018,microsoft,Microsoft,780362300000
+2018,nvidia,NVIDIA,81435000000
+2018,samsung,Samsung,230365700000
+2018,tesla,Tesla,57442300000
+2018,tsmc,TSMC,191195000000
+2019,alphabet-google,Alphabet (Google),921138300000
+2019,amazon,Amazon,920224300000
+2019,amd,AMD,53656200000
+2019,apple,Apple,1287643200000
+2019,berkshire-hathaway,Berkshire Hathaway,551967100000
+2019,broadcom,Broadcom,125710300000
+2019,meta-platforms-facebook,Meta Platforms (Facebook),585373000000
+2019,micron-technology,Micron Technology,59742800000
+2019,microsoft,Microsoft,1200254700000
+2019,nvidia,NVIDIA,144003600000
+2019,samsung,Samsung,319735200000
+2019,saudi-aramco,Saudi Aramco,1880822600000
+2019,tesla,Tesla,75717700000
+2019,tsmc,TSMC,286576200000
+2020,alphabet-google,Alphabet (Google),1185281000000
+2020,amazon,Amazon,1634168500000
+2020,amd,AMD,110425700000
+2020,apple,Apple,2255969100000
+2020,berkshire-hathaway,Berkshire Hathaway,543678500000
+2020,broadcom,Broadcom,178079300000
+2020,meta-platforms-facebook,Meta Platforms (Facebook),778232800000
+2020,micron-technology,Micron Technology,83969200000
+2020,microsoft,Microsoft,1681605500000
+2020,nvidia,NVIDIA,323241800000
+2020,samsung,Samsung,500834700000
+2020,saudi-aramco,Saudi Aramco,2053386200000
+2020,tesla,Tesla,668905100000
+2020,tsmc,TSMC,488129900000
+2021,alphabet-google,Alphabet (Google),1917098300000
+2021,amazon,Amazon,1691002600000
+2021,amd,AMD,173775100000
+2021,apple,Apple,2901644900000
+2021,berkshire-hathaway,Berkshire Hathaway,669122000000
+2021,broadcom,Broadcom,274730500000
+2021,meta-platforms-facebook,Meta Platforms (Facebook),921935400000
+2021,micron-technology,Micron Technology,104328000000
+2021,microsoft,Microsoft,2522400000000
+2021,nvidia,NVIDIA,735275000000
+2021,samsung,Samsung,442077400000
+2021,saudi-aramco,Saudi Aramco,1908214000000
+2021,tesla,Tesla,1061287000000
+2021,tsmc,TSMC,575937100000
+2022,alphabet-google,Alphabet (Google),1145016300000
+2022,amazon,Amazon,856942800000
+2022,amd,AMD,104432500000
+2022,apple,Apple,2066939400000
+2022,berkshire-hathaway,Berkshire Hathaway,681776300000
+2022,broadcom,Broadcom,233652600000
+2022,meta-platforms-facebook,Meta Platforms (Facebook),319887800000
+2022,micron-technology,Micron Technology,54537200000
+2022,microsoft,Microsoft,1787731100000
+2022,nvidia,NVIDIA,364180900000
+2022,samsung,Samsung,293008800000
+2022,saudi-aramco,Saudi Aramco,1881000000000
+2022,tesla,Tesla,388971700000
+2022,tsmc,TSMC,386311100000
+2023,alphabet-google,Alphabet (Google),1756762900000
+2023,amazon,Amazon,1570152600000
+2023,amd,AMD,238140900000
+2023,apple,Apple,2994371300000
+2023,berkshire-hathaway,Berkshire Hathaway,777458200000
+2023,broadcom,Broadcom,461011300000
+2023,meta-platforms-facebook,Meta Platforms (Facebook),909627700000
+2023,micron-technology,Micron Technology,94207700000
+2023,microsoft,Microsoft,2794827000000
+2023,nvidia,NVIDIA,1223193400000
+2023,samsung,Samsung,401549200000
+2023,saudi-aramco,Saudi Aramco,2133611300000
+2023,tesla,Tesla,789898000000
+2023,tsmc,TSMC,539386600000
+2024,alphabet-google,Alphabet (Google),2365347600000
+2024,amazon,Amazon,2352731400000
+2024,amd,AMD,203159600000
+2024,apple,Apple,3766499900000
+2024,berkshire-hathaway,Berkshire Hathaway,983865800000
+2024,broadcom,Broadcom,1133169300000
+2024,meta-platforms-facebook,Meta Platforms (Facebook),1514214400000
+2024,micron-technology,Micron Technology,98748900000
+2024,microsoft,Microsoft,3200938900000
+2024,nvidia,NVIDIA,3288762100000
+2024,samsung,Samsung,242979800000
+2024,saudi-aramco,Saudi Aramco,1805039000000
+2024,tesla,Tesla,1385654500000
+2024,tsmc,TSMC,1045764000000
+2025,alphabet-google,Alphabet (Google),3802144700000
+2025,amazon,Amazon,2485689000000
+2025,amd,AMD,350012700000
+2025,apple,Apple,3997076800000
+2025,berkshire-hathaway,Berkshire Hathaway,1074999900000
+2025,broadcom,Broadcom,1669544700000
+2025,meta-platforms-facebook,Meta Platforms (Facebook),1671840700000
+2025,micron-technology,Micron Technology,320533800000
+2025,microsoft,Microsoft,3625229500000
+2025,nvidia,NVIDIA,4638834200000
+2025,samsung,Samsung,542118600000
+2025,saudi-aramco,Saudi Aramco,1527673100000
+2025,tesla,Tesla,1580396100000
+2025,tsmc,TSMC,1570681100000
+2026,alphabet-google,Alphabet (Google),4180122300000
+2026,amazon,Amazon,2719337400000
+2026,amd,AMD,1047216400000
+2026,apple,Apple,4854827200000
+2026,berkshire-hathaway,Berkshire Hathaway,1074347300000
+2026,broadcom,Broadcom,1686547300000
+2026,meta-platforms-facebook,Meta Platforms (Facebook),1867513100000
+2026,micron-technology,Micron Technology,1228644300000
+2026,microsoft,Microsoft,3846367900000
+2026,nvidia,NVIDIA,5740587100000
+2026,samsung,Samsung,1343662000000
+2026,saudi-aramco,Saudi Aramco,1628824000000
+2026,tesla,Tesla,1465282100000
+2026,tsmc,TSMC,2445630000000
